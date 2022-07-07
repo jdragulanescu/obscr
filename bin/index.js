@@ -11,6 +11,9 @@ const {
   extractMessageFromImage,
 } = require("./utils/steg");
 
+//just to increase obfuscation for steg, not actually used for the AES encryption
+const SECRET_KEY = "S3cReTK3Y";
+
 const usage = chalk.keyword("violet")("\nUsage: obscr <cmd> [options]");
 
 const options = yargs
@@ -68,7 +71,7 @@ const options = yargs
       try {
         const encrypted = encrypt(message, password);
         console.log(encrypted);
-        await encodeMessageToImage(filename, encrypted, password);
+        await encodeMessageToImage(filename, encrypted, password + SECRET_KEY);
       } catch (e) {
         return console.log(chalk.keyword("red")(e.message));
       }
@@ -119,7 +122,7 @@ const options = yargs
       try {
         const [succeeded, extracted] = await extractMessageFromImage(
           filename,
-          password
+          password + SECRET_KEY
         );
 
         if (!succeeded) throw extracted;
