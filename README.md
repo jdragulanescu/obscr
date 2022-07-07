@@ -14,6 +14,11 @@
 
 ---
 
+## Description
+
+CLI tool to encrypt secret messages with AES-256-GCM and a password.
+Same password will then be used as a seed to generate a random order in which the encrypted message will be encoded inside the specified .png image.
+
 ## Usage
 
 ```

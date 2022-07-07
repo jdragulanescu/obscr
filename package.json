@@ -13,7 +13,15 @@
     "registry": "https://registry.npmjs.org"
   },
   "author": "Johannes Dragulanescu",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": "github:jdragulanescu/obscr",
+  "keywords": [
+    "steganography",
+    "security",
+    "encryption",
+    "cryptography",
+    "crypto"
+  ],
   "dependencies": {
     "canvas": "^2.9.3",
     "chalk": "^4.1.2",
