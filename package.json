@@ -1,0 +1,21 @@
+{
+  "name": "obscr",
+  "version": "1.0.0",
+  "description": "Encrypt and hide your secure data",
+  "main": "bin/index.js",
+  "bin": {
+    "obscr": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johannes Dragulanescu",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.9.3",
+    "chalk": "^4.1.2",
+    "crypto-js": "^4.1.1",
+    "enquirer": "^2.3.6",
+    "yargs": "^17.5.1"
+  }
+}
