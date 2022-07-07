@@ -4,7 +4,7 @@
  <p align="center">
    <img  src="https://img.shields.io/badge/license-MIT-green">
  <img  src="https://img.shields.io/badge/build-passing-brightgreen">
-   <img  src="https://img.shields.io/badge/version-1.0.0-orange">
+   <img  src="https://img.shields.io/badge/version-0.1.1-orange">
    <img  src="https://img.shields.io/badge/npm-v8.3.1-blue">
   <img  src="https://img.shields.io/badge/node-v16.14.0-yellow">
  </p>
@@ -13,6 +13,17 @@
 <br>
 
 ---
+
+## Description
+
+CLI tool to encrypt secret messages with AES-256-GCM and a password.
+Same password will then be used as a seed to generate a random order in which the encrypted message will be encoded inside the specified .png image.
+
+## NPM package
+
+```
+npm install -g obscr
+```
 
 ## Usage
 

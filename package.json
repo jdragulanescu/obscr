@@ -1,6 +1,6 @@
 {
   "name": "obscr",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Encrypt and hide your secure data",
   "main": "bin/index.js",
   "bin": {
@@ -9,8 +9,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "author": "Johannes Dragulanescu",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": "github:jdragulanescu/obscr",
+  "keywords": [
+    "steganography",
+    "security",
+    "encryption",
+    "cryptography",
+    "crypto"
+  ],
   "dependencies": {
     "canvas": "^2.9.3",
     "chalk": "^4.1.2",
