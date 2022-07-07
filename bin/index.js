@@ -1,8 +1,9 @@
 #! /usr/bin/env node
 const yargs = require("yargs");
 const chalk = require("chalk");
-const { prompt } = require("enquirer");
 const fs = require("fs");
+
+const { prompt } = require("inquirer");
 
 const { encrypt, decrypt } = require("./utils/crypto");
 const {
@@ -20,12 +21,6 @@ const options = yargs
     "encrypt",
     "Encrypts and hides the message into an image.",
     {
-      m: {
-        alias: "message",
-        describe: "Secret message",
-        demandOption: true, // Required
-        type: "string",
-      },
       f: {
         alias: "filename",
         describe: "Name of the png image to hide the message in",
@@ -41,19 +36,25 @@ const options = yargs
     },
 
     async (argv) => {
-      const { m: message, f: filename, c: compress } = argv;
+      const { f: filename, c: compress } = argv;
 
-      const { password } = await prompt({
-        type: "password",
-        name: "password",
-        message: "Enter Password:",
-      });
-
-      const { confirmPassword } = await prompt({
-        type: "password",
-        name: "confirmPassword",
-        message: "Re-type Password:",
-      });
+      const { password, confirmPassword, message } = await prompt([
+        {
+          type: "editor",
+          name: "message",
+          message: "Type the secret message",
+        },
+        {
+          type: "password",
+          name: "password",
+          message: "Enter Password:",
+        },
+        {
+          type: "password",
+          name: "confirmPassword",
+          message: "Re-type Password:",
+        },
+      ]);
 
       // config.set({ token });
       if (password !== confirmPassword) {
@@ -147,5 +148,7 @@ if (yargs.argv._[0] == null) {
 /*
 TODO: error out if image is too small
 TODO: implement compression
+TODO: implement streaming
+TODO: file encryption
 
 */
