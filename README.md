@@ -43,7 +43,7 @@ copyright 2022
 
 ```
 
-> :warning: **Only tested with png images**
+> :warning: **Supports only png images**
 
 <br>
 

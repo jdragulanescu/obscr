@@ -1,6 +1,6 @@
 const fs = require("fs");
-const { loadImage, createCanvas } = require("canvas");
 const { get_hashed_order, str_to_bits, bits_to_str } = require("./utils");
+const { PNG } = require("pngjs");
 
 const prepare_write_data = (data_bits, enc_key, encode_len) => {
   const data_bits_len = data_bits.length;
@@ -62,14 +62,11 @@ const write_lsb = (imgData, setdata) => {
 };
 
 exports.extractMessageFromImage = async (imagepath, encKey) => {
-  let c, ctx, imgData;
+  let imgData;
 
   try {
-    const img = await loadImage(imagepath);
-    c = createCanvas(img.width, img.height);
-    ctx = c.getContext("2d");
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    imgData = ctx.getImageData(0, 0, c.width, c.height);
+    const imageBuffer = fs.readFileSync(imagepath);
+    imgData = PNG.sync.read(imageBuffer);
   } catch (err) {
     return [false, err];
   }
@@ -94,14 +91,9 @@ exports.extractMessageFromImage = async (imagepath, encKey) => {
 
 exports.encodeMessageToImage = async (imagepath, msg, encKey) => {
   try {
-    // const imageBuffer = fs.readFileSync(imagepath);
+    const imageBuffer = fs.readFileSync(imagepath);
+    const imgData = PNG.sync.read(imageBuffer);
 
-    const img = await loadImage(imagepath);
-    const c = createCanvas(img.width, img.height);
-    const ctx = c.getContext("2d");
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    // console.log(c.toDataURL);
-    const imgData = ctx.getImageData(0, 0, c.width, c.height);
     const encode_len = Math.floor(imgData.data.length / 4) * 3;
 
     // prepare data
@@ -113,9 +105,9 @@ exports.encodeMessageToImage = async (imagepath, msg, encKey) => {
     );
 
     const encryptedImgData = write_lsb(imgData, encryptedBitStream);
-    ctx.putImageData(encryptedImgData, 0, 0);
-    const encodedImageBuffer = c.toBuffer("image/png");
-    fs.writeFileSync("encoded.png", encodedImageBuffer);
+    let buff = PNG.sync.write(encryptedImgData);
+
+    fs.writeFileSync("encoded.png", buff);
 
     return true;
   } catch (err) {
