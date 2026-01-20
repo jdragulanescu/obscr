@@ -46,7 +46,7 @@ function showBanner() {
 
   const banner = chalk.keyword("violet").bold("obscr") +
                  chalk.gray(" - Encrypt and hide your secure data\n") +
-                 chalk.dim("v0.2.0");
+                 chalk.dim("v0.2.1");
 
   log.box(banner, { borderColor: "magenta" });
 }
@@ -482,7 +482,7 @@ const argv = yargs
   .epilog(`Run ${chalk.cyan("obscr examples")} to see usage examples`)
   .help()
   .alias("help", "h")
-  .version("0.2.0")
+  .version("0.2.1")
   .alias("version", "V")
   .demandCommand(1, "You must specify a command")
   .strict()
