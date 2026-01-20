@@ -48,7 +48,7 @@ function showBanner() {
                  chalk.gray(" - Encrypt and hide your secure data\n") +
                  chalk.dim("v0.2.0");
 
-  log.box(banner, { borderColor: "violet" });
+  log.box(banner, { borderColor: "magenta" });
 }
 
 /**
