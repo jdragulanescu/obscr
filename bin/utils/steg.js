@@ -2,115 +2,230 @@ const fs = require("fs");
 const { get_hashed_order, str_to_bits, bits_to_str } = require("./utils");
 const { PNG } = require("pngjs");
 
-const prepare_write_data = (data_bits, enc_key, encode_len) => {
-  const data_bits_len = data_bits.length;
-  if (data_bits.length > encode_len) throw "Can not hold this much data!";
-  const result = Array(encode_len);
-  for (let i = 0; i < encode_len; i++) {
-    result[i] = Math.floor(Math.random() * 2); //obfuscation
+/**
+ * Prepares data bits for writing by scrambling them with a password-based key
+ * @param {number[]} dataBits - Array of data bits to write
+ * @param {string} encryptionKey - Key for scrambling the data
+ * @param {number} totalCapacity - Total capacity of the image in bits
+ * @returns {number[]} Scrambled bit array with obfuscation
+ * @throws {Error} If data is too large for the image
+ */
+const prepare_write_data = (dataBits, encryptionKey, totalCapacity) => {
+  const dataBitsLength = dataBits.length;
+  if (dataBitsLength > totalCapacity) {
+    throw new Error(
+      `Message too large! Message requires ${dataBitsLength} bits, but image can only hold ${totalCapacity} bits. ` +
+      `Try using a larger image or enabling compression with --compress flag.`
+    );
   }
 
-  const order = get_hashed_order(enc_key, encode_len);
-  for (let i = 0; i < data_bits_len; i++) result[order[i]] = data_bits[i];
+  // Initialize with random bits for obfuscation
+  const result = new Array(totalCapacity);
+  for (let i = 0; i < totalCapacity; i++) {
+    result[i] = Math.floor(Math.random() * 2);
+  }
+
+  // Scramble actual data into random positions
+  const scrambledOrder = get_hashed_order(encryptionKey, totalCapacity);
+  for (let i = 0; i < dataBitsLength; i++) {
+    result[scrambledOrder[i]] = dataBits[i];
+  }
 
   return result;
 };
 
-const prepare_read_data = (data_bits, enc_key) => {
-  const data_bits_len = data_bits.length;
-  const result = Array(data_bits_len);
-  const order = get_hashed_order(enc_key, data_bits_len);
+/**
+ * Extracts and unscrambles data bits using password-based key
+ * @param {number[]} dataBits - Array of scrambled bits from image
+ * @param {string} encryptionKey - Key for unscrambling the data
+ * @returns {number[]} Unscrambled bit array
+ */
+const prepare_read_data = (dataBits, encryptionKey) => {
+  const dataBitsLength = dataBits.length;
+  const result = new Array(dataBitsLength);
+  const scrambledOrder = get_hashed_order(encryptionKey, dataBitsLength);
 
-  for (let i = 0; i < data_bits_len; i++) result[i] = data_bits[order[i]];
+  for (let i = 0; i < dataBitsLength; i++) {
+    result[i] = dataBits[scrambledOrder[i]];
+  }
 
   return result;
 };
 
-const get_bits_lsb = (imgData) => {
-  const result = Array();
-  for (let i = 0; i < imgData.data.length; i += 4) {
-    result.push(imgData.data[i] % 2 == 1 ? 1 : 0);
-    result.push(imgData.data[i + 1] % 2 == 1 ? 1 : 0);
-    result.push(imgData.data[i + 2] % 2 == 1 ? 1 : 0);
+/**
+ * Extracts the least significant bits from image RGB channels
+ * @param {Object} imageData - PNG image data object
+ * @returns {number[]} Array of extracted LSB bits
+ */
+const get_bits_lsb = (imageData) => {
+  const result = [];
+  // Process RGB channels (skip alpha at i+3)
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    result.push(imageData.data[i] % 2 === 1 ? 1 : 0);       // Red LSB
+    result.push(imageData.data[i + 1] % 2 === 1 ? 1 : 0);   // Green LSB
+    result.push(imageData.data[i + 2] % 2 === 1 ? 1 : 0);   // Blue LSB
   }
   return result;
 };
 
-const write_lsb = (imgData, setdata) => {
-  function unsetbit(k) {
-    return k % 2 == 1 ? k - 1 : k;
-  }
+/**
+ * Writes bits to the least significant bits of image RGB channels
+ * @param {Object} imageData - PNG image data object
+ * @param {number[]} bitsToWrite - Array of bits to write
+ * @returns {Object} Modified image data
+ */
+const write_lsb = (imageData, bitsToWrite) => {
+  /**
+   * Clears the LSB of a byte value
+   * @param {number} value - Byte value
+   * @returns {number} Value with LSB cleared
+   */
+  const clearLSB = (value) => {
+    return value % 2 === 1 ? value - 1 : value;
+  };
 
-  function setbit(k) {
-    return k % 2 == 1 ? k : k + 1;
+  /**
+   * Sets the LSB of a byte value
+   * @param {number} value - Byte value
+   * @returns {number} Value with LSB set
+   */
+  const setLSB = (value) => {
+    return value % 2 === 1 ? value : value + 1;
+  };
+
+  let bitIndex = 0;
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    // Write to RGB channels
+    imageData.data[i] = bitsToWrite[bitIndex]
+      ? setLSB(imageData.data[i])
+      : clearLSB(imageData.data[i]);
+    imageData.data[i + 1] = bitsToWrite[bitIndex + 1]
+      ? setLSB(imageData.data[i + 1])
+      : clearLSB(imageData.data[i + 1]);
+    imageData.data[i + 2] = bitsToWrite[bitIndex + 2]
+      ? setLSB(imageData.data[i + 2])
+      : clearLSB(imageData.data[i + 2]);
+    imageData.data[i + 3] = 255; // Keep alpha channel at full opacity
+    bitIndex += 3;
   }
-  let j = 0;
-  for (let i = 0; i < imgData.data.length; i += 4) {
-    imgData.data[i] = setdata[j]
-      ? setbit(imgData.data[i])
-      : unsetbit(imgData.data[i]);
-    imgData.data[i + 1] = setdata[j + 1]
-      ? setbit(imgData.data[i + 1])
-      : unsetbit(imgData.data[i + 1]);
-    imgData.data[i + 2] = setdata[j + 2]
-      ? setbit(imgData.data[i + 2])
-      : unsetbit(imgData.data[i + 2]);
-    imgData.data[i + 3] = 255;
-    j += 3;
-  }
-  return imgData;
+  return imageData;
 };
 
-exports.extractMessageFromImage = async (imagepath, encKey) => {
-  let imgData;
+/**
+ * Calculates the bit capacity of an image
+ * @param {Object} imageData - PNG image data object
+ * @returns {number} Capacity in bits
+ */
+const calculateImageCapacity = (imageData) => {
+  return Math.floor(imageData.data.length / 4) * 3; // 3 bits per pixel (RGB)
+};
 
+/**
+ * Validates that an image file exists and is readable
+ * @param {string} imagePath - Path to the image file
+ * @throws {Error} If file doesn't exist or isn't readable
+ */
+const validateImageFile = (imagePath) => {
+  if (!fs.existsSync(imagePath)) {
+    throw new Error(`Image file not found: ${imagePath}`);
+  }
+
+  const stats = fs.statSync(imagePath);
+  if (!stats.isFile()) {
+    throw new Error(`Path is not a file: ${imagePath}`);
+  }
+};
+
+/**
+ * Extracts and decrypts a hidden message from a PNG image
+ * @param {string} imagePath - Path to the PNG image
+ * @param {string} encryptionKey - Key for unscrambling the data
+ * @returns {Promise<{success: boolean, data?: string, error?: string}>} Result object
+ */
+const extractMessageFromImage = async (imagePath, encryptionKey) => {
   try {
-    const imageBuffer = fs.readFileSync(imagepath);
-    imgData = PNG.sync.read(imageBuffer);
+    validateImageFile(imagePath);
+
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageData = PNG.sync.read(imageBuffer);
+
+    const bitsStream = get_bits_lsb(imageData);
+    const decryptedBitsStream = prepare_read_data(bitsStream, encryptionKey);
+    const message = bits_to_str(decryptedBitsStream, 1);
+
+    if (message == null) {
+      return {
+        success: false,
+        error: "Decryption failed. Possible causes: wrong password, corrupted file, or no hidden message.",
+      };
+    }
+
+    return { success: true, data: message };
   } catch (err) {
-    return [false, err];
-  }
-
-  try {
-    const bitsStream = get_bits_lsb(imgData);
-    const decryptedBitsStream = prepare_read_data(bitsStream, encKey);
-    const msg = bits_to_str(decryptedBitsStream, 1);
-    if (msg == null)
-      return [
-        false,
-        "Message does not decrypt. Maybe due to (1) wrong password / enc method. (2) corrupted file",
-      ];
-    return [true, msg];
-  } catch (err) {
-    return [
-      false,
-      "Message does not decrypt. Maybe due to (1) wrong password / enc method. (2) corrupted file",
-    ];
+    return {
+      success: false,
+      error: err.message || "Failed to extract message from image",
+    };
   }
 };
 
-exports.encodeMessageToImage = async (imagepath, msg, encKey) => {
+/**
+ * Encodes and hides an encrypted message into a PNG image
+ * @param {string} imagePath - Path to the source PNG image
+ * @param {string} message - Encrypted message to hide
+ * @param {string} encryptionKey - Key for scrambling the data
+ * @param {string} outputPath - Path for the output image (default: "encoded.png")
+ * @returns {Promise<{success: boolean, outputPath?: string, capacity?: Object, error?: string}>} Result object
+ */
+const encodeMessageToImage = async (
+  imagePath,
+  message,
+  encryptionKey,
+  outputPath = "encoded.png"
+) => {
   try {
-    const imageBuffer = fs.readFileSync(imagepath);
-    const imgData = PNG.sync.read(imageBuffer);
+    validateImageFile(imagePath);
 
-    const encode_len = Math.floor(imgData.data.length / 4) * 3;
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageData = PNG.sync.read(imageBuffer);
 
-    // prepare data
-    const bitStream = str_to_bits(msg, 1);
+    const totalCapacity = calculateImageCapacity(imageData);
+    const bitStream = str_to_bits(message, 1);
+
+    // Prepare capacity info for user
+    const capacityInfo = {
+      totalBits: totalCapacity,
+      usedBits: bitStream.length,
+      utilization: ((bitStream.length / totalCapacity) * 100).toFixed(2) + "%",
+    };
+
+    // This will throw if message is too large
     const encryptedBitStream = prepare_write_data(
       bitStream,
-      encKey,
-      encode_len
+      encryptionKey,
+      totalCapacity
     );
 
-    const encryptedImgData = write_lsb(imgData, encryptedBitStream);
-    let buff = PNG.sync.write(encryptedImgData);
+    const encryptedImageData = write_lsb(imageData, encryptedBitStream);
+    const outputBuffer = PNG.sync.write(encryptedImageData);
 
-    fs.writeFileSync("encoded.png", buff);
+    fs.writeFileSync(outputPath, outputBuffer);
 
-    return true;
+    return {
+      success: true,
+      outputPath,
+      capacity: capacityInfo,
+    };
   } catch (err) {
-    throw err;
+    return {
+      success: false,
+      error: err.message || "Failed to encode message to image",
+    };
   }
+};
+
+module.exports = {
+  extractMessageFromImage,
+  encodeMessageToImage,
+  calculateImageCapacity,
 };

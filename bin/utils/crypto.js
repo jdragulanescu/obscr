@@ -1,4 +1,10 @@
 const crypto = require("crypto");
+const zlib = require("zlib");
+const { promisify } = require("util");
+
+const gzipAsync = promisify(zlib.gzip);
+const gunzipAsync = promisify(zlib.gunzip);
+const pbkdf2Async = promisify(crypto.pbkdf2);
 
 const cryptoConfig = {
   cipherAlgorithm: "aes-256-gcm",
@@ -10,15 +16,29 @@ const cryptoConfig = {
   digest: "sha512",
 };
 
-const encrypt = (message, password) => {
+/**
+ * Encrypts a message using AES-256-GCM with optional compression
+ * @param {string} message - The message to encrypt
+ * @param {string} password - The password to use for encryption
+ * @param {boolean} compress - Whether to compress the message before encryption
+ * @returns {Promise<string>} The encrypted message in format: salt:nonce:ciphertext:tag[:compressed]
+ */
+const encrypt = async (message, password, compress = false) => {
   const salt = crypto.randomBytes(cryptoConfig.saltLength);
-  const key = crypto.pbkdf2Sync(
+  const key = await pbkdf2Async(
     password,
     salt,
     cryptoConfig.iterations,
     cryptoConfig.keyLength,
     cryptoConfig.digest
   );
+
+  let dataToEncrypt = Buffer.from(message, "utf8");
+
+  // Compress if requested
+  if (compress) {
+    dataToEncrypt = await gzipAsync(dataToEncrypt);
+  }
 
   const nonce = crypto.randomBytes(cryptoConfig.nonceLength);
   const cipher = crypto.createCipheriv(
@@ -27,31 +47,40 @@ const encrypt = (message, password) => {
     nonce
   );
 
-  let encryptedBase64 = "";
-  cipher.setEncoding("base64");
-  cipher.on("data", (chunk) => (encryptedBase64 += chunk));
-  cipher.on("end", () => {
-    // do nothing console.log(encryptedBase64);
-    // Prints: some clear text data
-  });
-  cipher.write(message);
-  cipher.end();
+  const encryptedChunks = [];
+  encryptedChunks.push(cipher.update(dataToEncrypt));
+  encryptedChunks.push(cipher.final());
+  const encrypted = Buffer.concat(encryptedChunks);
 
   const saltBase64 = base64Encoding(salt);
   const nonceBase64 = base64Encoding(nonce);
+  const encryptedBase64 = base64Encoding(encrypted);
   const gcmTagBase64 = base64Encoding(cipher.getAuthTag());
-  return (
-    saltBase64 + ":" + nonceBase64 + ":" + encryptedBase64 + ":" + gcmTagBase64
-  );
+
+  // Add compression flag to the end for backward compatibility
+  const compressionFlag = compress ? ":1" : "";
+  return `${saltBase64}:${nonceBase64}:${encryptedBase64}:${gcmTagBase64}${compressionFlag}`;
 };
 
-const decrypt = (encrypted, password) => {
+/**
+ * Decrypts an encrypted message
+ * @param {string} encrypted - The encrypted message string
+ * @param {string} password - The password to use for decryption
+ * @returns {Promise<string>} The decrypted message
+ * @throws {Error} If decryption fails
+ */
+const decrypt = async (encrypted, password) => {
   const dataSplit = encrypted.split(":");
+
+  // Check if compression flag is present (backward compatible)
+  const isCompressed = dataSplit.length === 5 && dataSplit[4] === "1";
+
   const salt = base64Decoding(dataSplit[0]);
   const nonce = base64Decoding(dataSplit[1]);
   const ciphertext = dataSplit[2];
   const gcmTag = base64Decoding(dataSplit[3]);
-  const key = crypto.pbkdf2Sync(
+
+  const key = await pbkdf2Async(
     password,
     salt,
     cryptoConfig.iterations,
@@ -66,25 +95,35 @@ const decrypt = (encrypted, password) => {
   );
   decipher.setAuthTag(gcmTag);
 
-  let decrypted = "";
-  decipher.on("readable", () => {
-    while (null !== (chunk = decipher.read())) {
-      decrypted += chunk.toString("utf8");
+  try {
+    const decryptedChunks = [];
+    decryptedChunks.push(decipher.update(Buffer.from(ciphertext, "base64")));
+    decryptedChunks.push(decipher.final());
+    let decrypted = Buffer.concat(decryptedChunks);
+
+    // Decompress if it was compressed
+    if (isCompressed) {
+      decrypted = await gunzipAsync(decrypted);
     }
-  });
-  decipher.on("end", () => {
-    // do nothing console.log(decrypted);
-  });
-  decipher.on("error", (err) => {
-    throw err.message;
-  });
-  decipher.write(ciphertext, "base64");
-  decipher.end();
-  return decrypted;
+
+    return decrypted.toString("utf8");
+  } catch (err) {
+    throw new Error(`Decryption failed: ${err.message}`);
+  }
 };
 
+/**
+ * Encodes a buffer to base64 string
+ * @param {Buffer} input - The buffer to encode
+ * @returns {string} Base64 encoded string
+ */
 const base64Encoding = (input) => input.toString("base64");
 
+/**
+ * Decodes a base64 string to buffer
+ * @param {string} input - The base64 string to decode
+ * @returns {Buffer} Decoded buffer
+ */
 const base64Decoding = (input) => Buffer.from(input, "base64");
 
 module.exports = { encrypt, decrypt };
