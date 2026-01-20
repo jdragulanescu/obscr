@@ -1,6 +1,6 @@
 {
   "name": "obscr",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Encrypt and hide your secure data",
   "main": "bin/index.js",
   "bin": {
