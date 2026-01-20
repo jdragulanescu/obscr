@@ -7,7 +7,10 @@
     "obscr": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:unit": "jest test/unit",
+    "test:integration": "jest test/integration"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -28,5 +31,19 @@
     "inquirer": "^8.0.0",
     "pngjs": "^6.0.0",
     "yargs": "^17.5.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "bin/**/*.js",
+      "!bin/index.js"
+    ],
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ]
   }
 }

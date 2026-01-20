@@ -1,2 +1,8 @@
 node_modules
 .DS_Store
+
+# Test outputs
+test/output/
+coverage/
+*.png
+!test/fixtures/*.png
