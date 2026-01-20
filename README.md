@@ -16,12 +16,23 @@
 
 ## Features
 
+### Security
 - **Strong Encryption**: Uses AES-256-GCM for message encryption
 - **Steganography**: Hides encrypted messages in PNG images using LSB (Least Significant Bit) technique
-- **Compression**: Optional gzip compression to fit larger messages in smaller images
+- **Compression**: Optional gzip compression to fit larger messages in smaller images (50-90% reduction)
 - **Password-Based Key Derivation**: PBKDF2 with SHA-512 for secure key generation (65,535 iterations)
 - **Data Obfuscation**: Password-seeded scrambling of data bits within the image
 - **Backward Compatible**: Can decrypt messages from older versions
+
+### User Experience
+- **Interactive Mode**: Guided workflow with menu-driven interface for beginners
+- **Progress Indicators**: Real-time spinners showing encryption/decryption progress
+- **Visual Feedback**: Color-coded messages, icons, and beautiful boxed outputs
+- **Verbose Mode**: Detailed technical information for debugging and learning
+- **Quiet Mode**: Minimal output perfect for scripting and automation
+- **Confirmation Prompts**: Prevents accidental file overwrites
+- **Smart Validation**: Input validation with helpful error messages
+- **Usage Examples**: Built-in examples command for quick reference
 
 ## NPM package
 
@@ -31,43 +42,82 @@ npm install -g obscr
 
 ## Usage
 
-### Encrypt and Hide a Message
+### Interactive Mode (Recommended for Beginners)
 
 ```bash
-obscr encrypt -f <input-image.png> [-o <output-image.png>] [--compress]
+obscr interactive
+```
+
+Launches a guided workflow with menu-driven interface. Perfect for first-time users!
+
+### Command Line Mode
+
+#### Encrypt and Hide a Message
+
+```bash
+obscr encrypt -f <input-image.png> [-o <output-image.png>] [--compress] [--verbose] [--quiet]
 ```
 
 **Options:**
 - `-f, --filename`: Path to the PNG image to use as a container (required)
 - `-o, --output`: Output filename for the encoded image (default: "encoded.png")
-- `-c, --compress`: Enable compression to fit larger messages (optional)
+- `-c, --compress`: Enable compression to fit larger messages (50-90% reduction)
+- `-v, --verbose`: Show detailed progress and technical information
+- `-q, --quiet`: Minimal output (only essential messages)
 
-**Example:**
+**Examples:**
 ```bash
-# Basic usage
+# Basic usage with visual feedback
 obscr encrypt -f photo.png
 
-# With custom output and compression
+# With compression and custom output
 obscr encrypt -f photo.png -o secret.png --compress
+
+# Verbose mode for detailed information
+obscr encrypt -f photo.png --verbose
+
+# Quiet mode for scripts
+obscr encrypt -f photo.png -o output.png --quiet
 ```
 
-### Decrypt and Extract a Message
+#### Decrypt and Extract a Message
 
 ```bash
-obscr decrypt -f <encoded-image.png> [-o <output-file.txt>]
+obscr decrypt -f <encoded-image.png> [-o <output-file.txt>] [--verbose] [--quiet]
 ```
 
 **Options:**
 - `-f, --filename`: Path to the PNG image containing the hidden message (required)
 - `-o, --output`: Save decrypted message to a file (optional)
+- `-v, --verbose`: Show detailed progress information
+- `-q, --quiet`: Output only the decrypted message (useful for piping)
 
-**Example:**
+**Examples:**
 ```bash
-# Display message in terminal
+# Display message with nice formatting
 obscr decrypt -f encoded.png
 
 # Save to file
 obscr decrypt -f encoded.png -o message.txt
+
+# Quiet mode for piping to other commands
+obscr decrypt -f secret.png --quiet | grep "password"
+```
+
+### Additional Commands
+
+#### Show Usage Examples
+```bash
+obscr examples
+```
+
+Shows comprehensive usage examples with all features.
+
+#### Get Help
+```bash
+obscr --help
+obscr encrypt --help
+obscr decrypt --help
 ```
 
 ## How It Works

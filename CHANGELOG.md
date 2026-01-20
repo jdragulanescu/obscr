@@ -19,6 +19,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **JSDoc Documentation**: All exported functions now have detailed JSDoc comments
 - **Enhanced README**: Comprehensive documentation with examples, security notes, and technical details
 
+### UX Enhancements
+- **Interactive Mode**: New `obscr interactive` command with guided menu-driven workflow
+- **Progress Indicators**: Real-time spinners showing encryption/decryption progress with ora
+- **Visual Feedback**: Color-coded messages with icons (✔, ✖, ℹ, ⚠) and beautiful boxed outputs
+- **Verbose Mode**: `-v/--verbose` flag for detailed technical information and debugging
+- **Quiet Mode**: `-q/--quiet` flag for minimal output, perfect for scripting and automation
+- **Confirmation Prompts**: Asks before overwriting existing files
+- **Examples Command**: New `obscr examples` command showing usage examples
+- **Better Help Text**: Improved help messages with clearer descriptions
+- **Welcome Banner**: Stylish welcome banner with version information (can be suppressed with --quiet)
+- **Password Masking**: Visual asterisks when entering passwords
+- **Smart Validation**: Real-time input validation with helpful error messages
+
 ### Changed
 - **Async/Await Pattern**: Replaced synchronous crypto operations with async Promise-based approach for better performance
 - **Modern JavaScript**: Converted `var` to `const`/`let`, using template literals throughout
