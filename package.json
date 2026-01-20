@@ -1,13 +1,16 @@
 {
   "name": "obscr",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Encrypt and hide your secure data",
   "main": "bin/index.js",
   "bin": {
     "obscr": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:unit": "jest test/unit",
+    "test:integration": "jest test/integration"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -23,10 +26,27 @@
     "crypto"
   ],
   "dependencies": {
+    "boxen": "^5.1.2",
     "chalk": "^4.1.2",
+    "cli-progress": "^3.12.0",
     "crypto-js": "^4.1.1",
     "inquirer": "^8.0.0",
+    "ora": "^5.4.1",
     "pngjs": "^6.0.0",
     "yargs": "^17.5.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "bin/**/*.js",
+      "!bin/index.js"
+    ],
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ]
   }
 }
