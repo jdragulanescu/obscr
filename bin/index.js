@@ -77,7 +77,7 @@ function showBanner() {
   const logo = colors.primary(asciiLogo);
   const subtitle = colors.primary("$") + " " + chalk.white("Steganography & Encryption Tool");
   const info = colors.muted("AES-256-GCM Encryption | LSB Steganography | Secure Data Hiding");
-  const version = colors.dim("v0.2.1");
+  const version = colors.dim("v1.0.0");
 
   const banner = `${header}\n${logo}\n${subtitle}\n${info}\n\n${version}`;
 
@@ -523,7 +523,7 @@ const argv = yargs
   .epilog(`Run ${colors.primary("obscr examples")} to see usage examples`)
   .help()
   .alias("help", "h")
-  .version("0.2.1")
+  .version("1.0.0")
   .alias("version", "V")
   .strict();
 
