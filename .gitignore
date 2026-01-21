@@ -7,6 +7,9 @@ node_modules
 test/output/
 coverage/
 *.png
+!app/public/favicon.png
+!app/public/icon-192.png
+!app/public/icon-512.png
 !test/fixtures/*.png
 
 # Build output

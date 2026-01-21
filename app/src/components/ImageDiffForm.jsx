@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { ImageComparison } from "./ImageComparison";
 import { Button } from "./ui/button";
+import { generateImageDiff } from "../lib/steg";
 
 export const ImageDiffForm = () => {
-  const [originalPath, setOriginalPath] = useState("");
-  const [encodedPath, setEncodedPath] = useState("");
+  const [originalFile, setOriginalFile] = useState(null);
+  const [encodedFile, setEncodedFile] = useState(null);
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
 
   const handleGenerateDiff = async (e) => {
     e.preventDefault();
-    if (!window.obscr?.generateImageDiff) return;
-    if (!originalPath || !encodedPath) {
+    if (!originalFile || !encodedFile) {
       setStatus("Both images are required.");
       return;
     }
@@ -21,10 +21,7 @@ export const ImageDiffForm = () => {
     setBusy(true);
     setStatus("Generating image diff...");
 
-    const diffResult = await window.obscr.generateImageDiff({
-      originalPath,
-      encodedPath,
-    });
+    const diffResult = await generateImageDiff(originalFile, encodedFile);
 
     setBusy(false);
 
@@ -39,8 +36,8 @@ export const ImageDiffForm = () => {
   };
 
   const handleReset = () => {
-    setOriginalPath("");
-    setEncodedPath("");
+    setOriginalFile(null);
+    setEncodedFile(null);
     setResult(null);
     setStatus("");
   };
@@ -49,14 +46,14 @@ export const ImageDiffForm = () => {
     <form className="panel" onSubmit={handleGenerateDiff}>
       <ImageUpload
         label="Original image (PNG)"
-        filePath={originalPath}
-        onPick={setOriginalPath}
+        filePath={originalFile}
+        onPick={setOriginalFile}
       />
 
       <ImageUpload
         label="Encoded image (PNG)"
-        filePath={encodedPath}
-        onPick={setEncodedPath}
+        filePath={encodedFile}
+        onPick={setEncodedFile}
       />
 
       <div className="actions-row">

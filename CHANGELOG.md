@@ -8,42 +8,73 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-01-21
 
 ### Added
-- **Electron Desktop Application**: Complete desktop GUI application with modern React-based interface
+- **Progressive Web Application (PWA)**: Complete browser-based application with modern React interface
+  - Works offline with service worker caching
+  - Installable on desktop and mobile devices
   - Tab-based navigation for Encrypt, Decrypt, and Image Comparison features
-  - Visual image upload with drag-and-drop support
+  - Visual image upload with file input support
   - Real-time password strength indicator using zxcvbn
+  - Real-time capacity estimation showing available vs. required bits
   - Interactive encryption results with image comparison view
-  - Image difference visualization tool
-  - Terminal-inspired ASCII art logo
+  - Image difference visualization tool with side-by-side comparison
+  - Automatic blob downloads for encoded images
 - **React UI Components**: Full component library built with React 18
   - Custom UI components (buttons, cards, inputs, labels, tabs, textarea)
   - Specialized components (EncryptForm, DecryptForm, ImageDiffForm, etc.)
   - Tailwind CSS styling with modern design system
-- **Electron IPC Bridge**: Secure preload script for renderer-main process communication
+  - Browser-only implementation (no Electron dependencies)
+- **Browser Steganography**: Complete browser-compatible implementation in `lib/steg.js`
+  - Canvas API for PNG manipulation
+  - Inlined crypto functions for browser compatibility
+  - File API for image upload and blob downloads
+  - Support for all encryption features (compression, obfuscation)
+- **PWA Features**:
+  - Service worker (`sw.js`) for offline caching
+  - Web app manifest with theme colors and icons
+  - 192x192 and 512x512 PWA icons
+  - Installable app experience
 - **Build System**:
-  - Vite build configuration for React application
-  - Electron Builder configuration for desktop app packaging
-  - Concurrent development mode (React + Electron)
-- **Additional Testing**: 150 new Electron IPC tests for desktop app validation
+  - Vite build configuration optimized for PWA
+  - Node.js polyfills for browser crypto (Buffer, crypto, zlib)
+  - Vercel deployment configuration
 
 ### Changed
+- **Architecture**: Migrated from Electron desktop app to Progressive Web App
+  - Removed all Electron dependencies and code
+  - Simplified all React components to browser-only implementations
+  - Renamed `browserSteg.js` to `steg.js` as primary implementation
 - **Codebase Restructure**: Moved core utilities from `bin/utils/` to `lib/` directory
-  - `lib/crypto.js` - Enhanced encryption/decryption with async operations
-  - `lib/steg.js` - Improved steganography algorithms
+  - `lib/crypto.js` - Node.js CLI encryption (CommonJS)
+  - `lib/steg.js` - Browser-compatible steganography with inlined crypto (ESM)
   - `lib/utils.js` - Shared utility functions
   - `lib/mersenne-twister.js` - Maintained PRNG implementation
-- **CLI Improvements**: Enhanced command-line interface with better output formatting
-- **Steganography Enhancements**: Improved LSB algorithm implementation
-- **UI Style**: Modern, terminal-inspired aesthetic with improved visual hierarchy
-- **Package Configuration**: Updated to include both CLI and desktop app files
-- **NPM Package**: Adjusted `.npmignore` to properly package dual-mode distribution
+- **Build Scripts**: Simplified to PWA-only
+  - `npm run dev` - Vite dev server
+  - `npm run build` - Vite production build
+  - `npm run preview` - Preview production build
+- **Package Configuration**:
+  - Removed Electron Builder configuration
+  - Updated `.npmignore` to exclude web app files
+  - CLI package remains available via npm
+- **UI Components**: All components now browser-only
+  - Removed `isElectron` checks throughout codebase
+  - Direct File API usage instead of Electron IPC
+  - Blob downloads instead of file system writes
+
+### Removed
+- **Electron Desktop Application**: Complete removal of Electron implementation
+  - Removed `electron/` directory
+  - Removed `electron`, `electron-builder`, `concurrently` dependencies
+  - Removed Electron IPC bridge and preload script
+  - Removed 150 Electron-specific tests
 
 ### Technical Notes
-- Application supports both CLI mode (npm package) and desktop app (Electron)
-- React app built with Vite for optimal performance
+- Application now available as both CLI tool (npm package) and PWA (web app)
+- PWA deployed at https://obscr.vercel.app/
+- Browser crypto powered by Node.js polyfills (vite-plugin-node-polyfills)
+- Service worker provides offline-first experience
 - Tailwind CSS v4 with PostCSS for styling
-- Desktop app bundled with electron-builder
-- Test count: 253 tests total (103 CLI + 150 Electron)
+- Test count: 103 tests (CLI only)
 
 ## [0.2.1] - 2026-01-20
 

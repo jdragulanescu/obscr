@@ -1,0 +1,28 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#0a0e0f"/>
+  
+  <!-- Recreate the ASCII "O" from OBSCR using the box drawing characters -->
+  <!-- The O has a distinctive shape with rounded corners and hollow center -->
+  
+  <!-- Outer rounded rectangle (top part: ██████╗) -->
+  <rect x="96" y="96" width="320" height="64" fill="#4caf50" rx="32"/>
+  
+  <!-- Left vertical bar (╔ ║ ║ ╚) -->
+  <rect x="96" y="160" width="64" height="192" fill="#4caf50"/>
+  
+  <!-- Right vertical bar (╗ ║ ║ ╝) -->
+  <rect x="352" y="160" width="64" height="192" fill="#4caf50"/>
+  
+  <!-- Bottom rounded rectangle (╚██████╔╝) -->
+  <rect x="96" y="352" width="320" height="64" fill="#4caf50" rx="32"/>
+  
+  <!-- Inner hollow cutout (═══) -->
+  <rect x="160" y="160" width="192" height="192" fill="#0a0e0f"/>
+  
+  <!-- Top inner cutout to create the hollow ═══ effect -->
+  <rect x="160" y="128" width="192" height="64" fill="#0a0e0f" rx="16"/>
+  
+  <!-- Bottom inner cutout -->
+  <rect x="160" y="320" width="192" height="64" fill="#0a0e0f" rx="16"/>
+</svg>

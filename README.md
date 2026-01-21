@@ -1,18 +1,15 @@
 <p align="center">
-
- </p>
- <p align="center">
-   <img  src="https://img.shields.io/badge/license-MIT-green">
- <img  src="https://img.shields.io/badge/build-passing-brightgreen">
-   <img  src="https://img.shields.io/badge/version-0.1.2-orange">
-   <img  src="https://img.shields.io/badge/npm-v8.3.1-blue">
-  <img  src="https://img.shields.io/badge/node-v16.14.0-yellow">
- </p>
- <br>
+  <img src="https://img.shields.io/badge/license-MIT-green">
+  <img src="https://img.shields.io/badge/build-passing-brightgreen">
+  <img src="https://img.shields.io/badge/version-1.0.0-orange">
+  <img src="https://img.shields.io/badge/npm-v8.3.1-blue">
+  <img src="https://img.shields.io/badge/node-v16.14.0-yellow">
+</p>
+<br>
 <p align="center">Encrypt and hide your secure data using AES-256-GCM encryption combined with steganography</p>
 
 <p align="center">
-  <a href="https://obscr.vercel.app/">🌐 Live Web App</a>
+  <a href="https://obscr.vercel.app/">🌐 Try the Progressive Web App</a>
 </p>
 
 <br>
@@ -30,6 +27,16 @@
 - **Backward Compatible**: Can decrypt messages from older versions
 
 ### User Experience
+
+**Progressive Web App:**
+- **Works Offline**: Full PWA support with service worker caching
+- **No Installation**: Use directly in your browser
+- **Visual Interface**: Drag-and-drop image upload, real-time capacity estimation
+- **Image Comparison**: See visual diff between original and encoded images
+- **Cross-Platform**: Works on desktop and mobile browsers
+- **Password Strength Meter**: Real-time feedback on password security
+
+**Command-Line Tool:**
 - **Interactive Mode**: Guided workflow with menu-driven interface for beginners
 - **Progress Indicators**: Real-time spinners showing encryption/decryption progress
 - **Visual Feedback**: Color-coded messages, icons, and beautiful boxed outputs
@@ -39,13 +46,25 @@
 - **Smart Validation**: Input validation with helpful error messages
 - **Usage Examples**: Built-in examples command for quick reference
 
-## NPM package
+## Installation & Usage
+
+### Progressive Web App (Recommended)
+
+Visit [https://obscr.vercel.app/](https://obscr.vercel.app/) to use Obscr directly in your browser. The PWA can be installed on your device for offline use:
+
+1. Open the web app in your browser
+2. Click the install prompt (or browser menu → "Install App")
+3. Use Obscr offline anytime!
+
+The web app provides the same encryption security as the CLI but with a visual interface.
+
+### NPM Package (Command-Line Tool)
 
 ```bash
 npm install -g obscr
 ```
 
-## Usage
+## CLI Usage
 
 ### Interactive Mode (Recommended for Beginners)
 

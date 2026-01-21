@@ -11,10 +11,9 @@
     "test:watch": "jest --watch",
     "test:unit": "jest test/unit",
     "test:integration": "jest test/integration",
-    "dev": "concurrently -k \"vite\" \"npm:electron-dev\"",
-    "electron-dev": "electron electron/main.js",
-    "build:react": "vite build",
-    "build": "npm run build:react && electron-builder"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -49,9 +48,6 @@
     "class-variance-authority": "^0.7.1",
     "cli-progress": "^3.12.0",
     "clsx": "^2.1.1",
-    "concurrently": "^9.0.0",
-    "electron": "^40.0.0",
-    "electron-builder": "^26.4.0",
     "jest": "^29.7.0",
     "lucide-react": "^0.562.0",
     "postcss": "^8.5.6",
@@ -60,20 +56,8 @@
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "vite": "^6.0.0",
+    "vite-plugin-node-polyfills": "^0.25.0",
     "zxcvbn": "^4.4.2"
-  },
-  "build": {
-    "appId": "com.obscr.app",
-    "files": [
-      "dist/**",
-      "electron/**",
-      "lib/**",
-      "bin/**",
-      "package.json"
-    ],
-    "extraMetadata": {
-      "main": "electron/main.js"
-    }
   },
   "jest": {
     "testEnvironment": "node",

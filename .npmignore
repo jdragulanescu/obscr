@@ -3,13 +3,15 @@ test/
 *.test.js
 coverage/
 
-# Electron app files (exclude from npm, CLI only)
+# Web app files (exclude from npm, CLI only)
 app/
-electron/
 dist/
 vite.config.mts
 tailwind.config.js
 postcss.config.js
+vercel.json
+.vercelignore
+PWA_MIGRATION_PLAN.md
 
 # Development files
 .github/

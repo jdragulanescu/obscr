@@ -1,32 +1,20 @@
 import React, { useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { PasswordInput } from "./PasswordInput";
-import { ProgressIndicator } from "./ProgressIndicator";
 import { MessageDisplay } from "./MessageDisplay";
 import { Button } from "./ui/button";
+import { extractMessage, downloadBlob } from "../lib/steg";
 
 export const DecryptForm = () => {
   const [imagePath, setImagePath] = useState("");
   const [password, setPassword] = useState("");
-  const [outputPath, setOutputPath] = useState("");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [message, setMessage] = useState("");
-
-  const handlePickOutput = async () => {
-    if (!window.obscr?.saveOutput) return;
-    const file = await window.obscr.saveOutput({
-      defaultPath: "message.txt",
-      filters: [{ name: "Text files", extensions: ["txt"] }],
-    });
-    if (file) {
-      setOutputPath(file);
-    }
-  };
+  const [saveToFile, setSaveToFile] = useState(false);
 
   const handleDecrypt = async (e) => {
     e.preventDefault();
-    if (!window.obscr?.decrypt) return;
     if (!imagePath || !password) {
       setStatus("Image and password are required.");
       return;
@@ -36,11 +24,7 @@ export const DecryptForm = () => {
     setStatus("Decrypting and extracting message…");
     setMessage("");
 
-    const result = await window.obscr.decrypt({
-      imagePath,
-      password,
-      outputPath: outputPath || null,
-    });
+    const result = await extractMessage(imagePath, password);
 
     setBusy(false);
 
@@ -49,13 +33,14 @@ export const DecryptForm = () => {
       return;
     }
 
-    if (result.message) {
-      setMessage(result.message);
-      setStatus("Message decrypted successfully.");
-    } else if (result.savedTo) {
-      setStatus(`Message saved to ${result.savedTo}`);
+    setMessage(result.message);
+
+    if (saveToFile) {
+      const blob = new Blob([result.message], { type: "text/plain" });
+      downloadBlob(blob, "message.txt");
+      setStatus("Message decrypted and saved to message.txt");
     } else {
-      setStatus("Decryption completed.");
+      setStatus("Message decrypted successfully.");
     }
   };
 
@@ -75,24 +60,19 @@ export const DecryptForm = () => {
       />
 
       <div className="field">
-        <label className="field-label">Optional: save to file</label>
-        <div className="image-upload">
-          <Button
-            type="button"
-            variant="default"
-            onClick={handlePickOutput}
-          >
-            Choose output…
-          </Button>
-          <span className="image-path">
-            {outputPath || "Leave empty to show message here"}
-          </span>
-        </div>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={saveToFile}
+            onChange={(e) => setSaveToFile(e.target.checked)}
+          />
+          <span>Save message to file</span>
+        </label>
       </div>
 
       <div className="actions-row">
         <Button type="submit" variant="primary" disabled={busy}>
-          Decrypt &amp; Reveal
+          Decrypt &amp; Extract
         </Button>
         <div className="status-inline">
           {busy && (
@@ -105,8 +85,7 @@ export const DecryptForm = () => {
         </div>
       </div>
 
-      <MessageDisplay message={message} />
+      {message && <MessageDisplay message={message} />}
     </form>
   );
 };
-

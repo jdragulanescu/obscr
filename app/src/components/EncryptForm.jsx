@@ -3,10 +3,11 @@ import { ImageUpload } from "./ImageUpload";
 import { PasswordInput } from "./PasswordInput";
 import { EncryptionResult } from "./EncryptionResult";
 import { Button } from "./ui/button";
+import { embedMessage, estimateCapacity, downloadBlob } from "../lib/steg";
 
 export const EncryptForm = () => {
   const [imagePath, setImagePath] = useState("");
-  const [outputPath, setOutputPath] = useState("");
+  const [encodedBlob, setEncodedBlob] = useState(null);
   const [message, setMessage] = useState("");
   const [password, setPassword] = useState("");
   const [compress, setCompress] = useState(false);
@@ -17,23 +18,12 @@ export const EncryptForm = () => {
   const [isEstimating, setIsEstimating] = useState(false);
   const [encryptionResult, setEncryptionResult] = useState(null);
 
-  const handlePickOutput = async () => {
-    if (!window.obscr?.saveOutput) return;
-    const file = await window.obscr.saveOutput({
-      defaultPath: "encoded.png",
-      filters: [{ name: "PNG Images", extensions: ["png"] }],
-    });
-    if (file) {
-      setOutputPath(file);
-    }
-  };
-
   // Auto-estimate capacity whenever image, message, or compress changes
   useEffect(() => {
     let cancelled = false;
 
-    const estimateCapacity = async () => {
-      if (!window.obscr?.estimateCapacity || !imagePath || !message) {
+    const doEstimateCapacity = async () => {
+      if (!imagePath || !message) {
         if (!cancelled) {
           setCapacity(null);
           setIsEstimating(false);
@@ -42,11 +32,8 @@ export const EncryptForm = () => {
       }
 
       if (!cancelled) setIsEstimating(true);
-      const result = await window.obscr.estimateCapacity({
-        imagePath,
-        message,
-        compress,
-      });
+
+      const result = await estimateCapacity(imagePath, message, compress);
 
       if (!cancelled) {
         setIsEstimating(false);
@@ -57,7 +44,7 @@ export const EncryptForm = () => {
     };
 
     // Debounce the estimation
-    const timeoutId = setTimeout(estimateCapacity, 300);
+    const timeoutId = setTimeout(doEstimateCapacity, 300);
     return () => {
       cancelled = true;
       clearTimeout(timeoutId);
@@ -66,7 +53,6 @@ export const EncryptForm = () => {
 
   const handleEncrypt = async (e) => {
     e.preventDefault();
-    if (!window.obscr?.encrypt) return;
     if (!imagePath || !message || !password) {
       setStatus("Image, message, and password are required.");
       return;
@@ -75,14 +61,17 @@ export const EncryptForm = () => {
     setBusy(true);
     setStatus("Encrypting and embedding message…");
 
-    const result = await window.obscr.encrypt({
-      imagePath,
-      outputPath: outputPath || "encoded.png",
-      message,
-      password,
+    const result = await embedMessage(imagePath, message, password, {
       compress,
       obfuscate,
     });
+
+    // Trigger download and store blob for diff generation
+    if (result?.ok) {
+      downloadBlob(result.blob, "encoded.png");
+      result.outputPath = "encoded.png";
+      setEncodedBlob(result.blob);
+    }
 
     setBusy(false);
 
@@ -91,10 +80,12 @@ export const EncryptForm = () => {
       return;
     }
 
-    // Show success result with original image path
+    // Show success result with original image and blob
     setEncryptionResult({
       ...result,
-      originalPath: imagePath,
+      originalPath: imagePath?.name,
+      originalFile: imagePath,
+      encodedBlob: result.blob,
     });
     setStatus("");
   };
@@ -102,13 +93,13 @@ export const EncryptForm = () => {
   const handleReset = () => {
     setEncryptionResult(null);
     setImagePath("");
-    setOutputPath("");
     setMessage("");
     setPassword("");
     setCompress(false);
     setObfuscate(true);
     setStatus("");
     setCapacity(null);
+    setEncodedBlob(null);
   };
 
   // Show results if encryption was successful
@@ -124,21 +115,6 @@ export const EncryptForm = () => {
         onPick={setImagePath}
       />
 
-      <div className="field">
-        <label className="field-label">Output image</label>
-        <div className="image-upload">
-          <Button
-            type="button"
-            variant="default"
-            onClick={handlePickOutput}
-          >
-            Choose output…
-          </Button>
-          <span className="image-path">
-            {outputPath || "encoded.png (default)"}
-          </span>
-        </div>
-      </div>
 
       <div className="field">
         <label className="field-label">Secret message</label>

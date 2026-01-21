@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { ImageComparison } from "./ImageComparison";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Download } from "lucide-react";
+import { generateImageDiff, downloadBlob } from "../lib/steg";
 
 export const EncryptionResult = ({ result, onReset }) => {
   const [images, setImages] = useState(null);
@@ -9,16 +10,15 @@ export const EncryptionResult = ({ result, onReset }) => {
 
   useEffect(() => {
     const loadImages = async () => {
-      if (!window.obscr?.generateImageDiff || !result.originalPath || !result.outputPath) {
+      if (!result.originalFile || !result.encodedBlob) {
         setLoading(false);
         return;
       }
 
       try {
-        const imageData = await window.obscr.generateImageDiff({
-          originalPath: result.originalPath,
-          encodedPath: result.outputPath,
-        });
+        // Convert blob to File for diff generation
+        const encodedFile = new File([result.encodedBlob], "encoded.png", { type: "image/png" });
+        const imageData = await generateImageDiff(result.originalFile, encodedFile);
 
         if (imageData?.ok) {
           setImages(imageData);
@@ -31,7 +31,7 @@ export const EncryptionResult = ({ result, onReset }) => {
     };
 
     loadImages();
-  }, [result.originalPath, result.outputPath]);
+  }, [result]);
 
   if (!result) return null;
 
@@ -79,11 +79,19 @@ export const EncryptionResult = ({ result, onReset }) => {
         <div className="result-info">
           <p>Your message has been encrypted with AES-256-GCM and hidden in the image using LSB steganography.</p>
           <p>The entire image capacity has been filled with random data to prevent statistical analysis.</p>
+          <p>The encrypted image has been downloaded to your device.</p>
         </div>
       </div>
 
       <div className="result-actions">
-        <Button variant="primary" onClick={onReset}>
+        <Button
+          variant="primary"
+          onClick={() => downloadBlob(result.encodedBlob, result.outputPath || "encoded.png")}
+        >
+          <Download size={16} />
+          Download Encoded Image
+        </Button>
+        <Button variant="outline" onClick={onReset}>
           Encrypt Another Message
         </Button>
       </div>

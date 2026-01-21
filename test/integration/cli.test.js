@@ -41,7 +41,7 @@ describe("CLI Commands", () => {
 
     it("should display version", async () => {
       const { stdout } = await execAsync(`node ${CLI_PATH} --version`);
-      expect(stdout).toContain("0.2.1");
+      expect(stdout).toContain("1.0.0");
     });
 
     it("should display examples", async () => {
