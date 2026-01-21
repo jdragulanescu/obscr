@@ -4,17 +4,18 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 142 70% 75%;
-    --card: 240 8% 10%;
-    --card-foreground: 142 70% 75%;
-    --primary: 142 76% 45%;
-    --primary-foreground: 240 10% 3.9%;
-    --muted: 240 5% 15%;
-    --muted-foreground: 142 30% 55%;
-    --border: 142 40% 25%;
-    --input: 240 8% 10%;
-    --ring: 142 76% 45%;
+    /* Terminal-inspired color scheme with lime green #B4FA72 accent */
+    --background: 120 7% 3%;
+    --foreground: 91 60% 75%;
+    --card: 120 10% 6%;
+    --card-foreground: 91 60% 75%;
+    --primary: 91 93% 71%;
+    --primary-foreground: 120 7% 3%;
+    --muted: 120 5% 12%;
+    --muted-foreground: 91 20% 55%;
+    --border: 91 25% 20%;
+    --input: 120 10% 6%;
+    --ring: 91 93% 71%;
   }
 }
 
@@ -26,7 +27,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Fira Code", "SF Mono", Monaco, "Courier New", monospace;
-  background: linear-gradient(135deg, #0a0e0f 0%, #001a0d 50%, #0a0e0f 100%);
+  background: linear-gradient(135deg, #070807 0%, #0a0f0a 50%, #070807 100%);
   color: hsl(var(--foreground));
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;

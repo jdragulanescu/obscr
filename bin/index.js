@@ -21,15 +21,15 @@ const SECRET_KEY = "S3cReTK3Y";
 let VERBOSE = false;
 let QUIET = false;
 
-// Color palette - using chalk's default green for consistency across all elements
+// Color palette - using custom green #B4FA72 for consistent branding
 const colors = {
-  primary: chalk.green, // Standard terminal green
-  secondary: chalk.green, // Same green for consistency
-  accent: chalk.green, // Same green
+  primary: chalk.hex("#B4FA72"), // Custom lime green
+  secondary: chalk.hex("#B4FA72"), // Same green for consistency
+  accent: chalk.hex("#B4FA72"), // Same green
   muted: chalk.gray, // Gray for secondary text
   error: chalk.red,
   warning: chalk.yellow,
-  dim: chalk.dim.green, // Dimmed green for subtle text
+  dim: chalk.hex("#B4FA72").dim, // Dimmed custom green for subtle text
 };
 
 /**
@@ -62,7 +62,7 @@ const log = {
     padding: 1,
     margin: 1,
     borderStyle: "round",
-    borderColor: "green",
+    borderColor: "#B4FA72", // Custom lime green
     ...options
   })),
 };
