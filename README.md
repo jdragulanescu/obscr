@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-green">
   <img src="https://img.shields.io/badge/build-passing-brightgreen">
-  <img src="https://img.shields.io/badge/version-1.0.0-orange">
+  <img src="https://img.shields.io/badge/version-1.1.0-orange">
   <img src="https://img.shields.io/badge/npm-v8.3.1-blue">
   <img src="https://img.shields.io/badge/node-v16.14.0-yellow">
 </p>
