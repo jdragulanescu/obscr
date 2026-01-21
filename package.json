@@ -10,11 +10,19 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:unit": "jest test/unit",
-    "test:integration": "jest test/integration"
+    "test:integration": "jest test/integration",
+    "dev": "concurrently -k \"vite\" \"npm:electron-dev\"",
+    "electron-dev": "electron electron/main.js",
+    "build:react": "vite build",
+    "build": "npm run build:react && electron-builder"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
+  "files": [
+    "bin/",
+    "lib/"
+  ],
   "author": "Johannes Dragulanescu",
   "license": "MIT",
   "repository": "github:jdragulanescu/obscr",
@@ -28,15 +36,44 @@
   "dependencies": {
     "boxen": "^5.1.2",
     "chalk": "^4.1.2",
+    "class-variance-authority": "^0.7.1",
     "cli-progress": "^3.12.0",
+    "clsx": "^2.1.1",
     "crypto-js": "^4.1.1",
     "inquirer": "^8.0.0",
+    "lucide-react": "^0.562.0",
     "ora": "^5.4.1",
     "pngjs": "^6.0.0",
-    "yargs": "^17.5.1"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.4.0",
+    "yargs": "^17.5.1",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "@tailwindcss/postcss": "^4.1.18",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.23",
+    "concurrently": "^9.0.0",
+    "electron": "^40.0.0",
+    "electron-builder": "^26.4.0",
+    "jest": "^29.7.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "vite": "^6.0.0"
+  },
+  "build": {
+    "appId": "com.obscr.app",
+    "files": [
+      "dist/**",
+      "electron/**",
+      "lib/**",
+      "bin/**",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "electron/main.js"
+    }
   },
   "jest": {
     "testEnvironment": "node",

@@ -6,11 +6,12 @@ const { prompt } = require("inquirer");
 const ora = require("ora");
 const boxen = require("boxen");
 
-const { encrypt, decrypt } = require("./utils/crypto");
+// Shared core logic (reused by CLI and desktop UI)
+const { encrypt, decrypt } = require("../lib/crypto");
 const {
   encodeMessageToImage,
   extractMessageFromImage,
-} = require("./utils/steg");
+} = require("../lib/steg");
 
 // NOTE: This is just to increase obfuscation for steganography, NOT used for AES encryption
 // Kept for backward compatibility with images encoded using older versions
@@ -20,35 +21,67 @@ const SECRET_KEY = "S3cReTK3Y";
 let VERBOSE = false;
 let QUIET = false;
 
+// Color palette - using chalk's default green for consistency across all elements
+const colors = {
+  primary: chalk.green, // Standard terminal green
+  secondary: chalk.green, // Same green for consistency
+  accent: chalk.green, // Same green
+  muted: chalk.gray, // Gray for secondary text
+  error: chalk.red,
+  warning: chalk.yellow,
+  dim: chalk.dim.green, // Dimmed green for subtle text
+};
+
+/**
+ * ASCII Art Logo (matching the UI)
+ */
+const asciiLogo = `
+   ██████╗ ██████╗ ███████╗ ██████╗██████╗
+  ██╔═══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗
+  ██║   ██║██████╔╝███████╗██║     ██████╔╝
+  ██║   ██║██╔══██╗╚════██║██║     ██╔══██╗
+  ╚██████╔╝██████╔╝███████║╚██████╗██║  ██║
+   ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝
+`;
+
+/**
+ * Terminal-style controls (for visual effect)
+ */
+const terminalControls = chalk.red("●") + " " + chalk.yellow("●") + " " + chalk.green("●");
+
 /**
  * Logging utilities
  */
 const log = {
-  info: (msg) => !QUIET && console.log(chalk.blue("ℹ"), msg),
-  success: (msg) => !QUIET && console.log(chalk.green("✔"), msg),
-  error: (msg) => console.error(chalk.red("✖"), msg),
-  warn: (msg) => !QUIET && console.log(chalk.yellow("⚠"), msg),
-  verbose: (msg) => VERBOSE && console.log(chalk.gray("→"), msg),
+  info: (msg) => !QUIET && console.log(colors.accent("ℹ"), msg),
+  success: (msg) => !QUIET && console.log(colors.primary("✔"), msg),
+  error: (msg) => console.error(colors.error("✖"), msg),
+  warn: (msg) => !QUIET && console.log(colors.warning("⚠"), msg),
+  verbose: (msg) => VERBOSE && console.log(colors.dim("→"), msg),
   box: (msg, options = {}) => !QUIET && console.log(boxen(msg, {
     padding: 1,
     margin: 1,
     borderStyle: "round",
-    borderColor: "cyan",
+    borderColor: "green",
     ...options
   })),
 };
 
 /**
- * Display welcome banner
+ * Display welcome banner with ASCII art
  */
 function showBanner() {
   if (QUIET) return;
 
-  const banner = chalk.keyword("violet").bold("obscr") +
-                 chalk.gray(" - Encrypt and hide your secure data\n") +
-                 chalk.dim("v0.2.1");
+  const header = terminalControls;
+  const logo = colors.primary(asciiLogo);
+  const subtitle = colors.primary("$") + " " + chalk.white("Steganography & Encryption Tool");
+  const info = colors.muted("AES-256-GCM Encryption | LSB Steganography | Secure Data Hiding");
+  const version = colors.dim("v0.2.1");
 
-  log.box(banner, { borderColor: "magenta" });
+  const banner = `${header}\n${logo}\n${subtitle}\n${info}\n\n${version}`;
+
+  log.box(banner, { borderColor: "green", padding: 0, margin: { top: 1, bottom: 1, left: 1, right: 1 } });
 }
 
 /**
@@ -56,22 +89,22 @@ function showBanner() {
  */
 function showExamples() {
   const examples = `
-${chalk.bold("Examples:")}
+${colors.primary.bold("Examples:")}
 
-${chalk.cyan("Encrypt with compression:")}
-  $ obscr encrypt -f photo.png -o secret.png --compress
+${colors.primary(">")} ${colors.secondary("Encrypt with compression:")}
+  ${colors.dim("$")} obscr encrypt -f photo.png -o secret.png --compress
 
-${chalk.cyan("Decrypt to file:")}
-  $ obscr decrypt -f secret.png -o message.txt
+${colors.primary(">")} ${colors.secondary("Decrypt to file:")}
+  ${colors.dim("$")} obscr decrypt -f secret.png -o message.txt
 
-${chalk.cyan("Interactive mode:")}
-  $ obscr interactive
+${colors.primary(">")} ${colors.secondary("Interactive mode:")}
+  ${colors.dim("$")} obscr interactive
 
-${chalk.cyan("Verbose output:")}
-  $ obscr encrypt -f image.png --verbose
+${colors.primary(">")} ${colors.secondary("Verbose output:")}
+  ${colors.dim("$")} obscr encrypt -f image.png --verbose
 
-${chalk.cyan("Quiet mode (minimal output):")}
-  $ obscr decrypt -f image.png --quiet
+${colors.primary(">")} ${colors.secondary("Quiet mode (minimal output):")}
+  ${colors.dim("$")} obscr decrypt -f image.png --quiet
 `;
 
   console.log(examples);
@@ -88,10 +121,10 @@ async function interactiveMode() {
     name: "action",
     message: "What would you like to do?",
     choices: [
-      { name: "🔒 Encrypt and hide a message in an image", value: "encrypt" },
-      { name: "🔓 Decrypt and extract a message from an image", value: "decrypt" },
-      { name: "ℹ️  Show usage examples", value: "examples" },
-      { name: "❌ Exit", value: "exit" },
+      { name: colors.primary("[+]") + " Encrypt and hide a message in an image", value: "encrypt" },
+      { name: colors.secondary("[-]") + " Decrypt and extract a message from an image", value: "decrypt" },
+      { name: colors.accent("[?]") + " Show usage examples", value: "examples" },
+      { name: colors.dim("[x]") + " Exit", value: "exit" },
     ],
   });
 
@@ -260,13 +293,13 @@ async function encryptCommand(filename, output, compress, message, password) {
     // Show summary
     if (!QUIET) {
       const summary = `
-${chalk.green.bold("✔ Encryption Successful")}
+${colors.primary.bold("✔ Encryption Successful")}
 
-${chalk.bold("Output:")} ${output}
-${chalk.bold("Capacity Used:")} ${result.capacity.utilization}
-${chalk.bold("  Total:")} ${result.capacity.totalBits} bits
-${chalk.bold("  Used:")} ${result.capacity.usedBits} bits
-${compress ? chalk.bold("Compression:") + " Enabled" : ""}
+${colors.primary(">")} ${colors.muted("Output:")} ${chalk.white(output)}
+${colors.primary(">")} ${colors.muted("Capacity Used:")} ${colors.secondary(result.capacity.utilization)}
+    ${colors.dim("Total:")} ${result.capacity.totalBits} bits
+    ${colors.dim("Used:")} ${result.capacity.usedBits} bits
+${compress ? colors.primary(">") + " " + colors.muted("Compression:") + " " + colors.secondary("Enabled") : ""}
 `;
       log.box(summary.trim(), { borderColor: "green" });
     }
@@ -326,9 +359,10 @@ async function decryptCommand(filename, output, password) {
     } else {
       if (!QUIET) {
         const messageBox = `
-${chalk.green.bold("✔ Decryption Successful")}
+${colors.primary.bold("✔ Decryption Successful")}
 
-${chalk.bold("Message:")}
+${colors.primary(">")} ${colors.muted("Message:")}
+
 ${chalk.white(decrypted)}
 `;
         log.box(messageBox.trim(), { borderColor: "green" });
@@ -348,7 +382,10 @@ ${chalk.white(decrypted)}
 }
 
 // Parse arguments
-const usage = chalk.keyword("violet")("\nUsage: obscr <command> [options]");
+const usage = colors.primary("\nUsage: obscr <command> [options]");
+
+// Track if a command was executed
+let commandExecuted = false;
 
 const argv = yargs
   .usage(usage)
@@ -390,6 +427,7 @@ const argv = yargs
       },
     },
     async (argv) => {
+      commandExecuted = true;
       VERBOSE = argv.verbose;
       QUIET = argv.quiet;
 
@@ -443,6 +481,7 @@ const argv = yargs
       },
     },
     async (argv) => {
+      commandExecuted = true;
       VERBOSE = argv.verbose;
       QUIET = argv.quiet;
 
@@ -465,6 +504,7 @@ const argv = yargs
     "Start interactive mode with guided workflow",
     {},
     async (argv) => {
+      commandExecuted = true;
       VERBOSE = argv.verbose;
       QUIET = argv.quiet;
       await interactiveMode();
@@ -475,15 +515,27 @@ const argv = yargs
     "Show usage examples",
     {},
     () => {
+      commandExecuted = true;
       showBanner();
       showExamples();
     }
   )
-  .epilog(`Run ${chalk.cyan("obscr examples")} to see usage examples`)
+  .epilog(`Run ${colors.primary("obscr examples")} to see usage examples`)
   .help()
   .alias("help", "h")
   .version("0.2.1")
   .alias("version", "V")
-  .demandCommand(1, "You must specify a command")
-  .strict()
-  .argv;
+  .strict();
+
+// Parse the arguments
+const parsedArgv = argv.parse();
+
+// If no command was executed and not showing help/version, enter interactive mode
+if (!commandExecuted && !parsedArgv.help && !parsedArgv.version) {
+  VERBOSE = parsedArgv.verbose;
+  QUIET = parsedArgv.quiet;
+  interactiveMode().catch((err) => {
+    log.error(err.message);
+    process.exit(1);
+  });
+}

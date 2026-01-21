@@ -1,8 +1,8 @@
-const { encrypt, decrypt } = require("../../bin/utils/crypto");
+const { encrypt, decrypt } = require("../../lib/crypto");
 const {
   encodeMessageToImage,
   extractMessageFromImage,
-} = require("../../bin/utils/steg");
+} = require("../../lib/steg");
 const fs = require("fs");
 const path = require("path");
 
