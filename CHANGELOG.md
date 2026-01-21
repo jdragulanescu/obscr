@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-01-21
+
+### Added
+- **Electron Desktop Application**: Complete desktop GUI application with modern React-based interface
+  - Tab-based navigation for Encrypt, Decrypt, and Image Comparison features
+  - Visual image upload with drag-and-drop support
+  - Real-time password strength indicator using zxcvbn
+  - Interactive encryption results with image comparison view
+  - Image difference visualization tool
+  - Terminal-inspired ASCII art logo
+- **React UI Components**: Full component library built with React 18
+  - Custom UI components (buttons, cards, inputs, labels, tabs, textarea)
+  - Specialized components (EncryptForm, DecryptForm, ImageDiffForm, etc.)
+  - Tailwind CSS styling with modern design system
+- **Electron IPC Bridge**: Secure preload script for renderer-main process communication
+- **Build System**:
+  - Vite build configuration for React application
+  - Electron Builder configuration for desktop app packaging
+  - Concurrent development mode (React + Electron)
+- **Additional Testing**: 150 new Electron IPC tests for desktop app validation
+
+### Changed
+- **Codebase Restructure**: Moved core utilities from `bin/utils/` to `lib/` directory
+  - `lib/crypto.js` - Enhanced encryption/decryption with async operations
+  - `lib/steg.js` - Improved steganography algorithms
+  - `lib/utils.js` - Shared utility functions
+  - `lib/mersenne-twister.js` - Maintained PRNG implementation
+- **CLI Improvements**: Enhanced command-line interface with better output formatting
+- **Steganography Enhancements**: Improved LSB algorithm implementation
+- **UI Style**: Modern, terminal-inspired aesthetic with improved visual hierarchy
+- **Package Configuration**: Updated to include both CLI and desktop app files
+- **NPM Package**: Adjusted `.npmignore` to properly package dual-mode distribution
+
+### Technical Notes
+- Application supports both CLI mode (npm package) and desktop app (Electron)
+- React app built with Vite for optimal performance
+- Tailwind CSS v4 with PostCSS for styling
+- Desktop app bundled with electron-builder
+- Test count: 253 tests total (103 CLI + 150 Electron)
+
 ## [0.2.1] - 2026-01-20
 
 ### Added
