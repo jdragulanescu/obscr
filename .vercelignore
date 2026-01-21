@@ -1,0 +1,10 @@
+node_modules
+.git
+coverage
+test
+*.log
+.DS_Store
+electron
+dist-electron
+.github
+docs

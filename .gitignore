@@ -11,3 +11,4 @@ coverage/
 
 # Build output
 dist
+.vercel
