@@ -12,7 +12,7 @@
 <p align="center">Encrypt and hide your secure data using AES-256-GCM encryption combined with steganography</p>
 
 <p align="center">
-  <a href="https://obscr-p8z0z7h63-jdragulanescus-projects.vercel.app">🌐 Live Web App</a>
+  <a href="https://obscr.vercel.app/">🌐 Live Web App</a>
 </p>
 
 <br>
