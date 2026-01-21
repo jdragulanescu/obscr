@@ -2,7 +2,7 @@ const {
   encodeMessageToImage,
   extractMessageFromImage,
   calculateImageCapacity,
-} = require("../../bin/utils/steg");
+} = require("../../lib/steg");
 const { PNG } = require("pngjs");
 const fs = require("fs");
 const path = require("path");
@@ -380,6 +380,163 @@ describe("Steg Module", () => {
         // If it fails, error should mention capacity
         expect(result.error).toContain("large");
       }
+    });
+  });
+
+  describe("obfuscation flag", () => {
+    it("should scatter message bits across entire image when obfuscation is OFF", async () => {
+      const { get_hashed_order, str_to_bits } = require("../../lib/utils");
+      const { encrypt } = require("../../lib/crypto");
+
+      const message = "test";
+      const password = "password123";
+      const encKey = password + "S3cReTK3Y"; // SECRET_KEY from main.js
+      const outputPath = path.join(OUTPUT_DIR, "test-obfuscation-off.png");
+
+      // Encrypt the message
+      const encrypted = await encrypt(message, password, false);
+
+      // Encode with obfuscation OFF
+      const result = await encodeMessageToImage(
+        MEDIUM_IMAGE,
+        encrypted,
+        encKey,
+        outputPath,
+        false // obfuscation OFF
+      );
+
+      expect(result.success).toBe(true);
+
+      // Read both images
+      const originalBuffer = fs.readFileSync(MEDIUM_IMAGE);
+      const encodedBuffer = fs.readFileSync(outputPath);
+      const originalImage = PNG.sync.read(originalBuffer);
+      const encodedImage = PNG.sync.read(encodedBuffer);
+
+      // Calculate which positions should have changed
+      const dataBits = str_to_bits(encrypted, 1);
+      const capacity = calculateImageCapacity(originalImage);
+      const scrambledOrder = get_hashed_order(encKey, capacity);
+
+      // Create set of expected changed positions
+      const expectedPositions = new Set();
+      for (let i = 0; i < dataBits.length; i++) {
+        expectedPositions.add(scrambledOrder[i]);
+      }
+
+      // Check each bit position in the image
+      let changedCount = 0;
+      let unchangedCount = 0;
+      let unexpectedChanges = 0;
+
+      for (let bitPos = 0; bitPos < capacity; bitPos++) {
+        const pixelIdx = Math.floor(bitPos / 3);
+        const channelIdx = bitPos % 3;
+        const dataIdx = pixelIdx * 4 + channelIdx;
+
+        const originalBit = originalImage.data[dataIdx] & 1;
+        const encodedBit = encodedImage.data[dataIdx] & 1;
+        const isExpectedPosition = expectedPositions.has(bitPos);
+
+        if (originalBit !== encodedBit) {
+          changedCount++;
+          if (!isExpectedPosition) {
+            unexpectedChanges++;
+          }
+        } else if (isExpectedPosition) {
+          unchangedCount++;
+        }
+      }
+
+      // Verify no unexpected positions changed
+      expect(unexpectedChanges).toBe(0);
+
+      // Verify we touched all expected positions (changed or not)
+      expect(changedCount + unchangedCount).toBe(dataBits.length);
+
+      // At least some bits should have changed (statistically very likely)
+      expect(changedCount).toBeGreaterThan(dataBits.length * 0.3);
+
+      // Verify bits are scattered (not all at beginning)
+      const firstQuarterChanges = Array.from(expectedPositions).filter(
+        (pos) => pos < capacity / 4
+      ).length;
+      const lastQuarterChanges = Array.from(expectedPositions).filter(
+        (pos) => pos >= (capacity * 3) / 4
+      ).length;
+
+      // At least some bits should be in different quarters of the image
+      expect(firstQuarterChanges).toBeGreaterThan(0);
+      expect(lastQuarterChanges).toBeGreaterThan(0);
+
+      // Clean up
+      fs.unlinkSync(outputPath);
+    });
+
+    it("should write to more pixels when obfuscation is ON", async () => {
+      const { encrypt } = require("../../lib/crypto");
+
+      const message = "test";
+      const password = "password123";
+      const encKey = password + "S3cReTK3Y";
+      const outputPathOff = path.join(OUTPUT_DIR, "test-obf-off.png");
+      const outputPathOn = path.join(OUTPUT_DIR, "test-obf-on.png");
+
+      const encrypted = await encrypt(message, password, false);
+
+      // Encode with obfuscation OFF
+      await encodeMessageToImage(
+        MEDIUM_IMAGE,
+        encrypted,
+        encKey,
+        outputPathOff,
+        false
+      );
+
+      // Encode with obfuscation ON
+      await encodeMessageToImage(
+        MEDIUM_IMAGE,
+        encrypted,
+        encKey,
+        outputPathOn,
+        true
+      );
+
+      // Read all images
+      const originalBuffer = fs.readFileSync(MEDIUM_IMAGE);
+      const encodedOffBuffer = fs.readFileSync(outputPathOff);
+      const encodedOnBuffer = fs.readFileSync(outputPathOn);
+
+      const originalImage = PNG.sync.read(originalBuffer);
+      const encodedOffImage = PNG.sync.read(encodedOffBuffer);
+      const encodedOnImage = PNG.sync.read(encodedOnBuffer);
+
+      const capacity = calculateImageCapacity(originalImage);
+
+      // Count changed bits for both
+      let changedOffCount = 0;
+      let changedOnCount = 0;
+
+      for (let bitPos = 0; bitPos < capacity; bitPos++) {
+        const pixelIdx = Math.floor(bitPos / 3);
+        const channelIdx = bitPos % 3;
+        const dataIdx = pixelIdx * 4 + channelIdx;
+
+        const originalBit = originalImage.data[dataIdx] & 1;
+        const encodedOffBit = encodedOffImage.data[dataIdx] & 1;
+        const encodedOnBit = encodedOnImage.data[dataIdx] & 1;
+
+        if (originalBit !== encodedOffBit) changedOffCount++;
+        if (originalBit !== encodedOnBit) changedOnCount++;
+      }
+
+      // Obfuscation ON should change significantly more bits (most of the image)
+      expect(changedOnCount).toBeGreaterThan(changedOffCount * 10);
+      expect(changedOnCount).toBeGreaterThan(capacity * 0.4); // At least 40% changed
+
+      // Clean up
+      fs.unlinkSync(outputPathOff);
+      fs.unlinkSync(outputPathOn);
     });
   });
 });

@@ -3,13 +3,18 @@ test/
 *.test.js
 coverage/
 
+# Electron app files (exclude from npm, CLI only)
+app/
+electron/
+dist/
+vite.config.mts
+tailwind.config.js
+postcss.config.js
+
 # Development files
 .github/
 .git/
 .gitignore
-
-# Documentation (optional - remove if you want to include)
-# README.md is usually included by default
 
 # IDE and editor files
 .vscode/

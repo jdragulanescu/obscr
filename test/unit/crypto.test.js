@@ -1,4 +1,4 @@
-const { encrypt, decrypt } = require("../../bin/utils/crypto");
+const { encrypt, decrypt } = require("../../lib/crypto");
 
 describe("Crypto Module", () => {
   describe("encrypt", () => {
