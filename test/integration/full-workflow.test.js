@@ -1,10 +1,14 @@
-const { encrypt, decrypt } = require("../../lib/crypto");
-const {
+import { encrypt, decrypt } from "../../lib/crypto.js";
+import {
   encodeMessageToImage,
   extractMessageFromImage,
-} = require("../../lib/steg");
-const fs = require("fs");
-const path = require("path");
+} from "../../lib/steg.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
 const OUTPUT_DIR = path.join(__dirname, "..", "output");

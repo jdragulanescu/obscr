@@ -1,11 +1,17 @@
-const {
+import {
   encodeMessageToImage,
   extractMessageFromImage,
   calculateImageCapacity,
-} = require("../../lib/steg");
-const { PNG } = require("pngjs");
-const fs = require("fs");
-const path = require("path");
+} from "../../lib/steg.js";
+import { get_hashed_order, str_to_bits } from "../../lib/utils.js";
+import { encrypt } from "../../lib/crypto.js";
+import { PNG } from "pngjs";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
 const OUTPUT_DIR = path.join(__dirname, "..", "output");
@@ -385,8 +391,7 @@ describe("Steg Module", () => {
 
   describe("obfuscation flag", () => {
     it("should scatter message bits across entire image when obfuscation is OFF", async () => {
-      const { get_hashed_order, str_to_bits } = require("../../lib/utils");
-      const { encrypt } = require("../../lib/crypto");
+      // get_hashed_order, str_to_bits, and encrypt already imported at top
 
       const message = "test";
       const password = "password123";
@@ -474,7 +479,7 @@ describe("Steg Module", () => {
     });
 
     it("should write to more pixels when obfuscation is ON", async () => {
-      const { encrypt } = require("../../lib/crypto");
+      // encrypt already imported at top
 
       const message = "test";
       const password = "password123";

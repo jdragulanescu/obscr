@@ -1,7 +1,11 @@
-const { exec } = require("child_process");
-const { promisify } = require("util");
-const fs = require("fs");
-const path = require("path");
+import { exec, spawn } from "child_process";
+import { promisify } from "util";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const execAsync = promisify(exec);
 
@@ -75,7 +79,7 @@ describe("CLI Commands", () => {
 
   describe("Interactive mode default", () => {
     it("should enter interactive mode when no command is provided", (done) => {
-      const { spawn } = require("child_process");
+      // spawn already imported at top
       const proc = spawn("node", [CLI_PATH]);
 
       let output = "";

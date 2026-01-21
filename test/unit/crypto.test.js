@@ -1,4 +1,4 @@
-const { encrypt, decrypt } = require("../../lib/crypto");
+import { encrypt, decrypt } from "../../lib/crypto.js";
 
 describe("Crypto Module", () => {
   describe("encrypt", () => {

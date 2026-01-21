@@ -1,17 +1,19 @@
 #! /usr/bin/env node
-const yargs = require("yargs");
-const chalk = require("chalk");
-const fs = require("fs");
-const { prompt } = require("inquirer");
-const ora = require("ora");
-const boxen = require("boxen");
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import chalk from "chalk";
+import fs from "fs";
+import inquirer from "inquirer";
+const { prompt } = inquirer;
+import ora from "ora";
+import boxen from "boxen";
 
 // Shared core logic (reused by CLI and desktop UI)
-const { encrypt, decrypt } = require("../lib/crypto");
-const {
+import { encrypt, decrypt } from "../lib/crypto.js";
+import {
   encodeMessageToImage,
   extractMessageFromImage,
-} = require("../lib/steg");
+} from "../lib/steg.js";
 
 // NOTE: This is just to increase obfuscation for steganography, NOT used for AES encryption
 // Kept for backward compatibility with images encoded using older versions
@@ -77,7 +79,7 @@ function showBanner() {
   const logo = colors.primary(asciiLogo);
   const subtitle = colors.primary("$") + " " + chalk.white("Steganography & Encryption Tool");
   const info = colors.muted("AES-256-GCM Encryption | LSB Steganography | Secure Data Hiding");
-  const version = colors.dim("v1.0.0");
+  const version = colors.dim("v1.1.1");
 
   const banner = `${header}\n${logo}\n${subtitle}\n${info}\n\n${version}`;
 
@@ -387,7 +389,7 @@ const usage = colors.primary("\nUsage: obscr <command> [options]");
 // Track if a command was executed
 let commandExecuted = false;
 
-const argv = yargs
+const argv = yargs(hideBin(process.argv))
   .usage(usage)
   .option("verbose", {
     alias: "v",
@@ -523,7 +525,7 @@ const argv = yargs
   .epilog(`Run ${colors.primary("obscr examples")} to see usage examples`)
   .help()
   .alias("help", "h")
-  .version("1.0.0")
+  .version("1.1.1")
   .alias("version", "V")
   .strict();
 

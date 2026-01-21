@@ -1,4 +1,4 @@
-const { get_hashed_order, str_to_bits, bits_to_str } = require("../../lib/utils");
+import { get_hashed_order, str_to_bits, bits_to_str } from "../../lib/utils.js";
 
 describe("Utils Module", () => {
   describe("get_hashed_order", () => {

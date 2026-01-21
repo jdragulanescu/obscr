@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/license-MIT-green">
   <img src="https://img.shields.io/badge/build-passing-brightgreen">
-  <img src="https://img.shields.io/badge/version-1.1.0-orange">
+  <img src="https://img.shields.io/badge/version-1.1.1-orange">
   <img src="https://img.shields.io/badge/npm-v8.3.1-blue">
   <img src="https://img.shields.io/badge/node-v16.14.0-yellow">
 </p>
@@ -9,7 +9,7 @@
 <p align="center">Encrypt and hide your secure data using AES-256-GCM encryption combined with steganography</p>
 
 <p align="center">
-  <a href="https://obscr.vercel.app/">🌐 Try the Progressive Web App</a>
+  <a href="https://obscr.vercel.app/">🌐 Live Web App</a>
 </p>
 
 <br>
