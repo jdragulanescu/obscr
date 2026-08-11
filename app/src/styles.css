@@ -99,9 +99,22 @@ body {
   color: hsl(var(--muted-foreground));
 }
 
+/* The Tailwind v3 directives above do not emit preflight under Tailwind v4, so
+   [hidden] would otherwise rely on the UA stylesheet alone — which any author
+   rule outranks. Declared explicitly so hidden views stay hidden. */
+[hidden] {
+  display: none !important;
+}
+
 /* Main Content */
 .app-main {
   flex: 1;
+}
+
+/* Focus target for route changes only; never reached by tabbing, so the
+   outline would just be noise. */
+.app-main:focus {
+  outline: none;
 }
 
 .terminal-card {
