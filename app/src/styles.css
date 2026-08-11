@@ -714,6 +714,110 @@ button {
   line-height: 1.6;
 }
 
+/* Privacy Note */
+.privacy-note {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  background: hsl(var(--muted) / 0.5);
+  border: 1px solid hsl(var(--border) / 0.6);
+  border-left: 2px solid hsl(var(--primary));
+  border-radius: 6px;
+}
+
+.privacy-note-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: hsl(var(--muted-foreground));
+}
+
+.privacy-note p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.7;
+  color: hsl(var(--foreground));
+}
+
+.privacy-note-links {
+  margin-top: 8px !important;
+  font-size: 10px !important;
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+/* Legal Pages */
+.legal-page {
+  font-size: 13px;
+  line-height: 1.8;
+  color: hsl(var(--foreground));
+}
+
+.legal-page-header {
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+}
+
+.legal-page h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.legal-page-updated {
+  margin: 6px 0 0;
+  font-size: 10px;
+  color: hsl(var(--muted-foreground));
+}
+
+.legal-page h2 {
+  margin: 26px 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: hsl(var(--primary));
+}
+
+.legal-page p {
+  margin: 0 0 12px;
+}
+
+.legal-page ul {
+  margin: 0 0 12px;
+  padding-left: 18px;
+}
+
+.legal-page li {
+  margin-bottom: 6px;
+}
+
+.legal-page li::marker {
+  color: hsl(var(--primary));
+}
+
+.legal-page strong {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.legal-page code {
+  padding: 1px 5px;
+  font-family: "Fira Code", monospace;
+  font-size: 12px;
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+.legal-page-back {
+  margin-top: 28px;
+  padding-top: 14px;
+  border-top: 1px solid hsl(var(--border) / 0.6);
+  font-size: 12px;
+}
+
 /* Footer */
 .terminal-footer {
   margin-top: 16px;
@@ -722,6 +826,20 @@ button {
   font-size: 10px;
   color: hsl(var(--muted-foreground));
   border-top: 1px solid hsl(var(--border) / 0.3);
+}
+
+.privacy-note a,
+.legal-page a,
+.terminal-footer a {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  border-bottom: 1px dotted hsl(var(--primary) / 0.5);
+}
+
+.privacy-note a:hover,
+.legal-page a:hover,
+.terminal-footer a:hover {
+  border-bottom-style: solid;
 }
 
 /* Responsive */
@@ -737,5 +855,13 @@ button {
   .capacity-grid {
     flex-direction: column;
     gap: 4px;
+  }
+
+  .legal-page {
+    font-size: 12px;
+  }
+
+  .legal-page h1 {
+    font-size: 16px;
   }
 }
