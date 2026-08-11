@@ -1,4 +1,4 @@
-const CACHE_NAME = 'obscr-v1.1.0';
+const CACHE_NAME = 'obscr-v1.1.2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -23,6 +23,14 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
+  // Analytics beacons and non-GET requests must always hit the network:
+  // caching them would serve stale scripts and swallow page-view events.
+  const isAnalytics = new URL(event.request.url).pathname.startsWith('/_vercel/');
+
+  if (event.request.method !== 'GET' || isAnalytics) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {

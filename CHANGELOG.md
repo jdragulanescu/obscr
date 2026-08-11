@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Vercel Web Analytics**: anonymous page-view counting in the web app via
+  `@vercel/analytics`, mounted at the React root (`app/src/main.jsx`)
+- **Privacy notice**: always-visible summary above the tool explaining that all encryption
+  happens in the browser and that only anonymous page views are collected
+- **Privacy Policy and Terms & Conditions**: reachable at `#privacy` and `#terms` through a
+  dependency-free hash router (`app/src/lib/useHashRoute.js`), with Markdown copies in
+  `docs/PRIVACY.md` and `docs/TERMS.md`
+- Footer links to the privacy policy and terms
+- Per-page document titles for the privacy policy and terms
+- Focus moves into the main region on route change, so keyboard and screen
+  reader users are not dropped back to the top of the tab order
+
+### Fixed
+- Hash routes are resolved with an own-property check, so inherited keys such as
+  `#constructor` or `#__proto__` can no longer be rendered as a component and blank
+  the page
+- `[hidden]` is declared explicitly in `styles.css`; the Tailwind v3 directives in
+  that file emit no preflight under Tailwind v4, leaving it to the UA stylesheet
+
+### Changed
+- Service worker no longer caches `/_vercel/` requests or non-GET requests, so analytics
+  beacons always reach the network
+- Service worker cache bumped to `obscr-v1.1.2` so existing installs pick up the new assets
+
 ## [1.1.1] - 2026-01-21
 
 ### Changed

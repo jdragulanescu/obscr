@@ -13,6 +13,10 @@ const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
 const OUTPUT_DIR = path.join(__dirname, "..", "output");
 const TEST_IMAGE = path.join(FIXTURES_DIR, "test-medium.png");
 const CLI_PATH = path.join(__dirname, "..", "..", "bin", "index.js");
+const PKG_PATH = path.join(__dirname, "..", "..", "package.json");
+
+// Read from package.json so the assertion tracks version bumps automatically.
+const { version: PKG_VERSION } = JSON.parse(fs.readFileSync(PKG_PATH, "utf8"));
 
 describe("CLI Commands", () => {
   beforeAll(() => {
@@ -45,7 +49,7 @@ describe("CLI Commands", () => {
 
     it("should display version", async () => {
       const { stdout } = await execAsync(`node ${CLI_PATH} --version`);
-      expect(stdout).toContain("1.0.0");
+      expect(stdout).toContain(PKG_VERSION);
     });
 
     it("should display examples", async () => {

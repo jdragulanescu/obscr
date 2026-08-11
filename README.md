@@ -190,6 +190,22 @@ obscr decrypt --help
    - The encrypted image is not resistant to targeted steganalysis by experts
    - If someone knows the image contains a hidden message, they can extract it (but still need your password to decrypt)
 
+## Privacy
+
+Obscr runs entirely on your device. Both the CLI and the web app do all encryption,
+decryption and steganography locally — your messages, images and passwords are never
+uploaded to a server, and there is no account system.
+
+The hosted web app uses [Vercel Web Analytics](https://vercel.com/docs/analytics) to count
+anonymous page views (path, referrer, country, device type). It sets no cookies, builds no
+cross-site profile, and never sees the content you encrypt. Blocking the analytics script
+does not affect any functionality; the CLI sends nothing at all.
+
+See [docs/PRIVACY.md](docs/PRIVACY.md) and [docs/TERMS.md](docs/TERMS.md) for the full
+policy and terms of use, also available in the app at
+[/#privacy](https://obscr.vercel.app/#privacy) and
+[/#terms](https://obscr.vercel.app/#terms).
+
 ## Image Capacity
 
 The tool automatically checks if your message fits in the chosen image:
