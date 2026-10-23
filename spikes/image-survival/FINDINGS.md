@@ -2,7 +2,7 @@
 
 Question: [Measure what an encoded image can survive](https://github.com/jdragulanescu/obscr/issues/16).
 
-Status: experiment complete; **human acceptance pending**. No product mode, numeric recovery guarantee, or production format is selected.
+Status: experiment complete; [human acceptance is recorded on the decision ticket](https://github.com/jdragulanescu/obscr/issues/16#issuecomment-6373144452). No product mode, numeric recovery guarantee, or production format is selected.
 
 ## TL;DR
 
@@ -132,4 +132,4 @@ The experiment supplies concrete evidence for the next [Choose hiding and recove
 
 This does **not** prove that repetition is the best repair code, that QIM is the best robust carrier, or that no better resize/JPEG method exists. RS/BCH, adaptive hiding, secret/public framing tradeoffs, larger images, natural covers, other interpolation/color/alpha paths, cropping/rotation, real services and browser/mobile measurements remain unmeasured. The research report's larger experiment matrix was not silently treated as completed.
 
-The human decision for this ticket is only whether these measurements provide enough comparison to proceed to the recovery-choice discussion, or whether to extend the experiment first. It does not select a mode or approve a release guarantee. Until that agreement, this ticket stays open and its dependents stay blocked.
+The human decision for this ticket concerns only whether these measurements provide enough comparison to proceed to the recovery-choice discussion, or whether to extend the experiment first. Its resolution is recorded on the linked decision ticket, not in this evidence file. Acceptance does not select a mode or approve a release guarantee.
