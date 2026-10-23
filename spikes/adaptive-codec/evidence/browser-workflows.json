@@ -1,0 +1,1828 @@
+{
+  "runtime": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+  "rows": [
+    {
+      "direction": "CLI-to-browser",
+      "salt": "raw",
+      "outcome": "exact-ready",
+      "message": "CLI to browser: café é — exact bytes",
+      "placement": {
+        "scalarSamples": 45568,
+        "draws": 45572,
+        "rejections": 4,
+        "peakEntries": 42839,
+        "mapEntries": 42839,
+        "generatedStreamBytes": 184320
+      },
+      "elapsedMs": 680.0999999046326,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "direction": "CLI-to-browser",
+      "salt": "adaptive",
+      "outcome": "exact-ready",
+      "message": "CLI to browser: café é — exact bytes",
+      "placement": {
+        "scalarSamples": 45568,
+        "draws": 45572,
+        "rejections": 4,
+        "peakEntries": 42935,
+        "mapEntries": 42935,
+        "generatedStreamBytes": 184320
+      },
+      "elapsedMs": 644.8000001907349,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "direction": "browser-to-CLI-encode",
+      "salt": "raw",
+      "outcome": "encoded",
+      "usefulBytes": 41,
+      "overhead": {
+        "salt": 16,
+        "header": 32,
+        "nonce": 12,
+        "tag": 16,
+        "repair": 0,
+        "stored": 41,
+        "useful": 41,
+        "total": 105,
+        "padding": 0,
+        "bootstrapReservedSamples": 8192
+      },
+      "elapsedMs": 1402.7000002861023,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "direction": "browser-to-CLI-encode",
+      "salt": "adaptive",
+      "outcome": "encoded",
+      "usefulBytes": 41,
+      "overhead": {
+        "salt": 16,
+        "header": 32,
+        "nonce": 12,
+        "tag": 16,
+        "repair": 0,
+        "stored": 41,
+        "useful": 41,
+        "total": 105,
+        "padding": 0,
+        "bootstrapReservedSamples": 8192
+      },
+      "elapsedMs": 1329,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "case": "browser wrong password",
+      "outcome": "safe-failure",
+      "diagnosticStage": "header",
+      "reason": "Input, password, bounds, repair or authentication failure",
+      "elapsedMs": 732.5999999046326,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "case": "browser cancellation",
+      "result": null,
+      "png": null,
+      "cancellations": [
+        {
+          "outcome": "cancelled",
+          "plaintextReleased": false
+        }
+      ],
+      "status": "Cancelled; worker terminated; no plaintext released"
+    },
+    {
+      "case": "browser sample-preserving rewrite",
+      "salt": "raw",
+      "samplesEqual": true
+    },
+    {
+      "case": "browser sample-preserving rewrite",
+      "salt": "adaptive",
+      "samplesEqual": true
+    },
+    {
+      "case": "browser malformed PNG",
+      "outcome": "safe-failure",
+      "error": "Error: PNG source bound or signature",
+      "elapsedMs": 1.200000286102295
+    },
+    {
+      "direction": "CLI-to-browser",
+      "salt": "raw",
+      "profile": "p16-byte",
+      "outcome": "exact-ready",
+      "message": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      "placement": {
+        "scalarSamples": 262144,
+        "draws": 262157,
+        "rejections": 13,
+        "peakEntries": 173633,
+        "mapEntries": 173633,
+        "generatedStreamBytes": 1052672
+      },
+      "elapsedMs": 1019.3000001907349,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "direction": "browser-to-CLI-encode",
+      "salt": "raw",
+      "profile": "p16-byte",
+      "outcome": "encoded",
+      "usefulBytes": 512,
+      "overhead": {
+        "salt": 16,
+        "header": 48,
+        "nonce": 12,
+        "tag": 16,
+        "repair": 48,
+        "stored": 512,
+        "useful": 512,
+        "total": 640,
+        "padding": 0,
+        "bootstrapReservedSamples": 8192
+      },
+      "elapsedMs": 3334.8999996185303,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "direction": "CLI-to-browser",
+      "salt": "adaptive",
+      "profile": "p16-byte",
+      "outcome": "exact-ready",
+      "message": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+      "placement": {
+        "scalarSamples": 262144,
+        "draws": 262162,
+        "rejections": 18,
+        "peakEntries": 173922,
+        "mapEntries": 173922,
+        "generatedStreamBytes": 1052672
+      },
+      "elapsedMs": 1098,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "direction": "browser-to-CLI-encode",
+      "salt": "adaptive",
+      "profile": "p16-byte",
+      "outcome": "encoded",
+      "usefulBytes": 512,
+      "overhead": {
+        "salt": 16,
+        "header": 48,
+        "nonce": 12,
+        "tag": 16,
+        "repair": 48,
+        "stored": 512,
+        "useful": 512,
+        "total": 640,
+        "padding": 0,
+        "bootstrapReservedSamples": 8192
+      },
+      "elapsedMs": 3111.800000190735,
+      "wasmMemoryBytes": 67108864
+    },
+    {
+      "case": "browser 2048-byte capacity refusal",
+      "outcome": "safe-failure",
+      "error": "Error: All-overhead capacity rejection",
+      "elapsedMs": 112.5
+    }
+  ],
+  "diagnostics": {
+    "console": {
+      "entries": [],
+      "nextSeq": 0,
+      "dropped": 0
+    },
+    "errors": {
+      "entries": [],
+      "nextSeq": 0,
+      "dropped": 0
+    },
+    "requests": [
+      {
+        "id": "request-1",
+        "seq": 1,
+        "ts": 1792792594267,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+        "resourceType": "document",
+        "status": 200,
+        "ok": true,
+        "durationMs": 14,
+        "requestHeaders": {
+          "accept-language": "en-US,en;q=0.9",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "3076",
+          "content-type": "text/html;charset=utf-8",
+          "date": "Fri, 23 Oct 2026 21:56:34 GMT",
+          "etag": "W/\"3076-1792792483868\"",
+          "keep-alive": "timeout=5",
+          "last-modified": "Fri, 23 Oct 2026 21:54:43 GMT",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 3076
+        }
+      },
+      {
+        "id": "request-2",
+        "seq": 2,
+        "ts": 1792792594288,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/favicon.ico",
+        "resourceType": "other",
+        "status": 404,
+        "ok": false,
+        "durationMs": 0,
+        "requestHeaders": {
+          "sec-ch-ua-platform": "\"macOS\"",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua-mobile": "?0"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "content-length": "0",
+          "date": "Fri, 23 Oct 2026 21:56:34 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 0
+        }
+      },
+      {
+        "id": "request-3",
+        "seq": 3,
+        "ts": 1792792598915,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/gate-worker.mjs",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 59,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "3109",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 21:56:38 GMT",
+          "etag": "W/\"246-40B7nAI2F8Bi39KZC0S37o8eT6c\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 3109
+        }
+      },
+      {
+        "id": "request-4",
+        "seq": 4,
+        "ts": 1792792598994,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/gate.mjs",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/gate-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "34401",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 21:56:38 GMT",
+          "etag": "W/\"186a-1fGEjf0OucPibkNNnF/Hq5T/G0o\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 34401
+        }
+      },
+      {
+        "id": "request-5",
+        "seq": 5,
+        "ts": 1792792599065,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 200,
+        "ok": true,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/gate-worker.mjs"
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "34725",
+          "content-type": "application/wasm",
+          "date": "Fri, 23 Oct 2026 21:56:39 GMT",
+          "etag": "W/\"34725-1792792532118\"",
+          "keep-alive": "timeout=5",
+          "last-modified": "Fri, 23 Oct 2026 21:55:32 GMT",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 34725
+        }
+      },
+      {
+        "id": "request-6",
+        "seq": 6,
+        "ts": 1792793166646,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+        "resourceType": "document",
+        "status": 200,
+        "ok": true,
+        "durationMs": 17,
+        "requestHeaders": {
+          "accept-language": "en-US,en;q=0.9",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "4413",
+          "content-type": "text/html;charset=utf-8",
+          "date": "Fri, 23 Oct 2026 22:06:06 GMT",
+          "etag": "W/\"4413-1792792996865\"",
+          "keep-alive": "timeout=5",
+          "last-modified": "Fri, 23 Oct 2026 22:03:16 GMT",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 4413
+        }
+      },
+      {
+        "id": "request-7",
+        "seq": 7,
+        "ts": 1792793166660,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-ui.mjs",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 1,
+        "requestHeaders": {
+          "origin": "http://127.0.0.1:5197",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua-mobile": "?0",
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "connection": "keep-alive",
+          "host": "127.0.0.1:5197",
+          "sec-fetch-dest": "script",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "13262",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 22:06:06 GMT",
+          "etag": "W/\"a4b-10aORqM45VK+ev377k3cLk2kNYE\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 13262
+        }
+      },
+      {
+        "id": "request-8",
+        "seq": 8,
+        "ts": 1792793172449,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 5,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "7279",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 22:06:12 GMT",
+          "etag": "W/\"5e0-JJ3HTgywflddsgk8eJ5R0kV31Hw\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 7279
+        }
+      },
+      {
+        "id": "request-9",
+        "seq": 9,
+        "ts": 1792793172455,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 94,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "2330360",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 22:06:12 GMT",
+          "etag": "W/\"9750d-YBaXFAvgXaYHGte9u2hx6pda1cY\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 2330360
+        }
+      },
+      {
+        "id": "request-10",
+        "seq": 10,
+        "ts": 1792793172455,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 71,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "26762",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 22:06:12 GMT",
+          "etag": "W/\"133b-c6kAs2996bKi6fiTvCMWuMMKMC4\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 26762
+        }
+      },
+      {
+        "id": "request-11",
+        "seq": 11,
+        "ts": 1792793172646,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:12 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-12",
+        "seq": 12,
+        "ts": 1792793173296,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 3,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:13 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-13",
+        "seq": 13,
+        "ts": 1792793173300,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 18,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:13 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-14",
+        "seq": 14,
+        "ts": 1792793173300,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:13 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-15",
+        "seq": 15,
+        "ts": 1792793173403,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:13 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-16",
+        "seq": 16,
+        "ts": 1792793187901,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 4,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:27 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-17",
+        "seq": 17,
+        "ts": 1792793187906,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 9,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:27 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-18",
+        "seq": 18,
+        "ts": 1792793187906,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:27 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-19",
+        "seq": 19,
+        "ts": 1792793188024,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:28 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-20",
+        "seq": 20,
+        "ts": 1792793189685,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:29 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-21",
+        "seq": 21,
+        "ts": 1792793189688,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 15,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:29 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-22",
+        "seq": 22,
+        "ts": 1792793189688,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:29 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-23",
+        "seq": 23,
+        "ts": 1792793189785,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:29 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-24",
+        "seq": 24,
+        "ts": 1792793217280,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 3,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:57 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-25",
+        "seq": 25,
+        "ts": 1792793217284,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 15,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:57 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-26",
+        "seq": 26,
+        "ts": 1792793217284,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:57 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-27",
+        "seq": 27,
+        "ts": 1792793217430,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:57 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-28",
+        "seq": 28,
+        "ts": 1792793218163,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 4,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:58 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-29",
+        "seq": 29,
+        "ts": 1792793218167,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 9,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:58 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-30",
+        "seq": 30,
+        "ts": 1792793218167,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:58 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-31",
+        "seq": 31,
+        "ts": 1792793218266,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:06:58 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-32",
+        "seq": 32,
+        "ts": 1792793358306,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "origin": "http://127.0.0.1:5197",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "referer": "",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua-mobile": "?0"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:09:18 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-33",
+        "seq": 33,
+        "ts": 1792793358309,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/evidence/browser-to-cli-raw.png",
+        "resourceType": "fetch",
+        "status": 200,
+        "ok": true,
+        "durationMs": 6,
+        "requestHeaders": {
+          "sec-ch-ua-platform": "\"macOS\"",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua-mobile": "?0"
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "736501",
+          "content-type": "image/png",
+          "date": "Fri, 23 Oct 2026 22:09:18 GMT",
+          "etag": "W/\"736501-1792793189631\"",
+          "keep-alive": "timeout=5",
+          "last-modified": "Fri, 23 Oct 2026 22:06:29 GMT",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 736501
+        }
+      },
+      {
+        "id": "request-34",
+        "seq": 34,
+        "ts": 1792793359024,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/evidence/browser-to-cli-adaptive.png",
+        "resourceType": "fetch",
+        "status": 200,
+        "ok": true,
+        "durationMs": 5,
+        "requestHeaders": {
+          "sec-ch-ua-platform": "\"macOS\"",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua-mobile": "?0"
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "736462",
+          "content-type": "image/png",
+          "date": "Fri, 23 Oct 2026 22:09:19 GMT",
+          "etag": "W/\"736462-1792793191398\"",
+          "keep-alive": "timeout=5",
+          "last-modified": "Fri, 23 Oct 2026 22:06:31 GMT",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 736462
+        }
+      },
+      {
+        "id": "request-35",
+        "seq": 35,
+        "ts": 1792793359615,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 3,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:09:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-36",
+        "seq": 36,
+        "ts": 1792793359618,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 26,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:09:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-37",
+        "seq": 37,
+        "ts": 1792793359618,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:09:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-38",
+        "seq": 38,
+        "ts": 1792793472487,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+        "resourceType": "document",
+        "status": 200,
+        "ok": true,
+        "durationMs": 12,
+        "requestHeaders": {
+          "accept-language": "en-US,en;q=0.9",
+          "upgrade-insecure-requests": "1",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\""
+        },
+        "responseHeaders": {
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "4583",
+          "content-type": "text/html;charset=utf-8",
+          "date": "Fri, 23 Oct 2026 22:11:12 GMT",
+          "etag": "W/\"4583-1792793404055\"",
+          "keep-alive": "timeout=5",
+          "last-modified": "Fri, 23 Oct 2026 22:10:04 GMT",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 4583
+        }
+      },
+      {
+        "id": "request-39",
+        "seq": 39,
+        "ts": 1792793472499,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-ui.mjs",
+        "resourceType": "script",
+        "status": 200,
+        "ok": true,
+        "durationMs": 0,
+        "requestHeaders": {
+          "origin": "http://127.0.0.1:5197",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/browser.html",
+          "accept-language": "en-US,en;q=0.9",
+          "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "sec-ch-ua-mobile": "?0",
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "connection": "keep-alive",
+          "host": "127.0.0.1:5197",
+          "if-none-match": "W/\"a4b-10aORqM45VK+ev377k3cLk2kNYE\"",
+          "sec-fetch-dest": "script",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "cache-control": "no-cache",
+          "connection": "keep-alive",
+          "content-length": "13329",
+          "content-type": "text/javascript",
+          "date": "Fri, 23 Oct 2026 22:11:12 GMT",
+          "etag": "W/\"a5a-VIGdZVJYWlqzv/AwQQi8JQJ7LFA\"",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0,
+          "responseBody": 13329
+        }
+      },
+      {
+        "id": "request-40",
+        "seq": 40,
+        "ts": 1792793472599,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:12 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-41",
+        "seq": 41,
+        "ts": 1792793472601,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 26,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:12 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-42",
+        "seq": 42,
+        "ts": 1792793472601,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:12 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-43",
+        "seq": 43,
+        "ts": 1792793472728,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:12 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-44",
+        "seq": 44,
+        "ts": 1792793474043,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:14 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-45",
+        "seq": 45,
+        "ts": 1792793474046,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 15,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:14 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-46",
+        "seq": 46,
+        "ts": 1792793474046,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:14 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-47",
+        "seq": 47,
+        "ts": 1792793474180,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 2,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:14 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-48",
+        "seq": 48,
+        "ts": 1792793477811,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 4,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:17 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-49",
+        "seq": 49,
+        "ts": 1792793477816,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 28,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate, br, zstd",
+          "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+          "connection": "keep-alive",
+          "host": "127.0.0.1:5197",
+          "if-none-match": "W/\"9750d-YBaXFAvgXaYHGte9u2hx6pda1cY\"",
+          "sec-fetch-dest": "worker",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:17 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-50",
+        "seq": 50,
+        "ts": 1792793477816,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:17 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-51",
+        "seq": 51,
+        "ts": 1792793477970,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:17 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-52",
+        "seq": 52,
+        "ts": 1792793479333,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 3,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-53",
+        "seq": 53,
+        "ts": 1792793479336,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 12,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-54",
+        "seq": 54,
+        "ts": 1792793479336,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-55",
+        "seq": 55,
+        "ts": 1792793479456,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:11:19 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-56",
+        "seq": 56,
+        "ts": 1792793557089,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 4,
+        "requestHeaders": {
+          "accept": "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:12:37 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-57",
+        "seq": 57,
+        "ts": 1792793557093,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.bundle.js",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 9,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:12:37 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-58",
+        "seq": 58,
+        "ts": 1792793557093,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/png.mjs",
+        "resourceType": "script",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "origin": "http://127.0.0.1:5197",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "access-control-allow-origin": "http://127.0.0.1:5197",
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:12:37 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      },
+      {
+        "id": "request-59",
+        "seq": 59,
+        "ts": 1792793557213,
+        "method": "GET",
+        "url": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/codec.wasm",
+        "resourceType": "fetch",
+        "status": 304,
+        "ok": false,
+        "durationMs": 1,
+        "requestHeaders": {
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+          "referer": "http://127.0.0.1:5197/@fs/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/message-worker.mjs"
+        },
+        "responseHeaders": {
+          "connection": "keep-alive",
+          "date": "Fri, 23 Oct 2026 22:12:37 GMT",
+          "keep-alive": "timeout=5",
+          "vary": "Origin"
+        },
+        "sizes": {
+          "requestBody": 0
+        }
+      }
+    ]
+  },
+  "captureMethod": "Browser export Blob bytes saved directly for CLI input; download link clicked but browser tool returned no download records"
+}

@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "runtime": "v24.13.0",
+  "rows": [
+    {
+      "args": [
+        "encode",
+        "photos/vandusen-2015.png",
+        "evidence/cli-512-raw.png",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        "raw",
+        "16",
+        "byte-round-robin"
+      ],
+      "code": 0,
+      "signal": null,
+      "stdout": "{\"outcome\":\"encoded\",\"output\":\"evidence/cli-512-raw.png\",\"usefulBytes\":512,\"overhead\":{\"salt\":16,\"header\":48,\"nonce\":12,\"tag\":16,\"repair\":48,\"stored\":512,\"useful\":512,\"total\":640,\"padding\":0,\"bootstrapReservedSamples\":8192},\"elapsedMs\":781.08775,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":196706304}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "args": [
+        "decode",
+        "evidence/browser-to-cli-raw.png",
+        "raw"
+      ],
+      "code": 0,
+      "signal": null,
+      "stdout": "{\"outcome\":\"exact-ready\",\"message\":\"Browser to CLI: café é — exact bytes\",\"placement\":{\"scalarSamples\":45568,\"draws\":45573,\"rejections\":5,\"peakEntries\":42913,\"mapEntries\":42913,\"generatedStreamBytes\":184320},\"messageHash\":\"f2e61d90bb8218f77c1b09f0f1c168fbd0cacc667d3d70c7f31a4d1e42b121cc\",\"elapsedMs\":205.37620900000002,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":165298176}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "args": [
+        "decode",
+        "evidence/browser-rewrite-raw.png",
+        "raw"
+      ],
+      "code": 0,
+      "signal": null,
+      "stdout": "{\"outcome\":\"exact-ready\",\"message\":\"Browser to CLI: café é — exact bytes\",\"placement\":{\"scalarSamples\":45568,\"draws\":45573,\"rejections\":5,\"peakEntries\":42913,\"mapEntries\":42913,\"generatedStreamBytes\":184320},\"messageHash\":\"f2e61d90bb8218f77c1b09f0f1c168fbd0cacc667d3d70c7f31a4d1e42b121cc\",\"elapsedMs\":204.670834,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":165298176}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "args": [
+        "encode",
+        "photos/vandusen-2015.png",
+        "evidence/cli-512-adaptive.png",
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+        "adaptive",
+        "16",
+        "byte-round-robin"
+      ],
+      "code": 0,
+      "signal": null,
+      "stdout": "{\"outcome\":\"encoded\",\"output\":\"evidence/cli-512-adaptive.png\",\"usefulBytes\":512,\"overhead\":{\"salt\":16,\"header\":48,\"nonce\":12,\"tag\":16,\"repair\":48,\"stored\":512,\"useful\":512,\"total\":640,\"padding\":0,\"bootstrapReservedSamples\":8192},\"elapsedMs\":772.017834,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":193822720}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "args": [
+        "decode",
+        "evidence/browser-to-cli-adaptive.png",
+        "adaptive"
+      ],
+      "code": 0,
+      "signal": null,
+      "stdout": "{\"outcome\":\"exact-ready\",\"message\":\"Browser to CLI: café é — exact bytes\",\"placement\":{\"scalarSamples\":45568,\"draws\":45572,\"rejections\":4,\"peakEntries\":42814,\"mapEntries\":42814,\"generatedStreamBytes\":184320},\"messageHash\":\"f2e61d90bb8218f77c1b09f0f1c168fbd0cacc667d3d70c7f31a4d1e42b121cc\",\"elapsedMs\":205.21474999999998,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":165412864}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "args": [
+        "decode",
+        "evidence/browser-rewrite-adaptive.png",
+        "adaptive"
+      ],
+      "code": 0,
+      "signal": null,
+      "stdout": "{\"outcome\":\"exact-ready\",\"message\":\"Browser to CLI: café é — exact bytes\",\"placement\":{\"scalarSamples\":45568,\"draws\":45572,\"rejections\":4,\"peakEntries\":42814,\"mapEntries\":42814,\"generatedStreamBytes\":184320},\"messageHash\":\"f2e61d90bb8218f77c1b09f0f1c168fbd0cacc667d3d70c7f31a4d1e42b121cc\",\"elapsedMs\":204.163875,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":165101568}\n",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "args": [
+        "encode",
+        "photos/vandusen-2015.png",
+        ".scratch/cancelled.png",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "adaptive",
+        "16",
+        "byte-round-robin"
+      ],
+      "code": 130,
+      "signal": null,
+      "stdout": "",
+      "stderr": "Cancelled; no output released\n",
+      "passed": true
+    },
+    {
+      "args": [
+        "decode",
+        "evidence/cli-to-browser-adaptive.png",
+        "adaptive",
+        "0",
+        "none",
+        "wrong-password"
+      ],
+      "code": 2,
+      "signal": null,
+      "stdout": "{\"outcome\":\"safe-failure\",\"diagnosticStage\":\"header\",\"reason\":\"Input, password, bounds, repair or authentication failure\",\"elapsedMs\":188.74787500000002,\"wasmMemoryBytes\":67108864,\"peakRssBytes\":163528704}\n",
+      "stderr": "",
+      "passed": true
+    }
+  ]
+}

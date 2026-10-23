@@ -1,0 +1,97 @@
+{
+  "scope": "Final CLI/browser wrappers release the cover RGB reference before PNG scanline allocation. Runtime smoke proves output preservation, not garbage-collector timing or physical peak memory.",
+  "cliEncode": {
+    "code": 0,
+    "stderr": "",
+    "result": {
+      "outcome": "encoded",
+      "output": ".scratch/final-cli.png",
+      "usefulBytes": 512,
+      "overhead": {
+        "salt": 16,
+        "header": 48,
+        "nonce": 12,
+        "tag": 16,
+        "repair": 48,
+        "stored": 512,
+        "useful": 512,
+        "total": 640,
+        "padding": 0,
+        "bootstrapReservedSamples": 8192
+      },
+      "elapsedMs": 753.313625,
+      "wasmMemoryBytes": 67108864,
+      "peakRssBytes": 189136896
+    }
+  },
+  "browserDecode": {
+    "outcome": "exact-ready",
+    "message": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+    "placement": {
+      "scalarSamples": 262144,
+      "draws": 262160,
+      "rejections": 16,
+      "peakEntries": 173942,
+      "mapEntries": 173942,
+      "generatedStreamBytes": 1052672
+    },
+    "elapsedMs": 265.80000019073486,
+    "wasmMemoryBytes": 67108864
+  },
+  "browserEncode": {
+    "outcome": "encoded",
+    "usefulBytes": 512,
+    "overhead": {
+      "salt": 16,
+      "header": 48,
+      "nonce": 12,
+      "tag": 16,
+      "repair": 48,
+      "stored": 512,
+      "useful": 512,
+      "total": 640,
+      "padding": 0,
+      "bootstrapReservedSamples": 8192
+    },
+    "elapsedMs": 711,
+    "wasmMemoryBytes": 67108864
+  },
+  "download": {
+    "guid": "5052c0e2-6e85-47bf-89bc-05af9d5c57ba",
+    "totalBytes": 736524,
+    "receivedBytes": 736524,
+    "state": "completed",
+    "filePath": "/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/.scratch/final-download/browser-encoded.png"
+  },
+  "cliDecode": {
+    "code": 0,
+    "stderr": "",
+    "result": {
+      "outcome": "exact-ready",
+      "message": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "placement": {
+        "scalarSamples": 262144,
+        "draws": 262166,
+        "rejections": 22,
+        "peakEntries": 173825,
+        "mapEntries": 173825,
+        "generatedStreamBytes": 1052672
+      },
+      "messageHash": "4391da166394eb9d592a66cdb937c0aa011b9fd54cb2fa0e7f5c7a6648c6625a",
+      "elapsedMs": 309.181667,
+      "wasmMemoryBytes": 67108864,
+      "peakRssBytes": 174211072
+    }
+  },
+  "console": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "errors": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "failedRequests": []
+}
