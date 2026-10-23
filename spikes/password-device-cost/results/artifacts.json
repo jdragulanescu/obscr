@@ -1,0 +1,462 @@
+{
+  "recordedAt": "2026-10-23T19:55:37.011Z",
+  "install": "npm install --ignore-scripts --no-audit --no-fund; npm verifies registry integrity during extraction",
+  "scope": "Installed bytes and lock metadata only; no signature, provenance or reproducible-source-build verification",
+  "packages": [
+    {
+      "name": "libsodium-wrappers-sumo",
+      "version": "0.8.4",
+      "license": "ISC",
+      "resolved": "https://registry.npmjs.org/libsodium-wrappers-sumo/-/libsodium-wrappers-sumo-0.8.4.tgz",
+      "integrity": "sha512-ql7hcgulKZ3ekfa2DGAogcCKsWU0diA/0nArz1CFzh93WQdb46/Kj18ka/Hifq6uA3Ush34Pc6vU/6HXeRwUkg==",
+      "files": [
+        {
+          "path": "dist/modules-sumo-esm/libsodium-wrappers.d.mts",
+          "bytes": 166661,
+          "sha256": "3a8193ae7b5eb69bf56497f685a7680768e7d5872fa1f6855584c1b1008f69af"
+        },
+        {
+          "path": "dist/modules-sumo-esm/libsodium-wrappers.mjs",
+          "bytes": 122029,
+          "sha256": "40de1ef7cb8f2caae02c2a8f04809151904fa28cb9364cadedc57af89a6c9284"
+        },
+        {
+          "path": "dist/modules-sumo/libsodium-wrappers.d.ts",
+          "bytes": 130629,
+          "sha256": "c5e323f687f928082fa8fc600155d1a30ed2d2f40cfe1a4e3ddaf34b96c56f25"
+        },
+        {
+          "path": "dist/modules-sumo/libsodium-wrappers.js",
+          "bytes": 121445,
+          "sha256": "4e2c5442899321d7d9aea69bef71a3c24a6eab5911b74a5c1ad8bc8c733b0a15"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 839,
+          "sha256": "ce7b8ba14db085aadb72359226ccf7273225db31dad653242a7726a10dabbbd4"
+        },
+        {
+          "path": "package.json",
+          "bytes": 1745,
+          "sha256": "090256de7fa9c511bbad8dd8c25ff1ccb7e2cfae039557675d3aa5672a039fb0"
+        },
+        {
+          "path": "README.md",
+          "bytes": 10429,
+          "sha256": "4cf21e47ff49b580d1e6f6186a73d15823687ac152a6c1c5d8d3561f81a3f152"
+        }
+      ]
+    },
+    {
+      "name": "libsodium-sumo",
+      "version": "0.8.4",
+      "license": "ISC",
+      "resolved": "https://registry.npmjs.org/libsodium-sumo/-/libsodium-sumo-0.8.4.tgz",
+      "integrity": "sha512-TMtHShQfVVsaxDygyapvUC3o7YsPgXa/hRWeIgzyFz6w5k/1hirGptCxp1U7XwW3rCskaTTYKgV10v86UiGgNw==",
+      "files": [
+        {
+          "path": "dist/modules-sumo-esm/libsodium-sumo.mjs",
+          "bytes": 413353,
+          "sha256": "4c94708f7e78eac7a32b29e2ce0ff96f4bd599d78c129f27bf8a061e20776c8c"
+        },
+        {
+          "path": "dist/modules-sumo/libsodium-sumo.js",
+          "bytes": 1197602,
+          "sha256": "a3d0b7eb2c24ba6b5401d88717e65bc6a92786d211bc8b91ed746d24226180f3"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 839,
+          "sha256": "ce7b8ba14db085aadb72359226ccf7273225db31dad653242a7726a10dabbbd4"
+        },
+        {
+          "path": "package.json",
+          "bytes": 1328,
+          "sha256": "7ef185db740c351bc90b20fec250b7e8d494c6829f7ff8f2f58f597872cbfc3f"
+        },
+        {
+          "path": "README.md",
+          "bytes": 10429,
+          "sha256": "4cf21e47ff49b580d1e6f6186a73d15823687ac152a6c1c5d8d3561f81a3f152"
+        }
+      ]
+    },
+    {
+      "name": "@noble/hashes",
+      "version": "2.4.0",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@noble/hashes/-/hashes-2.4.0.tgz",
+      "integrity": "sha512-X5XaVWZIBCT7HHZGm5I7ZQXDwLG+bGXuSrMQAW+7Zvl87h1kmc1ZB1VSRJcpUfoUrGQp4Fkoxm5kZ+Ms+aW+eA==",
+      "files": [
+        {
+          "path": "_blake.d.ts",
+          "bytes": 740,
+          "sha256": "c32b86abfcd4514e98a2f27b4f67672cb1446ac081d2e715d0dca60e96e8120a"
+        },
+        {
+          "path": "_blake.js",
+          "bytes": 2841,
+          "sha256": "cabbff61d1f373bac45594ad758df7c42e176464ddbb94b44f5533fa977a4f56"
+        },
+        {
+          "path": "_md.d.ts",
+          "bytes": 4306,
+          "sha256": "f5ffc0d52997445b4531a0e1e67ee0f6f376e0ed5c66f978e80288973d50cd06"
+        },
+        {
+          "path": "_md.js",
+          "bytes": 9175,
+          "sha256": "60cf3010fda89e3e4d3f0e7ff1ce249e9c467f34b4fd41b6fd6101d9f69be763"
+        },
+        {
+          "path": "_u64.d.ts",
+          "bytes": 1994,
+          "sha256": "78744410de5b7594879963d315b7a339a06ecafa73b0a0ddf63fdabdb926dd25"
+        },
+        {
+          "path": "_u64.js",
+          "bytes": 4794,
+          "sha256": "b09da8c07fe8187c07649494cdb7cd0bcf13df90b506a9473d19e4d5f8c2e102"
+        },
+        {
+          "path": "argon2.d.ts",
+          "bytes": 5719,
+          "sha256": "a455841ea6f034d54790094ac67afc9311a78a39abb967009a605c37122c03d9"
+        },
+        {
+          "path": "argon2.js",
+          "bytes": 25707,
+          "sha256": "f39753324bdf2f484150731d24b1d71236f26bf10bedd594f7d190fcdfdefdc9"
+        },
+        {
+          "path": "blake1.d.ts",
+          "bytes": 5143,
+          "sha256": "f1cc242d614865d7277362ba8a90b58f755aae260881be79e0119ce85a1f6017"
+        },
+        {
+          "path": "blake1.js",
+          "bytes": 25201,
+          "sha256": "da1d08b4d0702ad4f185a796df8fce3fec2855de53b02190eba3bd8555677b5c"
+        },
+        {
+          "path": "blake2.d.ts",
+          "bytes": 6526,
+          "sha256": "e60ec6813a51e31751919e471daedaab9510d7a88dc0ef6b4dc05c7de502736e"
+        },
+        {
+          "path": "blake2.js",
+          "bytes": 22819,
+          "sha256": "03f00237bcc0b4d822a80f7c0ac22e42632c48e246c3b6da584e6452186e32f0"
+        },
+        {
+          "path": "blake3.d.ts",
+          "bytes": 2529,
+          "sha256": "b9a9fdcc7b04f07674c609fa40b0fdf1252c3ccf024968038fff06e6da00c627"
+        },
+        {
+          "path": "blake3.js",
+          "bytes": 12503,
+          "sha256": "bc25a8f6c50acabf3781c44ec55cb364b00f6f3f4349d841813a1057a8af2f20"
+        },
+        {
+          "path": "eskdf.d.ts",
+          "bytes": 3729,
+          "sha256": "d5f8b356eb63754539034e40c22ef45e58af9eb51e121ed7ef1c757eb47f7fe7"
+        },
+        {
+          "path": "eskdf.js",
+          "bytes": 9911,
+          "sha256": "7ded32d320b0d1d71c59a4a3b493722a13c9c6a66de83f19f8a382b29af7a2f6"
+        },
+        {
+          "path": "hkdf.d.ts",
+          "bytes": 3557,
+          "sha256": "b31b80e958e55dcff73eebfed1061ab4a49ef5cadc2fca1cf0999e1dd06f2786"
+        },
+        {
+          "path": "hkdf.js",
+          "bytes": 7019,
+          "sha256": "ccb942a8008f974018965eeb1e33b8f4739bf767c6f95f2ceb06f5873a302f67"
+        },
+        {
+          "path": "hmac.d.ts",
+          "bytes": 1662,
+          "sha256": "e98501df98e30aadc27a2fac0c725b7755bb297ed8f722b4d9edbad0a52eabce"
+        },
+        {
+          "path": "hmac.js",
+          "bytes": 3118,
+          "sha256": "fec9f8f3aeda785ea2de91cc4c059d54ef98196261c026c43f48341007ae52c9"
+        },
+        {
+          "path": "index.d.ts",
+          "bytes": 11,
+          "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+        },
+        {
+          "path": "index.js",
+          "bytes": 1133,
+          "sha256": "b0d908a44e09a1b7c27a43d7b9036a6147a7a32db758bb64d9a668ea5c72d1af"
+        },
+        {
+          "path": "legacy.d.ts",
+          "bytes": 3661,
+          "sha256": "efea3066bab29b907291bb209c8e0ebf33aa7c7de7e284debdf70800ef0c7cfa"
+        },
+        {
+          "path": "legacy.js",
+          "bytes": 12613,
+          "sha256": "690553a41af2fdd1e32ff6b534ba8508e95f1861c09c2d62fe762b6b501e09be"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 1109,
+          "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+        },
+        {
+          "path": "package.json",
+          "bytes": 2583,
+          "sha256": "3e361734f5269de162fa362483d7f45dee7efb533ec217157945338f7591baaf"
+        },
+        {
+          "path": "pbkdf2.d.ts",
+          "bytes": 3062,
+          "sha256": "5e992532a48c56c72d23a01491702f259637fe7d14bb13cea7ce731d74aea9d2"
+        },
+        {
+          "path": "pbkdf2.js",
+          "bytes": 7644,
+          "sha256": "62b75b5465a89af052a80bdebe7e0383ba01648b12f64877ce285a2e9896c713"
+        },
+        {
+          "path": "README.md",
+          "bytes": 19021,
+          "sha256": "668a613b90e2d867df4f8d610566e4a874d6e33f799d9770714a26702c6d7dd0"
+        },
+        {
+          "path": "scrypt.d.ts",
+          "bytes": 3852,
+          "sha256": "f3b2a890f8b6564a0f4c8fd3dc80f443501cdd8f4dd18760d472773923329902"
+        },
+        {
+          "path": "scrypt.js",
+          "bytes": 13621,
+          "sha256": "a38a020620776fa5c57c00f151bdc1033c192827c9d841996daaf29122ea82c1"
+        },
+        {
+          "path": "sha2.d.ts",
+          "bytes": 5974,
+          "sha256": "5b1c09cb23f0c1e7018d31d28f4eec2b18eec6454f07c0f69ff2eb3c8decdb21"
+        },
+        {
+          "path": "sha2.js",
+          "bytes": 18997,
+          "sha256": "471746bba6ec4c6238ca41358d1d3b40b6ff31cf3363f0b4d550c649c1a8e83b"
+        },
+        {
+          "path": "sha3-addons.d.ts",
+          "bytes": 19527,
+          "sha256": "2d838c7d9eaa1e89d8cc45e894ef92cdf7db60bf9bd2eb04b89e2570510fcf47"
+        },
+        {
+          "path": "sha3-addons.js",
+          "bytes": 38268,
+          "sha256": "e979866a213955afba24c105966bc42afa5d1377d77fe1017dea29a958fddcb7"
+        },
+        {
+          "path": "sha3.d.ts",
+          "bytes": 6466,
+          "sha256": "6f8d601930e11339441fffbaec65a66c76d62c5c62b91c49230d64e75fa6457a"
+        },
+        {
+          "path": "sha3.js",
+          "bytes": 17469,
+          "sha256": "9a81e1edb24eae27b335533220167609cfb58008c5690e140ce478acdc669f32"
+        },
+        {
+          "path": "src/_blake.ts",
+          "bytes": 3001,
+          "sha256": "9eda40c7520d7ccaabf7accca24225ba6bac9ca7b1b7486fc960e15870af1f97"
+        },
+        {
+          "path": "src/_md.ts",
+          "bytes": 9933,
+          "sha256": "d469c5ca7f638b0ec14df23acd9e631f7f04592bfb8cdd7a13918f178ebeb19d"
+        },
+        {
+          "path": "src/_u64.ts",
+          "bytes": 5799,
+          "sha256": "3dd3e0a061dfedf2fd3a0c622e746b2927c141dcde8045e5f7cbc5df0b758a74"
+        },
+        {
+          "path": "src/argon2.ts",
+          "bytes": 26777,
+          "sha256": "6672b2cca5a86f7b3d9c9de75d2d12bf4fea8711fa7f43dcf185d8033839795d"
+        },
+        {
+          "path": "src/blake1.ts",
+          "bytes": 26178,
+          "sha256": "a4864dcddbfe4e03df638463339d953aca3cb0995ae0b498d1dd3ecc7d50bdb7"
+        },
+        {
+          "path": "src/blake2.ts",
+          "bytes": 24114,
+          "sha256": "edee1cce752a6e86cea251f11282adb34b5bb8e20e023d317849bbc2920a38ad"
+        },
+        {
+          "path": "src/blake3.ts",
+          "bytes": 12764,
+          "sha256": "7d7f9432a069cdb05516549091344d525a2762ea698993f5e05f7180ed3aa873"
+        },
+        {
+          "path": "src/eskdf.ts",
+          "bytes": 11076,
+          "sha256": "fc953318a9f6cc95eced18543f29022a2a1da81795aa63622299180ce37de579"
+        },
+        {
+          "path": "src/hkdf.ts",
+          "bytes": 7193,
+          "sha256": "0f145497126d9943373c6830d8c67f91f177bf9827bc18e99149909315186423"
+        },
+        {
+          "path": "src/hmac.ts",
+          "bytes": 4200,
+          "sha256": "74a1ac9f74e3cb97076665c6deada914c3b8e3d645fc65e7e64b71b6d43728fe"
+        },
+        {
+          "path": "src/index.ts",
+          "bytes": 1122,
+          "sha256": "9f2034ab7b5c452fd7b2b9df6ec7ef0266830cd11f05908e9f5e862993a19c30"
+        },
+        {
+          "path": "src/legacy.ts",
+          "bytes": 12512,
+          "sha256": "2bacb7fed94e9d0c33d98313bf764989d9d9c23c2fa13d8f7f5ad5a4fea4751f"
+        },
+        {
+          "path": "src/pbkdf2.ts",
+          "bytes": 8260,
+          "sha256": "1a6230a1c1b18a090601667b28b32b2b7843dfb80539bd33d9be5bb3d20d23ca"
+        },
+        {
+          "path": "src/scrypt.ts",
+          "bytes": 14813,
+          "sha256": "5f03c5bef264a42f413d199bbee69918f6ca8828be8f2e9f710143043b662b80"
+        },
+        {
+          "path": "src/sha2.ts",
+          "bytes": 19175,
+          "sha256": "27447d36015d30a97dbe68a08978af65094208ba6f093d9197785105d95c20bc"
+        },
+        {
+          "path": "src/sha3-addons.ts",
+          "bytes": 42765,
+          "sha256": "8f0ed953b9194fa0b0f6164ab02d33ee78f491fc2b264876a3e4080522bc55ce"
+        },
+        {
+          "path": "src/sha3.ts",
+          "bytes": 17915,
+          "sha256": "a4a94b8b6755466a6972a3ab7816ec8cb2cabc013c1f4107dd09f235b4815415"
+        },
+        {
+          "path": "src/utils.ts",
+          "bytes": 35685,
+          "sha256": "df2e7c132fb6c451c792dd32dc8a7643de449bcb7782f50fd23664696fbc5962"
+        },
+        {
+          "path": "src/webcrypto.ts",
+          "bytes": 10882,
+          "sha256": "799203593e71f7658d2a6aa7863ac082eee1b725024630e300669c7770378628"
+        },
+        {
+          "path": "utils.d.ts",
+          "bytes": 22567,
+          "sha256": "cfccade8c719b698bd8b0313ff996941f5d5a384654ec2886d9141224f6db439"
+        },
+        {
+          "path": "utils.js",
+          "bytes": 26035,
+          "sha256": "037ad49adb78168b6b699598fd33f85f7877456b1d28b4d032e2a1a16807947c"
+        },
+        {
+          "path": "webcrypto.d.ts",
+          "bytes": 5243,
+          "sha256": "e56b2ea68f6b6b21e14ed99b2520bc754ac900c178d23fe7d6d451ae2a7d12c8"
+        },
+        {
+          "path": "webcrypto.js",
+          "bytes": 9633,
+          "sha256": "83f476a634233b999ce6e6cd67dc03e64f07b8d5a826e67ad4a50c940d9ce7ee"
+        }
+      ]
+    },
+    {
+      "name": "esbuild",
+      "version": "0.25.12",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.25.12.tgz",
+      "integrity": "sha512-bbPBYYrtZbkt6Os6FiTLCTFxvq4tt3JKall1vRwshA3fdVztsLAatFaZobhkBC8/BrPetoa0oksYoKXoG4ryJg==",
+      "files": [
+        {
+          "path": "bin/esbuild",
+          "bytes": 9351,
+          "sha256": "3d1037d9a128440856daec17f4358ebb465b73823858a88a5fe1ce702cc17944"
+        },
+        {
+          "path": "install.js",
+          "bytes": 11160,
+          "sha256": "10f6fa3644d8d23d066ff67b0ae449074e75884503546a9fedb667f1dcb9ade2"
+        },
+        {
+          "path": "lib/main.d.ts",
+          "bytes": 23392,
+          "sha256": "161c8e0690c46021506e32fda85956d785b70f309ae97011fd27374c065cac9b"
+        },
+        {
+          "path": "lib/main.js",
+          "bytes": 88706,
+          "sha256": "0d1241812c443111d39475dfc66836003e9ef8b87e54d990dd67df29d20010e1"
+        },
+        {
+          "path": "LICENSE.md",
+          "bytes": 1069,
+          "sha256": "b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681"
+        },
+        {
+          "path": "package.json",
+          "bytes": 1490,
+          "sha256": "cb7d5b1fe478f8cbaae566a86031b6fdf5f7d444354f35d1cb3cba9adf6d2935"
+        },
+        {
+          "path": "README.md",
+          "bytes": 175,
+          "sha256": "6d481cd60ec3c679e5e395f547ab4221147f35642894f6b95a8df38fd25c87bd"
+        }
+      ]
+    },
+    {
+      "name": "@esbuild/darwin-arm64",
+      "version": "0.25.12",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.25.12.tgz",
+      "integrity": "sha512-N3zl+lxHCifgIlcMUP5016ESkeQjLj/959RxxNYIthIg+CQHInujFuXeWbWMgnTo4cp5XVHqFPmpyu9J65C1Yg==",
+      "files": [
+        {
+          "path": "bin/esbuild",
+          "bytes": 9934834,
+          "sha256": "3e030ee2aa86ad3c33e5e95ae0e53bb03de40e0da35c9b1180a67de4a497cae5"
+        },
+        {
+          "path": "package.json",
+          "bytes": 383,
+          "sha256": "79a69873b3ae6dbc47d8c3c8027b9563630f65e8fe58690183c5398a52410e7f"
+        },
+        {
+          "path": "README.md",
+          "bytes": 145,
+          "sha256": "ee16cb15a2211accccb38f378786bfe48bc5dcfae5db554352424cd710470efa"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,510 @@
+{
+  "version": "ad5adf849240e21b",
+  "outputs": {
+    "dist/hkdf-43OZF45J.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-V4ZX6JLF.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "expand",
+        "extract",
+        "hkdf"
+      ],
+      "entryPoint": "node_modules/@noble/hashes/hkdf.js",
+      "inputs": {
+        "node_modules/@noble/hashes/hkdf.js": {
+          "bytesInOutput": 1055
+        }
+      },
+      "bytes": 1228
+    },
+    "dist/browser.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-VZFWZ435.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/argon2-CJ3BWWJF.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "dist/scrypt-RDWPNCGI.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "dist/hkdf-43OZF45J.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "dist/pbkdf2-EFEHAFII.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "dist/sha2-66G54NND.js",
+          "kind": "dynamic-import"
+        }
+      ],
+      "exports": [],
+      "entryPoint": "browser.mjs",
+      "inputs": {
+        "experiment.mjs": {
+          "bytesInOutput": 3157
+        },
+        "vectors.mjs": {
+          "bytesInOutput": 10989
+        },
+        "browser.mjs": {
+          "bytesInOutput": 2788
+        }
+      },
+      "bytes": 17046
+    },
+    "dist/worker.js": {
+      "imports": [
+        {
+          "path": "node:worker_threads",
+          "kind": "dynamic-import",
+          "external": true
+        },
+        {
+          "path": "dist/core-XLLEV3AC.js",
+          "kind": "dynamic-import"
+        }
+      ],
+      "exports": [],
+      "entryPoint": "worker.mjs",
+      "inputs": {
+        "worker.mjs": {
+          "bytesInOutput": 1236
+        }
+      },
+      "bytes": 1237
+    },
+    "dist/libsodium-wrappers-OH4SK4KS.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "add",
+        "base64_variants",
+        "compare",
+        "default",
+        "from_base64",
+        "from_hex",
+        "from_string",
+        "increment",
+        "is_zero",
+        "libsodium",
+        "memcmp",
+        "memzero",
+        "output_formats",
+        "pad",
+        "ready",
+        "symbols",
+        "to_base64",
+        "to_hex",
+        "to_string",
+        "unpad"
+      ],
+      "entryPoint": "node_modules/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs",
+      "inputs": {
+        "(disabled):crypto": {
+          "bytesInOutput": 18
+        },
+        "node_modules/libsodium-sumo/dist/modules-sumo-esm/libsodium-sumo.mjs": {
+          "bytesInOutput": 413382
+        },
+        "node_modules/libsodium-wrappers-sumo/dist/modules-sumo-esm/libsodium-wrappers.mjs": {
+          "bytesInOutput": 121783
+        }
+      },
+      "bytes": 535527
+    },
+    "dist/pbkdf2-EFEHAFII.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-7HMGQPAW.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-V4ZX6JLF.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "pbkdf2",
+        "pbkdf2Async"
+      ],
+      "entryPoint": "node_modules/@noble/hashes/pbkdf2.js",
+      "inputs": {},
+      "bytes": 159
+    },
+    "dist/sha2-66G54NND.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-JTHHWQGT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-ZQQ6EVOT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "_SHA224",
+        "_SHA256",
+        "_SHA384",
+        "_SHA512",
+        "_SHA512_224",
+        "_SHA512_256",
+        "sha224",
+        "sha256",
+        "sha384",
+        "sha512",
+        "sha512_224",
+        "sha512_256"
+      ],
+      "entryPoint": "node_modules/@noble/hashes/sha2.js",
+      "inputs": {},
+      "bytes": 316
+    },
+    "dist/scrypt-RDWPNCGI.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-7HMGQPAW.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-V4ZX6JLF.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-JTHHWQGT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-ZQQ6EVOT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "scrypt",
+        "scryptAsync"
+      ],
+      "entryPoint": "node_modules/@noble/hashes/scrypt.js",
+      "inputs": {
+        "node_modules/@noble/hashes/scrypt.js": {
+          "bytesInOutput": 3120
+        }
+      },
+      "bytes": 3406
+    },
+    "dist/chunk-7HMGQPAW.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-V4ZX6JLF.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "a",
+        "b"
+      ],
+      "inputs": {
+        "node_modules/@noble/hashes/pbkdf2.js": {
+          "bytesInOutput": 1460
+        }
+      },
+      "bytes": 1605
+    },
+    "dist/chunk-V4ZX6JLF.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "a"
+      ],
+      "inputs": {
+        "node_modules/@noble/hashes/hmac.js": {
+          "bytesInOutput": 1308
+        }
+      },
+      "bytes": 1392
+    },
+    "dist/chunk-JTHHWQGT.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-ZQQ6EVOT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l"
+      ],
+      "inputs": {
+        "node_modules/@noble/hashes/sha2.js": {
+          "bytesInOutput": 6513
+        }
+      },
+      "bytes": 6866
+    },
+    "dist/core-XLLEV3AC.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-VZFWZ435.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "PROFILES",
+        "derive",
+        "passwordBytes",
+        "positions",
+        "sampleWords",
+        "streamBytes",
+        "validateRequest"
+      ],
+      "entryPoint": "core.mjs",
+      "inputs": {},
+      "bytes": 199
+    },
+    "dist/chunk-VZFWZ435.js": {
+      "imports": [
+        {
+          "path": "dist/libsodium-wrappers-OH4SK4KS.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "dist/scrypt-RDWPNCGI.js",
+          "kind": "dynamic-import"
+        }
+      ],
+      "exports": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g"
+      ],
+      "inputs": {
+        "core.mjs": {
+          "bytesInOutput": 4729
+        }
+      },
+      "bytes": 4782
+    },
+    "dist/argon2-CJ3BWWJF.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-ZQQ6EVOT.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "dist/chunk-UJVVLSSD.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "argon2d",
+        "argon2dAsync",
+        "argon2i",
+        "argon2iAsync",
+        "argon2id",
+        "argon2idAsync"
+      ],
+      "entryPoint": "node_modules/@noble/hashes/argon2.js",
+      "inputs": {
+        "node_modules/@noble/hashes/_blake.js": {
+          "bytesInOutput": 634
+        },
+        "node_modules/@noble/hashes/blake2.js": {
+          "bytesInOutput": 5063
+        },
+        "node_modules/@noble/hashes/argon2.js": {
+          "bytesInOutput": 5949
+        }
+      },
+      "bytes": 12034
+    },
+    "dist/chunk-ZQQ6EVOT.js": {
+      "imports": [
+        {
+          "path": "dist/chunk-4OGZXMQK.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y"
+      ],
+      "inputs": {
+        "node_modules/@noble/hashes/_u64.js": {
+          "bytesInOutput": 902
+        },
+        "node_modules/@noble/hashes/_md.js": {
+          "bytesInOutput": 1971
+        }
+      },
+      "bytes": 3113
+    },
+    "dist/chunk-4OGZXMQK.js": {
+      "imports": [],
+      "exports": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t"
+      ],
+      "inputs": {
+        "node_modules/@noble/hashes/utils.js": {
+          "bytesInOutput": 3265
+        }
+      },
+      "bytes": 3414
+    },
+    "dist/chunk-UJVVLSSD.js": {
+      "imports": [],
+      "exports": [
+        "a"
+      ],
+      "inputs": {},
+      "bytes": 78
+    }
+  },
+  "assets": [
+    "./",
+    "./hkdf-43OZF45J.js",
+    "./browser.js",
+    "./worker.js",
+    "./libsodium-wrappers-OH4SK4KS.js",
+    "./pbkdf2-EFEHAFII.js",
+    "./sha2-66G54NND.js",
+    "./scrypt-RDWPNCGI.js",
+    "./chunk-7HMGQPAW.js",
+    "./chunk-V4ZX6JLF.js",
+    "./chunk-JTHHWQGT.js",
+    "./core-XLLEV3AC.js",
+    "./chunk-VZFWZ435.js",
+    "./argon2-CJ3BWWJF.js",
+    "./chunk-ZQQ6EVOT.js",
+    "./chunk-4OGZXMQK.js",
+    "./chunk-UJVVLSSD.js",
+    "./index.html",
+    "./style.css",
+    "./THIRD-PARTY-NOTICES.txt"
+  ]
+}

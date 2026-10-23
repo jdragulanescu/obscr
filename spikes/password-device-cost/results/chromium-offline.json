@@ -1,0 +1,78 @@
+{
+  "report": {
+    "schema": 1,
+    "metadata": {
+      "device": "MacBook Pro Mac15,8; 64 GB; macOS26.6.2; Chrome154.0.8037.57; browser network offline",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+      "hardwareConcurrency": 16,
+      "deviceMemoryGB": 32,
+      "secureContext": true,
+      "crossOriginIsolated": false,
+      "startedAt": "2026-10-23T19:54:27.017Z"
+    },
+    "probe": [
+      {
+        "profileId": "a64t2",
+        "case": "small",
+        "repeat": 0,
+        "mode": "cold",
+        "type": "complete",
+        "samplerMs": 2.200000286102295,
+        "draws": 4096,
+        "rejections": 0,
+        "peakEntries": 4089,
+        "streamBufferBytes": 8192,
+        "positionBytes": 16384,
+        "workerSampledPeak": null,
+        "keyMs": 81.5,
+        "receivedMs": 4.300000190734863,
+        "totalMs": 83.80000019073486,
+        "allocationMs": 0.40000009536743164,
+        "mainSourceBytes": 3145728,
+        "workerPixelsBytes": 3145728,
+        "baselineMemory": {
+          "mainHeapUsed": 10332055,
+          "mainHeapTotal": 10848387
+        },
+        "sampledPeakMemory": {
+          "mainHeapUsed": 10332055,
+          "mainHeapTotal": 10848387
+        },
+        "maxHeartbeatGapMs": 11.299999713897705,
+        "withinTarget": true
+      },
+      {
+        "profileId": "a64t2",
+        "case": "small",
+        "repeat": 0,
+        "mode": "warm",
+        "type": "complete",
+        "samplerMs": 1.1999998092651367,
+        "draws": 4096,
+        "rejections": 0,
+        "peakEntries": 4089,
+        "streamBufferBytes": 8192,
+        "positionBytes": 16384,
+        "workerSampledPeak": null,
+        "keyMs": 63.40000009536743,
+        "receivedMs": 0.09999990463256836,
+        "totalMs": 64.59999990463257,
+        "allocationMs": 0.40000009536743164,
+        "mainSourceBytes": 3145728,
+        "workerPixelsBytes": 3145728,
+        "baselineMemory": {
+          "mainHeapUsed": 10332055,
+          "mainHeapTotal": 10848387
+        },
+        "sampledPeakMemory": {
+          "mainHeapUsed": 10332055,
+          "mainHeapTotal": 10848387
+        },
+        "maxHeartbeatGapMs": 11.199999809265137,
+        "withinTarget": true
+      }
+    ]
+  },
+  "serviceWorkerControlled": true,
+  "online": false
+}
