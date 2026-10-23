@@ -1,0 +1,69 @@
+{
+  "tool": "managed Chromium via browser helpers",
+  "url": "http://127.0.0.1:5198/@fs/Users/skylight/workspaces/worktrees/obscr/filler-free-repair/spikes/filler-free-repair/browser.html",
+  "repairVectors": {
+    "vectors": 18,
+    "matching": true,
+    "withinRadius": true,
+    "boundaries": 216,
+    "observedMiscorrections": 18,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+  },
+  "console": [],
+  "errors": [],
+  "failedRequests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5198/favicon.ico",
+      "status": 404
+    }
+  ],
+  "observations": [
+    {
+      "step": "CLI to browser",
+      "outcome": "exact-ready",
+      "message": "CLI to browser: café 日本語 🔒",
+      "elapsedMs": 38.59999990463257,
+      "heap": 4126570
+    },
+    {
+      "step": "Browser encode",
+      "outcome": "encoded",
+      "storedBytes": 36,
+      "payloadCodedBytes": 116,
+      "totalCodedBytes": 296,
+      "elapsedMs": 36.30000019073486,
+      "heap": 4941669
+    },
+    {
+      "step": "Browser to CLI",
+      "outcome": "exact-ready",
+      "message": "Browser to CLI: café 日本語 🔒",
+      "elapsedMs": 22.423834,
+      "peakRssBytes": 65306624
+    },
+    {
+      "step": "Browser RGB replacement",
+      "selectedPixels": 655,
+      "seed": 2801,
+      "outcome": "exact-ready",
+      "message": "Browser to CLI: café 日本語 🔒",
+      "elapsedMs": 22.59999990463257,
+      "heap": 5701119
+    },
+    {
+      "step": "Browser wrong password",
+      "outcome": "safe-failure",
+      "message": null,
+      "elapsedMs": 23.899999618530273,
+      "heap": 6144665
+    }
+  ],
+  "screenshots": [
+    "/var/folders/y8/gg0_s4gd53v5msnxvcp240cm0000gn/T/omp-sshots-15b1e30c04d7e970.webp",
+    "/var/folders/y8/gg0_s4gd53v5msnxvcp240cm0000gn/T/omp-sshots-15b1e313b357e971.webp",
+    "/var/folders/y8/gg0_s4gd53v5msnxvcp240cm0000gn/T/omp-sshots-15b1e3223a97e972.webp",
+    "/var/folders/y8/gg0_s4gd53v5msnxvcp240cm0000gn/T/omp-sshots-15b1e3227bd7e973.webp"
+  ],
+  "limit": "Heap samples are not whole-browser peak memory; timings were under concurrent experiment load. No phone evidence."
+}
