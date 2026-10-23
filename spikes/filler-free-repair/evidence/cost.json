@@ -1,0 +1,353 @@
+{
+  "node": "v24.13.0",
+  "dimensions": [
+    512,
+    512
+  ],
+  "payloadBytes": 2048,
+  "rows": [
+    {
+      "profile": "grouped-p16",
+      "mode": "cold-process-decode",
+      "repeat": 0,
+      "wallMs": 82.286417,
+      "operationMs": 39.51279199999999,
+      "peakRssBytes": 71122944,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p16",
+      "mode": "cold-process-decode",
+      "repeat": 1,
+      "wallMs": 81.71362499999998,
+      "operationMs": 39.268249999999995,
+      "peakRssBytes": 71319552,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p16",
+      "mode": "cold-process-decode",
+      "repeat": 2,
+      "wallMs": 83.01887500000004,
+      "operationMs": 39.731375,
+      "peakRssBytes": 71385088,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p16",
+      "mode": "warm-encode-decode",
+      "repeat": 0,
+      "encodeMs": 14.927249999999958,
+      "decodeMs": 13.01925,
+      "processPeakRssBytes": 143540224,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p16",
+      "mode": "warm-encode-decode",
+      "repeat": 1,
+      "encodeMs": 14.526792000000057,
+      "decodeMs": 11.960249999999974,
+      "processPeakRssBytes": 147374080,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p16",
+      "mode": "warm-encode-decode",
+      "repeat": 2,
+      "encodeMs": 14.013541000000032,
+      "decodeMs": 11.376750000000015,
+      "processPeakRssBytes": 147718144,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p16",
+      "mode": "cold-process-decode",
+      "repeat": 0,
+      "wallMs": 89.89974999999993,
+      "operationMs": 46.931458,
+      "peakRssBytes": 75284480,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p16",
+      "mode": "cold-process-decode",
+      "repeat": 1,
+      "wallMs": 87.96325000000002,
+      "operationMs": 45.95325,
+      "peakRssBytes": 74858496,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p16",
+      "mode": "cold-process-decode",
+      "repeat": 2,
+      "wallMs": 89.59058400000004,
+      "operationMs": 46.178166999999995,
+      "peakRssBytes": 74579968,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p16",
+      "mode": "warm-encode-decode",
+      "repeat": 0,
+      "encodeMs": 18.71179200000006,
+      "decodeMs": 15.394374999999968,
+      "processPeakRssBytes": 150667264,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p16",
+      "mode": "warm-encode-decode",
+      "repeat": 1,
+      "encodeMs": 17.545792000000006,
+      "decodeMs": 19.894916999999964,
+      "processPeakRssBytes": 163135488,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p16",
+      "mode": "warm-encode-decode",
+      "repeat": 2,
+      "encodeMs": 26.396375000000035,
+      "decodeMs": 17.409332999999947,
+      "processPeakRssBytes": 185106432,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p32",
+      "mode": "cold-process-decode",
+      "repeat": 0,
+      "wallMs": 90.96454200000016,
+      "operationMs": 44.527792000000005,
+      "peakRssBytes": 70959104,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p32",
+      "mode": "cold-process-decode",
+      "repeat": 1,
+      "wallMs": 92.9922919999999,
+      "operationMs": 43.868375,
+      "peakRssBytes": 71467008,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p32",
+      "mode": "cold-process-decode",
+      "repeat": 2,
+      "wallMs": 92.44749999999999,
+      "operationMs": 44.37050000000001,
+      "peakRssBytes": 71401472,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p32",
+      "mode": "warm-encode-decode",
+      "repeat": 0,
+      "encodeMs": 16.61758400000008,
+      "decodeMs": 14.347500000000082,
+      "processPeakRssBytes": 189759488,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p32",
+      "mode": "warm-encode-decode",
+      "repeat": 1,
+      "encodeMs": 15.693624999999884,
+      "decodeMs": 13.441625000000158,
+      "processPeakRssBytes": 189841408,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p32",
+      "mode": "warm-encode-decode",
+      "repeat": 2,
+      "encodeMs": 16.64783299999999,
+      "decodeMs": 13.146708999999873,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p32",
+      "mode": "cold-process-decode",
+      "repeat": 0,
+      "wallMs": 98.05383399999982,
+      "operationMs": 52.3315,
+      "peakRssBytes": 74612736,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p32",
+      "mode": "cold-process-decode",
+      "repeat": 1,
+      "wallMs": 95.88966699999992,
+      "operationMs": 51.429334000000004,
+      "peakRssBytes": 75104256,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p32",
+      "mode": "cold-process-decode",
+      "repeat": 2,
+      "wallMs": 91.86004200000002,
+      "operationMs": 46.58991699999999,
+      "peakRssBytes": 75235328,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p32",
+      "mode": "warm-encode-decode",
+      "repeat": 0,
+      "encodeMs": 17.62816699999985,
+      "decodeMs": 15.295665999999983,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p32",
+      "mode": "warm-encode-decode",
+      "repeat": 1,
+      "encodeMs": 20.394665999999916,
+      "decodeMs": 16.710542000000032,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p32",
+      "mode": "warm-encode-decode",
+      "repeat": 2,
+      "encodeMs": 18.91512499999999,
+      "decodeMs": 17.104500000000144,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p64",
+      "mode": "cold-process-decode",
+      "repeat": 0,
+      "wallMs": 91.87637500000005,
+      "operationMs": 45.029375,
+      "peakRssBytes": 70860800,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p64",
+      "mode": "cold-process-decode",
+      "repeat": 1,
+      "wallMs": 86.98929199999998,
+      "operationMs": 42.7425,
+      "peakRssBytes": 71467008,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p64",
+      "mode": "cold-process-decode",
+      "repeat": 2,
+      "wallMs": 87.96387500000037,
+      "operationMs": 44.412541000000004,
+      "peakRssBytes": 71614464,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "grouped-p64",
+      "mode": "warm-encode-decode",
+      "repeat": 0,
+      "encodeMs": 14.972333000000162,
+      "decodeMs": 13.621291999999812,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p64",
+      "mode": "warm-encode-decode",
+      "repeat": 1,
+      "encodeMs": 14.9197079999999,
+      "decodeMs": 13.318917000000056,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "grouped-p64",
+      "mode": "warm-encode-decode",
+      "repeat": 2,
+      "encodeMs": 15.125957999999628,
+      "decodeMs": 13.892709000000195,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p64",
+      "mode": "cold-process-decode",
+      "repeat": 0,
+      "wallMs": 92.40062499999976,
+      "operationMs": 48.393874999999994,
+      "peakRssBytes": 74776576,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p64",
+      "mode": "cold-process-decode",
+      "repeat": 1,
+      "wallMs": 96.19812499999989,
+      "operationMs": 51.31633300000001,
+      "peakRssBytes": 74448896,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p64",
+      "mode": "cold-process-decode",
+      "repeat": 2,
+      "wallMs": 100.81016600000021,
+      "operationMs": 53.614208,
+      "peakRssBytes": 74727424,
+      "outcome": "exact-ready"
+    },
+    {
+      "profile": "scattered-p64",
+      "mode": "warm-encode-decode",
+      "repeat": 0,
+      "encodeMs": 19.459707999999864,
+      "decodeMs": 18.648541999999907,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p64",
+      "mode": "warm-encode-decode",
+      "repeat": 1,
+      "encodeMs": 20.28420799999958,
+      "decodeMs": 18.54850000000033,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "profile": "scattered-p64",
+      "mode": "warm-encode-decode",
+      "repeat": 2,
+      "encodeMs": 19.956666999999925,
+      "decodeMs": 17.337125000000015,
+      "processPeakRssBytes": 196952064,
+      "outcome": "exact-ready",
+      "exact": true
+    }
+  ],
+  "scope": "One M3 Max desktop; cold-process timings include module/PNG startup. Memory is process peak RSS, not isolated codec allocation. No phone or production-profile claim."
+}

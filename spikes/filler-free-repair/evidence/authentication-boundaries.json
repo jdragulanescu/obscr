@@ -1,0 +1,338 @@
+[
+  {
+    "profile": "grouped-p16",
+    "case": "valid-repair-code-but-modified-ciphertext",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "valid-repair-code-but-modified-authenticated-metadata",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "shortened-authentication-tag-with-valid-repair-codes",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "valid-repair-code-with-excessive-length",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "invalid-password-bytes",
+    "codeUnits": 0,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "invalid-password-bytes",
+    "codeUnits": 1,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "invalid-password-bytes",
+    "codeUnits": 513,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "max-plaintext-compressed",
+    "storedBytes": 1052,
+    "exact": true
+  },
+  {
+    "profile": "grouped-p16",
+    "case": "over-plaintext-limit",
+    "rejected": true
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "valid-repair-code-but-modified-ciphertext",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "valid-repair-code-but-modified-authenticated-metadata",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "shortened-authentication-tag-with-valid-repair-codes",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "valid-repair-code-with-excessive-length",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "invalid-password-bytes",
+    "codeUnits": 0,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "invalid-password-bytes",
+    "codeUnits": 1,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "invalid-password-bytes",
+    "codeUnits": 513,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "max-plaintext-compressed",
+    "storedBytes": 1052,
+    "exact": true
+  },
+  {
+    "profile": "scattered-p16",
+    "case": "over-plaintext-limit",
+    "rejected": true
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "valid-repair-code-but-modified-ciphertext",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "valid-repair-code-but-modified-authenticated-metadata",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "shortened-authentication-tag-with-valid-repair-codes",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "valid-repair-code-with-excessive-length",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "invalid-password-bytes",
+    "codeUnits": 0,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "invalid-password-bytes",
+    "codeUnits": 1,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "invalid-password-bytes",
+    "codeUnits": 513,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "max-plaintext-compressed",
+    "storedBytes": 1052,
+    "exact": true
+  },
+  {
+    "profile": "grouped-p32",
+    "case": "over-plaintext-limit",
+    "rejected": true
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "valid-repair-code-but-modified-ciphertext",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "valid-repair-code-but-modified-authenticated-metadata",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "shortened-authentication-tag-with-valid-repair-codes",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "valid-repair-code-with-excessive-length",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "invalid-password-bytes",
+    "codeUnits": 0,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "invalid-password-bytes",
+    "codeUnits": 1,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "invalid-password-bytes",
+    "codeUnits": 513,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "max-plaintext-compressed",
+    "storedBytes": 1052,
+    "exact": true
+  },
+  {
+    "profile": "scattered-p32",
+    "case": "over-plaintext-limit",
+    "rejected": true
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "valid-repair-code-but-modified-ciphertext",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "valid-repair-code-but-modified-authenticated-metadata",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "shortened-authentication-tag-with-valid-repair-codes",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "valid-repair-code-with-excessive-length",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "invalid-password-bytes",
+    "codeUnits": 0,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "invalid-password-bytes",
+    "codeUnits": 1,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "invalid-password-bytes",
+    "codeUnits": 513,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "max-plaintext-compressed",
+    "storedBytes": 1052,
+    "exact": true
+  },
+  {
+    "profile": "grouped-p64",
+    "case": "over-plaintext-limit",
+    "rejected": true
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "valid-repair-code-but-modified-ciphertext",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "valid-repair-code-but-modified-authenticated-metadata",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "shortened-authentication-tag-with-valid-repair-codes",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "valid-repair-code-with-excessive-length",
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "invalid-password-bytes",
+    "codeUnits": 0,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "invalid-password-bytes",
+    "codeUnits": 1,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "invalid-password-bytes",
+    "codeUnits": 513,
+    "outcome": "safe-failure",
+    "plaintextReleased": false
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "max-plaintext-compressed",
+    "storedBytes": 1052,
+    "exact": true
+  },
+  {
+    "profile": "scattered-p64",
+    "case": "over-plaintext-limit",
+    "rejected": true
+  }
+]

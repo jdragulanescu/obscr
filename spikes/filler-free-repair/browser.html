@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- Disposable experiment: https://github.com/jdragulanescu/obscr/issues/28.
+Controls load a PNG, encode synthetic text, decode, damage, or use a wrong password. -->
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Filler-free repair experiment</title>
+<style>body{font:16px system-ui;max-width:850px;margin:36px auto;padding:0 24px;line-height:1.5}button,input,select,textarea{font:inherit;margin:6px 0;padding:8px}button{margin-right:8px}textarea{display:block;width:95%;height:80px}canvas{max-width:320px;image-rendering:auto}pre{white-space:pre-wrap;background:#eee;color:#222;padding:16px}label{display:block}</style>
+<h1>Filler-free repair experiment</h1><p>Can the exact authenticated message survive pixel damage without an easy public presence test? This is a disposable experiment, not a supported Obscr format. Synthetic passwords only.</p>
+<label>PNG file <input id="file" type="file" accept="image/png"></label>
+<label>Repair profile <select id="profile"></select></label>
+<label>Message <textarea id="message">Browser to CLI: café 日本語 🔒</textarea></label>
+<label>Password <input id="password" size="55"></label>
+<label><input id="compressed" type="checkbox"> Compress message before encryption</label>
+<div><button id="load">Load CLI example</button><button id="encode">Encode message</button><button id="decode">Decode message</button><button id="damage">Change RGB at 1% of pixels</button><button id="wrong">Try wrong password</button></div>
+<a id="download" hidden download="browser-encoded.png">Save browser PNG</a>
+<h2>Current state</h2><pre id="state">No image loaded.</pre><canvas id="canvas"></canvas>
+<h2>Guided checks</h2><ol><li>Load CLI example, then Decode message: exact authenticated text.</li><li>Encode message, save the PNG and decode it with the spike CLI.</li><li>Change RGB at 1% of pixels, then decode: exact text or explicit failure, never partial text.</li><li>Try wrong password: safe failure with no plaintext.</li></ol>
+<script type="module">
+import {profiles,PASSWORD,encode,decode} from './codec.mjs';
+const $=id=>document.getElementById(id), canvas=$('canvas'), ctx=canvas.getContext('2d',{willReadFrequently:true});
+for(const p of profiles) $('profile').add(new Option(p.name,p.name)); $('profile').value='grouped-p64'; $('password').value=PASSWORD;
+let image=null,last=null; window.observations=[];
+function show(state){last=state;$('state').textContent=JSON.stringify(state,null,2);window.observations.push(state)}
+function draw(){canvas.width=image.width;canvas.height=image.height;const frame=ctx.createImageData(image.width,image.height);for(let p=0;p<image.width*image.height;p++){frame.data.set(image.rgb.subarray(p*3,p*3+3),p*4);frame.data[p*4+3]=255}ctx.putImageData(frame,0,0);$('download').href=canvas.toDataURL('image/png');$('download').hidden=false}
+async function load(blob){const bitmap=await createImageBitmap(blob);if(bitmap.width>1024||bitmap.height>1024)throw Error('Image bound exceeded');canvas.width=bitmap.width;canvas.height=bitmap.height;ctx.drawImage(bitmap,0,0);const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;const rgb=new Uint8Array(canvas.width*canvas.height*3);for(let p=0;p<canvas.width*canvas.height;p++)rgb.set(data.subarray(p*4,p*4+3),p*3);image={rgb,width:canvas.width,height:canvas.height};bitmap.close();show({outcome:'loaded',width:image.width,height:image.height});draw()}
+async function act(fn){try{await fn()}catch(error){show({outcome:'safe-failure',reason:String(error)})}}
+$('file').onchange=()=>act(()=>load($('file').files[0]));
+$('load').onclick=()=>act(async()=>{const r=await fetch('./evidence/cli-encoded.png');if(!r.ok)throw Error('Run CLI exchange preparation first');await load(await r.blob())});
+$('encode').onclick=()=>act(async()=>{if(!image)throw Error('Load a PNG first');const t=performance.now();const result=await encode(image.rgb,image.width,image.height,new TextEncoder().encode($('message').value),profiles.find(p=>p.name===$('profile').value),{compressed:$('compressed').checked,seed:'browser-exchange-synthetic'});image.rgb=result.rgb;draw();show({outcome:'encoded',elapsedMs:performance.now()-t,storedBytes:result.storedBytes,codedBytes:result.codedBytes,heap:performance.memory?.usedJSHeapSize??null})});
+async function recover(password){if(!image)throw Error('Load a PNG first');const t=performance.now();const result=await decode(image.rgb,image.width,image.height,profiles.find(p=>p.name===$('profile').value),password);show({outcome:result.outcome,message:result.message?new TextDecoder('utf-8',{fatal:true}).decode(result.message):null,reason:result.reason??null,elapsedMs:performance.now()-t,heap:performance.memory?.usedJSHeapSize??null})}
+$('decode').onclick=()=>act(()=>recover($('password').value));$('wrong').onclick=()=>act(()=>recover('wrong synthetic password'));
+$('damage').onclick=()=>act(async()=>{if(!image)throw Error('Load a PNG first');let x=2801;const rand=n=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return Math.floor(x/4294967296*n)};const pool=new Map(),pixels=image.width*image.height,count=Math.floor(pixels*.01);for(let left=pixels,i=0;i<count;i++,left--){const j=rand(left),p=pool.get(j)??j;pool.set(j,pool.get(left-1)??left-1);pool.delete(left-1);for(let c=0;c<3;c++)image.rgb[p*3+c]=rand(256)}draw();show({outcome:'damaged',selectedPixels:count,seed:2801})});
+window.exportPng=()=>canvas.toDataURL('image/png');window.currentState=()=>last;
+</script></html>

@@ -1,0 +1,3 @@
+# These PNGs are primary experiment inputs and outputs, not test scratch files.
+!photos/*.png
+!evidence/*.png

@@ -1,0 +1,272 @@
+[
+  {
+    "profile": "grouped-p16",
+    "plaintextExact": true,
+    "positionMatches": true,
+    "streamBytesConsumed": 18000,
+    "crosses65536ByteChunk": false,
+    "rejections": 0,
+    "salt": "1273d2a1fb6d0cc12ae170bed885f491",
+    "root": "2320f5edbed4d30bec91ec12e69dc84589debbf62a95f1ec642f074a1b8f7687",
+    "encryptionKey": "8606919c1bf862e7434e6219a2daa3bd66b4a66ac9a64d3f83261531a298559b",
+    "placementKey": "5efea12755a42fa3665c75e2f7217c7d48fc2e3ce657ad3ace5a0cf6a6c306d3",
+    "streamPrefix": "d369c7657697b3fb252151e93e08005553bb7af77d4f3c0967e1cb479cffa83317d00229fcb4ba08cdc274f3d89cb8c2d4a296e1b23a901d12893954add13077",
+    "firstPositions": [
+      [
+        3240,
+        3241,
+        3242,
+        3243,
+        3244,
+        3245,
+        3246,
+        3247
+      ],
+      [
+        87600,
+        87601,
+        87602,
+        87603,
+        87604,
+        87605,
+        87606,
+        87607
+      ],
+      [
+        177296,
+        177297,
+        177298,
+        177299,
+        177300,
+        177301,
+        177302,
+        177303
+      ]
+    ]
+  },
+  {
+    "profile": "scattered-p16",
+    "plaintextExact": true,
+    "positionMatches": true,
+    "streamBytesConsumed": 144004,
+    "crosses65536ByteChunk": true,
+    "rejections": 1,
+    "salt": "ceed0b96e3cec58ae0dc98f8c6c43969",
+    "root": "6deeda0863e6a87272782465c8393936ee5308c7d2e09194d70835b5acb3dcd0",
+    "encryptionKey": "a16e783d46258bf51e3dc04db552a8223dadd0dd7f2b9e41daa5405e6d29bb80",
+    "placementKey": "4919dad8a216c22c2f21513b53d9dc5144f4e4ebc24b2e7b397d4d13025ec45e",
+    "streamPrefix": "54baa75622cedeb12d9cbee2f722d92f3b374dd93e422284febe2aec7a20243bfbdc03b60d5316e01799beaf3d33bdcbb9c82556fb219d9953c778dec28c738c",
+    "firstPositions": [
+      [
+        142636,
+        180077,
+        50813,
+        87063,
+        2035,
+        104582,
+        68936,
+        73051
+      ],
+      [
+        62019,
+        86310,
+        120155,
+        96638,
+        141757,
+        11779,
+        121861,
+        48249
+      ],
+      [
+        60704,
+        48915,
+        176409,
+        166416,
+        159206,
+        190123,
+        3876,
+        50067
+      ]
+    ]
+  },
+  {
+    "profile": "grouped-p32",
+    "plaintextExact": true,
+    "positionMatches": true,
+    "streamBytesConsumed": 19280,
+    "crosses65536ByteChunk": false,
+    "rejections": 0,
+    "salt": "038840666e2b4db12774bd4fa359e156",
+    "root": "97a79d1bc494cad4c882aca55ffd5f669de996ed0eeabfd98dff829c347ccb95",
+    "encryptionKey": "2054fbfe1e057b7f4cf23209583d0f01628a2f0f691cb7bd04a403337b7e66ab",
+    "placementKey": "3ec42e3befc43254594d9efdb612459a229653f84eaf6c02c9e0dbe2ab15225a",
+    "streamPrefix": "7cd25c0e268703b5a501604f6fe27574e849d075331c7a5e215445ebe704998155814f43b8f44cb4bcd9e9c808db8e1e980f15f4193159de4e730425baa8179d",
+    "firstPositions": [
+      [
+        173080,
+        173081,
+        173082,
+        173083,
+        173084,
+        173085,
+        173086,
+        173087
+      ],
+      [
+        138072,
+        138073,
+        138074,
+        138075,
+        138076,
+        138077,
+        138078,
+        138079
+      ],
+      [
+        17256,
+        17257,
+        17258,
+        17259,
+        17260,
+        17261,
+        17262,
+        17263
+      ]
+    ]
+  },
+  {
+    "profile": "scattered-p32",
+    "plaintextExact": true,
+    "positionMatches": true,
+    "streamBytesConsumed": 154248,
+    "crosses65536ByteChunk": true,
+    "rejections": 2,
+    "salt": "3417f7a9ff38c465b353da1245feefba",
+    "root": "e9442772de71c5f45ba7fd312368cd6fb0485a57b420fad7fe113e1c39af80bb",
+    "encryptionKey": "c23f868b22ca1493457b0d54e0292bdbaacb807f7afa2a84ec4d8cea0fcbdd4c",
+    "placementKey": "0df8785540e13ea2df6dce6c3dad116e8c4c880c698d76544f03471f3656e415",
+    "streamPrefix": "e92c89208a01c1e0b978c6914c921760eec50d857b17982dca72cd7efc8478257bbf35595a83b252232c6bd0534e274926b421af0100304a2b820258650e2733",
+    "firstPositions": [
+      [
+        90257,
+        144651,
+        47833,
+        149922,
+        46594,
+        98942,
+        30114,
+        12516
+      ],
+      [
+        148619,
+        41162,
+        10067,
+        34144,
+        57534,
+        150004,
+        46165,
+        119810
+      ],
+      [
+        180507,
+        64632,
+        162857,
+        37064,
+        77023,
+        14994,
+        120546,
+        93039
+      ]
+    ]
+  },
+  {
+    "profile": "grouped-p64",
+    "plaintextExact": true,
+    "positionMatches": true,
+    "streamBytesConsumed": 22480,
+    "crosses65536ByteChunk": false,
+    "rejections": 0,
+    "salt": "e2c96fa90962477b0c2ba6e4b56848c0",
+    "root": "c0051cd843c7f7fbd5a4429b9405e826a01994f7048ec10542ea78a385b593e2",
+    "encryptionKey": "fe568ba71b58534fc8d6e156dccd447a92208995ca7d4c15ea0f7a6cf073f5f9",
+    "placementKey": "6f9f3dd7efcbedca7041dbc918925a62e00b634f6b361e7664ef4ca7c5e172f2",
+    "streamPrefix": "202856a01fa9cbaf075d96a21f4e6e9f4dbf70638b81717590343e410eb631aaed32235025d59def3f69783f7a3d2fd55daabd55e7a8ab011d9f7994674471b0",
+    "firstPositions": [
+      [
+        174008,
+        174009,
+        174010,
+        174011,
+        174012,
+        174013,
+        174014,
+        174015
+      ],
+      [
+        119856,
+        119857,
+        119858,
+        119859,
+        119860,
+        119861,
+        119862,
+        119863
+      ],
+      [
+        107480,
+        107481,
+        107482,
+        107483,
+        107484,
+        107485,
+        107486,
+        107487
+      ]
+    ]
+  },
+  {
+    "profile": "scattered-p64",
+    "plaintextExact": true,
+    "positionMatches": true,
+    "streamBytesConsumed": 179852,
+    "crosses65536ByteChunk": true,
+    "rejections": 3,
+    "salt": "171c9b97746009b9b4fd7d067a4ca907",
+    "root": "033a58e691d2849cabd087e6b5b0b2aca8ee1e9a4f1ecdb63caa849c8ca3b133",
+    "encryptionKey": "cb12c4b5b79914af95202c5ea1c724a6265defd0a4d913c8ad4ef90de0ca6aab",
+    "placementKey": "1b6fc8f0ebf3af3f5239b6029c241dc55195a94abf9cef189e8bb55f89c6eaaa",
+    "streamPrefix": "e1c03f3da820f99444fd760a435f95c6118e8f0a38870fdc6742141f4503852b5dae491282b870e4fcb489acfd4d14a763fc879358730fb932cd95180892f908",
+    "firstPositions": [
+      [
+        128521,
+        188257,
+        181266,
+        77310,
+        28817,
+        62464,
+        163031,
+        183288
+      ],
+      [
+        141717,
+        26480,
+        14388,
+        157349,
+        42631,
+        86796,
+        183962,
+        81944
+      ],
+      [
+        191669,
+        61701,
+        41077,
+        97610,
+        154593,
+        190181,
+        167456,
+        54172
+      ]
+    ]
+  }
+]

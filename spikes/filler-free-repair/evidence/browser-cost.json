@@ -1,0 +1,155 @@
+{
+  "rows": [
+    {
+      "profile": "grouped-p16",
+      "repeat": 0,
+      "encodeMs": 81.80000019073486,
+      "decodeMs": 24.300000190734863,
+      "exact": true,
+      "sampledHeapBytes": 5022830
+    },
+    {
+      "profile": "grouped-p16",
+      "repeat": 1,
+      "encodeMs": 53.5,
+      "decodeMs": 59.299999713897705,
+      "exact": true,
+      "sampledHeapBytes": 5732376
+    },
+    {
+      "profile": "grouped-p16",
+      "repeat": 2,
+      "encodeMs": 52.799999713897705,
+      "decodeMs": 40.40000009536743,
+      "exact": true,
+      "sampledHeapBytes": 6380962
+    },
+    {
+      "profile": "scattered-p16",
+      "repeat": 0,
+      "encodeMs": 103.40000009536743,
+      "decodeMs": 77.5,
+      "exact": true,
+      "sampledHeapBytes": 13216962
+    },
+    {
+      "profile": "scattered-p16",
+      "repeat": 1,
+      "encodeMs": 81.2000002861023,
+      "decodeMs": 51.19999980926514,
+      "exact": true,
+      "sampledHeapBytes": 16007706
+    },
+    {
+      "profile": "scattered-p16",
+      "repeat": 2,
+      "encodeMs": 71.10000038146973,
+      "decodeMs": 65.59999990463257,
+      "exact": true,
+      "sampledHeapBytes": 18834358
+    },
+    {
+      "profile": "grouped-p32",
+      "repeat": 0,
+      "encodeMs": 81.59999990463257,
+      "decodeMs": 44.200000286102295,
+      "exact": true,
+      "sampledHeapBytes": 19889552
+    },
+    {
+      "profile": "grouped-p32",
+      "repeat": 1,
+      "encodeMs": 43.5,
+      "decodeMs": 65,
+      "exact": true,
+      "sampledHeapBytes": 4403442
+    },
+    {
+      "profile": "grouped-p32",
+      "repeat": 2,
+      "encodeMs": 73.30000019073486,
+      "decodeMs": 72.7999997138977,
+      "exact": true,
+      "sampledHeapBytes": 5370932
+    },
+    {
+      "profile": "scattered-p32",
+      "repeat": 0,
+      "encodeMs": 59.69999980926514,
+      "decodeMs": 85.09999990463257,
+      "exact": true,
+      "sampledHeapBytes": 9369128
+    },
+    {
+      "profile": "scattered-p32",
+      "repeat": 1,
+      "encodeMs": 85.69999980926514,
+      "decodeMs": 62.700000286102295,
+      "exact": true,
+      "sampledHeapBytes": 12782254
+    },
+    {
+      "profile": "scattered-p32",
+      "repeat": 2,
+      "encodeMs": 85.5,
+      "decodeMs": 64,
+      "exact": true,
+      "sampledHeapBytes": 14444225
+    },
+    {
+      "profile": "grouped-p64",
+      "repeat": 0,
+      "encodeMs": 62.5,
+      "decodeMs": 32,
+      "exact": true,
+      "sampledHeapBytes": 15642364
+    },
+    {
+      "profile": "grouped-p64",
+      "repeat": 1,
+      "encodeMs": 99.2000002861023,
+      "decodeMs": 44.5,
+      "exact": true,
+      "sampledHeapBytes": 16660954
+    },
+    {
+      "profile": "grouped-p64",
+      "repeat": 2,
+      "encodeMs": 86.19999980926514,
+      "decodeMs": 41.200000286102295,
+      "exact": true,
+      "sampledHeapBytes": 17685688
+    },
+    {
+      "profile": "scattered-p64",
+      "repeat": 0,
+      "encodeMs": 135,
+      "decodeMs": 68.09999990463257,
+      "exact": true,
+      "sampledHeapBytes": 10307922
+    },
+    {
+      "profile": "scattered-p64",
+      "repeat": 1,
+      "encodeMs": 104.19999980926514,
+      "decodeMs": 56.700000286102295,
+      "exact": true,
+      "sampledHeapBytes": 14269030
+    },
+    {
+      "profile": "scattered-p64",
+      "repeat": 2,
+      "encodeMs": 81,
+      "decodeMs": 54,
+      "exact": true,
+      "sampledHeapBytes": 16454198
+    }
+  ],
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+  "dimensions": [
+    256,
+    256
+  ],
+  "messageBytes": 2200,
+  "scope": "Warm shared desktop browser; first repeat per profile is not browser-process cold. Heap samples exclude native/browser memory. Concurrent matrix load."
+}
