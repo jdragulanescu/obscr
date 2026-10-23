@@ -1,0 +1,3456 @@
+{
+  "publicNonSecret": true,
+  "checks": [
+    {
+      "name": "RFC5869 A.1 native HKDF",
+      "pass": true
+    },
+    {
+      "name": "RFC5869 A.1 Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "RFC7914 section 12 Noble scrypt",
+      "pass": true
+    },
+    {
+      "name": "RFC7914 section 12 Node scrypt",
+      "pass": true
+    },
+    {
+      "name": "RFC9106 section 5.3 Noble Argon2id",
+      "pass": true
+    },
+    {
+      "name": "NIST SP800-38A F.5.5 AES256 CTR",
+      "pass": true
+    },
+    {
+      "name": "NIST SP800-38A Node CTR",
+      "pass": true
+    },
+    {
+      "name": "Exact composed Unicode bytes",
+      "pass": true
+    },
+    {
+      "name": "No Unicode normalization",
+      "pass": true
+    },
+    {
+      "name": "No trimming or case conversion",
+      "pass": true
+    },
+    {
+      "name": "1024 UTF8 bytes accepted",
+      "pass": true
+    },
+    {
+      "name": "Password rejects empty",
+      "pass": true
+    },
+    {
+      "name": "Password rejects high surrogate",
+      "pass": true
+    },
+    {
+      "name": "Password rejects low surrogate",
+      "pass": true
+    },
+    {
+      "name": "Password rejects interior surrogate",
+      "pass": true
+    },
+    {
+      "name": "Password rejects byte limit",
+      "pass": true
+    },
+    {
+      "name": "Password rejects unit limit",
+      "pass": true
+    },
+    {
+      "name": "Request rejects unknown profile",
+      "pass": true
+    },
+    {
+      "name": "Request rejects short salt",
+      "pass": true
+    },
+    {
+      "name": "Request rejects non-byte salt",
+      "pass": true
+    },
+    {
+      "name": "Request rejects width limit",
+      "pass": true
+    },
+    {
+      "name": "Request rejects height limit",
+      "pass": true
+    },
+    {
+      "name": "Request rejects fractional dimension",
+      "pass": true
+    },
+    {
+      "name": "Request rejects empty eligible pool",
+      "pass": true
+    },
+    {
+      "name": "Request rejects negative demand",
+      "pass": true
+    },
+    {
+      "name": "Request rejects demand above pool",
+      "pass": true
+    },
+    {
+      "name": "Request rejects payload limit",
+      "pass": true
+    },
+    {
+      "name": "Request rejects draw limit",
+      "pass": true
+    },
+    {
+      "name": "Request rejects fractional draw limit",
+      "pass": true
+    },
+    {
+      "name": "Reserved bootstrap excluded from eligible count",
+      "pass": true
+    },
+    {
+      "name": "Default draw ceiling",
+      "pass": true
+    },
+    {
+      "name": "Maximum image and demand accepted",
+      "pass": true
+    },
+    {
+      "name": "a64t2 independent root",
+      "pass": true,
+      "reference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "name": "a64t2 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t2 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t2 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t2 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t2 domain separation",
+      "pass": true
+    },
+    {
+      "name": "a64t2 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "a64t2 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "a64t3 independent root",
+      "pass": true,
+      "reference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "name": "a64t3 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t3 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t3 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t3 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a64t3 domain separation",
+      "pass": true
+    },
+    {
+      "name": "a64t3 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "a64t3 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "a128t2 independent root",
+      "pass": true,
+      "reference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "name": "a128t2 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t2 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t2 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t2 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t2 domain separation",
+      "pass": true
+    },
+    {
+      "name": "a128t2 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "a128t2 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "a128t3 independent root",
+      "pass": true,
+      "reference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "name": "a128t3 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t3 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t3 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t3 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "a128t3 domain separation",
+      "pass": true
+    },
+    {
+      "name": "a128t3 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "a128t3 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "s64p1 independent root",
+      "pass": true,
+      "reference": "Node crypto.scrypt (independent of Noble)"
+    },
+    {
+      "name": "s64p1 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p1 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p1 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p1 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p1 domain separation",
+      "pass": true
+    },
+    {
+      "name": "s64p1 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "s64p1 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "s128p1 independent root",
+      "pass": true,
+      "reference": "Node crypto.scrypt (independent of Noble)"
+    },
+    {
+      "name": "s128p1 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "s128p1 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "s128p1 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "s128p1 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "s128p1 domain separation",
+      "pass": true
+    },
+    {
+      "name": "s128p1 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "s128p1 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "s64p2 independent root",
+      "pass": true,
+      "reference": "Node crypto.scrypt (independent of Noble)"
+    },
+    {
+      "name": "s64p2 encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p2 encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p2 placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p2 placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "s64p2 domain separation",
+      "pass": true
+    },
+    {
+      "name": "s64p2 independent CTR",
+      "pass": true
+    },
+    {
+      "name": "s64p2 dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "p600k independent root",
+      "pass": true,
+      "reference": "Node crypto.pbkdf2 API"
+    },
+    {
+      "name": "p600k encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "p600k encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "p600k placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "p600k placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "p600k domain separation",
+      "pass": true
+    },
+    {
+      "name": "p600k independent CTR",
+      "pass": true
+    },
+    {
+      "name": "p600k dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "p1200k independent root",
+      "pass": true,
+      "reference": "Node crypto.pbkdf2 API"
+    },
+    {
+      "name": "p1200k encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "p1200k encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "p1200k placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "p1200k placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "p1200k domain separation",
+      "pass": true
+    },
+    {
+      "name": "p1200k independent CTR",
+      "pass": true
+    },
+    {
+      "name": "p1200k dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "p2400k independent root",
+      "pass": true,
+      "reference": "Node crypto.pbkdf2 API"
+    },
+    {
+      "name": "p2400k encryption Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "p2400k encryption Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "p2400k placement Noble HKDF",
+      "pass": true
+    },
+    {
+      "name": "p2400k placement Node HKDF",
+      "pass": true
+    },
+    {
+      "name": "p2400k domain separation",
+      "pass": true
+    },
+    {
+      "name": "p2400k independent CTR",
+      "pass": true
+    },
+    {
+      "name": "p2400k dense sampler agreement",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 1",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 1",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 1",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 3",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 3",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 3",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 4",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 4",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 4",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 15",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 15",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 15",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 16",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 16",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 16",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 17",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 17",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 17",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 63",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 63",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 63",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 4095",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 4095",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 4095",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 4096",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 4096",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 4096",
+      "pass": true
+    },
+    {
+      "name": "Stream chunk independence 4097",
+      "pass": true
+    },
+    {
+      "name": "Sampler chunk independence 4097",
+      "pass": true
+    },
+    {
+      "name": "Full domain uniqueness 4097",
+      "pass": true
+    },
+    {
+      "name": "Counter carry chunk independence",
+      "pass": true
+    },
+    {
+      "name": "Full 128-bit counter carry Node reference",
+      "pass": true
+    },
+    {
+      "name": "Final counter block allowed",
+      "pass": true
+    },
+    {
+      "name": "Counter wrap rejected before output",
+      "pass": true
+    },
+    {
+      "name": "Invalid chunk rejected",
+      "pass": true
+    },
+    {
+      "name": "Short placement key rejected",
+      "pass": true
+    },
+    {
+      "name": "Forced rejection and swap order",
+      "pass": true
+    },
+    {
+      "name": "One-element pool consumes one draw",
+      "pass": true
+    },
+    {
+      "name": "Zero demand consumes no words",
+      "pass": true
+    },
+    {
+      "name": "Full 2^32 domain sentinel",
+      "pass": true
+    },
+    {
+      "name": "Zero demand stream consumes no draws",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects zero pool",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects oversize pool",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects demand above pool",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects oversize payload",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects oversize draw limit",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects invalid word",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects exhausted words",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects forced rejection limit",
+      "pass": true
+    },
+    {
+      "name": "Sampler rejects native draw exhaustion",
+      "pass": true
+    },
+    {
+      "name": "Changed salt changes root and child keys",
+      "pass": true
+    },
+    {
+      "name": "Changed salt changes stream",
+      "pass": true
+    },
+    {
+      "name": "Changed salt changes positions",
+      "pass": true
+    },
+    {
+      "name": "GCM fixed vector roundtrip",
+      "pass": true
+    },
+    {
+      "name": "GCM altered metadata",
+      "pass": true
+    },
+    {
+      "name": "GCM shortened tag",
+      "pass": true
+    },
+    {
+      "name": "GCM wrong password",
+      "pass": true
+    }
+  ],
+  "chains": [
+    {
+      "profileId": "a64t2",
+      "profile": {
+        "id": "a64t2",
+        "algorithm": "argon2id",
+        "version": 19,
+        "memoryMiB": 64,
+        "passes": 2,
+        "lanes": 1
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "0f31acdc5023edf4356868fa184a54da2ffc1cbf30314c476877e35b7120e960",
+      "encryptionHex": "e4f304d66c5cddbc80dc3f6c8f0f01b9ab2c62d129b3cabd52182ea043965afb",
+      "placementHex": "387e52a13adfa0981b0769f7ca1b3ab503b280870c676e2622eac163ca5bb27d",
+      "streamHex": "d2337430bb30e7e66e4ea76b8c38ce5a24010d42028fbd128fc74daaa1618afa7b1f406756e05acc55e7426b1950bb4549789f803271b4546d2115084520c54a32a7a404853cb269e73338bd3f1f9ac6e5913c8deb03763814e580070e4bb03694fd48de88cd90b396b04406a6d7a8886926f319ac6af72b3af396f437cca591",
+      "positions": [
+        5074,
+        2094,
+        2382,
+        7339,
+        972,
+        7441,
+        7197,
+        7136,
+        5619,
+        2577,
+        5811,
+        4279,
+        1585,
+        2173,
+        3123,
+        7444,
+        6818,
+        281,
+        8051,
+        4325,
+        3845,
+        2488,
+        4404,
+        5641
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 812921810,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 5074,
+          "position": 5074
+        },
+        {
+          "draw": 2,
+          "word": 3873910971,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 2094,
+          "position": 2094
+        },
+        {
+          "draw": 3,
+          "word": 1806126702,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 2382,
+          "position": 2382
+        },
+        {
+          "draw": 4,
+          "word": 1523464332,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 7339,
+          "position": 7339
+        },
+        {
+          "draw": 5,
+          "word": 1108148516,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 972,
+          "position": 972
+        },
+        {
+          "draw": 6,
+          "word": 314412802,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 7441,
+          "position": 7441
+        },
+        {
+          "draw": 7,
+          "word": 2857224079,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 7197,
+          "position": 7197
+        },
+        {
+          "draw": 8,
+          "word": 4203372961,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 7136,
+          "position": 7136
+        },
+        {
+          "draw": 9,
+          "word": 1732255611,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 5619,
+          "position": 5619
+        },
+        {
+          "draw": 10,
+          "word": 3428507734,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 2577,
+          "position": 2577
+        },
+        {
+          "draw": 11,
+          "word": 1799546709,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 5811,
+          "position": 5811
+        },
+        {
+          "draw": 12,
+          "word": 1169903641,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 4279,
+          "position": 4279
+        },
+        {
+          "draw": 13,
+          "word": 2157934665,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 1585,
+          "position": 1585
+        },
+        {
+          "draw": 14,
+          "word": 1421111602,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 2173,
+          "position": 2173
+        },
+        {
+          "draw": 15,
+          "word": 135602541,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 3123,
+          "position": 3123
+        },
+        {
+          "draw": 16,
+          "word": 1254432837,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 7444,
+          "position": 7444
+        },
+        {
+          "draw": 17,
+          "word": 77899570,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 6818,
+          "position": 6818
+        },
+        {
+          "draw": 18,
+          "word": 1773288581,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 281,
+          "position": 281
+        },
+        {
+          "draw": 19,
+          "word": 3174577127,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 8051,
+          "position": 8051
+        },
+        {
+          "draw": 20,
+          "word": 3331989311,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 4325,
+          "position": 4325
+        },
+        {
+          "draw": 21,
+          "word": 2369556965,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 3845,
+          "position": 3845
+        },
+        {
+          "draw": 22,
+          "word": 947258347,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 2488,
+          "position": 2488
+        },
+        {
+          "draw": 23,
+          "word": 125887764,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 4404,
+          "position": 4404
+        },
+        {
+          "draw": 24,
+          "word": 917523214,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 5641,
+          "position": 5641
+        }
+      ],
+      "rootReference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "profileId": "a64t3",
+      "profile": {
+        "id": "a64t3",
+        "algorithm": "argon2id",
+        "version": 19,
+        "memoryMiB": 64,
+        "passes": 3,
+        "lanes": 1
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "adc50138bc654242c87e374011a4c26cb711c4026386ef52c6f104294f7e6e3b",
+      "encryptionHex": "682938eea4a91099fc270cb35bbfa8a398d9aeb85c677a734a934b7f6d9958a0",
+      "placementHex": "5c65e3bc7613b2cebd56c0a65752f216e03226dc0adcfc0ac2a9d77981a2f2ee",
+      "streamHex": "798ce672fa7ec18ceeece9fd72348c315931c0906d6a8baa7a36c60bbe7f5f75e1de7e4e9766c469ea3c2cd71ffdfe50d2d57f91fc9d32e361038afc7249b0fd12386df0b70250ede845c760214be85027f2ec0ae58d7e7993aa450769935c62a1033eb31b1f2352d04c85e365dc8b2ff1f2bf753b82a5e723398f0c414eee4e",
+      "positions": [
+        3193,
+        1321,
+        3210,
+        6660,
+        2977,
+        5213,
+        3084,
+        4669,
+        897,
+        3632,
+        4034,
+        7761,
+        6710,
+        4116,
+        4135,
+        3047,
+        2786,
+        6217,
+        5284,
+        4506,
+        2687,
+        7508,
+        3553,
+        6358
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 1927711865,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 3193,
+          "position": 3193
+        },
+        {
+          "draw": 2,
+          "word": 2361491194,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 1321,
+          "position": 1321
+        },
+        {
+          "draw": 3,
+          "word": 4259966190,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 3210,
+          "position": 3210
+        },
+        {
+          "draw": 4,
+          "word": 831272050,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 6660,
+          "position": 6660
+        },
+        {
+          "draw": 5,
+          "word": 2428514649,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 2977,
+          "position": 2977
+        },
+        {
+          "draw": 6,
+          "word": 2861263469,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 5213,
+          "position": 5213
+        },
+        {
+          "draw": 7,
+          "word": 197539450,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 3084,
+          "position": 3084
+        },
+        {
+          "draw": 8,
+          "word": 1969192894,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 4669,
+          "position": 4669
+        },
+        {
+          "draw": 9,
+          "word": 1316937441,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 897,
+          "position": 897
+        },
+        {
+          "draw": 10,
+          "word": 1774478999,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 3632,
+          "position": 3632
+        },
+        {
+          "draw": 11,
+          "word": 3610000618,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 4034,
+          "position": 4034
+        },
+        {
+          "draw": 12,
+          "word": 1358888223,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 7761,
+          "position": 7761
+        },
+        {
+          "draw": 13,
+          "word": 2441074130,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 6710,
+          "position": 6710
+        },
+        {
+          "draw": 14,
+          "word": 3811745276,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 4116,
+          "position": 4116
+        },
+        {
+          "draw": 15,
+          "word": 4236903265,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 4135,
+          "position": 4135
+        },
+        {
+          "draw": 16,
+          "word": 4256188786,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 3047,
+          "position": 3047
+        },
+        {
+          "draw": 17,
+          "word": 4033689618,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 2786,
+          "position": 2786
+        },
+        {
+          "draw": 18,
+          "word": 3981443767,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 6217,
+          "position": 6217
+        },
+        {
+          "draw": 19,
+          "word": 1623672296,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 5284,
+          "position": 5284
+        },
+        {
+          "draw": 20,
+          "word": 1357400865,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 4506,
+          "position": 4506
+        },
+        {
+          "draw": 21,
+          "word": 183300647,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 2687,
+          "position": 2687
+        },
+        {
+          "draw": 22,
+          "word": 2038336997,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 7508,
+          "position": 7508
+        },
+        {
+          "draw": 23,
+          "word": 122006163,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 3553,
+          "position": 3553
+        },
+        {
+          "draw": 24,
+          "word": 1650234217,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 6358,
+          "position": 6358
+        }
+      ],
+      "rootReference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "profileId": "a128t2",
+      "profile": {
+        "id": "a128t2",
+        "algorithm": "argon2id",
+        "version": 19,
+        "memoryMiB": 128,
+        "passes": 2,
+        "lanes": 1
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "0f91811ac8a50e510361113e782235aab70d7c79645bf841f0c76ba33f6e68cc",
+      "encryptionHex": "8a8c215864ebf2f4fe8420e2cc9d605ebaa4de61e68acb8dcfdf07c2a72b3049",
+      "placementHex": "92e7ff7662dad45cc5ea24423a8dc64f0456388b8d4f07d0059986638430aa48",
+      "streamHex": "d4bb69713c7d361024f87fbfdd78aa5b098b0eed97ac12aef927caf59381236d8fc6f06563f1361ec20c95898da620b516b305b03f0fb79fc98063d358c5c8422af80d3462be368e4347d1857e8c62e415a68db167892a969cb74b06285c5e6f0cab6a4fc3068fbb599ec078b7c59fc8380640058f95876806551c026affa1bb",
+      "positions": [
+        7124,
+        7923,
+        4322,
+        4517,
+        4237,
+        962,
+        1669,
+        1680,
+        2335,
+        4918,
+        6338,
+        7978,
+        3582,
+        3071,
+        1239,
+        551,
+        3114,
+        5029,
+        5981,
+        6055,
+        1057,
+        5657,
+        3740,
+        427
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 1902754772,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 7124,
+          "position": 7124
+        },
+        {
+          "draw": 2,
+          "word": 272006460,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 7923,
+          "position": 7923
+        },
+        {
+          "draw": 3,
+          "word": 3212834852,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 4322,
+          "position": 4322
+        },
+        {
+          "draw": 4,
+          "word": 1537898717,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 4517,
+          "position": 4517
+        },
+        {
+          "draw": 5,
+          "word": 3977153289,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 4237,
+          "position": 4237
+        },
+        {
+          "draw": 6,
+          "word": 2920459415,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 962,
+          "position": 962
+        },
+        {
+          "draw": 7,
+          "word": 4123666425,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 1669,
+          "position": 1669
+        },
+        {
+          "draw": 8,
+          "word": 1831043475,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 1680,
+          "position": 1680
+        },
+        {
+          "draw": 9,
+          "word": 1710278287,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 2335,
+          "position": 2335
+        },
+        {
+          "draw": 10,
+          "word": 506917219,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 4918,
+          "position": 4918
+        },
+        {
+          "draw": 11,
+          "word": 2308246722,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 6338,
+          "position": 6338
+        },
+        {
+          "draw": 12,
+          "word": 3038815885,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 7978,
+          "position": 7978
+        },
+        {
+          "draw": 13,
+          "word": 2953163542,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 3582,
+          "position": 3582
+        },
+        {
+          "draw": 14,
+          "word": 2679574335,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 3071,
+          "position": 3071
+        },
+        {
+          "draw": 15,
+          "word": 3546513609,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 1239,
+          "position": 1239
+        },
+        {
+          "draw": 16,
+          "word": 1120453976,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 551,
+          "position": 551
+        },
+        {
+          "draw": 17,
+          "word": 873330730,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 3114,
+          "position": 3114
+        },
+        {
+          "draw": 18,
+          "word": 2385952354,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 5029,
+          "position": 5029
+        },
+        {
+          "draw": 19,
+          "word": 2245084995,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 5981,
+          "position": 5981
+        },
+        {
+          "draw": 20,
+          "word": 3831663742,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 6055,
+          "position": 6055
+        },
+        {
+          "draw": 21,
+          "word": 2978850325,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 1057,
+          "position": 1057
+        },
+        {
+          "draw": 22,
+          "word": 2519370087,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 5657,
+          "position": 5657
+        },
+        {
+          "draw": 23,
+          "word": 105625500,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 3740,
+          "position": 3740
+        },
+        {
+          "draw": 24,
+          "word": 1868454952,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 427,
+          "position": 427
+        }
+      ],
+      "rootReference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "profileId": "a128t3",
+      "profile": {
+        "id": "a128t3",
+        "algorithm": "argon2id",
+        "version": 19,
+        "memoryMiB": 128,
+        "passes": 3,
+        "lanes": 1
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "a1b40d7a6440747b754f8d9cc322f22b4fd8bc12aa326dde677a1197b5f059ea",
+      "encryptionHex": "9389717f26aa2600ddd99914059902d3704a0d68d6dc6d7cf8841a8feda191fd",
+      "placementHex": "c3910f1e3f2571f85e9827effa75592035b929f163b77508a6a9eeee985ebf86",
+      "streamHex": "727736a04e0a3425d8843733e8472ec2909c49e179f8d7c47d13bcbc03b91d39f4feaed9ee049b4b3fdd3b77cf0c98d075a567c45938770b2c9671378fd8952ee75f5e5700d0dbd83c72138c2bbdc61a3ce807f1ab0378fbb87569d4717bb98ac2e2cfcf07040f1e09bdd6310b382da7e1831b73d2e10501bf1d333d96166cef",
+      "positions": [
+        6002,
+        5111,
+        6274,
+        7665,
+        2376,
+        7938,
+        7519,
+        6714,
+        6220,
+        3712,
+        2969,
+        6585,
+        2041,
+        684,
+        638,
+        6402,
+        1271,
+        538,
+        2450,
+        3226,
+        2952,
+        5874,
+        738,
+        6286
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 2687924082,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 6002,
+          "position": 6002
+        },
+        {
+          "draw": 2,
+          "word": 624167502,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 5111,
+          "position": 5111
+        },
+        {
+          "draw": 3,
+          "word": 859276504,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 6274,
+          "position": 6274
+        },
+        {
+          "draw": 4,
+          "word": 3257812968,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 7665,
+          "position": 7665
+        },
+        {
+          "draw": 5,
+          "word": 3779697808,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 2376,
+          "position": 2376
+        },
+        {
+          "draw": 6,
+          "word": 3302488185,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 7938,
+          "position": 7938
+        },
+        {
+          "draw": 7,
+          "word": 3166442365,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 7519,
+          "position": 7519
+        },
+        {
+          "draw": 8,
+          "word": 958249219,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 6714,
+          "position": 6714
+        },
+        {
+          "draw": 9,
+          "word": 3652124404,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 6220,
+          "position": 6220
+        },
+        {
+          "draw": 10,
+          "word": 1268450542,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 3712,
+          "position": 3712
+        },
+        {
+          "draw": 11,
+          "word": 2000411967,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 2969,
+          "position": 2969
+        },
+        {
+          "draw": 12,
+          "word": 3499625679,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 6585,
+          "position": 6585
+        },
+        {
+          "draw": 13,
+          "word": 3295126901,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 2041,
+          "position": 2041
+        },
+        {
+          "draw": 14,
+          "word": 192362585,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 684,
+          "position": 684
+        },
+        {
+          "draw": 15,
+          "word": 930190892,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 638,
+          "position": 638
+        },
+        {
+          "draw": 16,
+          "word": 781572239,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 6402,
+          "position": 6402
+        },
+        {
+          "draw": 17,
+          "word": 1465802727,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 1271,
+          "position": 1271
+        },
+        {
+          "draw": 18,
+          "word": 3638284288,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 538,
+          "position": 538
+        },
+        {
+          "draw": 19,
+          "word": 2350084668,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 2450,
+          "position": 2450
+        },
+        {
+          "draw": 20,
+          "word": 449232171,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 3226,
+          "position": 3226
+        },
+        {
+          "draw": 21,
+          "word": 4043827260,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 2952,
+          "position": 2952
+        },
+        {
+          "draw": 22,
+          "word": 4218946475,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 5874,
+          "position": 5874
+        },
+        {
+          "draw": 23,
+          "word": 3563681208,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 738,
+          "position": 738
+        },
+        {
+          "draw": 24,
+          "word": 2327411569,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 6286,
+          "position": 6286
+        }
+      ],
+      "rootReference": "Noble Argon2id (independent of Sodium)"
+    },
+    {
+      "profileId": "s64p1",
+      "profile": {
+        "id": "s64p1",
+        "algorithm": "scrypt",
+        "N": 65536,
+        "r": 8,
+        "p": 1
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "97917aa9b9967eeed53d1c866765404b3ffba97fccdbedd0318dcd94aa4df62d",
+      "encryptionHex": "182aca4dc9af79c1c5d13f71e7ed6cea41174cb1a5a2be3ef936b41d4d2ae211",
+      "placementHex": "0ce1077866699edeaa73c7d0eef66f430137a599c8e6be891e1d3adfa0155b9d",
+      "streamHex": "2d25248e1cd0762ea083c52881297e6f1b5831e2aca233d01056809b4b93305fe001293abcd841b04c050d83d7eb8592f2ba13233950dbe0be351478af852504c1aee3a0c4d56eca234f50d0b4f6fb7bd708ab688a32a98faee8fc5b0ee79f78602ff3aca3209e71998d7eeff32dcdd5a81a7292cf5dbd45f1298f722e3d9954",
+      "positions": [
+        1325,
+        990,
+        4128,
+        7757,
+        463,
+        4049,
+        920,
+        2680,
+        4032,
+        6447,
+        1580,
+        6957,
+        1862,
+        3703,
+        5522,
+        6180,
+        2273,
+        6616,
+        8188,
+        30,
+        7335,
+        6027,
+        4634,
+        6248
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 2384733485,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 1325,
+          "position": 1325
+        },
+        {
+          "draw": 2,
+          "word": 779538460,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 990,
+          "position": 990
+        },
+        {
+          "draw": 3,
+          "word": 684032928,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 4128,
+          "position": 4128
+        },
+        {
+          "draw": 4,
+          "word": 1870539137,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 7757,
+          "position": 7757
+        },
+        {
+          "draw": 5,
+          "word": 3794884635,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 463,
+          "position": 463
+        },
+        {
+          "draw": 6,
+          "word": 3493044908,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 4049,
+          "position": 4049
+        },
+        {
+          "draw": 7,
+          "word": 2608879120,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 920,
+          "position": 920
+        },
+        {
+          "draw": 8,
+          "word": 1597018955,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 2680,
+          "position": 2680
+        },
+        {
+          "draw": 9,
+          "word": 975765984,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 4032,
+          "position": 4032
+        },
+        {
+          "draw": 10,
+          "word": 2957105340,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 6447,
+          "position": 6447
+        },
+        {
+          "draw": 11,
+          "word": 2198668620,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 1580,
+          "position": 1580
+        },
+        {
+          "draw": 12,
+          "word": 2458250199,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 6957,
+          "position": 6957
+        },
+        {
+          "draw": 13,
+          "word": 588495602,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 1862,
+          "position": 1862
+        },
+        {
+          "draw": 14,
+          "word": 3772469305,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 3703,
+          "position": 3703
+        },
+        {
+          "draw": 15,
+          "word": 2014590398,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 5522,
+          "position": 5522
+        },
+        {
+          "draw": 16,
+          "word": 69567919,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 6180,
+          "position": 6180
+        },
+        {
+          "draw": 17,
+          "word": 2699275969,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 2273,
+          "position": 2273
+        },
+        {
+          "draw": 18,
+          "word": 3396261316,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 6616,
+          "position": 6616
+        },
+        {
+          "draw": 19,
+          "word": 3494924067,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 7757,
+          "position": 8188
+        },
+        {
+          "draw": 20,
+          "word": 2080110260,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 30,
+          "position": 30
+        },
+        {
+          "draw": 21,
+          "word": 1756039383,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 7335,
+          "position": 7335
+        },
+        {
+          "draw": 22,
+          "word": 2410230410,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 6027,
+          "position": 6027
+        },
+        {
+          "draw": 23,
+          "word": 1543301294,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 4634,
+          "position": 4634
+        },
+        {
+          "draw": 24,
+          "word": 2023745294,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 6248,
+          "position": 6248
+        }
+      ],
+      "rootReference": "Node crypto.scrypt (independent of Noble)"
+    },
+    {
+      "profileId": "s128p1",
+      "profile": {
+        "id": "s128p1",
+        "algorithm": "scrypt",
+        "N": 131072,
+        "r": 8,
+        "p": 1
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "f43a42f03ce1582411d70a77773bb20b3e4cfa62e9aaf01b807a5d669774bd96",
+      "encryptionHex": "d5558f15d5eaa59e105511b7fc608077154b8450e302daba478942639a99ccee",
+      "placementHex": "f1cf5bfaf40401131846589f94f08dfc13b125e8d63edfc8556b8620f5f2d983",
+      "streamHex": "1b709f1eb769935665357df4a18891469a4fb4366a08ab91e18a45156545c35a1e628844e141b138002d6f2a453f636d05d008cb6fa7e59d8f6db2a7d942162fa1930b0360b0e6ce90ec0f1b13dadf6cd2c4e4f9346293637b334353375c2a3ce5b9b1cb10404934ad605b2c48f47acd3b9e7125b28f995a7900a72a1460c323",
+      "positions": [
+        4123,
+        7783,
+        7723,
+        1764,
+        1790,
+        3760,
+        2217,
+        1140,
+        2174,
+        6194,
+        5086,
+        1618,
+        4069,
+        1746,
+        3009,
+        8087,
+        6689,
+        5478,
+        3602,
+        1394,
+        5530,
+        1511,
+        6419,
+        6594
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 513765403,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 4123,
+          "position": 4123
+        },
+        {
+          "draw": 2,
+          "word": 1452501431,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 7783,
+          "position": 7783
+        },
+        {
+          "draw": 3,
+          "word": 4101846373,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 7723,
+          "position": 7723
+        },
+        {
+          "draw": 4,
+          "word": 1183942817,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 1764,
+          "position": 1764
+        },
+        {
+          "draw": 5,
+          "word": 917786522,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 1790,
+          "position": 1790
+        },
+        {
+          "draw": 6,
+          "word": 2443905130,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 3760,
+          "position": 3760
+        },
+        {
+          "draw": 7,
+          "word": 356879073,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 2217,
+          "position": 2217
+        },
+        {
+          "draw": 8,
+          "word": 1522746725,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 1140,
+          "position": 1140
+        },
+        {
+          "draw": 9,
+          "word": 1149788702,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 2174,
+          "position": 2174
+        },
+        {
+          "draw": 10,
+          "word": 951140833,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 6194,
+          "position": 6194
+        },
+        {
+          "draw": 11,
+          "word": 711929088,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 5086,
+          "position": 5086
+        },
+        {
+          "draw": 12,
+          "word": 1835220805,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 1618,
+          "position": 1618
+        },
+        {
+          "draw": 13,
+          "word": 3406352389,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 4069,
+          "position": 4069
+        },
+        {
+          "draw": 14,
+          "word": 2649073519,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 1746,
+          "position": 1746
+        },
+        {
+          "draw": 15,
+          "word": 2813488527,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 3009,
+          "position": 3009
+        },
+        {
+          "draw": 16,
+          "word": 789988057,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 8087,
+          "position": 8087
+        },
+        {
+          "draw": 17,
+          "word": 51090337,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 6689,
+          "position": 6689
+        },
+        {
+          "draw": 18,
+          "word": 3471224928,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 5478,
+          "position": 5478
+        },
+        {
+          "draw": 19,
+          "word": 454028432,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 3602,
+          "position": 3602
+        },
+        {
+          "draw": 20,
+          "word": 1826609683,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 1394,
+          "position": 1394
+        },
+        {
+          "draw": 21,
+          "word": 4192519378,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 5530,
+          "position": 5530
+        },
+        {
+          "draw": 22,
+          "word": 1670603316,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 1511,
+          "position": 1511
+        },
+        {
+          "draw": 23,
+          "word": 1396913019,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 6419,
+          "position": 6419
+        },
+        {
+          "draw": 24,
+          "word": 1009409079,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 6594,
+          "position": 6594
+        }
+      ],
+      "rootReference": "Node crypto.scrypt (independent of Noble)"
+    },
+    {
+      "profileId": "s64p2",
+      "profile": {
+        "id": "s64p2",
+        "algorithm": "scrypt",
+        "N": 65536,
+        "r": 8,
+        "p": 2
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "fb92fd593911db3850a997622e51a4ec5902ff88c9c775a7cebc7f3113e80fe0",
+      "encryptionHex": "45be57830994fa937d0525c63962018db7708cc064001c95bf68b583e921867a",
+      "placementHex": "4fd08a0241093837a168980c5c249e82861889f4285c7ffead12614286e9691e",
+      "streamHex": "212f6fd894078330cfe12bdf5b92356a263015165a9f4af763955658dc09160e41c4163739d8a596685abbb48c881711818f9ac1d526d6415140676f6f2f550849a6075fe568543b916b12e2bd9add84e6f3a89ec195c8991b63f55de77be6d7a071b11055f0d9b78324d2a70c8be6aca5f0d255decfc93f3c7a47cd7e3b0e67",
+      "positions": [
+        3873,
+        3000,
+        5483,
+        2127,
+        4898,
+        2316,
+        2233,
+        8020,
+        3425,
+        715,
+        1694,
+        2725,
+        1209,
+        4272,
+        4817,
+        6439,
+        489,
+        7796,
+        7565,
+        3388,
+        7054,
+        967,
+        2129,
+        6487
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 3631165217,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 3873,
+          "position": 3873
+        },
+        {
+          "draw": 2,
+          "word": 813893524,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 3000,
+          "position": 3000
+        },
+        {
+          "draw": 3,
+          "word": 3744195023,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 5483,
+          "position": 5483
+        },
+        {
+          "draw": 4,
+          "word": 1781895771,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 2127,
+          "position": 2127
+        },
+        {
+          "draw": 5,
+          "word": 370487334,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 4898,
+          "position": 4898
+        },
+        {
+          "draw": 6,
+          "word": 4148862810,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 2316,
+          "position": 2316
+        },
+        {
+          "draw": 7,
+          "word": 1482069347,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 2233,
+          "position": 2233
+        },
+        {
+          "draw": 8,
+          "word": 236325340,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 8020,
+          "position": 8020
+        },
+        {
+          "draw": 9,
+          "word": 924238913,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 3425,
+          "position": 3425
+        },
+        {
+          "draw": 10,
+          "word": 2527451193,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 715,
+          "position": 715
+        },
+        {
+          "draw": 11,
+          "word": 3032177256,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 1694,
+          "position": 1694
+        },
+        {
+          "draw": 12,
+          "word": 286754956,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 2725,
+          "position": 2725
+        },
+        {
+          "draw": 13,
+          "word": 3248131969,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 1209,
+          "position": 1209
+        },
+        {
+          "draw": 14,
+          "word": 1104553685,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 4272,
+          "position": 4272
+        },
+        {
+          "draw": 15,
+          "word": 1869037649,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 4817,
+          "position": 4817
+        },
+        {
+          "draw": 16,
+          "word": 139800431,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 6439,
+          "position": 6439
+        },
+        {
+          "draw": 17,
+          "word": 1594336841,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 489,
+          "position": 489
+        },
+        {
+          "draw": 18,
+          "word": 995387621,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 7796,
+          "position": 7796
+        },
+        {
+          "draw": 19,
+          "word": 3792858001,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 7565,
+          "position": 7565
+        },
+        {
+          "draw": 20,
+          "word": 2229115581,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 3388,
+          "position": 3388
+        },
+        {
+          "draw": 21,
+          "word": 2661872614,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 7054,
+          "position": 7054
+        },
+        {
+          "draw": 22,
+          "word": 2580059585,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 967,
+          "position": 967
+        },
+        {
+          "draw": 23,
+          "word": 1576362779,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 2129,
+          "position": 2129
+        },
+        {
+          "draw": 24,
+          "word": 3622206439,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 6487,
+          "position": 6487
+        }
+      ],
+      "rootReference": "Node crypto.scrypt (independent of Noble)"
+    },
+    {
+      "profileId": "p600k",
+      "profile": {
+        "id": "p600k",
+        "algorithm": "pbkdf2",
+        "hash": "SHA-256",
+        "iterations": 600000
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "b58d60710979f70f3bf2069bd57f3c0f742f311e7f5a9919ead6d41c7a96b394",
+      "encryptionHex": "112f92defd988a22b19ee2f2df7c7eddfbd2e7a11a7a729bfc34be2b15f281ba",
+      "placementHex": "46e90a88c52c32e6491c81a9719f4cb69e9a522d1fc8fad1679fd9eda3f044c7",
+      "streamHex": "592e4ac615f1f110f9b4d8ec4bd9f0b5acf414a59c4a4e980a72ce94931ebf845a42713d2d8a52d9f87f43fd784b8ac880d5a26f34cc0392a8a7ff25a489538e46404749c13d3b1608e03750d51be8f13f82ba19bb06d9638d342b342f693c6e8440b676dfaf1a1166aaa4cda30a8e51c1a7802d106a62619a1c28c5685d704b",
+      "positions": [
+        3673,
+        6312,
+        881,
+        2424,
+        6620,
+        6796,
+        7670,
+        3770,
+        642,
+        6802,
+        7626,
+        4790,
+        584,
+        5593,
+        3780,
+        33,
+        5686,
+        4985,
+        6360,
+        4885,
+        227,
+        6196,
+        2803,
+        7585
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 3326750297,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 3673,
+          "position": 3673
+        },
+        {
+          "draw": 2,
+          "word": 284291349,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 6312,
+          "position": 6312
+        },
+        {
+          "draw": 3,
+          "word": 3973625081,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 881,
+          "position": 881
+        },
+        {
+          "draw": 4,
+          "word": 3052460363,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 2424,
+          "position": 2424
+        },
+        {
+          "draw": 5,
+          "word": 2769613996,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 6620,
+          "position": 6620
+        },
+        {
+          "draw": 6,
+          "word": 2555267740,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 6796,
+          "position": 6796
+        },
+        {
+          "draw": 7,
+          "word": 2496557578,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 7670,
+          "position": 7670
+        },
+        {
+          "draw": 8,
+          "word": 2227117715,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 3770,
+          "position": 3770
+        },
+        {
+          "draw": 9,
+          "word": 1030832730,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 642,
+          "position": 642
+        },
+        {
+          "draw": 10,
+          "word": 3646065197,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 6802,
+          "position": 6802
+        },
+        {
+          "draw": 11,
+          "word": 4249059320,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 7626,
+          "position": 7626
+        },
+        {
+          "draw": 12,
+          "word": 3364506488,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 4790,
+          "position": 4790
+        },
+        {
+          "draw": 13,
+          "word": 1872942464,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 584,
+          "position": 584
+        },
+        {
+          "draw": 14,
+          "word": 2449722420,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 5593,
+          "position": 5593
+        },
+        {
+          "draw": 15,
+          "word": 637511592,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 3780,
+          "position": 3780
+        },
+        {
+          "draw": 16,
+          "word": 2387839396,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 33,
+          "position": 33
+        },
+        {
+          "draw": 17,
+          "word": 1229406278,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 5686,
+          "position": 5686
+        },
+        {
+          "draw": 18,
+          "word": 372981185,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 4985,
+          "position": 4985
+        },
+        {
+          "draw": 19,
+          "word": 1345839112,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 6360,
+          "position": 6360
+        },
+        {
+          "draw": 20,
+          "word": 4058520533,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 4885,
+          "position": 4885
+        },
+        {
+          "draw": 21,
+          "word": 431653439,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 227,
+          "position": 227
+        },
+        {
+          "draw": 22,
+          "word": 1675167419,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 6196,
+          "position": 6196
+        },
+        {
+          "draw": 23,
+          "word": 875246733,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 2803,
+          "position": 2803
+        },
+        {
+          "draw": 24,
+          "word": 1849452847,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 7585,
+          "position": 7585
+        }
+      ],
+      "rootReference": "Node crypto.pbkdf2 API"
+    },
+    {
+      "profileId": "p1200k",
+      "profile": {
+        "id": "p1200k",
+        "algorithm": "pbkdf2",
+        "hash": "SHA-256",
+        "iterations": 1200000
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "e5474c5d23ec35641fdbbbd2d43202148c03d48859c6766318c501b02b432606",
+      "encryptionHex": "0447c09cac54ab423ed2d393ff9292e29ca5306919769d1aa5333a7119fa5377",
+      "placementHex": "1ff5525bb29479a749859e15b20aff962c79b53095a7f7ac339f3a303ff3bbf8",
+      "streamHex": "b5ea12802671cfa63d13bd1daf96dd88c28048cf293588111bb6357b7272988da756133cc33e5b57e4d86ab1e15aaada23bd9a2d4362dd639595a7aeb6d669cd055cbd3ad67bc2b492b0d7210cef5732f954616b72c484b11591d6ce45dd1f1002219fdc4ef1c91957e3fcb38d2207ec10ffa263c649054de173138918c936ff",
+      "positions": [
+        2741,
+        1995,
+        3883,
+        3240,
+        3342,
+        4828,
+        5247,
+        4751,
+        7991,
+        5969,
+        7064,
+        8005,
+        7563,
+        1203,
+        99,
+        3460,
+        2405,
+        5691,
+        1182,
+        1289,
+        7113,
+        4142,
+        1691,
+        7282
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 2148723381,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 2741,
+          "position": 2741
+        },
+        {
+          "draw": 2,
+          "word": 2798612774,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 1995,
+          "position": 1995
+        },
+        {
+          "draw": 3,
+          "word": 498930493,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 3883,
+          "position": 3883
+        },
+        {
+          "draw": 4,
+          "word": 2296223407,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 3240,
+          "position": 3240
+        },
+        {
+          "draw": 5,
+          "word": 3477635266,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 3342,
+          "position": 3342
+        },
+        {
+          "draw": 6,
+          "word": 294139177,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 4828,
+          "position": 4828
+        },
+        {
+          "draw": 7,
+          "word": 2067117595,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 5247,
+          "position": 5247
+        },
+        {
+          "draw": 8,
+          "word": 2375578226,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 4751,
+          "position": 4751
+        },
+        {
+          "draw": 9,
+          "word": 1007900327,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 7991,
+          "position": 7991
+        },
+        {
+          "draw": 10,
+          "word": 1465597635,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 5969,
+          "position": 5969
+        },
+        {
+          "draw": 11,
+          "word": 2976569572,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 7064,
+          "position": 7064
+        },
+        {
+          "draw": 12,
+          "word": 3668597473,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 8005,
+          "position": 8005
+        },
+        {
+          "draw": 13,
+          "word": 765115683,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 7563,
+          "position": 7563
+        },
+        {
+          "draw": 14,
+          "word": 1675452995,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 1203,
+          "position": 1203
+        },
+        {
+          "draw": 15,
+          "word": 2930218389,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 99,
+          "position": 99
+        },
+        {
+          "draw": 16,
+          "word": 3446265526,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 3460,
+          "position": 3460
+        },
+        {
+          "draw": 17,
+          "word": 985488389,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 2405,
+          "position": 2405
+        },
+        {
+          "draw": 18,
+          "word": 3032644566,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 5691,
+          "position": 5691
+        },
+        {
+          "draw": 19,
+          "word": 567783570,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 1182,
+          "position": 1182
+        },
+        {
+          "draw": 20,
+          "word": 844623628,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 1289,
+          "position": 1289
+        },
+        {
+          "draw": 21,
+          "word": 1801540857,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 7113,
+          "position": 7113
+        },
+        {
+          "draw": 22,
+          "word": 2978268274,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 4142,
+          "position": 4142
+        },
+        {
+          "draw": 23,
+          "word": 3470168341,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 1691,
+          "position": 1691
+        },
+        {
+          "draw": 24,
+          "word": 270523717,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 7282,
+          "position": 7282
+        }
+      ],
+      "rootReference": "Node crypto.pbkdf2 API"
+    },
+    {
+      "profileId": "p2400k",
+      "profile": {
+        "id": "p2400k",
+        "algorithm": "pbkdf2",
+        "hash": "SHA-256",
+        "iterations": 2400000
+      },
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0f",
+      "width": 64,
+      "height": 64,
+      "N": 8192,
+      "demand": 24,
+      "rootHex": "41579dfedb06d39b102681d74c3720469efd63b1930621e1e9b1e4481634d23e",
+      "encryptionHex": "16d634a3ecf0e430591d3974db06a82450ec8d87cfbdf3b588a8160596af96f7",
+      "placementHex": "90ceb5078b635da7cdbbe8ba88b1e7caf7ccf6ad692292ade31360f7e050df0f",
+      "streamHex": "3989dccf5f0ef763034ac1d00b7419ebb5a0ec19e6b5eaae20b293465cc6cbb1d6c5788126fed9ac5b3dab1ae68e4b379b97fb68b1382032bd5de12103c0b4b27990755667c15e6dd7e80ce484e8ed20d381738c5e37720a32f52a026e66cab08ad7e50fd5a15e417a60d24dc205f26b2307b5d8ca0168ddcd14482449cc481f",
+      "positions": [
+        2361,
+        3632,
+        5863,
+        127,
+        7853,
+        3798,
+        4170,
+        4975,
+        3102,
+        2339,
+        5491,
+        5986,
+        1211,
+        7685,
+        5835,
+        3086,
+        233,
+        6814,
+        6237,
+        360,
+        259,
+        5830,
+        5044,
+        4976
+      ],
+      "draws": 24,
+      "rejections": 0,
+      "trace": [
+        {
+          "draw": 1,
+          "word": 3487336761,
+          "bound": 8192,
+          "limit": 4294967296,
+          "accepted": true,
+          "index": 2361,
+          "position": 2361
+        },
+        {
+          "draw": 2,
+          "word": 1677135455,
+          "bound": 8191,
+          "limit": 4294967232,
+          "accepted": true,
+          "index": 3632,
+          "position": 3632
+        },
+        {
+          "draw": 3,
+          "word": 3502328323,
+          "bound": 8190,
+          "limit": 4294967040,
+          "accepted": true,
+          "index": 5863,
+          "position": 5863
+        },
+        {
+          "draw": 4,
+          "word": 3944313867,
+          "bound": 8189,
+          "limit": 4294966720,
+          "accepted": true,
+          "index": 127,
+          "position": 127
+        },
+        {
+          "draw": 5,
+          "word": 434938037,
+          "bound": 8188,
+          "limit": 4294966272,
+          "accepted": true,
+          "index": 7853,
+          "position": 7853
+        },
+        {
+          "draw": 6,
+          "word": 2934617574,
+          "bound": 8187,
+          "limit": 4294965696,
+          "accepted": true,
+          "index": 3798,
+          "position": 3798
+        },
+        {
+          "draw": 7,
+          "word": 1184084512,
+          "bound": 8186,
+          "limit": 4294964992,
+          "accepted": true,
+          "index": 4170,
+          "position": 4170
+        },
+        {
+          "draw": 8,
+          "word": 2982921820,
+          "bound": 8185,
+          "limit": 4294964160,
+          "accepted": true,
+          "index": 4975,
+          "position": 4975
+        },
+        {
+          "draw": 9,
+          "word": 2172175830,
+          "bound": 8184,
+          "limit": 4294963200,
+          "accepted": true,
+          "index": 3102,
+          "position": 3102
+        },
+        {
+          "draw": 10,
+          "word": 2899967526,
+          "bound": 8183,
+          "limit": 4294962112,
+          "accepted": true,
+          "index": 2339,
+          "position": 2339
+        },
+        {
+          "draw": 11,
+          "word": 447429979,
+          "bound": 8182,
+          "limit": 4294960896,
+          "accepted": true,
+          "index": 5491,
+          "position": 5491
+        },
+        {
+          "draw": 12,
+          "word": 927698662,
+          "bound": 8181,
+          "limit": 4294959552,
+          "accepted": true,
+          "index": 5986,
+          "position": 5986
+        },
+        {
+          "draw": 13,
+          "word": 1761318811,
+          "bound": 8180,
+          "limit": 4294966260,
+          "accepted": true,
+          "index": 1211,
+          "position": 1211
+        },
+        {
+          "draw": 14,
+          "word": 840972465,
+          "bound": 8179,
+          "limit": 4294964659,
+          "accepted": true,
+          "index": 7685,
+          "position": 7685
+        },
+        {
+          "draw": 15,
+          "word": 568417725,
+          "bound": 8178,
+          "limit": 4294962930,
+          "accepted": true,
+          "index": 5835,
+          "position": 5835
+        },
+        {
+          "draw": 16,
+          "word": 2998190083,
+          "bound": 8177,
+          "limit": 4294961073,
+          "accepted": true,
+          "index": 3086,
+          "position": 3086
+        },
+        {
+          "draw": 17,
+          "word": 1450545273,
+          "bound": 8176,
+          "limit": 4294967264,
+          "accepted": true,
+          "index": 233,
+          "position": 233
+        },
+        {
+          "draw": 18,
+          "word": 1834926439,
+          "bound": 8175,
+          "limit": 4294965150,
+          "accepted": true,
+          "index": 6814,
+          "position": 6814
+        },
+        {
+          "draw": 19,
+          "word": 3826051287,
+          "bound": 8174,
+          "limit": 4294962908,
+          "accepted": true,
+          "index": 6237,
+          "position": 6237
+        },
+        {
+          "draw": 20,
+          "word": 552462468,
+          "bound": 8173,
+          "limit": 4294960538,
+          "accepted": true,
+          "index": 360,
+          "position": 360
+        },
+        {
+          "draw": 21,
+          "word": 2356380115,
+          "bound": 8172,
+          "limit": 4294966212,
+          "accepted": true,
+          "index": 259,
+          "position": 259
+        },
+        {
+          "draw": 22,
+          "word": 175257438,
+          "bound": 8171,
+          "limit": 4294963585,
+          "accepted": true,
+          "index": 5830,
+          "position": 5830
+        },
+        {
+          "draw": 23,
+          "word": 36369714,
+          "bound": 8170,
+          "limit": 4294960830,
+          "accepted": true,
+          "index": 5044,
+          "position": 5044
+        },
+        {
+          "draw": 24,
+          "word": 2966054510,
+          "bound": 8169,
+          "limit": 4294966116,
+          "accepted": true,
+          "index": 4976,
+          "position": 4976
+        }
+      ],
+      "rootReference": "Node crypto.pbkdf2 API"
+    },
+    {
+      "profileId": "p600k",
+      "case": "changed-salt",
+      "password": " Obscr café é 🔐 ",
+      "passwordHex": "204f6273637220636166c3a92065cc8120f09f949020",
+      "saltHex": "000102030405060708090a0b0c0d0e0e",
+      "rootHex": "6a72c368d374cb2aa7818110534da9879134da23ecbceaeca6b031d69d4a4798",
+      "encryptionHex": "0eefdfbdb87d2282d854c93c0d15d8d14c7fdf898e12deb9eb3b6afdf84a1c3c",
+      "placementHex": "14c0bfc8c8c3fb714b11cc683cc156a4a0d37f8ca1e59f5e7c969d61dcbd9ca7",
+      "streamHex": "7b7ebf14c814c8cf24db528bbf4ea4715af69d6c5dae73732380e3b68a9810da2764a4edc344a30b22322c6360d9577b8d6f86f7fb380a092b2ba26a89470deb6bde44aa7d02fbf8a64442cbccf5709097f997188e40d093d5a3dbb0bb0f44c5510d832f3303820e37cbc4d28e87e03016da7c5abc44ba2b72ac55d97f2e2b63",
+      "N": 8192,
+      "demand": 24,
+      "positions": [
+        7803,
+        4924,
+        4316,
+        5924,
+        3018,
+        6974,
+        4407,
+        5784,
+        7191,
+        2967,
+        6556,
+        3622,
+        1233,
+        1694,
+        1677,
+        2428,
+        2939,
+        3641,
+        6738,
+        3041,
+        563,
+        266,
+        3741,
+        7874
+      ],
+      "draws": 24,
+      "rejections": 0
+    }
+  ],
+  "forced": {
+    "N": 3,
+    "demand": 3,
+    "words": [
+      4294967295,
+      1,
+      4294967295,
+      0
+    ],
+    "positions": [
+      1,
+      2,
+      0
+    ],
+    "draws": 4,
+    "rejections": 1
+  },
+  "counterCarry": {
+    "keyHex": "603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4",
+    "counterHex": "0000000000000000ffffffffffffffff",
+    "streamHex": "289e23e13ec8c34291f27c4ccf3eaa29579be1a0d892238805feb810a4a10aaa51ffb50816f5e9fa954d2604f081f8dc"
+  },
+  "gcm": {
+    "ivHex": "000000000000000000000000",
+    "aadHex": "5055424c4943206578706572696d656e74206d65746164617461",
+    "plaintextHex": "5055424c494320766563746f72207061796c6f6164",
+    "ciphertextAndTagHex": "e36ba2bbafc221462bb6abf818e2b41af63c9ca4b08df4bda1e09ffb20010236993fe0014e"
+  },
+  "sources": [
+    "https://www.rfc-editor.org/rfc/rfc5869#appendix-A.1",
+    "https://www.rfc-editor.org/rfc/rfc7914#section-12",
+    "https://www.rfc-editor.org/rfc/rfc9106#section-5.3",
+    "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf"
+  ],
+  "limits": [
+    "Composed outputs use fixed public inputs and are emitted at execution; no previously recorded composed known answers are embedded.",
+    "Node PBKDF2/HKDF and WebCrypto can share an OpenSSL backend; Noble HKDF and browser PBKDF2 provide separate implementations.",
+    "Bootstrap check covers reserved-count arithmetic only, not a carrier mapping or image format.",
+    "GCM checks cover native API behavior, not metadata serialization, a parser, or real CLI/browser image exchange.",
+    "These checks are correctness evidence, not performance measurements, an audit, or a supported-device claim."
+  ]
+}

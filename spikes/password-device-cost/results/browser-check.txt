@@ -1,0 +1,12 @@
+Browser check — http://127.0.0.1:5187/ — agent-browser 0.39.0, session browser-check-password-device-cost
+1. Open http://127.0.0.1:5187/ → seen: Password device-cost experiment; labelled device field and experiment controls → pass
+2. Click Check limits and cancellation with no device details → seen: Enter physical device, RAM, OS and power conditions first → pass
+3. Fill Physical model, RAM, OS version and power conditions with MacBook Pro Mac15,8; 64 GB; macOS26.6.2; UI guard walkthrough only, then click Check limits and cancellation → seen: Guards complete → pass
+Console: none
+Errors: none
+Failed requests: GET http://127.0.0.1:5187/favicon.ico 404 (favicon-only exception)
+Screenshots: /tmp/browser-check/password-device-cost (01-device-required.png, 02-guards-complete.png)
+Videos: none
+Verdict: pass — only the favicon request failed
+
+The full measured sweep, vectors, offline checks and CSP denial used the harness browser against the same installed Chrome for Testing binary. Their JSON evidence is separate. No permanent browser e2e suite was added for this disposable spike.

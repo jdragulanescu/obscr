@@ -1,0 +1,106 @@
+{
+  "online": false,
+  "cache": "password-cost-ad5adf849240e21b",
+  "assets": [
+    {
+      "url": "http://127.0.0.1:5187/",
+      "status": 200,
+      "bytes": 2058
+    },
+    {
+      "url": "http://127.0.0.1:5187/hkdf-43OZF45J.js",
+      "status": 200,
+      "bytes": 1228
+    },
+    {
+      "url": "http://127.0.0.1:5187/browser.js",
+      "status": 200,
+      "bytes": 17046
+    },
+    {
+      "url": "http://127.0.0.1:5187/worker.js",
+      "status": 200,
+      "bytes": 1237
+    },
+    {
+      "url": "http://127.0.0.1:5187/libsodium-wrappers-OH4SK4KS.js",
+      "status": 200,
+      "bytes": 535527
+    },
+    {
+      "url": "http://127.0.0.1:5187/pbkdf2-EFEHAFII.js",
+      "status": 200,
+      "bytes": 159
+    },
+    {
+      "url": "http://127.0.0.1:5187/sha2-66G54NND.js",
+      "status": 200,
+      "bytes": 316
+    },
+    {
+      "url": "http://127.0.0.1:5187/scrypt-RDWPNCGI.js",
+      "status": 200,
+      "bytes": 3406
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-7HMGQPAW.js",
+      "status": 200,
+      "bytes": 1605
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-V4ZX6JLF.js",
+      "status": 200,
+      "bytes": 1392
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-JTHHWQGT.js",
+      "status": 200,
+      "bytes": 6866
+    },
+    {
+      "url": "http://127.0.0.1:5187/core-XLLEV3AC.js",
+      "status": 200,
+      "bytes": 199
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-VZFWZ435.js",
+      "status": 200,
+      "bytes": 4782
+    },
+    {
+      "url": "http://127.0.0.1:5187/argon2-CJ3BWWJF.js",
+      "status": 200,
+      "bytes": 12034
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-ZQQ6EVOT.js",
+      "status": 200,
+      "bytes": 3113
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-4OGZXMQK.js",
+      "status": 200,
+      "bytes": 3414
+    },
+    {
+      "url": "http://127.0.0.1:5187/chunk-UJVVLSSD.js",
+      "status": 200,
+      "bytes": 78
+    },
+    {
+      "url": "http://127.0.0.1:5187/index.html",
+      "status": 200,
+      "bytes": 2058
+    },
+    {
+      "url": "http://127.0.0.1:5187/style.css",
+      "status": 200,
+      "bytes": 435
+    },
+    {
+      "url": "http://127.0.0.1:5187/THIRD-PARTY-NOTICES.txt",
+      "status": 200,
+      "bytes": 5549
+    }
+  ]
+}
