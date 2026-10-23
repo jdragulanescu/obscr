@@ -1,0 +1,90 @@
+[
+  {
+    "command": "CLI encode",
+    "profile": "no-repair",
+    "exit": 0,
+    "stdout": {
+      "outcome": "encoded",
+      "output": "spikes/unprotected-salt/evidence/cli-no-repair.png",
+      "profile": "no-repair",
+      "plainBytes": 36,
+      "codedBytes": 104,
+      "elapsedMs": 154.689792,
+      "peakRssBytes": 139100160
+    }
+  },
+  {
+    "command": "CLI encode",
+    "profile": "grouped-p32",
+    "exit": 0,
+    "stdout": {
+      "outcome": "encoded",
+      "output": "spikes/unprotected-salt/evidence/cli-grouped-p32.png",
+      "profile": "grouped-p32",
+      "plainBytes": 36,
+      "codedBytes": 200,
+      "elapsedMs": 153.75275000000002,
+      "peakRssBytes": 139788288
+    }
+  },
+  {
+    "command": "CLI decode browser PNG",
+    "profile": "no-repair",
+    "exit": 0,
+    "stdout": {
+      "outcome": "exact-ready",
+      "message": "Browser to CLI: caf\u00e9 \u65e5\u672c\u8a9e \ud83d\udd12",
+      "profile": {
+        "name": "no-repair",
+        "parity": 0,
+        "mapping": "grouped"
+      },
+      "storedBytes": 36,
+      "plainBytes": 36,
+      "compressed": false,
+      "placement": {
+        "positions": 88,
+        "draws": 88,
+        "rejections": 0,
+        "peakEntries": 88,
+        "mapEntries": 88,
+        "maxDraws": 1200,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "messageHash": "4fc67f62c74aca02baffa8b08ab5d6207161593f5ad6b564029abdd3003d6ae4",
+      "elapsedMs": 150.594166,
+      "peakRssBytes": 139165696
+    }
+  },
+  {
+    "command": "CLI decode browser PNG",
+    "profile": "grouped-p32",
+    "exit": 0,
+    "stdout": {
+      "outcome": "exact-ready",
+      "message": "Browser to CLI: caf\u00e9 \u65e5\u672c\u8a9e \ud83d\udd12",
+      "profile": {
+        "name": "grouped-p32",
+        "parity": 32,
+        "mapping": "grouped"
+      },
+      "storedBytes": 36,
+      "plainBytes": 36,
+      "compressed": false,
+      "placement": {
+        "positions": 184,
+        "draws": 184,
+        "rejections": 0,
+        "peakEntries": 181,
+        "mapEntries": 181,
+        "maxDraws": 1392,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "messageHash": "4fc67f62c74aca02baffa8b08ab5d6207161593f5ad6b564029abdd3003d6ae4",
+      "elapsedMs": 149.873084,
+      "peakRssBytes": 139280384
+    }
+  }
+]

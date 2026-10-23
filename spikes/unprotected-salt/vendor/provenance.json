@@ -1,0 +1,88 @@
+{
+  "project": "zxing-js/library",
+  "version": "0.23.0",
+  "commit": "1722d0744fb5e8b47aebfbeb2b648e17c95e8595",
+  "retrieval": "GitHub contents API through harness read; base64-decoded original bytes",
+  "files": [
+    {
+      "path": "src/core/common/reedsolomon/GenericGF.ts",
+      "source": "https://raw.githubusercontent.com/zxing-js/library/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/src/core/common/reedsolomon/GenericGF.ts",
+      "gitBlob": "af7318e34d2a9dfdd122dd78ad67ed5d31e7eec5",
+      "bytes": 4819,
+      "sha256": "3caf70025f3f3e2e47b0b67e064efdd1ed56855b9929bff4cc27eb7c65161a55"
+    },
+    {
+      "path": "src/core/common/reedsolomon/GenericGFPoly.ts",
+      "source": "https://raw.githubusercontent.com/zxing-js/library/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/src/core/common/reedsolomon/GenericGFPoly.ts",
+      "gitBlob": "9de5e2455b14158ae44b371ff5b0021842ee0eee",
+      "bytes": 10322,
+      "sha256": "db399fec2fcf42801abfbbd2115532a1e245b29eba147a8ff99f9563ace88a51"
+    },
+    {
+      "path": "src/core/common/reedsolomon/ReedSolomonEncoder.ts",
+      "source": "https://raw.githubusercontent.com/zxing-js/library/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/src/core/common/reedsolomon/ReedSolomonEncoder.ts",
+      "gitBlob": "a97eec1495bd28f1aa8bd101588d6273c859d670",
+      "bytes": 4885,
+      "sha256": "c17993869e4aeb8e5c99f47fb486a09f7a7485c0d373831efc7631a1e2552cdf"
+    },
+    {
+      "path": "src/core/common/reedsolomon/ReedSolomonDecoder.ts",
+      "source": "https://raw.githubusercontent.com/zxing-js/library/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/src/core/common/reedsolomon/ReedSolomonDecoder.ts",
+      "gitBlob": "0ed682c54a3741f54228b7a2e5fe13bfbc213340",
+      "bytes": 8620,
+      "sha256": "c5838e86b04bddb3ffb5a1e7c6197f17cd4ce5bd576fb6e60f44d87ec85da3f0"
+    },
+    {
+      "path": "LICENSE",
+      "source": "https://raw.githubusercontent.com/zxing-js/library/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/LICENSE",
+      "gitBlob": "4bcbdae1b10aa04199c13f5ec9382a53d3442afb",
+      "bytes": 13321,
+      "sha256": "849b3ff4527ff587eecc78736b5685bbba7a44b071f3b944da914e832292f6c0"
+    },
+    {
+      "path": "src/core/common/reedsolomon/AbstractGenericGF.ts",
+      "source": "https://raw.githubusercontent.com/zxing-js/library/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/src/core/common/reedsolomon/AbstractGenericGF.ts",
+      "gitBlob": "bca4a82e50dc19b958b10e4271e5b6bc97d9ccf5",
+      "bytes": 2321,
+      "sha256": "6d175430caac77da1049e4a52a40000d44ee830a53bd6537a47cd351447801d5"
+    }
+  ],
+  "port": {
+    "conversion": "Bun.Transpiler TypeScript-to-browser-ES-module source conversion",
+    "converterVersion": "1.4.3",
+    "modifications": [
+      "Remove unrelated eager GenericGF field constants; wrapper constructs only GF(256, 0x11d, base 0).",
+      "Replace exception classes with native RangeError/Error.",
+      "Replace System.arraycopy calls with local typed-array helper.",
+      "Replace Integer.toHexString with Number.toString(16).",
+      "Add .mjs relative import extensions; retain all algorithms.",
+      "Retain source copyright headers and attribution; exact original sources retained in upstream/."
+    ],
+    "files": [
+      {
+        "path": "GenericGF.mjs",
+        "sha256": "e09fb70e8d078ac2a51107e976b7cfc3ef41c123195696941485b6035961d588"
+      },
+      {
+        "path": "GenericGFPoly.mjs",
+        "sha256": "96699c7d90f48946ec2fe2a4e5b418bacc56587143e0abab01e26fc7443007d0"
+      },
+      {
+        "path": "ReedSolomonEncoder.mjs",
+        "sha256": "b09a3806bedc96dc55302f5e821ea29ef468461db04ee6df511733de98921cb7"
+      },
+      {
+        "path": "ReedSolomonDecoder.mjs",
+        "sha256": "de3574b11e3e0fcebbdd058ae5b5de6b0196f6c0e5408110442ea79333470356"
+      },
+      {
+        "path": "AbstractGenericGF.mjs",
+        "sha256": "19cbfd50dbd4a8d8abf40c3d9cc273caca63737a353ed1de99e10c68a3434e28"
+      },
+      {
+        "path": "arraycopy.mjs",
+        "sha256": "2fb591556e1e51ea6aa3b5082540553ea0100633a17f9ed4b270d394aaa0a71c"
+      }
+    ]
+  }
+}

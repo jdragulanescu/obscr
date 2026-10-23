@@ -1,0 +1,1000 @@
+{
+  "passed": true,
+  "count": 113,
+  "observations": [
+    {
+      "name": "no-repair:unchanged-unicode",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 42,
+      "actualBytes": 42,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 42,
+        "total": 110,
+        "nonPayload": 68,
+        "keyedGroups": 94
+      }
+    },
+    {
+      "name": "no-repair:wrong-password",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:missing-explicit-profile",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:wrong-explicit-profile",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:salt-one-byte",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:altered-aad-with-valid-repair",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:changed-full-tag-with-valid-repair",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:shortened-tag-envelope-with-valid-repair",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:malformed-metadata-byte-20",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:malformed-metadata-byte-21",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:malformed-metadata-byte-22",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:malformed-metadata-byte-23",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:untrusted-length-bound",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:payload-one-byte",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:header-one-byte",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:payload-0-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 0,
+      "actualBytes": 0,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 0,
+        "total": 68,
+        "nonPayload": 68,
+        "keyedGroups": 52
+      }
+    },
+    {
+      "name": "no-repair:payload-0-shape",
+      "pass": true,
+      "blockLengths": [
+        16
+      ]
+    },
+    {
+      "name": "no-repair:payload-207-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 207,
+      "actualBytes": 207,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 207,
+        "total": 275,
+        "nonPayload": 68,
+        "keyedGroups": 259
+      }
+    },
+    {
+      "name": "no-repair:payload-207-shape",
+      "pass": true,
+      "blockLengths": [
+        223
+      ]
+    },
+    {
+      "name": "no-repair:capacity-exact",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 316,
+      "actualBytes": 316,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 316,
+        "total": 384,
+        "nonPayload": 68,
+        "keyedGroups": 368
+      }
+    },
+    {
+      "name": "no-repair:capacity-plus-one",
+      "pass": true,
+      "rejected": true,
+      "error": "Stored message exceeds exact capacity"
+    },
+    {
+      "name": "no-repair:operational-capacity",
+      "pass": true,
+      "maximumStoredBytes": 262092,
+      "keyedPositionBudget": 262144
+    },
+    {
+      "name": "no-repair:compressed-exact",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 4800,
+      "actualBytes": 4800,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 77,
+        "total": 145,
+        "nonPayload": 68,
+        "keyedGroups": 129
+      }
+    },
+    {
+      "name": "no-repair:authenticated-decompression-start",
+      "pass": true,
+      "starts": 1
+    },
+    {
+      "name": "no-repair:compressed-unauthenticated-repaired-code",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:unauthenticated-never-decompressed",
+      "pass": true,
+      "starts": 0
+    },
+    {
+      "name": "no-repair:authenticated-decompression-over-bound",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:over-bound-authenticated-before-decompress",
+      "pass": true,
+      "starts": 1
+    },
+    {
+      "name": "no-repair:authenticated-invalid-gzip",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "no-repair:invalid-gzip-authenticated-before-decompress",
+      "pass": true,
+      "starts": 1
+    },
+    {
+      "name": "grouped-p32:unchanged-unicode",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 42,
+      "actualBytes": 42,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 42,
+        "total": 206,
+        "nonPayload": 164,
+        "keyedGroups": 190
+      }
+    },
+    {
+      "name": "grouped-p32:wrong-password",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:missing-explicit-profile",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:wrong-explicit-profile",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:salt-one-byte",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:altered-aad-with-valid-repair",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:changed-full-tag-with-valid-repair",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:shortened-tag-envelope-with-valid-repair",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:malformed-metadata-byte-20",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:malformed-metadata-byte-21",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:malformed-metadata-byte-22",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:malformed-metadata-byte-23",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:untrusted-length-bound",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:payload-16-errors",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 430,
+      "actualBytes": 430,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 430,
+        "total": 626,
+        "nonPayload": 196,
+        "keyedGroups": 610
+      }
+    },
+    {
+      "name": "grouped-p32:payload-17-errors",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:header-32-errors",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 430,
+      "actualBytes": 430,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 430,
+        "total": 626,
+        "nonPayload": 196,
+        "keyedGroups": 610
+      }
+    },
+    {
+      "name": "grouped-p32:header-33-errors",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:last-block-1-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        33
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-1-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 208,
+      "actualBytes": 208,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 208,
+        "total": 404,
+        "nonPayload": 196,
+        "keyedGroups": 388
+      }
+    },
+    {
+      "name": "grouped-p32:last-block-16-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        48
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-16-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 223,
+      "actualBytes": 223,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 223,
+        "total": 419,
+        "nonPayload": 196,
+        "keyedGroups": 403
+      }
+    },
+    {
+      "name": "grouped-p32:last-block-31-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        63
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-31-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 238,
+      "actualBytes": 238,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 238,
+        "total": 434,
+        "nonPayload": 196,
+        "keyedGroups": 418
+      }
+    },
+    {
+      "name": "grouped-p32:last-block-32-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        64
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-32-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 239,
+      "actualBytes": 239,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 239,
+        "total": 435,
+        "nonPayload": 196,
+        "keyedGroups": 419
+      }
+    },
+    {
+      "name": "grouped-p32:last-block-191-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        223
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-191-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 398,
+      "actualBytes": 398,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 398,
+        "total": 594,
+        "nonPayload": 196,
+        "keyedGroups": 578
+      }
+    },
+    {
+      "name": "grouped-p32:last-block-222-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        254
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-222-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 429,
+      "actualBytes": 429,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 429,
+        "total": 625,
+        "nonPayload": 196,
+        "keyedGroups": 609
+      }
+    },
+    {
+      "name": "grouped-p32:last-block-223-shape",
+      "pass": true,
+      "blockLengths": [
+        255,
+        255
+      ],
+      "padding": 0
+    },
+    {
+      "name": "grouped-p32:last-block-223-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 430,
+      "actualBytes": 430,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 64,
+        "padding": 0,
+        "stored": 430,
+        "total": 626,
+        "nonPayload": 196,
+        "keyedGroups": 610
+      }
+    },
+    {
+      "name": "grouped-p32:payload-0-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 0,
+      "actualBytes": 0,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 0,
+        "total": 164,
+        "nonPayload": 164,
+        "keyedGroups": 148
+      }
+    },
+    {
+      "name": "grouped-p32:payload-0-shape",
+      "pass": true,
+      "blockLengths": [
+        48
+      ]
+    },
+    {
+      "name": "grouped-p32:payload-207-roundtrip",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 207,
+      "actualBytes": 207,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 207,
+        "total": 371,
+        "nonPayload": 164,
+        "keyedGroups": 355
+      }
+    },
+    {
+      "name": "grouped-p32:payload-207-shape",
+      "pass": true,
+      "blockLengths": [
+        255
+      ]
+    },
+    {
+      "name": "grouped-p32:capacity-exact",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 207,
+      "actualBytes": 207,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 207,
+        "total": 371,
+        "nonPayload": 164,
+        "keyedGroups": 355
+      }
+    },
+    {
+      "name": "grouped-p32:capacity-plus-one",
+      "pass": true,
+      "rejected": true,
+      "error": "Stored message exceeds exact capacity"
+    },
+    {
+      "name": "grouped-p32:operational-capacity",
+      "pass": true,
+      "maximumStoredBytes": 229132,
+      "keyedPositionBudget": 262144
+    },
+    {
+      "name": "grouped-p32:compressed-exact",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 4800,
+      "actualBytes": 4800,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 77,
+        "total": 241,
+        "nonPayload": 164,
+        "keyedGroups": 225
+      }
+    },
+    {
+      "name": "grouped-p32:authenticated-decompression-start",
+      "pass": true,
+      "starts": 1
+    },
+    {
+      "name": "grouped-p32:compressed-unauthenticated-repaired-code",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:unauthenticated-never-decompressed",
+      "pass": true,
+      "starts": 0
+    },
+    {
+      "name": "grouped-p32:authenticated-decompression-over-bound",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:over-bound-authenticated-before-decompress",
+      "pass": true,
+      "starts": 1
+    },
+    {
+      "name": "grouped-p32:authenticated-invalid-gzip",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "grouped-p32:invalid-gzip-authenticated-before-decompress",
+      "pass": true,
+      "starts": 1
+    },
+    {
+      "name": "matched-fixture-salt",
+      "pass": true,
+      "saltBytes": 16,
+      "headerBytes": [
+        36,
+        100
+      ]
+    },
+    {
+      "name": "matched-fixture-nonce",
+      "pass": true
+    },
+    {
+      "name": "matched-header-placement-prefix",
+      "pass": true
+    },
+    {
+      "name": "default-fresh-salt-and-nonce",
+      "pass": true
+    },
+    {
+      "name": "password-1024-utf8-bytes",
+      "pass": true,
+      "outcome": "exact-ready",
+      "expectedBytes": 42,
+      "actualBytes": 42,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 42,
+        "total": 110,
+        "nonPayload": 68,
+        "keyedGroups": 94
+      }
+    },
+    {
+      "name": "password-empty-primitive",
+      "pass": true,
+      "rejected": true,
+      "error": "Password must be nonempty and at most 1024 UTF-8 bytes"
+    },
+    {
+      "name": "password-empty-decode",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "password-1025-ascii-primitive",
+      "pass": true,
+      "rejected": true,
+      "error": "Password must be nonempty and at most 1024 UTF-8 bytes"
+    },
+    {
+      "name": "password-1025-ascii-decode",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "password-1025-utf8-primitive",
+      "pass": true,
+      "rejected": true,
+      "error": "Password exceeds 1024 UTF-8 bytes"
+    },
+    {
+      "name": "password-1025-utf8-decode",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "password-high-surrogate-primitive",
+      "pass": true,
+      "rejected": true,
+      "error": "Unpaired surrogate"
+    },
+    {
+      "name": "password-high-surrogate-decode",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "password-low-surrogate-primitive",
+      "pass": true,
+      "rejected": true,
+      "error": "Unpaired surrogate"
+    },
+    {
+      "name": "password-low-surrogate-decode",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "password-non-string-primitive",
+      "pass": true,
+      "rejected": true,
+      "error": "Password must be nonempty and at most 1024 UTF-8 bytes"
+    },
+    {
+      "name": "password-non-string-decode",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "password-no-normalization-or-trim",
+      "pass": true
+    },
+    {
+      "name": "geometry-0x96",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry--1x96",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry-1.5x96",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry-4097x1",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry-1x4097",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry-4096x2977",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry-NaNx96",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "geometry-Infinityx1",
+      "pass": true,
+      "rejected": true,
+      "error": "Image dimensions or pixel count exceed bounds"
+    },
+    {
+      "name": "malformed-rgb-type",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "malformed-rgb-length",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "too-small-envelope",
+      "pass": true,
+      "outcome": "safe-failure",
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "exposesMessage": false
+    },
+    {
+      "name": "message-type",
+      "pass": true,
+      "rejected": true,
+      "error": "Plaintext must be Uint8Array, at most 1 MiB"
+    },
+    {
+      "name": "message-plain-bound",
+      "pass": true,
+      "rejected": true,
+      "error": "Plaintext must be Uint8Array, at most 1 MiB"
+    },
+    {
+      "name": "compression-type",
+      "pass": true,
+      "rejected": true,
+      "error": "compressed must be boolean"
+    },
+    {
+      "name": "seed-type",
+      "pass": true,
+      "rejected": true,
+      "error": "Synthetic seed must be a string of at most 4096 characters"
+    },
+    {
+      "name": "sampler-demand-bound",
+      "pass": true,
+      "rejected": true,
+      "error": "Placement demand bound exceeded"
+    },
+    {
+      "name": "sampler-domain-bound",
+      "pass": true,
+      "rejected": true,
+      "error": "Invalid group domain"
+    },
+    {
+      "name": "sampler-exhausted-domain",
+      "pass": true,
+      "rejected": true,
+      "error": "Placement demand bound exceeded"
+    },
+    {
+      "name": "one-safe-failure-reason",
+      "pass": true,
+      "reasons": [
+        "Input, key derivation, metadata, repair, authentication, or bounded decompression failed"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "device": {
+    "node": "v24.13.0",
+    "cpu": "Apple M3 Max",
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "totalMemoryBytes": 68719476736
+  },
+  "note": "Each profile has a fresh Node process. First encode includes first Sodium initialization/KDF; decode follows it and is not a cold derivation. Process RSS is not browser/device memory. No phone observed.",
+  "results": [
+    {
+      "profile": "no-repair",
+      "width": 512,
+      "height": 512,
+      "usefulBytes": 2048,
+      "rows": [
+        {
+          "iteration": 0,
+          "phase": "cold-codec-first-use",
+          "encodeMs": 145.68974999999998,
+          "decodeMs": 106.05975000000001,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2116,
+          "memoryBefore": {
+            "rss": 118882304,
+            "heapTotal": 11632640,
+            "heapUsed": 7157592,
+            "external": 26563883,
+            "arrayBuffers": 24246728
+          },
+          "memoryAfter": {
+            "rss": 193593344,
+            "heapTotal": 17432576,
+            "heapUsed": 9703200,
+            "external": 71826004,
+            "arrayBuffers": 2044990
+          },
+          "peakRssBytes": 193593344
+        },
+        {
+          "iteration": 1,
+          "phase": "warm",
+          "encodeMs": 104.34500000000003,
+          "decodeMs": 106.21054200000003,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2116,
+          "memoryBefore": {
+            "rss": 193609728,
+            "heapTotal": 17432576,
+            "heapUsed": 9727152,
+            "external": 71826004,
+            "arrayBuffers": 2044990
+          },
+          "memoryAfter": {
+            "rss": 195887104,
+            "heapTotal": 17956864,
+            "heapUsed": 11284408,
+            "external": 72708270,
+            "arrayBuffers": 2914824
+          },
+          "peakRssBytes": 195887104
+        },
+        {
+          "iteration": 2,
+          "phase": "warm",
+          "encodeMs": 106.26874999999995,
+          "decodeMs": 105.66950000000008,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2116,
+          "memoryBefore": {
+            "rss": 195887104,
+            "heapTotal": 17956864,
+            "heapUsed": 11285328,
+            "external": 72708270,
+            "arrayBuffers": 2914824
+          },
+          "memoryAfter": {
+            "rss": 196427776,
+            "heapTotal": 17956864,
+            "heapUsed": 9061544,
+            "external": 72684672,
+            "arrayBuffers": 2901322
+          },
+          "peakRssBytes": 196427776
+        },
+        {
+          "iteration": 3,
+          "phase": "warm",
+          "encodeMs": 106.11579200000006,
+          "decodeMs": 106.89412499999992,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2116,
+          "memoryBefore": {
+            "rss": 196427776,
+            "heapTotal": 17956864,
+            "heapUsed": 9063848,
+            "external": 72684672,
+            "arrayBuffers": 2901322
+          },
+          "memoryAfter": {
+            "rss": 196575232,
+            "heapTotal": 17956864,
+            "heapUsed": 9219704,
+            "external": 72690846,
+            "arrayBuffers": 2903256
+          },
+          "peakRssBytes": 196575232
+        }
+      ]
+    },
+    {
+      "profile": "grouped-p32",
+      "width": 512,
+      "height": 512,
+      "usefulBytes": 2048,
+      "rows": [
+        {
+          "iteration": 0,
+          "phase": "cold-codec-first-use",
+          "encodeMs": 147.32529200000002,
+          "decodeMs": 108.80408300000005,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2500,
+          "memoryBefore": {
+            "rss": 130154496,
+            "heapTotal": 11894784,
+            "heapUsed": 5968240,
+            "external": 41084166,
+            "arrayBuffers": 22704206
+          },
+          "memoryAfter": {
+            "rss": 209960960,
+            "heapTotal": 17432576,
+            "heapUsed": 11330096,
+            "external": 71878903,
+            "arrayBuffers": 2097889
+          },
+          "peakRssBytes": 209960960
+        },
+        {
+          "iteration": 1,
+          "phase": "warm",
+          "encodeMs": 109.05783300000002,
+          "decodeMs": 103.87908300000004,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2500,
+          "memoryBefore": {
+            "rss": 209977344,
+            "heapTotal": 17432576,
+            "heapUsed": 11354048,
+            "external": 71878903,
+            "arrayBuffers": 2097889
+          },
+          "memoryAfter": {
+            "rss": 212910080,
+            "heapTotal": 17694720,
+            "heapUsed": 9746696,
+            "external": 72747045,
+            "arrayBuffers": 2965887
+          },
+          "peakRssBytes": 212910080
+        },
+        {
+          "iteration": 2,
+          "phase": "warm",
+          "encodeMs": 110.191375,
+          "decodeMs": 107.69958299999996,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2500,
+          "memoryBefore": {
+            "rss": 212910080,
+            "heapTotal": 17694720,
+            "heapUsed": 9747616,
+            "external": 72747045,
+            "arrayBuffers": 2965887
+          },
+          "memoryAfter": {
+            "rss": 216645632,
+            "heapTotal": 18481152,
+            "heapUsed": 11032752,
+            "external": 72773003,
+            "arrayBuffers": 2979685
+          },
+          "peakRssBytes": 216645632
+        },
+        {
+          "iteration": 3,
+          "phase": "warm",
+          "encodeMs": 108.29558400000008,
+          "decodeMs": 105.76270800000009,
+          "outcome": "exact-ready",
+          "exact": true,
+          "totalCodedBytes": 2500,
+          "memoryBefore": {
+            "rss": 216662016,
+            "heapTotal": 18481152,
+            "heapUsed": 11056056,
+            "external": 72773003,
+            "arrayBuffers": 2979685
+          },
+          "memoryAfter": {
+            "rss": 216694784,
+            "heapTotal": 18481152,
+            "heapUsed": 11071560,
+            "external": 73653945,
+            "arrayBuffers": 3852291
+          },
+          "peakRssBytes": 216694784
+        }
+      ]
+    }
+  ]
+}
