@@ -14,7 +14,8 @@
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest test/integration",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "spike-unprotected-salt": "node spikes/unprotected-salt/run.mjs"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

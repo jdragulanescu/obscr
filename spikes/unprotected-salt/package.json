@@ -1,0 +1,15 @@
+{
+  "name": "obscr-unprotected-salt-spike",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "boundaries": "node boundaries.mjs",
+    "key-chain": "node key-chain.mjs"
+  },
+  "dependencies": {
+    "libsodium-wrappers-sumo": "0.8.4",
+    "libsodium-sumo": "0.8.4"
+  },
+  "devDependencies": { "esbuild": "0.25.12" },
+  "overrides": { "libsodium-sumo": "0.8.4" }
+}

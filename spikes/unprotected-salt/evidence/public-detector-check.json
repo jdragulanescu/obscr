@@ -1,0 +1,21 @@
+[
+  {
+    "path": "../filler-free-repair/spikes/filler-free-repair/evidence/grouped-p32.png",
+    "score": 1,
+    "retainedAs": "prior-public-salt-positive.png",
+    "source": "https://github.com/jdragulanescu/obscr/blob/ffd5f3fa1b535694246966b2701155378399debb/spikes/filler-free-repair/evidence/grouped-p32.png",
+    "sha256": "59f813c950b6029e3218e8df7f3e47cdf41f1e6ffa4856320e1e08121b00fef2"
+  },
+  {
+    "path": "spikes/unprotected-salt/evidence/no-repair.png",
+    "score": 0
+  },
+  {
+    "path": "spikes/unprotected-salt/evidence/grouped-p32.png",
+    "score": 0
+  },
+  {
+    "path": "spikes/unprotected-salt/evidence/original.png",
+    "score": 0
+  }
+]

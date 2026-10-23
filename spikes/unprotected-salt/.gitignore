@@ -1,0 +1,6 @@
+node_modules/
+codec.bundle.js
+evidence/quick-results.json
+evidence/quick-raw.json
+!photos/*.png
+!evidence/*.png

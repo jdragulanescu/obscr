@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- Question: can a browser exchange both unprotected-salt candidates with the CLI?
+https://github.com/jdragulanescu/obscr/issues/31. Controls: load, encode, decode, salt damage, wrong password. -->
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Unprotected salt experiment</title>
+<style>body{font:16px system-ui;max-width:900px;margin:30px auto;padding:0 24px;line-height:1.5}button,input,select,textarea{font:inherit;margin:6px 0;padding:8px}button{margin-right:8px}textarea{display:block;width:95%;height:70px}canvas{max-width:300px}pre{white-space:pre-wrap;background:#eee;color:#222;padding:16px}label{display:block}</style>
+<h1>Unprotected salt experiment</h1><p>Does removing public salt repair improve hiding, and what recovery remains? Disposable experiment, not a supported Obscr format. Use only synthetic messages.</p>
+<label>PNG file <input id="file" type="file" accept="image/png"></label>
+<label>Profile <select id="profile"></select></label>
+<label>Message <textarea id="message">Browser to CLI: café 日本語 🔒</textarea></label>
+<label>Password <input id="password" size="55"></label>
+<label><input id="compressed" type="checkbox"> Compress before encryption</label>
+<div><button id="load">Load CLI example</button><button id="encode">Encode message</button><button id="decode">Decode message</button><button id="damage">Change one salt bit</button><button id="wrong">Try wrong password</button></div>
+<a id="download" hidden download="browser-encoded.png">Save browser PNG</a>
+<h2>Current state</h2><pre id="state">No image loaded.</pre><canvas id="canvas"></canvas>
+<h2>Guided checks</h2><ol><li>Select a profile, load its CLI example, then decode. Expect the exact Unicode message.</li><li>Encode the browser message, save the PNG and decode it with the spike CLI using the same profile.</li><li>Try a wrong password. Expect a common failure and no plaintext.</li><li>Change one salt bit, then decode. Expect failure even in the repair profile.</li></ol>
+<script type="module">
+import {profiles,PASSWORD,encode,decode} from './codec.bundle.js';
+const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
+for(const p of profiles)$('profile').add(new Option(p.name,p.name));$('profile').value='grouped-p32';$('password').value=PASSWORD;
+let image=null,last=null,busy=false;window.observations=[];
+function show(state){last=state;$('state').textContent=JSON.stringify(state,null,2);window.observations.push(state)}
+function draw(){canvas.width=image.width;canvas.height=image.height;const frame=ctx.createImageData(image.width,image.height);for(let p=0;p<image.width*image.height;p++){frame.data.set(image.rgb.subarray(p*3,p*3+3),p*4);frame.data[p*4+3]=255}ctx.putImageData(frame,0,0);$('download').href=canvas.toDataURL('image/png');$('download').hidden=false}
+async function load(blob){if(blob.size>16*1024*1024||blob.size<24)throw Error('Container bound');const header=new DataView(await blob.slice(0,24).arrayBuffer());if(header.getUint32(0)!==0x89504e47||header.getUint32(4)!==0x0d0a1a0a)throw Error('Expected PNG');const w=header.getUint32(16),h=header.getUint32(20);if(!w||!h||w>1024||h>1024)throw Error('Image bound exceeded');const bitmap=await createImageBitmap(blob);canvas.width=bitmap.width;canvas.height=bitmap.height;ctx.drawImage(bitmap,0,0);bitmap.close();const data=ctx.getImageData(0,0,canvas.width,canvas.height).data,rgb=new Uint8Array(canvas.width*canvas.height*3);for(let p=0;p<canvas.width*canvas.height;p++){if(data[p*4+3]!==255)throw Error('Only opaque experiment covers');rgb.set(data.subarray(p*4,p*4+3),p*3)}image={rgb,width:canvas.width,height:canvas.height};show({outcome:'loaded',profile:$('profile').value,width:image.width,height:image.height});draw()}
+async function act(fn){if(busy)return;busy=true;for(const el of document.querySelectorAll('button,input,select,textarea'))el.disabled=true;try{await fn()}catch(error){show({outcome:'safe-failure',message:null,reason:String(error)})}finally{busy=false;for(const el of document.querySelectorAll('button,input,select,textarea'))el.disabled=false}}
+$('file').onchange=()=>act(()=>load($('file').files[0]));
+$('load').onclick=()=>act(async()=>{const r=await fetch(`./evidence/cli-${$('profile').value}.png`);if(!r.ok)throw Error('Prepare CLI example first');await load(await r.blob())});
+$('encode').onclick=()=>act(async()=>{if(!image)throw Error('Load a PNG first');const t=performance.now();const result=await encode(image.rgb,image.width,image.height,new TextEncoder().encode($('message').value),$('profile').value,{compressed:$('compressed').checked,password:$('password').value});image.rgb=result.rgb;draw();show({outcome:'encoded',profile:$('profile').value,elapsedMs:performance.now()-t,storedBytes:result.storedBytes,codedBytes:result.totalCodedBytes,heapBytes:performance.memory?.usedJSHeapSize??null})});
+async function recover(password){if(!image)throw Error('Load a PNG first');const t=performance.now();const result=await decode(image.rgb,image.width,image.height,$('profile').value,password);show({outcome:result.outcome,profile:$('profile').value,message:result.message?new TextDecoder('utf-8',{fatal:true}).decode(result.message):null,reason:result.reason??null,elapsedMs:performance.now()-t,heapBytes:performance.memory?.usedJSHeapSize??null})}
+$('decode').onclick=()=>act(()=>recover($('password').value));$('wrong').onclick=()=>act(()=>recover('wrong synthetic password'));
+$('damage').onclick=()=>act(async()=>{if(!image)throw Error('Load a PNG first');image.rgb[0]^=1;draw();show({outcome:'damaged',changedSaltBits:1,message:null})});
+window.exportPng=()=>canvas.toDataURL('image/png');window.currentState=()=>last;
+show({outcome:'ready',profiles:profiles.map(p=>p.name),userAgent:navigator.userAgent});
+</script></html>
