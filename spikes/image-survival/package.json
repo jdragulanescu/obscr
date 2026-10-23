@@ -1,0 +1,9 @@
+{
+  "name": "obscr-image-survival-spike",
+  "private": true,
+  "type": "module",
+  "description": "Disposable complete-message damage experiment; not production code",
+  "dependencies": {
+    "sharp": "0.34.5"
+  }
+}

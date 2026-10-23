@@ -1,0 +1,680 @@
+{
+  "started": "2026-10-23T19:19:15.196Z",
+  "ended": "2026-10-23T19:24:20.787Z",
+  "smoke": false,
+  "command": "npm run spike-image-survival -- --out spikes/image-survival/evidence/m3-max",
+  "sourceHashes": {
+    "codec.mjs": "9b541b975d2c82b0ec73ca4cb55e583c6d279cc65b678058648d8d7c101b5c47",
+    "run.mjs": "4773133aa207e866db6577484c851e5dee12f2863a0e43fd4e77bfc290a76b2c",
+    "package-lock.json": "06b4ba665362396d913d3f4a9c201371fb02b04f23060730f136c1dd84aa14d5"
+  },
+  "baseCommit": "b94852d33ba3edc1eb23e7b70997b3360d98a410",
+  "platform": {
+    "os": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpu": "Apple M3 Max",
+    "totalMemoryBytes": 68719476736,
+    "node": "v24.13.0"
+  },
+  "versions": {
+    "aom": "3.13.1",
+    "archive": "3.8.2",
+    "cairo": "1.18.4",
+    "cgif": "0.5.0",
+    "exif": "0.6.25",
+    "expat": "2.7.3",
+    "ffi": "3.5.2",
+    "fontconfig": "2.17.1",
+    "freetype": "2.14.1",
+    "fribidi": "1.0.16",
+    "glib": "2.86.1",
+    "harfbuzz": "12.1.0",
+    "heif": "1.20.2",
+    "highway": "1.3.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.17",
+    "mozjpeg": "0826579",
+    "pango": "1.57.0",
+    "pixman": "0.46.4",
+    "png": "1.6.50",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.61.2",
+    "spng": "0.7.4",
+    "tiff": "4.7.1",
+    "vips": "8.17.3",
+    "webp": "1.6.0",
+    "xml2": "2.15.1",
+    "zlib-ng": "2.2.5",
+    "sharp": "0.34.5"
+  },
+  "profiles": [
+    {
+      "name": "lsb-1",
+      "id": 1,
+      "repeats": 1,
+      "carrier": "lsb"
+    },
+    {
+      "name": "lsb-5",
+      "id": 2,
+      "repeats": 5,
+      "carrier": "lsb"
+    },
+    {
+      "name": "qim-32",
+      "id": 3,
+      "repeats": 3,
+      "carrier": "qim",
+      "step": 32
+    },
+    {
+      "name": "qim-64",
+      "id": 4,
+      "repeats": 3,
+      "carrier": "qim",
+      "step": 64
+    }
+  ],
+  "side": 512,
+  "headerBytes": 48,
+  "tagBytes": 16,
+  "kdf": {
+    "name": "PBKDF2-SHA256",
+    "iterations": 65535,
+    "bytes": 32,
+    "hkdf": "SHA256, separate encryption and placement labels"
+  },
+  "source": "Generated mathematical covers; no third-party images. Synthetic evidence only.",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "transforms": [
+    "unchanged",
+    "png-reencode",
+    "pixel-plus1-0.0001",
+    "pixel-plus1-0.001",
+    "pixel-plus1-0.01",
+    "pixel-plus1-0.05",
+    "pixel-plus1-0.2",
+    "pixel-randomRGB-0.001",
+    "pixel-randomRGB-0.01",
+    "center-black-16",
+    "center-black-64",
+    "stripe-black-8",
+    "resize-384-lanczos3",
+    "resize-256-lanczos3",
+    "jpeg-95-420",
+    "jpeg-85-420",
+    "jpeg-60-420",
+    "resize384-jpeg85",
+    "jpeg95-resize384-jpeg75",
+    "jpeg85-twice",
+    "clear-lowest-bit",
+    "clear-lowest-four-bits",
+    "truncate-half-file",
+    "invalid-png-header",
+    "bootstrap-within-repetition-limit",
+    "bootstrap-beyond-repetition-limit",
+    "payload-within-repetition-limit",
+    "payload-beyond-repetition-limit",
+    "malformed-length",
+    "wrong-password"
+  ],
+  "summary": [
+    {
+      "profile": "lsb-1",
+      "capacityStoredBytes": 98240,
+      "fixtures": 54,
+      "encoded": 54,
+      "capacityRejected": 0,
+      "cases": 1620,
+      "outcomes": {
+        "unchanged": {
+          "exact": 54
+        },
+        "png-reencode": {
+          "exact": 54
+        },
+        "pixel-plus1-0.0001": {
+          "exact": 53,
+          "authentication": 1
+        },
+        "pixel-plus1-0.001": {
+          "authentication": 29,
+          "exact": 25
+        },
+        "pixel-plus1-0.01": {
+          "bootstrap": 36,
+          "authentication": 17,
+          "exact": 1
+        },
+        "pixel-plus1-0.05": {
+          "bootstrap": 54
+        },
+        "pixel-plus1-0.2": {
+          "bootstrap": 54
+        },
+        "pixel-randomRGB-0.001": {
+          "exact": 23,
+          "authentication": 31
+        },
+        "pixel-randomRGB-0.01": {
+          "bootstrap": 18,
+          "authentication": 35,
+          "exact": 1
+        },
+        "center-black-16": {
+          "exact": 39,
+          "authentication": 15
+        },
+        "center-black-64": {
+          "authentication": 54
+        },
+        "stripe-black-8": {
+          "authentication": 53,
+          "exact": 1
+        },
+        "resize-384-lanczos3": {
+          "geometry": 54
+        },
+        "resize-256-lanczos3": {
+          "geometry": 54
+        },
+        "jpeg-95-420": {
+          "bootstrap": 54
+        },
+        "jpeg-85-420": {
+          "bootstrap": 54
+        },
+        "jpeg-60-420": {
+          "bootstrap": 54
+        },
+        "resize384-jpeg85": {
+          "geometry": 54
+        },
+        "jpeg95-resize384-jpeg75": {
+          "geometry": 54
+        },
+        "jpeg85-twice": {
+          "bootstrap": 54
+        },
+        "clear-lowest-bit": {
+          "bootstrap": 54
+        },
+        "clear-lowest-four-bits": {
+          "bootstrap": 54
+        },
+        "truncate-half-file": {
+          "image-parse": 54
+        },
+        "invalid-png-header": {
+          "image-parse": 54
+        },
+        "bootstrap-within-repetition-limit": {
+          "exact": 54
+        },
+        "bootstrap-beyond-repetition-limit": {
+          "bootstrap": 54
+        },
+        "payload-within-repetition-limit": {
+          "exact": 54
+        },
+        "payload-beyond-repetition-limit": {
+          "authentication": 54
+        },
+        "malformed-length": {
+          "bootstrap": 54
+        },
+        "wrong-password": {
+          "authentication": 54
+        }
+      },
+      "detection": {
+        "truePositive": 54,
+        "positiveCount": 54,
+        "falsePositive": 0,
+        "negativeCount": 9
+      },
+      "encodeMedianMs": 11.833667000002606,
+      "encodeP95Ms": 19.047749999997905,
+      "exactDecodeMedianMs": 38.78762500000448,
+      "exactDecodeP95Ms": 45.5836249999993,
+      "embeddingPsnrMinDb": 76.01192407794548,
+      "embeddingPsnrMaxDb": 82.18783058114398,
+      "peakRssKiB": 395616,
+      "boundary": [
+        {
+          "size": 98239,
+          "delta": -1,
+          "outcome": "exact"
+        },
+        {
+          "size": 98240,
+          "delta": 0,
+          "outcome": "exact"
+        },
+        {
+          "size": 98241,
+          "delta": 1,
+          "outcome": "capacity"
+        }
+      ]
+    },
+    {
+      "profile": "lsb-5",
+      "capacityStoredBytes": 19596,
+      "fixtures": 54,
+      "encoded": 54,
+      "capacityRejected": 0,
+      "cases": 1620,
+      "outcomes": {
+        "unchanged": {
+          "exact": 54
+        },
+        "png-reencode": {
+          "exact": 54
+        },
+        "pixel-plus1-0.0001": {
+          "exact": 54
+        },
+        "pixel-plus1-0.001": {
+          "exact": 54
+        },
+        "pixel-plus1-0.01": {
+          "exact": 54
+        },
+        "pixel-plus1-0.05": {
+          "exact": 53,
+          "authentication": 1
+        },
+        "pixel-plus1-0.2": {
+          "authentication": 33,
+          "bootstrap": 18,
+          "exact": 3
+        },
+        "pixel-randomRGB-0.001": {
+          "exact": 54
+        },
+        "pixel-randomRGB-0.01": {
+          "exact": 54
+        },
+        "center-black-16": {
+          "exact": 54
+        },
+        "center-black-64": {
+          "exact": 53,
+          "authentication": 1
+        },
+        "stripe-black-8": {
+          "exact": 54
+        },
+        "resize-384-lanczos3": {
+          "geometry": 54
+        },
+        "resize-256-lanczos3": {
+          "geometry": 54
+        },
+        "jpeg-95-420": {
+          "bootstrap": 54
+        },
+        "jpeg-85-420": {
+          "bootstrap": 54
+        },
+        "jpeg-60-420": {
+          "bootstrap": 54
+        },
+        "resize384-jpeg85": {
+          "geometry": 54
+        },
+        "jpeg95-resize384-jpeg75": {
+          "geometry": 54
+        },
+        "jpeg85-twice": {
+          "bootstrap": 54
+        },
+        "clear-lowest-bit": {
+          "bootstrap": 54
+        },
+        "clear-lowest-four-bits": {
+          "bootstrap": 54
+        },
+        "truncate-half-file": {
+          "image-parse": 54
+        },
+        "invalid-png-header": {
+          "image-parse": 54
+        },
+        "bootstrap-within-repetition-limit": {
+          "exact": 54
+        },
+        "bootstrap-beyond-repetition-limit": {
+          "bootstrap": 54
+        },
+        "payload-within-repetition-limit": {
+          "exact": 54
+        },
+        "payload-beyond-repetition-limit": {
+          "authentication": 54
+        },
+        "malformed-length": {
+          "bootstrap": 54
+        },
+        "wrong-password": {
+          "authentication": 54
+        }
+      },
+      "detection": {
+        "truePositive": 54,
+        "positiveCount": 54,
+        "falsePositive": 0,
+        "negativeCount": 9
+      },
+      "encodeMedianMs": 12.231250000000728,
+      "encodeP95Ms": 20.75654200000281,
+      "exactDecodeMedianMs": 39.06975000000239,
+      "exactDecodeP95Ms": 51.74420800000371,
+      "embeddingPsnrMinDb": 68.95427478593399,
+      "embeddingPsnrMaxDb": 75.10084450584812,
+      "peakRssKiB": 401072,
+      "boundary": [
+        {
+          "size": 19595,
+          "delta": -1,
+          "outcome": "exact"
+        },
+        {
+          "size": 19596,
+          "delta": 0,
+          "outcome": "exact"
+        },
+        {
+          "size": 19597,
+          "delta": 1,
+          "outcome": "capacity"
+        }
+      ]
+    },
+    {
+      "profile": "qim-32",
+      "capacityStoredBytes": 106,
+      "fixtures": 54,
+      "encoded": 45,
+      "capacityRejected": 9,
+      "cases": 1350,
+      "outcomes": {
+        "unchanged": {
+          "exact": 45
+        },
+        "png-reencode": {
+          "exact": 45
+        },
+        "pixel-plus1-0.0001": {
+          "exact": 45
+        },
+        "pixel-plus1-0.001": {
+          "exact": 45
+        },
+        "pixel-plus1-0.01": {
+          "exact": 45
+        },
+        "pixel-plus1-0.05": {
+          "exact": 45
+        },
+        "pixel-plus1-0.2": {
+          "exact": 45
+        },
+        "pixel-randomRGB-0.001": {
+          "exact": 45
+        },
+        "pixel-randomRGB-0.01": {
+          "bootstrap": 10,
+          "authentication": 34,
+          "exact": 1
+        },
+        "center-black-16": {
+          "exact": 45
+        },
+        "center-black-64": {
+          "exact": 35,
+          "authentication": 10
+        },
+        "stripe-black-8": {
+          "authentication": 31,
+          "exact": 14
+        },
+        "resize-384-lanczos3": {
+          "exact": 30,
+          "bootstrap": 15
+        },
+        "resize-256-lanczos3": {
+          "authentication": 11,
+          "bootstrap": 19,
+          "exact": 15
+        },
+        "jpeg-95-420": {
+          "exact": 45
+        },
+        "jpeg-85-420": {
+          "exact": 45
+        },
+        "jpeg-60-420": {
+          "exact": 45
+        },
+        "resize384-jpeg85": {
+          "bootstrap": 37,
+          "authentication": 8
+        },
+        "jpeg95-resize384-jpeg75": {
+          "bootstrap": 45
+        },
+        "jpeg85-twice": {
+          "exact": 45
+        },
+        "clear-lowest-bit": {
+          "exact": 45
+        },
+        "clear-lowest-four-bits": {
+          "bootstrap": 25,
+          "authentication": 5,
+          "exact": 15
+        },
+        "truncate-half-file": {
+          "image-parse": 45
+        },
+        "invalid-png-header": {
+          "image-parse": 45
+        },
+        "bootstrap-within-repetition-limit": {
+          "exact": 45
+        },
+        "bootstrap-beyond-repetition-limit": {
+          "bootstrap": 45
+        },
+        "payload-within-repetition-limit": {
+          "exact": 45
+        },
+        "payload-beyond-repetition-limit": {
+          "authentication": 45
+        },
+        "malformed-length": {
+          "bootstrap": 45
+        },
+        "wrong-password": {
+          "authentication": 45
+        }
+      },
+      "detection": {
+        "truePositive": 45,
+        "positiveCount": 45,
+        "falsePositive": 0,
+        "negativeCount": 9
+      },
+      "encodeMedianMs": 16.478374999998778,
+      "encodeP95Ms": 24.24591700000019,
+      "exactDecodeMedianMs": 10.81341600000087,
+      "exactDecodeP95Ms": 17.31000000000131,
+      "embeddingPsnrMinDb": 39.763477777162656,
+      "embeddingPsnrMaxDb": 43.58550911910853,
+      "peakRssKiB": 320144,
+      "boundary": [
+        {
+          "size": 105,
+          "delta": -1,
+          "outcome": "exact"
+        },
+        {
+          "size": 106,
+          "delta": 0,
+          "outcome": "exact"
+        },
+        {
+          "size": 107,
+          "delta": 1,
+          "outcome": "capacity"
+        }
+      ]
+    },
+    {
+      "profile": "qim-64",
+      "capacityStoredBytes": 106,
+      "fixtures": 54,
+      "encoded": 45,
+      "capacityRejected": 9,
+      "cases": 1350,
+      "outcomes": {
+        "unchanged": {
+          "exact": 45
+        },
+        "png-reencode": {
+          "exact": 45
+        },
+        "pixel-plus1-0.0001": {
+          "exact": 45
+        },
+        "pixel-plus1-0.001": {
+          "exact": 45
+        },
+        "pixel-plus1-0.01": {
+          "exact": 45
+        },
+        "pixel-plus1-0.05": {
+          "exact": 45
+        },
+        "pixel-plus1-0.2": {
+          "exact": 45
+        },
+        "pixel-randomRGB-0.001": {
+          "exact": 45
+        },
+        "pixel-randomRGB-0.01": {
+          "exact": 45
+        },
+        "center-black-16": {
+          "exact": 45
+        },
+        "center-black-64": {
+          "exact": 37,
+          "authentication": 8
+        },
+        "stripe-black-8": {
+          "authentication": 31,
+          "exact": 14
+        },
+        "resize-384-lanczos3": {
+          "exact": 28,
+          "authentication": 13,
+          "bootstrap": 4
+        },
+        "resize-256-lanczos3": {
+          "authentication": 16,
+          "bootstrap": 27,
+          "exact": 2
+        },
+        "jpeg-95-420": {
+          "exact": 45
+        },
+        "jpeg-85-420": {
+          "exact": 45
+        },
+        "jpeg-60-420": {
+          "exact": 45
+        },
+        "resize384-jpeg85": {
+          "bootstrap": 7,
+          "authentication": 34,
+          "exact": 4
+        },
+        "jpeg95-resize384-jpeg75": {
+          "bootstrap": 40,
+          "authentication": 5
+        },
+        "jpeg85-twice": {
+          "exact": 45
+        },
+        "clear-lowest-bit": {
+          "exact": 45
+        },
+        "clear-lowest-four-bits": {
+          "exact": 45
+        },
+        "truncate-half-file": {
+          "image-parse": 45
+        },
+        "invalid-png-header": {
+          "image-parse": 45
+        },
+        "bootstrap-within-repetition-limit": {
+          "exact": 45
+        },
+        "bootstrap-beyond-repetition-limit": {
+          "bootstrap": 45
+        },
+        "payload-within-repetition-limit": {
+          "exact": 45
+        },
+        "payload-beyond-repetition-limit": {
+          "authentication": 45
+        },
+        "malformed-length": {
+          "bootstrap": 45
+        },
+        "wrong-password": {
+          "authentication": 45
+        }
+      },
+      "detection": {
+        "truePositive": 45,
+        "positiveCount": 45,
+        "falsePositive": 0,
+        "negativeCount": 9
+      },
+      "encodeMedianMs": 21.473707999999533,
+      "encodeP95Ms": 36.147500000000036,
+      "exactDecodeMedianMs": 13.414958000001207,
+      "exactDecodeP95Ms": 24.347125000000233,
+      "embeddingPsnrMinDb": 33.78395308322386,
+      "embeddingPsnrMaxDb": 37.618336007111644,
+      "peakRssKiB": 304800,
+      "boundary": [
+        {
+          "size": 105,
+          "delta": -1,
+          "outcome": "exact"
+        },
+        {
+          "size": 106,
+          "delta": 0,
+          "outcome": "exact"
+        },
+        {
+          "size": 107,
+          "delta": 1,
+          "outcome": "capacity"
+        }
+      ]
+    }
+  ]
+}
