@@ -4,10 +4,10 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 
 | Canonical role             | Label in our tracker | Meaning                                  |
 | -------------------------- | -------------------- | ---------------------------------------- |
-| `needs-triage`             | `needs-triage`       | Maintainer needs to evaluate this issue  |
-| `needs-info`               | `needs-info`         | Waiting on reporter for more information |
-| `ready-for-agent`          | `ready-for-agent`    | Fully specified, ready for an AFK agent  |
-| `ready-for-human`          | `ready-for-human`    | Requires human implementation, or a human check at acceptance |
+| `needs-triage`             | `needs-triage`       | Maintainer needs to evaluate the issue |
+| `needs-info`               | `question`          | Waiting on the reporter for information |
+| `ready-for-agent`          | `ready-for-agent`   | Fully specified and ready for implementation |
+| `ready-for-human`          | `ready-for-human`   | Requires human implementation, a human acceptance check, or an answer to a hand-over |
 | `wontfix`                  | `wontfix`            | Will not be actioned                     |
 
 When a skill mentions a role (e.g. "apply the AFK-ready triage label"), use the corresponding label string from this table.
@@ -27,4 +27,8 @@ The skills set these themselves. `to-spec`, `to-tickets` and `implement` create 
 | `needs-tickets` | `implement` | Acceptance failed; the failures posted on the ticket wait on `/to-tickets <spec>`. Neither ready nor claimed |
 | `wayfinder:map`, `wayfinder:<type>` | `wayfinder` | A decision map and its tickets |
 
-An acceptance ticket also uses two triage states: `ready-for-agent` while it waits to run, and `ready-for-human` while its Try it steps wait on you.
+An acceptance ticket is also `ready-for-agent` while it waits to run,
+and an epic's review ticket `ready-for-human` while its Try it steps
+wait on you. Any ticket or spec is `ready-for-human` while a hand-over
+(its `## Needs you` comment) waits for your answer, and goes back to
+`ready-for-agent` once you reply and relabel it.

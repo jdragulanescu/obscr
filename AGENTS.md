@@ -8,7 +8,7 @@ Issues live in GitHub Issues on `jdragulanescu/obscr`, used through `gh`. See `d
 
 ### Triage labels
 
-The default five triage labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+Five triage roles; `needs-info` uses the existing `question` label. See `docs/agents/triage-labels.md`.
 
 ### Domain docs
 

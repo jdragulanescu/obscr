@@ -39,6 +39,14 @@ Create a GitHub issue.
 
 Read it as in **Read an issue** above.
 
+## Hand-over operations
+
+Used by a hand-over (`ship`'s HAND-OVER.md), beside **Comment on an issue** and **Apply / remove labels** above.
+
+- **Unassign**: `gh issue edit <number> --remove-assignee <login>`, with `@me` for your own claim.
+- **Comment with files**: `gh issue comment <number> --body-file <file> --attach '<path>#<alt text>'`, one `--attach` per image or video (50 at most). A `![alt](<path>)` in the body is rewritten to point at the uploaded file; an attached file the body does not reference is appended.
+- **Comment authors**: `gh issue view <number> --json comments --jq '.comments[] | {author: .author.login, authorAssociation, createdAt, body}'`. An author can write to the repo when `gh api repos/{owner}/{repo}/collaborators/<login>/permission --jq .permission` prints `admin`, `maintain` or `write`. Run it only for an author whose `authorAssociation` is `OWNER`, `MEMBER` or `COLLABORATOR`: every other author cannot write.
+
 ## Wayfinding operations
 
 Used by `/wayfinder`. The **map** is a single issue with **child** issues as tickets.

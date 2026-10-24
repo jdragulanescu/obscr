@@ -1,12 +1,20 @@
 # Testing
 
-- [Commands](#commands): every run; the everyday commands come first.
+- [Commands](#commands): before running checks or starting the app.
 - [Isolation](#isolation): before starting a server or the TUI.
 - [Browser tool](#browser-tool): before a browser check.
-- [E2E shape](#e2e-shape): before writing or running an e2e file, or choosing which ones a change runs.
-- [CI](#ci): when a change touches CI, or a criterion needs CI's result.
+- [E2E shape](#e2e-shape): before choosing or adding e2e checks.
+- [CI](#ci): when changing CI or checking its result.
 
-The commands and facts every skill reads before running a check. The rules for choosing a check live in the global `~/.agents/docs/testing.md` and `~/.agents/docs/definition-of-done.md` and, for a spec's acceptance check, in `/to-spec`; this file only says how to run them here. A command this project does not have reads `none`; skip that check and say so in the closeout. A field waiting on an issue reads `pending #<n>`. Each check is one line here, and how a tool works lives beside it or in `docs/agents/testing/`, as `~/.agents/skills/setup-repo/TESTING-DOC.md` describes.
+This file records how to run checks here.
+Check selection follows the global `~/.agents/docs/testing.md`,
+`~/.agents/docs/definition-of-done.md`, and `/to-spec` for acceptance.
+
+A missing command reads `none`; skip that check and report it.
+A field waiting on an issue reads `pending #<n>`.
+Keep command lines short; put details beside the tool or in
+`docs/agents/testing/`, following
+`~/.agents/skills/setup-repo/TESTING-DOC.md`.
 
 ## Commands
 
@@ -16,28 +24,36 @@ The commands and facts every skill reads before running a check. The rules for c
 - **Fast suite**: `npm test`: Jest over `test/unit/` and `test/integration/`, with coverage. Always run it whole. Never includes e2e.
 - **One test file**: `npm test -- <path>`: while iterating on one module.
 - **One e2e file**: none
+- **Mutation testing**: none
 - **Unit only**: `npm run test:unit`: while iterating on `lib/`.
-- **Integration only**: `npm run test:integration`: runs the CLI in `bin/index.js` as a child process against `test/fixtures/`.
-- **PWA build**: `npm run build`: Vite builds `app/` into `dist/`, as Vercel does. Run it when a change touches `app/` or `lib/`.
+- **Integration only**: `npm run test:integration`: child-process checks of `bin/index.js` and full engine workflows using `test/fixtures/`.
+- **Watch tests**: `npm run test:watch`: interactive Jest watch mode.
+- **PWA build**: `npm run build`: Vite builds `app/` into `dist/`, as Vercel does. Run when changing `app/` or `lib/`.
+- **Install dependencies**: `npm ci`: prepare a fresh checkout.
+- **Dev server**: `npm run dev`: read its printed `Local:` URL; the port may not be 5173.
+- **PWA preview**: `npm run preview`: serve the built PWA after `npm run build`.
 
 ## Isolation
 
-What two worktrees of this repo would collide on, and how each gets its own copy.
+Tests write to `test/output/` inside each checkout.
+Vite takes the next free port when 5173 is busy.
+Stop only the `npm run dev` process this run started.
 
-- **Shared**: none: tests write only to `test/output/` in the checkout, and Vite takes the next free port when 5173 is busy.
+- **Shared**: none
 - **Approach**: none
-- **Setup**: `npm ci`
-- **Start**: `npm run dev`: prints its `Local:` URL; read the port from it, since it may not be 5173.
-- **Stop**: none: stop the `npm run dev` process this run started.
-- **TUI**: `node bin/index.js interactive`, 80x24, no mouse (inquirer reads only keys): what `tui-check` launches.
+- **Setup**: none
+- **Start**: none
+- **Stop**: none
+- **TUI**: `node bin/index.js interactive`, 80x24, keyboard only; inquirer does not use mouse input.
 
 ## Browser tool
 
-- **Tool**: `agent-browser`: what `browser-check` drives the dev server with; `none` when the project has no UI.
+- **Tool**: `agent-browser`: installed; use it for browser checks.
 
 ## E2E shape
 
-The rules for these are under "E2E shape" in the global `~/.agents/docs/testing.md`.
+Follow the E2E shape rules in the global `~/.agents/docs/testing.md`.
+There is no e2e harness. A spec that adds one must fill these fields.
 
 - **E2E layout**: none
 - **E2E budget**: none
@@ -46,6 +62,10 @@ The rules for these are under "E2E shape" in the global `~/.agents/docs/testing.
 
 ## CI
 
-- **On pull requests**: none; `.github/workflows/publish.yml` runs `npm publish` only when a GitHub release is created. Whatever CI runs, agents still never run the full e2e suite locally.
+- **On pull requests**: none
 - **Drafts**: skipped: no workflow runs on pull requests.
 - **By hand**: none: `publish.yml` has no `workflow_dispatch` trigger.
+
+`.github/workflows/publish.yml` runs `npm ci` and `npm publish`
+when a GitHub release is created. It runs no tests or e2e suite.
+Do not run the full e2e suite locally if one is added.
