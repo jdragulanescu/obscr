@@ -1,0 +1,14 @@
+{
+  "status": "Experimental development selection, frozen after initial extraction errors and before repair scoring; not a production recommendation",
+  "evidence": "evidence/initial.json.gz",
+  "reason": "At random 0.01% pixel damage, header errors were 0–4 bytes, payload errors reached 33 bytes, runs reached 4 bytes, and 255-byte regions reached 17 bad bytes. Compare payload parity16 (8-symbol radius) and parity32 (16-symbol radius), with fixed parity16 header. Compare whole-byte round-robin for parity16 because short bursts and unequal region counts can shift errors across shortened codewords. At larger damage, counts greatly exceed these radii and adaptive salt changes; keep these failures, not a stronger-salt workaround.",
+  "notSelected": "No bit interleaver: observed multi-bit grouping within small byte runs makes dispersion into more erroneous symbols a risk without a demonstrated need. No parity64: adds cost while 512-byte admission already fails for parity32 and larger damage is dominated by salt/header failure. Identity and round-robin are identical when only one codeword is present; report that limitation.",
+  "profiles": [
+    {"name":"raw-p16","salt":"raw","parity":16,"interleave":"none"},
+    {"name":"raw-p16-byte","salt":"raw","parity":16,"interleave":"byte-round-robin"},
+    {"name":"raw-p32","salt":"raw","parity":32,"interleave":"none"},
+    {"name":"adaptive-p16","salt":"adaptive","parity":16,"interleave":"none"},
+    {"name":"adaptive-p16-byte","salt":"adaptive","parity":16,"interleave":"byte-round-robin"},
+    {"name":"adaptive-p32","salt":"adaptive","parity":32,"interleave":"none"}
+  ]
+}

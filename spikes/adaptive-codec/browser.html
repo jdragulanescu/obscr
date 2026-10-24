@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Question: can the bounded adaptive codec work in Chromium and Node?
+https://github.com/jdragulanescu/obscr/issues/35. Controls: run gate; cancel worker.
+Disposable feasibility evidence only, not a production application or hiding claim. -->
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Adaptive codec feasibility pilot</title>
+<style>body{font:16px system-ui;max-width:960px;margin:32px auto;padding:0 20px}button{font:inherit;padding:8px 16px;margin-right:8px}pre{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid;padding:16px}small{display:block;margin:16px 0}</style>
+<h1>Adaptive codec feasibility pilot</h1>
+<p>Disposable experiment. The first gate checks real WASM message coding. It does not test photographs, PNG exchange, passwords, hiding, or damage recovery.</p>
+<section>
+<h2>Authenticated PNG file exchange</h2>
+<p>Choose an opaque RGB8 PNG. The password below is for non-secret pilot messages only. Each operation runs in a worker with a 30-second deadline.</p>
+<p><label>PNG file <input id="png-file" type="file" accept=".png"></label></p>
+<p><label>Salt route <select id="salt"><option value="raw">Raw random salt</option><option value="adaptive">Adaptive random salt</option></select></label>
+<label>Repair <select id="repair"><option value="0">None</option><option value="16">Experimental parity 16</option><option value="32">Experimental parity 32</option></select></label></p>
+<p><label>Byte order <select id="interleave"><option value="none">Identity order</option><option value="byte-round-robin">Round-robin bytes</option></select></label></p>
+<p><label>Message <textarea id="message">Browser to CLI: café é</textarea></label></p>
+<p><label>Password <input id="password" value="synthetic-adaptive-codec-password"></label>
+<label><input id="compressed" type="checkbox">Compress message</label></p>
+<button id="encode">Encode PNG</button><button id="decode">Decode PNG</button><button id="cancel-message" disabled>Cancel message operation</button>
+<a id="download" hidden download="browser-encoded.png">Download encoded PNG</a>
+<small id="message-state" role="status">No file selected</small><pre id="message-output">No authenticated message yet.</pre>
+</section>
+<h2>Codec-only prerequisite gate</h2>
+<script type="module" src="./message-ui.mjs"></script>
+<button id="run">Run codec gate</button><button id="cancel" disabled>Cancel operation</button>
+<small id="state" role="status">Ready</small><pre id="output">No measurements yet.</pre>
+<script type="module">
+const run = document.querySelector('#run'), cancel = document.querySelector('#cancel'), state = document.querySelector('#state'), output = document.querySelector('#output');
+let worker, deadline;
+window.pilot = { result: null, cancellations: [], rows: [] };
+function stop() { clearTimeout(deadline); worker?.terminate(); worker = null; run.disabled = false; cancel.disabled = true; }
+run.onclick = () => {
+  stop(); window.pilot.result = null; window.pilot.rows = [];
+  run.disabled = true; cancel.disabled = false; state.textContent = 'Running real WASM codec'; output.textContent = '';
+  worker = new Worker('./gate-worker.mjs', { type: 'module' });
+  const started = performance.now();
+  worker.onmessage = ({ data }) => {
+    if (data.progress) { window.pilot.rows.push(data.progress); output.textContent += JSON.stringify(data.progress) + '\n'; }
+    if (data.result) {
+      data.result.browserHeap = performance.memory ? { usedJSHeapSize: performance.memory.usedJSHeapSize, totalJSHeapSize: performance.memory.totalJSHeapSize, jsHeapSizeLimit: performance.memory.jsHeapSizeLimit, scope: 'main-page reported heap; not whole browser or worker peak' } : null;
+      data.result.pageWallMs = performance.now() - started;
+      window.pilot.result = data.result; output.textContent = JSON.stringify(data.result, null, 2);
+      state.textContent = data.result.passed ? 'Codec gate passed' : 'STOP: codec gate failed'; stop();
+    }
+    if (data.error) { state.textContent = 'STOP: ' + data.error; stop(); }
+  };
+  worker.onerror = event => { state.textContent = 'STOP: ' + event.message; stop(); };
+  deadline = setTimeout(() => { state.textContent = 'STOP: 30-second deadline'; stop(); }, 30000);
+  worker.postMessage('run');
+};
+cancel.onclick = () => { const rowsBefore = window.pilot.rows.length; stop(); window.pilot.cancellations.push({ rowsBefore, plaintextReleased: false }); state.textContent = 'Cancelled; worker terminated; no output released'; output.textContent = 'Cancelled'; };
+</script></html>

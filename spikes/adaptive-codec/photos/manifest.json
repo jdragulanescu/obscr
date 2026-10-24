@@ -1,0 +1,98 @@
+[
+  {
+    "id": "vandusen-2015",
+    "creator": "Daderot",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/General_view_-_VanDusen_Botanical_Garden_-_Vancouver%2C_BC_-_DSC06806.jpg/1280px-General_view_-_VanDusen_Botanical_Garden_-_Vancouver%2C_BC_-_DSC06806.jpg",
+    "record": "https://commons.wikimedia.org/w/index.php?title=File:General_view_-_VanDusen_Botanical_Garden_-_Vancouver,_BC_-_DSC06806.jpg&oldid=1270649170",
+    "sourceBytes": 614631,
+    "sourceSha256": "e6116d25b5c9c9ee61fdab63167e8b63d226d7e72a17f0c4b36e0ed37e12aaae",
+    "sourceWidth": 1280,
+    "sourceHeight": 853,
+    "crop": {
+      "x": 384,
+      "y": 170,
+      "width": 512,
+      "height": 512
+    },
+    "runtime": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+    "pngSha256": "9030f513300880e4ea2f791045b67496efe65f0ef37f9415b9c0521560be45bb",
+    "pngBytes": 837879,
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "split": "development",
+    "preprocess": "Wikimedia 1280-wide JPEG derivative; Chromium 150 canvas sRGB decode, unscaled 512x512 center crop before embedding; PNG export",
+    "retrieved": "2026-10-23"
+  },
+  {
+    "id": "saigon-2014",
+    "creator": "Daderot",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Children%27s_ride_-_Saigon_Zoo_and_Botanical_Gardens_-_Ho_Chi_Minh_City%2C_Vietnam_-_DSC01363.JPG/1280px-Children%27s_ride_-_Saigon_Zoo_and_Botanical_Gardens_-_Ho_Chi_Minh_City%2C_Vietnam_-_DSC01363.JPG",
+    "record": "https://commons.wikimedia.org/w/index.php?title=File:Children%27s_ride_-_Saigon_Zoo_and_Botanical_Gardens_-_Ho_Chi_Minh_City,_Vietnam_-_DSC01363.JPG&oldid=1123288394",
+    "sourceBytes": 590620,
+    "sourceSha256": "8c8942f288c0c8c6a1946d7b0a8e2174471f54e0995dba50c51a1bba545b70bf",
+    "sourceWidth": 1280,
+    "sourceHeight": 853,
+    "crop": {
+      "x": 384,
+      "y": 170,
+      "width": 512,
+      "height": 512
+    },
+    "runtime": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+    "pngSha256": "51622c8f13d0ac5b6c0f6a427c3e1c982e97d4ae136c71fb8a20ff087934cc95",
+    "pngBytes": 802563,
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "split": "development",
+    "preprocess": "Wikimedia 1280-wide JPEG derivative; Chromium 150 canvas sRGB decode, unscaled 512x512 center crop before embedding; PNG export",
+    "retrieved": "2026-10-23"
+  },
+  {
+    "id": "minnesota-2019",
+    "creator": "Thomson200",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Minnesota_Landscape_Arboretum_Sept_2019_11.jpg/1280px-Minnesota_Landscape_Arboretum_Sept_2019_11.jpg",
+    "record": "https://commons.wikimedia.org/w/index.php?title=File:Minnesota_Landscape_Arboretum_Sept_2019_11.jpg&oldid=1250341214",
+    "sourceBytes": 670171,
+    "sourceSha256": "96a179c4000c2f946aa9315da1d81d3168f902ca25bde6197b77d0585eced262",
+    "sourceWidth": 1280,
+    "sourceHeight": 960,
+    "crop": {
+      "x": 384,
+      "y": 224,
+      "width": 512,
+      "height": 512
+    },
+    "runtime": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+    "pngSha256": "3636a78fc562920ef54d0d788a93c0d568316fec45b454540f29a073ae2b4589",
+    "pngBytes": 765837,
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "split": "development",
+    "preprocess": "Wikimedia 1280-wide JPEG derivative; Chromium 150 canvas sRGB decode, unscaled 512x512 center crop before embedding; PNG export",
+    "retrieved": "2026-10-23"
+  },
+  {
+    "id": "lake-clouds-2019",
+    "creator": "Mshuang2",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Landscape_of_lake_and_clouds.jpg/1280px-Landscape_of_lake_and_clouds.jpg",
+    "record": "https://commons.wikimedia.org/w/index.php?title=File:Landscape_of_lake_and_clouds.jpg&oldid=1038991344",
+    "sourceBytes": 438442,
+    "sourceSha256": "d60b6e115381729ba44e7e5eb639320ffce5b5ef06457b4967876fe521baf2cd",
+    "sourceWidth": 1280,
+    "sourceHeight": 960,
+    "crop": {
+      "x": 384,
+      "y": 224,
+      "width": 512,
+      "height": 512
+    },
+    "runtime": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+    "pngSha256": "47f36962fdf2a3bb5bfb20bcd07b062f979575a177d1cdc3cc5c66885a7e335f",
+    "pngBytes": 636917,
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "split": "development",
+    "preprocess": "Wikimedia 1280-wide JPEG derivative; Chromium 150 canvas sRGB decode, unscaled 512x512 center crop before embedding; PNG export",
+    "retrieved": "2026-10-23"
+  }
+]

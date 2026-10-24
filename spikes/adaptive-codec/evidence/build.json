@@ -1,0 +1,8 @@
+{
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "sha256": "989cfaf374701ddbad68ee7505d943d20e178f5e6e2db0a6fafed995562afe22",
+  "bytes": 34725,
+  "target": "wasm32-unknown-unknown",
+  "locked": true,
+  "offlineBuild": true
+}

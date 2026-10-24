@@ -1,0 +1,21 @@
+{
+  "purpose": "Lossless gzip of the two large raw ledgers, keeping generated error-index rows out of the source diff. Measurement scripts regenerate uncompressed JSON; no rows or fields were removed.",
+  "archives": [
+    {
+      "path": "initial.json.gz",
+      "sourceBytes": 4682991,
+      "archiveBytes": 457221,
+      "uncompressedSha256": "28f43da4247c89ca0873fb9d7c82bd9b2245663a9a09664931107c72e1d0d563",
+      "archiveSha256": "e11f7040d1eff9025392d41f25267bb4247446b316609335b5c1f192ee9ba20d",
+      "roundtripBytesEqual": true
+    },
+    {
+      "path": "repair.json.gz",
+      "sourceBytes": 11582037,
+      "archiveBytes": 1092798,
+      "uncompressedSha256": "efbf2d2ae315f758a1f2a91a00ad43ef4a9d99400afcdb1d9008d96bc22678d7",
+      "archiveSha256": "1e91b6e811dd3b069f9193fab23a986da3e81ba79c7e26c0bd153abe88730b07",
+      "roundtripBytesEqual": true
+    }
+  ]
+}

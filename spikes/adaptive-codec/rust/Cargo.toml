@@ -1,0 +1,22 @@
+[package]
+name = "obscr-adaptive-codec"
+version = "0.0.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+
+[dependencies]
+chacha20 = { version = "=0.10.1", features = ["zeroize"] }
+zeroize = { version = "=1.9.0", features = ["derive"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"

@@ -1,0 +1,177 @@
+{
+  "stage": "real-wasm-codec-gate",
+  "runtime": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+  "fixedSeed": "0000000000000000000000000000000000000000000000000000000000000000",
+  "height": 10,
+  "maxBpp": 0.02,
+  "rows": [
+    {
+      "name": "salt-random",
+      "n": 8192,
+      "length": 16,
+      "coverSeed": 1,
+      "payloadSeed": 2,
+      "cost": "uniform",
+      "status": 16,
+      "decodedStatus": 0,
+      "encodeMs": 27.300000190734863,
+      "decodeMs": 0.20000028610229492,
+      "changed": 16,
+      "maximumDelta": 1,
+      "exact": true,
+      "maxSegmentColumns": 8192,
+      "passed": true
+    },
+    {
+      "name": "salt-zero-cover",
+      "n": 8192,
+      "length": 16,
+      "constant": 0,
+      "payloadSeed": 3,
+      "cost": "uniform",
+      "status": 14,
+      "decodedStatus": 0,
+      "encodeMs": 6.699999809265137,
+      "decodeMs": 0.19999980926513672,
+      "changed": 14,
+      "maximumDelta": 1,
+      "exact": true,
+      "maxSegmentColumns": 8192,
+      "passed": true
+    },
+    {
+      "name": "salt-saturated-cover",
+      "n": 8192,
+      "length": 16,
+      "constant": 255,
+      "payloadSeed": 4,
+      "cost": "uniform",
+      "status": 13,
+      "decodedStatus": 0,
+      "encodeMs": 20.100000381469727,
+      "decodeMs": 0,
+      "changed": 13,
+      "maximumDelta": 1,
+      "exact": true,
+      "maxSegmentColumns": 8192,
+      "passed": true
+    },
+    {
+      "name": "64-byte-variable-cost",
+      "n": 32768,
+      "length": 64,
+      "coverSeed": 5,
+      "payloadSeed": 6,
+      "cost": "alternating",
+      "status": 64,
+      "decodedStatus": 0,
+      "encodeMs": 50.299999713897705,
+      "decodeMs": 0.5999999046325684,
+      "changed": 64,
+      "maximumDelta": 1,
+      "exact": true,
+      "maxSegmentColumns": 32768,
+      "passed": true
+    },
+    {
+      "name": "512-byte-segmented",
+      "n": 262144,
+      "length": 512,
+      "coverSeed": 7,
+      "payloadSeed": 8,
+      "cost": "alternating",
+      "status": 512,
+      "decodedStatus": 0,
+      "encodeMs": 391.09999990463257,
+      "decodeMs": 5.099999904632568,
+      "changed": 512,
+      "maximumDelta": 1,
+      "exact": true,
+      "maxSegmentColumns": 65536,
+      "passed": true
+    },
+    {
+      "name": "655-byte-rate-boundary",
+      "n": 262144,
+      "length": 655,
+      "coverSeed": 9,
+      "payloadSeed": 10,
+      "cost": "uniform",
+      "status": 623,
+      "decodedStatus": 0,
+      "encodeMs": 432.8999996185303,
+      "decodeMs": 4.399999618530273,
+      "changed": 623,
+      "maximumDelta": 1,
+      "exact": true,
+      "maxSegmentColumns": 65536,
+      "passed": true
+    },
+    {
+      "name": "2048-byte-required-load",
+      "n": 262144,
+      "length": 2048,
+      "coverSeed": 11,
+      "payloadSeed": 12,
+      "cost": "uniform",
+      "rejection": true,
+      "status": -1,
+      "encodeMs": 0,
+      "unchanged": true,
+      "passed": true
+    }
+  ],
+  "bounds": [
+    {
+      "name": "negative-cost",
+      "status": -3,
+      "unchanged": true,
+      "elapsedMs": 1.1999998092651367,
+      "passed": true
+    },
+    {
+      "name": "nan-cost",
+      "status": -3,
+      "unchanged": true,
+      "elapsedMs": 1.1000003814697266,
+      "passed": true
+    },
+    {
+      "name": "infinite-cost",
+      "status": -3,
+      "unchanged": true,
+      "elapsedMs": 1.1999998092651367,
+      "passed": true
+    },
+    {
+      "name": "positions-over-limit",
+      "status": -1,
+      "unchanged": true,
+      "elapsedMs": 1.200000286102295,
+      "passed": true
+    },
+    {
+      "name": "payload-over-limit",
+      "status": -1,
+      "unchanged": true,
+      "elapsedMs": 1.0999999046325684,
+      "passed": true
+    }
+  ],
+  "salt": {
+    "samples": 8192,
+    "bits": 128,
+    "used": 8192,
+    "rank": 128
+  },
+  "elapsedMs": 1065.1999998092651,
+  "memoryBytes": 67108864,
+  "passed": true,
+  "browserHeap": {
+    "usedJSHeapSize": 2191971,
+    "totalJSHeapSize": 4108075,
+    "jsHeapSizeLimit": 4395630592,
+    "scope": "main-page reported heap; not whole browser or worker peak"
+  },
+  "pageWallMs": 1218.5999999046326
+}

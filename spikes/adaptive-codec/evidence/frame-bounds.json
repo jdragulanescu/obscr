@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Valid-CRC PNG over dimension",
+      "passed": true,
+      "detail": "Error: PNG geometry bound"
+    },
+    {
+      "name": "PNG inflated raster exceeds declared bound",
+      "passed": true,
+      "detail": "Error: PNG inflate/output bound"
+    },
+    {
+      "name": "raw image-supplied coded length rejected before body work",
+      "passed": true,
+      "detail": {
+        "outcome": "safe-failure",
+        "diagnosticStage": "header",
+        "reason": "Input, password, bounds, repair or authentication failure"
+      }
+    },
+    {
+      "name": "raw authenticated decompression exceeds declared output",
+      "passed": true,
+      "detail": {
+        "outcome": "safe-failure",
+        "diagnosticStage": "decompression",
+        "reason": "Input, password, bounds, repair or authentication failure"
+      }
+    },
+    {
+      "name": "adaptive image-supplied coded length rejected before body work",
+      "passed": true,
+      "detail": {
+        "outcome": "safe-failure",
+        "diagnosticStage": "header",
+        "reason": "Input, password, bounds, repair or authentication failure"
+      }
+    },
+    {
+      "name": "adaptive authenticated decompression exceeds declared output",
+      "passed": true,
+      "detail": {
+        "outcome": "safe-failure",
+        "diagnosticStage": "decompression",
+        "reason": "Input, password, bounds, repair or authentication failure"
+      }
+    }
+  ],
+  "runtime": "v24.13.0",
+  "peakRssBytes": 198574080
+}
