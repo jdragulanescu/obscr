@@ -1,0 +1,236 @@
+{
+  "url": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/browser.html",
+  "observations": [
+    {
+      "step": "CLI PNG decoded in browser",
+      "outcome": "exact-ready",
+      "profile": "no-repair",
+      "message": "CLI to browser: café 日本語 🔒",
+      "reason": null,
+      "elapsedMs": 208.59999990463257,
+      "heapBytes": 8964179
+    },
+    {
+      "step": "Browser encoding",
+      "outcome": "encoded",
+      "profile": "no-repair",
+      "elapsedMs": 106.2999997138977,
+      "storedBytes": 36,
+      "codedBytes": 104,
+      "heapBytes": 8526906
+    },
+    {
+      "step": "Wrong password",
+      "outcome": "safe-failure",
+      "profile": "no-repair",
+      "message": null,
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "elapsedMs": 98.7999997138977,
+      "heapBytes": 7718536
+    },
+    {
+      "step": "Salt-only damage",
+      "outcome": "safe-failure",
+      "profile": "no-repair",
+      "message": null,
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "elapsedMs": 98.30000019073486,
+      "heapBytes": 8102901
+    },
+    {
+      "step": "CLI PNG decoded in browser",
+      "outcome": "exact-ready",
+      "profile": "grouped-p32",
+      "message": "CLI to browser: café 日本語 🔒",
+      "reason": null,
+      "elapsedMs": 101.5,
+      "heapBytes": 9116955
+    },
+    {
+      "step": "Browser encoding",
+      "outcome": "encoded",
+      "profile": "grouped-p32",
+      "elapsedMs": 109,
+      "storedBytes": 36,
+      "codedBytes": 200,
+      "heapBytes": 9879413
+    },
+    {
+      "step": "Wrong password",
+      "outcome": "safe-failure",
+      "profile": "grouped-p32",
+      "message": null,
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "elapsedMs": 98.90000009536743,
+      "heapBytes": 10113094
+    },
+    {
+      "step": "Salt-only damage",
+      "outcome": "safe-failure",
+      "profile": "grouped-p32",
+      "message": null,
+      "reason": "Input, key derivation, metadata, repair, authentication, or bounded decompression failed",
+      "elapsedMs": 99.2000002861023,
+      "heapBytes": 10466454
+    }
+  ],
+  "runtime": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+    "platform": "MacIntel",
+    "hardwareConcurrency": 16,
+    "exactBrowserVersion": "Chrome/150.0.7871.24"
+  },
+  "console": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "errors": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "requests": [
+    {
+      "id": "request-1",
+      "seq": 1,
+      "ts": 1792788356355,
+      "method": "GET",
+      "url": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/browser.html",
+      "resourceType": "document",
+      "status": 200,
+      "ok": true,
+      "durationMs": 20,
+      "requestHeaders": {
+        "accept-language": "en-US,en;q=0.9",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+      },
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "connection": "keep-alive",
+        "content-length": "5917",
+        "content-type": "text/html;charset=utf-8",
+        "date": "Fri, 23 Oct 2026 20:45:56 GMT",
+        "etag": "W/\"5917-1792788013428\"",
+        "keep-alive": "timeout=5",
+        "last-modified": "Fri, 23 Oct 2026 20:40:13 GMT",
+        "vary": "Origin"
+      },
+      "sizes": {
+        "requestBody": 0,
+        "responseBody": 5917
+      }
+    },
+    {
+      "id": "request-2",
+      "seq": 2,
+      "ts": 1792788356376,
+      "method": "GET",
+      "url": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/codec.bundle.js",
+      "resourceType": "script",
+      "status": 200,
+      "ok": true,
+      "durationMs": 68,
+      "requestHeaders": {
+        "origin": "http://127.0.0.1:5199",
+        "sec-ch-ua-platform": "\"macOS\"",
+        "referer": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/browser.html",
+        "accept-language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*"
+      },
+      "responseHeaders": {
+        "access-control-allow-origin": "http://127.0.0.1:5199",
+        "cache-control": "no-cache",
+        "connection": "keep-alive",
+        "content-length": "2300272",
+        "content-type": "text/javascript",
+        "date": "Fri, 23 Oct 2026 20:45:56 GMT",
+        "etag": "W/\"96475-ZEfFQupRRT0HCBo72+6sNBxRCZk\"",
+        "keep-alive": "timeout=5",
+        "vary": "Origin"
+      },
+      "sizes": {
+        "requestBody": 0,
+        "responseBody": 2300272
+      }
+    },
+    {
+      "id": "request-3",
+      "seq": 3,
+      "ts": 1792788367771,
+      "method": "GET",
+      "url": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/evidence/cli-no-repair.png",
+      "resourceType": "fetch",
+      "status": 200,
+      "ok": true,
+      "durationMs": 24,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"macOS\"",
+        "referer": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/browser.html",
+        "accept-language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*"
+      },
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "connection": "keep-alive",
+        "content-length": "103518",
+        "content-type": "image/png",
+        "date": "Fri, 23 Oct 2026 20:46:07 GMT",
+        "etag": "W/\"103518-1792788349930\"",
+        "keep-alive": "timeout=5",
+        "last-modified": "Fri, 23 Oct 2026 20:45:49 GMT",
+        "vary": "Origin"
+      },
+      "sizes": {
+        "requestBody": 0,
+        "responseBody": 103518
+      }
+    },
+    {
+      "id": "request-4",
+      "seq": 4,
+      "ts": 1792788382537,
+      "method": "GET",
+      "url": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/evidence/cli-grouped-p32.png",
+      "resourceType": "fetch",
+      "status": 200,
+      "ok": true,
+      "durationMs": 3,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"macOS\"",
+        "referer": "http://127.0.0.1:5199/@fs/Users/skylight/workspaces/worktrees/obscr/unprotected-salt/spikes/unprotected-salt/browser.html",
+        "accept-language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*"
+      },
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "connection": "keep-alive",
+        "content-length": "103614",
+        "content-type": "image/png",
+        "date": "Fri, 23 Oct 2026 20:46:22 GMT",
+        "etag": "W/\"103614-1792788350157\"",
+        "keep-alive": "timeout=5",
+        "last-modified": "Fri, 23 Oct 2026 20:45:50 GMT",
+        "vary": "Origin"
+      },
+      "sizes": {
+        "requestBody": 0,
+        "responseBody": 103614
+      }
+    }
+  ]
+}

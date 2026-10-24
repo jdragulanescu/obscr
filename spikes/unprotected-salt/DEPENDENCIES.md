@@ -1,0 +1,9 @@
+# Dependencies and inherited evidence
+
+This spike uses `libsodium-wrappers-sumo@0.8.4` and `libsodium-sumo@0.8.4` explicitly pinned in its own package and lockfile. `esbuild@0.25.12` is a local build-only dependency. Root `pngjs` and existing product crypto/carrier modules supply the unchanged legacy controls and PNG adapters. The spike is not part of the product bundle or root Jest testMatch.
+
+The package selection and source research come from the [accepted password experiment](https://github.com/jdragulanescu/obscr/blob/acec5c495e9e1e35c160dc2346914386d16209ce/spikes/password-device-cost/DEPENDENCIES.md), not a new upstream audit. That record identifies the wrapper/raw source commit `2830fcf2ce8cefd3fdc7e1efc9fc1cee1d2d95b7` and native Sodium source `33cc75ab1565d9dcbe808354191bd572ad6b64d0`. The lockfile records exact tarball integrities. Installed package licenses are retained under `notices/`; the inherited native/Argon2 notice is in `NATIVE-NOTICES.txt`. Preserve these notices when distributing the generated browser bundle.
+
+Reed-Solomon code, its full Apache-2.0 license and retained jai-imageio notice, source originals, port modifications and hashes are in `vendor/` and `REPAIR.md`. The subset is copied without algorithm changes from the [earlier negative experiment](https://github.com/jdragulanescu/obscr/tree/ffd5f3fa1b535694246966b2701155378399debb/spikes/filler-free-repair). The source photographs, licenses, attributions and hashes also come from that experiment; see `CORPUS.md` and `photos/manifest.json`.
+
+`evidence/freeze.json` records experiment inputs and installed runtime module hashes before scoring. Hash agreement establishes which bytes were measured, not independent review, a reproducible upstream build or a complete bundled-component license audit. No new dependency audit, registry-signature check or source-to-WASM rebuild is claimed. The accepted release gates remain open.

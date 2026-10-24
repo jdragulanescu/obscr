@@ -1,0 +1,26 @@
+Native libsodium — ISC License
+Copyright (c) 2013-2026 Frank Denis <j at pureftpd dot org>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Source: https://github.com/jedisct1/libsodium/blob/33cc75ab1565d9dcbe808354191bd572ad6b64d0/LICENSE
+
+Argon2 source code package
+Written by Daniel Dinu and Dmitry Khovratovich, 2015
+This work is licensed under a Creative Commons CC0 1.0 License/Waiver.
+You should have received a copy of the CC0 Public Domain Dedication along
+with this software. If not, see http://creativecommons.org/publicdomain/zero/1.0/.
+Source: https://github.com/jedisct1/libsodium/blob/33cc75ab1565d9dcbe808354191bd572ad6b64d0/src/libsodium/crypto_pwhash/argon2/argon2-core.c
+
+This records examined notices, not a complete license audit of every bundled
+sumo primitive. See DEPENDENCIES.md for scope and limits.
