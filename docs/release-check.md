@@ -31,6 +31,12 @@ matching approval record is supplied. Never use its exit status alone to publish
 
 ## Build and retain a candidate
 
+**Current repository blocker (#55):** the actual repository build completes its
+baseline checks, then source validation refuses tracked `CLAUDE.md` because it is
+a symbolic link. The saved source contract below permits regular files only.
+Changing that contract or the repository link requires a decision. Public-fixture
+smoke results do not resolve this blocker or make #55 complete.
+
 Use Node 24.x, npm and Git. Select a committed checkout and a new output directory:
 
 ```sh

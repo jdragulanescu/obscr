@@ -65,9 +65,10 @@ async function main() {
     await validateCandidate(result.manifestPath, { signal: controller.signal,
       onProgress: stage => print(process.stderr, stage) });
   } catch (error) {
-    if (controller.signal.aborted || !error.field?.startsWith("evidence.")) throw error;
-    refusal = `${error.field}: release evidence is incomplete. Complete the retained evidence before requesting approval.`;
-    await writeFile(path.join(values.output, "release-refusal.txt"), refusal + "\n", { flag: "wx" });
+    if (controller.signal.aborted || !error.field) throw error;
+    refusal = `${error.message}\nComplete or correct the retained evidence before requesting approval.`;
+    await writeFile(path.join(values.output, "release-refusal.txt"), safe(refusal) + "\n", { flag: "wx" });
+    if (!error.field.startsWith("evidence.")) throw error;
     print(process.stderr, refusal);
   }
   if (request === "release" && refusal) throw new Error("release refused");

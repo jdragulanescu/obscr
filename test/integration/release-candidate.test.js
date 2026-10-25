@@ -2,6 +2,7 @@ import { readFile, readdir, mkdir, writeFile, access } from "node:fs/promises";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { createServer } from "node:net";
 import { buildFixture } from "../fixtures/candidate-build.js";
 import { digest } from "../fixtures/release-candidate.js";
 import { buildCandidate } from "../../lib/release-workflow.js";
@@ -155,41 +156,76 @@ test("a non-repository source retains the Git refusal and creates no candidate",
   } finally { await fixture.cleanup(); }
 });
 
-test("Ctrl-C at an active stage retains no complete result", async () => {
+test("Ctrl-C stops the live build process and removes its temporary checkout", async () => {
   const fixture = await buildFixture();
+  const server = createServer();
+  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+  let observed, connection;
   try {
-    await fixture.put("test.js", "setInterval(() => {}, 1000);");
+    await fixture.put("test.js", [
+      'import {connect} from "node:net";',
+      `const socket = connect(${server.address().port}, "127.0.0.1");`,
+      'socket.on("connect", () => socket.write(JSON.stringify({cwd:process.cwd()})));',
+      'setInterval(() => {}, 1000);',
+    ].join("\n"));
     fixture.git("add", "test.js");
     fixture.git("-c", "commit.gpgsign=false", "commit", "-qm", "Public cancellable boundary");
     const result = await new Promise((resolve, reject) => {
       const child = spawn(process.execPath, [command, "--source", fixture.source,
         "--output", fixture.output, "--run", "cancel-run", "--request", "check"],
       { stdio: ["ignore", "pipe", "pipe"] });
-      let stdout = "", stderr = "", cancelled = false;
+      let stdout = "", stderr = "", closed = false, exitCode;
       const deadline = setTimeout(() => {
         child.kill("SIGINT");
-        reject(new Error(`Cancellation deadline exceeded: ${JSON.stringify({ cancelled, stderr })}`));
+        reject(new Error(`Cancellation deadline exceeded: ${stderr}`));
       }, 10000);
-      child.stdout.on("data", bytes => { stdout += bytes; });
-      child.stderr.on("data", bytes => {
-        stderr += bytes;
-        if (!cancelled && stderr.includes("Stage: jest")) {
-          cancelled = true;
-          child.kill("SIGINT");
-        }
-      });
-      child.on("error", reject);
-      child.on("close", code => {
+      const finish = () => {
+        if (exitCode === undefined || !closed) return;
         clearTimeout(deadline);
-        resolve({ code, stdout, stderr, cancelled });
+        resolve({ code: exitCode, stdout });
+      };
+      server.once("connection", socket => {
+        connection = socket;
+        let bytes = "";
+        socket.on("data", data => {
+          bytes += data;
+          try { observed = JSON.parse(bytes); } catch { return; }
+          child.kill("SIGINT");
+        });
+        socket.on("close", () => { closed = true; finish(); });
       });
+      child.stdout.on("data", bytes => { stdout += bytes; });
+      child.stderr.on("data", bytes => { stderr += bytes; });
+      child.on("error", reject);
+      child.on("close", code => { exitCode = code; finish(); });
     });
-    expect(result.cancelled).toBe(true);
+    expect(observed).toHaveProperty("cwd");
     expect(result.code).toBe(130);
     expect(result.stdout).toBe("");
+    await expect(access(observed.cwd)).rejects.toMatchObject({ code: "ENOENT" });
     await expect(access(path.join(fixture.output, "manifest.json"))).rejects.toMatchObject({ code: "ENOENT" });
     await expect(access(path.join(fixture.output, "raw/pwa-build.stdout"))).rejects.toMatchObject({ code: "ENOENT" });
   } finally {
+    connection?.destroy();
+    await new Promise(resolve => server.close(resolve));
     await fixture.cleanup();
   }
 }, 15000);
+
+test("a final identity refusal is retained beside the earlier build observations", async () => {
+  const fixture = await buildFixture();
+  try {
+    const retainedSource = path.join(fixture.output, "source/package.json");
+    await fixture.put("test.js",
+      `import {appendFileSync} from "node:fs"; appendFileSync(${JSON.stringify(retainedSource)}, "\\n");`);
+    fixture.git("add", "test.js");
+    fixture.git("-c", "commit.gpgsign=false", "commit", "-qm", "Public changed-source boundary");
+    const result = runCommand("--source", fixture.source, "--output", fixture.output,
+      "--run", "changed-source", "--request", "check");
+    expect(result.status).toBe(1);
+    expect(result.stdout).toBe("");
+    expect(await readFile(path.join(fixture.output, "release-refusal.txt"), "utf8"))
+      .toContain("identity.sourceRevision");
+    expect(await readFile(path.join(fixture.output, "stages.txt"), "utf8")).toContain("package: pass");
+  } finally { await fixture.cleanup(); }
+}, 30000);
