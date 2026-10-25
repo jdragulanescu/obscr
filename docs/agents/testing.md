@@ -64,11 +64,11 @@ There is no e2e harness. A spec that adds one must fill these fields.
 ## CI
 
 - **On pull requests**: `.github/workflows/publish.yml` runs Node 24.x clean install, the full Jest suite, PWA build and package checks for non-draft PRs; retains candidate files and raw evidence.
-- **Drafts**: GitHub Actions skips the whole candidate job; conversion to draft cancels an earlier PR run. Vercel Git deployments are disabled in `vercel.json`, but live provider enforcement is not yet verified. The previous draft PR #59 received a Vercel preview; no Actions run is not proof of no provider work.
+- **Drafts**: GitHub Actions skips the whole candidate job; conversion to draft requests cancellation of an earlier PR run. Vercel Git deployments are disabled in `vercel.json`, and the real `obscr` project's Git connection was disconnected on 2026-10-25 to cover older branches too. The PR #61 walkthrough compared actual provider records across draft creation, updates and ready/draft transitions: no new deployment or active build appeared. Automatic ready-PR previews and Git-driven production updates also stop; existing deployments stay. See the release guide for the retained evidence and account control.
 - **By hand**: `gh workflow run publish.yml --ref <branch-or-tag> -f request=check`: safe candidate checks on a ref with the new workflow. GitHub must know `publish.yml` on the default branch. `-f request=release` intentionally requests full release validation; missing evidence refuses it. Neither mode publishes.
 
 Release creation enters the same checks and full evidence validation. The direct
 `npm publish` step is removed. No publication credentials enter these jobs.
 See [release checks](../release-check.md#workflow-entries-and-external-draft-controls)
-for retained artifacts, manual-entry prerequisites and the remaining real
+for retained artifacts, manual-entry prerequisites and the recorded real
 GitHub/Vercel walkthrough. Do not run the full e2e suite locally if one is added.

@@ -116,8 +116,66 @@ real `release.created` entry without invoking the old default-branch publisher.
 completed baseline checks and refused missing mandatory review/device evidence.
 The verification release and tag were removed afterward; no product was published.
 
+## Live Vercel Git-route enforcement
+
+Owner login restored API access on 2026-10-25. The inventory covered both
+accessible teams and all three projects; only `obscr`
+(`prj_CkRxSApwynpozSMrdUDhemR0ybvp`, team
+`team_sudBv9dxGtqj5Wt1pgbGdBjt`) was connected to `jdragulanescu/obscr`.
+Its Git link named production branch `main` and had no deploy hooks. The
+dedicated custom-environment endpoint returned HTTP 200 with an empty list.
+
+The actual deployment list contained the earlier draft-PR #59 preview:
+`dpl_3QJQRe6f9u7XBbuFVWm5Kf1A5uHb`, source `git`, commit `69ea7b8`,
+state `READY`. This confirms that the API inventory observed the route from
+note 54.1, rather than a different project or only GitHub check records.
+
+At `2026-10-25T19:55:45Z`, the approved Git disconnection returned HTTP 200.
+A fresh project read confirmed no Git link. All 22 existing deployment IDs
+remained present, and none was building or queued. This uses the documented
+[Git disconnect control](https://vercel.com/docs/project-configuration/git-settings#disconnect-your-git-repository),
+also exposed by [`vercel git disconnect`](https://vercel.com/docs/cli/git).
+The installed Vercel CLI 63.1.1 implements it as
+`DELETE /v9/projects/{projectId}/link`; the call was made through an authenticated
+browser API request, not a shell network command. No provider client, runtime
+action or credential was added to the repository.
+
+Temporary PR #61 then exercised the real events. Authenticated project and
+[deployment-list reads](https://vercel.com/docs/rest-api/deployments/list-deployments)
+after each transition showed the Git link absent, all previous deployments
+retained, and no new or active provider deployment:
+
+| Action | GitHub run | GitHub result | New Vercel deployments |
+| --- | --- | --- | --- |
+| Create draft | [40228549543](https://github.com/jdragulanescu/obscr/actions/runs/40228549543) | Skipped, no runner or steps | 0 |
+| Update draft | [40228616961](https://github.com/jdragulanescu/obscr/actions/runs/40228616961) | Skipped | 0 |
+| Ready, then draft during the candidate step | [40228732894](https://github.com/jdragulanescu/obscr/actions/runs/40228732894) | Cancelled; build finished before cancellation arrived | 0 |
+| Converted-to-draft event | [40228765949](https://github.com/jdragulanescu/obscr/actions/runs/40228765949) | Skipped | 0 |
+| Ready again, allowed to finish | [40228904080](https://github.com/jdragulanescu/obscr/actions/runs/40228904080) | Success; 280 tests and all baseline stages passed | 0 |
+
+The final provider read at `20:05:11Z` still found the same 22 deployment IDs.
+A separate authenticated browser navigation to the deployment-list endpoint,
+filtered since disconnection, returned `deployments: []` and pagination count 0.
+The ready run retained
+[artifact 12612052123](https://github.com/jdragulanescu/obscr/actions/runs/40228904080/artifacts/12612052123)
+with digest
+`sha256:a1a50d0a1c27558289bfd55ac520e86fe6cd0798ca1b141d9a69aba23fc7f8f7`.
+Baseline success still does not authorize publication.
+
+Keep the Git connection disconnected to cover branches without
+`git.deploymentEnabled: false`. Reconnecting restores the automatic route.
+This change does not delete existing deployments or restrict an owner's
+CLI/dashboard/API authority; protected production distribution remains #57.
+It is not a deployment-policy or public-access-protection claim.
+
+Do not confuse `gitProviderOptions.createDeployments` with this control.
+The [project API schema](https://vercel.com/docs/rest-api/projects/update-an-existing-project)
+defines it as creation of **GitHub deployment records**, not Vercel builds.
+Disabling that field or bot comments can hide evidence without stopping work.
+
 ## References
 
 - [Implementation ticket #55](https://github.com/jdragulanescu/obscr/issues/55)
 - [Existing source and evidence contract](../release-check.md#bundle-and-hashes)
 - [Git `core.symlinks`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks)
+- [Live provider walkthrough, settings evidence and screenshots](https://github.com/jdragulanescu/obscr/issues/55#issuecomment-6402595487)

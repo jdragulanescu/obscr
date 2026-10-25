@@ -112,22 +112,33 @@ An Ignored Build Step is not an alternative: it runs after `BUILDING` begins.
 See [Vercel Git configuration](https://vercel.com/docs/project-configuration/git-configuration)
 and [Ignored Build Step](https://vercel.com/docs/project-configuration/project-settings#ignored-build-step).
 
-**Live enforcement is not yet verified.** Draft PR #59 previously received a
-Vercel preview. During #55, the dashboard required login and the saved CLI
-credential returned HTTP 403 with `invalidToken: true`. No account setting was
-changed. A repository setting on this branch alone is not proof that every
-connected project, older branch, deploy hook or custom environment is restricted.
-The remaining walkthrough must inspect project/team deployment policies or the
-Git connection, then compare provider deployment/build records across draft
-creation, updates and ready/draft transitions. Non-draft Actions checks must still
-run. #57 separately proves protected production distribution; this candidate
-workflow does not establish that account-level gate.
+**Live Git-route enforcement was verified on 2026-10-25.** After owner login,
+the provider inventory found one project connected to this repository across
+two accessible teams. The `obscr` project had no deploy hooks or custom
+environments. Its Git connection was disconnected through Vercel's existing
+Git-disconnect operation; a fresh project read confirmed that the link was gone.
+This account control also covers older branches without the repository setting.
+All 22 existing deployment IDs remained present.
+
+The real PR #61 walkthrough compared provider deployment records across draft
+creation, updates and ready/draft transitions. No new provider deployment or
+active build appeared. GitHub skipped the draft jobs and ran the ready checks.
+The [retained provider observations](research/obscr-candidate-build-boundaries.md#live-vercel-git-route-enforcement)
+name the project, control, API evidence and workflow runs.
+
+Keep the Git connection disconnected. Reconnecting it restores automatic Git
+deployments, including ready-PR previews and Git-driven production updates.
+This is an external account setting: reverting a repository commit does not
+restore it. Existing deployments are not deleted. #57 separately proves
+protected production distribution; disabling this automatic route does not
+restrict an owner's CLI, dashboard or API publication authority.
 
 Vercel [Deployment Policies](https://vercel.com/docs/deployments/deployment-policy)
-can restrict deployment sources before creation. An account owner must inspect
-the effective project and inherited team rules. Do not disable status comments
-and mistake that for disabling builds. Do not open a deploy-hook URL to inspect
-it: even a GET can request a deployment.
+can also restrict deployment sources before creation; no such policy is claimed
+as this project's enforcement mechanism. Do not disable status comments or
+`gitProviderOptions.createDeployments` and mistake that for disabling builds:
+the latter controls GitHub deployment records, not Vercel builds. Do not open a
+deploy-hook URL to inspect it: even a GET can request a deployment.
 
 
 ## Bundle and hashes

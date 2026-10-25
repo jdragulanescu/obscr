@@ -262,9 +262,10 @@ npm run release:candidate -- --request check --output /path/to/new-bundle --run 
 This runs clean installation, the full Jest suite, PWA build and package checks.
 It retains exact files and raw evidence without publication credentials.
 `--request release` additionally requires complete release evidence and refuses
-when it is missing. Neither mode publishes or grants approval. Account-level
-draft controls and protected publication still require the real-provider checks
-described in the release guide.
+when it is missing. Neither mode publishes or grants approval. Automatic Vercel
+Git deployments are disabled in repository configuration and through the
+project's disconnected Git link. The release guide records those controls and
+their real-provider checks; protected publication remains a separate gate.
 
 ## Examples
 
