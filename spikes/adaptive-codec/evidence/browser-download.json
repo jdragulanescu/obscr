@@ -1,0 +1,42 @@
+{
+  "event": {
+    "guid": "a0f74317-a949-461a-8dc9-3328a53d4d80",
+    "totalBytes": 736469,
+    "receivedBytes": 736469,
+    "state": "completed",
+    "filePath": "/Users/skylight/workspaces/worktrees/obscr/adaptive-codec/spikes/adaptive-codec/.scratch/browser-download/browser-encoded.png"
+  },
+  "exportBytesEqual": true,
+  "sha256": "361515e534768226a1838ab600e9d8176c5a608f762bf2bbfd7bdc7fd5c77f2b",
+  "cli": {
+    "code": 0,
+    "stderr": "",
+    "result": {
+      "outcome": "exact-ready",
+      "message": "Downloaded browser PNG: exact bytes",
+      "placement": {
+        "scalarSamples": 42496,
+        "draws": 42501,
+        "rejections": 5,
+        "peakEntries": 40192,
+        "mapEntries": 40192,
+        "generatedStreamBytes": 172032
+      },
+      "messageHash": "a31d45e03736c245a1c26c172d11c4f4ad0e17f203c8f6947765d7f817d712fb",
+      "elapsedMs": 206.123542,
+      "wasmMemoryBytes": 67108864,
+      "peakRssBytes": 165314560
+    }
+  },
+  "console": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "errors": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "failedRequests": []
+}

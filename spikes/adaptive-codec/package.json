@@ -1,0 +1,16 @@
+{
+  "name": "obscr-adaptive-codec-spike",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "gate": "node gate-node.mjs"
+  },
+  "dependencies": {
+    "libsodium-wrappers-sumo": "0.8.4",
+    "libsodium-sumo": "0.8.4"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}

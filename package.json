@@ -8,6 +8,7 @@
     "obscr": "./bin/index.js"
   },
   "scripts": {
+    "spike-adaptive-codec": "node spikes/adaptive-codec/launch.mjs",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest test/unit",

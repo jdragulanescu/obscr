@@ -1,0 +1,4893 @@
+{
+  "mode": "controls",
+  "passed": true,
+  "runtime": "v24.13.0",
+  "platform": "darwin",
+  "arch": "arm64",
+  "elapsedMs": 35022.791916999995,
+  "wasmMemoryBytes": 67108864,
+  "damageKinds": [
+    "random-0.0001",
+    "random-0.001",
+    "random-0.01",
+    "patch",
+    "stripe"
+  ],
+  "sourceCount": 4,
+  "scope": "development observations, not confirmation",
+  "rows": [
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 106.98470799999996,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 109.006708,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 105.630041,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7756,
+          "parityFlips": 3954,
+          "decodeMs": 107.37829199999999,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3859,
+          "decodeMs": 106.94225000000006,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 141.16958300000002,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 64,
+        "total": 132,
+        "nonPayload": 68,
+        "keyedGroups": 116
+      },
+      "placement": {
+        "positions": 116,
+        "draws": 116,
+        "rejections": 0,
+        "peakEntries": 116,
+        "mapEntries": 116,
+        "maxDraws": 1256,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 534,
+        "maximumDelta": 1,
+        "mse": 0.00067901611328125
+      },
+      "scores": {
+        "parityFraction": 0.4577344258626302,
+        "pairImbalance": 65558.23680161632,
+        "meanAbsRG": 34.9512825012207,
+        "meanAbsGB": 40.128604888916016,
+        "bootstrapParityFraction": 0.4337158203125
+      },
+      "outputBytes": 736506,
+      "pngSha256": "0f2a25ffd67acfd2607dde624acc39a877e0ea5ac61016aede3c55e2a4f1aa0c",
+      "samplePreserving": true,
+      "decodeMs": 108.82133299999998,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 108.66924999999992,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 107.21608399999991,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 107.32645900000011,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7756,
+          "parityFlips": 3953,
+          "decodeMs": 105.55112499999996,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7653,
+          "parityFlips": 3855,
+          "decodeMs": 108.14249999999993,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 107.38808399999994,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 512,
+        "total": 580,
+        "nonPayload": 68,
+        "keyedGroups": 564
+      },
+      "placement": {
+        "positions": 564,
+        "draws": 564,
+        "rejections": 0,
+        "peakEntries": 559,
+        "mapEntries": 559,
+        "maxDraws": 2152,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2318,
+        "maximumDelta": 1,
+        "mse": 0.0029474894205729165
+      },
+      "scores": {
+        "parityFraction": 0.4580980936686198,
+        "pairImbalance": 64894.38101489049,
+        "meanAbsRG": 34.950923919677734,
+        "meanAbsGB": 40.12799835205078,
+        "bootstrapParityFraction": 0.434326171875
+      },
+      "outputBytes": 736654,
+      "pngSha256": "60a4a1f07b25f1ad1aadc382b3c84cbc376b516c98b21bb8a605f53ab90511d4",
+      "samplePreserving": true,
+      "decodeMs": 106.35733299999993,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 22,
+          "parityFlips": 22,
+          "decodeMs": 108.55666700000029,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 109.15666599999986,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 105.84891700000026,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7757,
+          "parityFlips": 3944,
+          "decodeMs": 107.20533399999977,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3857,
+          "decodeMs": 107.05970900000011,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 106.95570799999996,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2116,
+        "nonPayload": 68,
+        "keyedGroups": 2100
+      },
+      "placement": {
+        "positions": 2100,
+        "draws": 2100,
+        "rejections": 0,
+        "peakEntries": 2058,
+        "mapEntries": 2058,
+        "maxDraws": 5224,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 8447,
+        "maximumDelta": 1,
+        "mse": 0.010740915934244791
+      },
+      "scores": {
+        "parityFraction": 0.45849355061848956,
+        "pairImbalance": 62840.58453992265,
+        "meanAbsRG": 34.950035095214844,
+        "meanAbsGB": 40.1266975402832,
+        "bootstrapParityFraction": 0.4346923828125
+      },
+      "outputBytes": 737046,
+      "pngSha256": "3d77fa998fa28372579cf7430ca81dae9dcf1744ed86aa43b795ce750c1b3246",
+      "samplePreserving": true,
+      "decodeMs": 108.39816699999983,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 106.38300000000027,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 107.01374999999962,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 107.77812500000027,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7756,
+          "parityFlips": 3949,
+          "decodeMs": 108.46670799999993,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3858,
+          "decodeMs": 106.63395900000023,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 108.48750000000018,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 64,
+        "total": 228,
+        "nonPayload": 164,
+        "keyedGroups": 212
+      },
+      "placement": {
+        "positions": 212,
+        "draws": 212,
+        "rejections": 0,
+        "peakEntries": 212,
+        "mapEntries": 212,
+        "maxDraws": 1448,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 906,
+        "maximumDelta": 1,
+        "mse": 0.00115203857421875
+      },
+      "scores": {
+        "parityFraction": 0.4578386942545573,
+        "pairImbalance": 65320.78813474965,
+        "meanAbsRG": 34.95121765136719,
+        "meanAbsGB": 40.12851333618164,
+        "bootstrapParityFraction": 0.4337158203125
+      },
+      "outputBytes": 736555,
+      "pngSha256": "0b27837026d9bb6f64dffb3e7fd83f813c8270577b6efc8a5d0bc6fb20804913",
+      "samplePreserving": true,
+      "decodeMs": 109.82133399999975,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 106.59879099999989,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 107.18737499999997,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 106.22787500000004,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7756,
+          "parityFlips": 3952,
+          "decodeMs": 106.86329200000046,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3843,
+          "decodeMs": 106.87012500000037,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 108.32720800000016,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 96,
+        "padding": 0,
+        "stored": 512,
+        "total": 740,
+        "nonPayload": 228,
+        "keyedGroups": 724
+      },
+      "placement": {
+        "positions": 724,
+        "draws": 724,
+        "rejections": 0,
+        "peakEntries": 720,
+        "mapEntries": 720,
+        "maxDraws": 2472,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2974,
+        "maximumDelta": 1,
+        "mse": 0.0037816365559895835
+      },
+      "scores": {
+        "parityFraction": 0.4579963684082031,
+        "pairImbalance": 64754.798993660384,
+        "meanAbsRG": 34.95117950439453,
+        "meanAbsGB": 40.127952575683594,
+        "bootstrapParityFraction": 0.4342041015625
+      },
+      "outputBytes": 736694,
+      "pngSha256": "d76572e26bb5fbd40216261f354383a803c13f250e26ebf2b783d7b517ba07c9",
+      "samplePreserving": true,
+      "decodeMs": 106.83537499999966,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 108.31408399999964,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 107.78187500000058,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 107.0015000000003,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7756,
+          "parityFlips": 3947,
+          "decodeMs": 107.63283299999966,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3857,
+          "decodeMs": 111.97679199999948,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 113.71762500000023,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 320,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2500,
+        "nonPayload": 452,
+        "keyedGroups": 2484
+      },
+      "placement": {
+        "positions": 2484,
+        "draws": 2484,
+        "rejections": 0,
+        "peakEntries": 2414,
+        "mapEntries": 2414,
+        "maxDraws": 5992,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 9981,
+        "maximumDelta": 1,
+        "mse": 0.012691497802734375
+      },
+      "scores": {
+        "parityFraction": 0.4588114420572917,
+        "pairImbalance": 62372.2448900719,
+        "meanAbsRG": 34.950050354003906,
+        "meanAbsGB": 40.12675476074219,
+        "bootstrapParityFraction": 0.43408203125
+      },
+      "outputBytes": 737136,
+      "pngSha256": "489e21035711b052ed2935bd6be21f2b8546c0473c25beaaf018bbc0847008fc",
+      "samplePreserving": true,
+      "decodeMs": 110.54729100000077,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 83.65045800000007,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 253,
+          "parityFlips": 253,
+          "decodeMs": 80.36266599999999,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2562,
+          "parityFlips": 2562,
+          "decodeMs": 85.08095800000046,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7767,
+          "parityFlips": 3905,
+          "decodeMs": 88.49891699999989,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7648,
+          "parityFlips": 3888,
+          "decodeMs": 81.05441700000029,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 119.00820900000053,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 785008
+      },
+      "changes": {
+        "changedSamples": 393405,
+        "maximumDelta": 1,
+        "mse": 0.5002403259277344
+      },
+      "scores": {
+        "parityFraction": 0.49944814046223956,
+        "pairImbalance": 136.6065017738747,
+        "meanAbsRG": 34.883514404296875,
+        "meanAbsGB": 40.04693603515625,
+        "bootstrapParityFraction": 0.498291015625
+      },
+      "outputBytes": 747189,
+      "pngSha256": "be75a6433b31156f8515be6466eb2baf53ff411c79373a62dc61e045c57f66bd",
+      "samplePreserving": true,
+      "decodeMs": 82.2699160000002,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.84833300000082,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 79.86608299999989,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2553,
+          "parityFlips": 2553,
+          "decodeMs": 78.3514580000001,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7766,
+          "parityFlips": 3955,
+          "decodeMs": 81.28445800000009,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7649,
+          "parityFlips": 3916,
+          "decodeMs": 78.98725000000013,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 111.11362499999996,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 780240
+      },
+      "changes": {
+        "changedSamples": 392906,
+        "maximumDelta": 1,
+        "mse": 0.49960581461588544
+      },
+      "scores": {
+        "parityFraction": 0.4992230733235677,
+        "pairImbalance": 141.62223759459405,
+        "meanAbsRG": 34.88503646850586,
+        "meanAbsGB": 40.04651641845703,
+        "bootstrapParityFraction": 0.4920654296875
+      },
+      "outputBytes": 747131,
+      "pngSha256": "3d4247b706129d6bd0498766d2bdf89b4c6581e8dace2b7171f535d062e0a906",
+      "samplePreserving": true,
+      "decodeMs": 79.84345899999971,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 22,
+          "parityFlips": 22,
+          "decodeMs": 79.95191600000089,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 250,
+          "parityFlips": 250,
+          "decodeMs": 82.42291599999953,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2550,
+          "parityFlips": 2550,
+          "decodeMs": 79.60512500000004,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7763,
+          "parityFlips": 3850,
+          "decodeMs": 82.2252499999995,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7655,
+          "parityFlips": 3886,
+          "decodeMs": 79.87129100000038,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 119.73383300000023,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 763856
+      },
+      "changes": {
+        "changedSamples": 392872,
+        "maximumDelta": 1,
+        "mse": 0.4995625813802083
+      },
+      "scores": {
+        "parityFraction": 0.4989128112792969,
+        "pairImbalance": 127.35769438721354,
+        "meanAbsRG": 34.88485336303711,
+        "meanAbsGB": 40.04727554321289,
+        "bootstrapParityFraction": 0.5059814453125
+      },
+      "outputBytes": 747147,
+      "pngSha256": "595a23e05990d0cca0fa7015fb43661c90dc4b00a04e15ac95a328019540ced3",
+      "samplePreserving": true,
+      "decodeMs": 84.0137079999995,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 80.16383299999961,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 79.67254200000025,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 78.75637499999993,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7756,
+          "parityFlips": 3945,
+          "decodeMs": 83.86554199999955,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3855,
+          "decodeMs": 79.26866699999937,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 100.44208399999934,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 708,
+        "maximumDelta": 1,
+        "mse": 0.0009002685546875
+      },
+      "scores": {
+        "parityFraction": 0.45787938435872394,
+        "pairImbalance": 65421.69123159399,
+        "meanAbsRG": 34.95134353637695,
+        "meanAbsGB": 40.12858963012695,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "outputBytes": 736557,
+      "pngSha256": "43cd3ebdfad1ed9a5e51d06ce2346a4768a911f11d9b97f77fa761f8b70cba87",
+      "samplePreserving": true,
+      "decodeMs": 80.73941599999944,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 78.60025000000041,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 80.72683400000005,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2488,
+          "parityFlips": 2488,
+          "decodeMs": 78.44624999999996,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7755,
+          "parityFlips": 3945,
+          "decodeMs": 83.2147500000001,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7652,
+          "parityFlips": 3853,
+          "decodeMs": 79.67387500000041,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 100.40254100000038,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 3101,
+        "maximumDelta": 1,
+        "mse": 0.003943125406901042
+      },
+      "scores": {
+        "parityFraction": 0.45811716715494794,
+        "pairImbalance": 64654.17615183516,
+        "meanAbsRG": 34.9511604309082,
+        "meanAbsGB": 40.127906799316406,
+        "bootstrapParityFraction": 0.43310546875
+      },
+      "outputBytes": 736753,
+      "pngSha256": "df17bd6b111127f518bace8fc600859d9f09411d5692c8a94fc7c414dd652645",
+      "samplePreserving": true,
+      "decodeMs": 79.96199999999953,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "vandusen-2015",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4578107198079427,
+        "pairImbalance": 65692.1105450824,
+        "meanAbsRG": 34.95143508911133,
+        "meanAbsGB": 40.128726959228516,
+        "bootstrapParityFraction": 0.433837890625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 21,
+          "parityFlips": 21,
+          "decodeMs": 80.59758299999885,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 245,
+          "parityFlips": 245,
+          "decodeMs": 85.84300000000076,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2491,
+          "parityFlips": 2491,
+          "decodeMs": 81.59574999999859,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7758,
+          "parityFlips": 3957,
+          "decodeMs": 88.2552080000005,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7653,
+          "parityFlips": 3861,
+          "decodeMs": 78.27849999999853,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 108.41129200000069,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 11240,
+        "maximumDelta": 1,
+        "mse": 0.014292399088541666
+      },
+      "scores": {
+        "parityFraction": 0.45852025349934894,
+        "pairImbalance": 62063.248829436474,
+        "meanAbsRG": 34.94969940185547,
+        "meanAbsGB": 40.12603759765625,
+        "bootstrapParityFraction": 0.4354248046875
+      },
+      "outputBytes": 737358,
+      "pngSha256": "ed48c47429d5263849194a51764faf4660e43bf9e74b14314678015780285691",
+      "samplePreserving": true,
+      "decodeMs": 80.78087500000038,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 106.640625,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 108.50179200000093,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 114.2211669999997,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3983,
+          "decodeMs": 110.19658300000083,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3866,
+          "decodeMs": 113.26491600000008,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 111.26616599999943,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 64,
+        "total": 132,
+        "nonPayload": 68,
+        "keyedGroups": 116
+      },
+      "placement": {
+        "positions": 116,
+        "draws": 116,
+        "rejections": 0,
+        "peakEntries": 116,
+        "mapEntries": 116,
+        "maxDraws": 1256,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 546,
+        "maximumDelta": 1,
+        "mse": 0.00069427490234375
+      },
+      "scores": {
+        "parityFraction": 0.4875030517578125,
+        "pairImbalance": 42226.81886486516,
+        "meanAbsRG": 37.59574890136719,
+        "meanAbsGB": 41.82293701171875,
+        "bootstrapParityFraction": 0.5166015625
+      },
+      "outputBytes": 745456,
+      "pngSha256": "ac17279b2d66ceef19b749360b1996707a39600e760c14cae0c15a277b991de9",
+      "samplePreserving": true,
+      "decodeMs": 112.07500000000073,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 105.84320800000023,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 107.88475000000108,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 106.48179100000016,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3987,
+          "decodeMs": 106.7701249999991,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3872,
+          "decodeMs": 106.78270899999916,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 112.96179200000006,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 512,
+        "total": 580,
+        "nonPayload": 68,
+        "keyedGroups": 564
+      },
+      "placement": {
+        "positions": 564,
+        "draws": 564,
+        "rejections": 0,
+        "peakEntries": 562,
+        "mapEntries": 562,
+        "maxDraws": 2152,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2318,
+        "maximumDelta": 1,
+        "mse": 0.0029474894205729165
+      },
+      "scores": {
+        "parityFraction": 0.48760986328125,
+        "pairImbalance": 41840.67153940578,
+        "meanAbsRG": 37.5957145690918,
+        "meanAbsGB": 41.822696685791016,
+        "bootstrapParityFraction": 0.5155029296875
+      },
+      "outputBytes": 745630,
+      "pngSha256": "9d2cdf610e1e3c951e01d838cd656d5bc1abdb39d6a41ec4ddbf152add80073b",
+      "samplePreserving": true,
+      "decodeMs": 112.36483299999963,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 106.03129199999967,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 109.49762499999997,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 105.87183299999924,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3963,
+          "decodeMs": 107.7856670000001,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3879,
+          "decodeMs": 107.14466699999866,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 107.0575000000008,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2116,
+        "nonPayload": 68,
+        "keyedGroups": 2100
+      },
+      "placement": {
+        "positions": 2100,
+        "draws": 2100,
+        "rejections": 0,
+        "peakEntries": 2060,
+        "mapEntries": 2060,
+        "maxDraws": 5224,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 8441,
+        "maximumDelta": 1,
+        "mse": 0.010733286539713541
+      },
+      "scores": {
+        "parityFraction": 0.4875933329264323,
+        "pairImbalance": 40582.03314139219,
+        "meanAbsRG": 37.59553527832031,
+        "meanAbsGB": 41.82167053222656,
+        "bootstrapParityFraction": 0.5150146484375
+      },
+      "outputBytes": 745945,
+      "pngSha256": "a0137b2ceea4bac5a84f8eee26684dc2644b15fb25b786125c92b2f354a4eb46",
+      "samplePreserving": true,
+      "decodeMs": 107.79162499999984,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 105.88108300000022,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 108.45974999999999,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 107.5104169999995,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3979,
+          "decodeMs": 106.7169589999994,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3865,
+          "decodeMs": 105.82125000000087,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 107.16733300000124,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 64,
+        "total": 228,
+        "nonPayload": 164,
+        "keyedGroups": 212
+      },
+      "placement": {
+        "positions": 212,
+        "draws": 212,
+        "rejections": 0,
+        "peakEntries": 211,
+        "mapEntries": 211,
+        "maxDraws": 1448,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 867,
+        "maximumDelta": 1,
+        "mse": 0.001102447509765625
+      },
+      "scores": {
+        "parityFraction": 0.4875475565592448,
+        "pairImbalance": 42119.832564587894,
+        "meanAbsRG": 37.59580612182617,
+        "meanAbsGB": 41.82282638549805,
+        "bootstrapParityFraction": 0.51611328125
+      },
+      "outputBytes": 745501,
+      "pngSha256": "9c5c2fb375ab9ad7906e5dc92b5f1eea0081f43bea18c72ca3b1c3fa9dfd8f83",
+      "samplePreserving": true,
+      "decodeMs": 105.64258299999892,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 108.7132500000007,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 106.72454099999959,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 106.65354200000002,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3986,
+          "decodeMs": 106.93087500000001,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3861,
+          "decodeMs": 106.5791250000002,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 108.19154100000014,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 96,
+        "padding": 0,
+        "stored": 512,
+        "total": 740,
+        "nonPayload": 228,
+        "keyedGroups": 724
+      },
+      "placement": {
+        "positions": 724,
+        "draws": 724,
+        "rejections": 0,
+        "peakEntries": 722,
+        "mapEntries": 722,
+        "maxDraws": 2472,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2957,
+        "maximumDelta": 1,
+        "mse": 0.0037600199381510415
+      },
+      "scores": {
+        "parityFraction": 0.48770777384440106,
+        "pairImbalance": 41716.142515726184,
+        "meanAbsRG": 37.59556198120117,
+        "meanAbsGB": 41.822364807128906,
+        "bootstrapParityFraction": 0.5159912109375
+      },
+      "outputBytes": 745644,
+      "pngSha256": "39c3c7a52706303d95362f5ce15ad1a9aa859c18e503eb3ac76c1a6f2a3d6f89",
+      "samplePreserving": true,
+      "decodeMs": 107.52379099999962,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 109.63537499999984,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 107.51216600000043,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 106.34825000000092,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7765,
+          "parityFlips": 3977,
+          "decodeMs": 107.51995800000077,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3864,
+          "decodeMs": 107.88137500000084,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 110.23112500000025,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 320,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2500,
+        "nonPayload": 452,
+        "keyedGroups": 2484
+      },
+      "placement": {
+        "positions": 2484,
+        "draws": 2484,
+        "rejections": 0,
+        "peakEntries": 2429,
+        "mapEntries": 2429,
+        "maxDraws": 5992,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 10136,
+        "maximumDelta": 1,
+        "mse": 0.012888590494791666
+      },
+      "scores": {
+        "parityFraction": 0.4878743489583333,
+        "pairImbalance": 40297.801546283285,
+        "meanAbsRG": 37.59524154663086,
+        "meanAbsGB": 41.82212448120117,
+        "bootstrapParityFraction": 0.5157470703125
+      },
+      "outputBytes": 745996,
+      "pngSha256": "e83f454fe41be0bb9be6428a19627c05d95e75bd4cb6cf93e9904e4ec1cdcad7",
+      "samplePreserving": true,
+      "decodeMs": 107.78129200000149,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.97733300000073,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 84.73908300000039,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2565,
+          "parityFlips": 2565,
+          "decodeMs": 78.06624999999985,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7773,
+          "parityFlips": 3905,
+          "decodeMs": 80.12487500000134,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7641,
+          "parityFlips": 3887,
+          "decodeMs": 78.64225000000079,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 108.62045800000124,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 785008
+      },
+      "changes": {
+        "changedSamples": 394146,
+        "maximumDelta": 1,
+        "mse": 0.5011825561523438
+      },
+      "scores": {
+        "parityFraction": 0.49946848551432294,
+        "pairImbalance": 125.9460392161179,
+        "meanAbsRG": 37.56699752807617,
+        "meanAbsGB": 41.77483367919922,
+        "bootstrapParityFraction": 0.4979248046875
+      },
+      "outputBytes": 755233,
+      "pngSha256": "b0d08c87e812cb9f0074aa574c2b4b6f75ac348af1267b9a7d1f5c47b480bc63",
+      "samplePreserving": true,
+      "decodeMs": 81.9867919999997,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 26,
+          "parityFlips": 26,
+          "decodeMs": 80.2754160000004,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 259,
+          "parityFlips": 259,
+          "decodeMs": 80.91854200000125,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2565,
+          "parityFlips": 2565,
+          "decodeMs": 79.66741600000023,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7767,
+          "parityFlips": 3959,
+          "decodeMs": 79.24200000000019,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7650,
+          "parityFlips": 3909,
+          "decodeMs": 79.7564999999995,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 108.59095800000068,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 780240
+      },
+      "changes": {
+        "changedSamples": 393661,
+        "maximumDelta": 1,
+        "mse": 0.5005658467610677
+      },
+      "scores": {
+        "parityFraction": 0.4992688496907552,
+        "pairImbalance": 133.66699254923762,
+        "meanAbsRG": 37.565608978271484,
+        "meanAbsGB": 41.771385192871094,
+        "bootstrapParityFraction": 0.49169921875
+      },
+      "outputBytes": 755148,
+      "pngSha256": "246e8dd23dab4cd7aebbf3912de5559d248dfe4bdc98064cf4c6e6f1b8108e23",
+      "samplePreserving": true,
+      "decodeMs": 80.6516249999986,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 81.8226250000007,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 259,
+          "parityFlips": 259,
+          "decodeMs": 80.95987500000047,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2570,
+          "parityFlips": 2570,
+          "decodeMs": 81.8979159999999,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7770,
+          "parityFlips": 3857,
+          "decodeMs": 67.34691700000076,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7651,
+          "parityFlips": 3900,
+          "decodeMs": 79.90495799999917,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 116.10275000000001,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 763856
+      },
+      "changes": {
+        "changedSamples": 393199,
+        "maximumDelta": 1,
+        "mse": 0.49997838338216144
+      },
+      "scores": {
+        "parityFraction": 0.4988975524902344,
+        "pairImbalance": 146.80894031304368,
+        "meanAbsRG": 37.565521240234375,
+        "meanAbsGB": 41.771453857421875,
+        "bootstrapParityFraction": 0.506103515625
+      },
+      "outputBytes": 755142,
+      "pngSha256": "7e7bd094f5281815685bbbcde0b181b9a51d171cf27225302ecea9a634c9952b",
+      "samplePreserving": true,
+      "decodeMs": 80.59875000000102,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.43787499999962,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 81.19958299999962,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2521,
+          "parityFlips": 2521,
+          "decodeMs": 79.3637920000001,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3981,
+          "decodeMs": 83.0091250000005,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3867,
+          "decodeMs": 79.69816599999831,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 96.11899999999878,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 715,
+        "maximumDelta": 1,
+        "mse": 0.0009091695149739584
+      },
+      "scores": {
+        "parityFraction": 0.4876416524251302,
+        "pairImbalance": 42238.580396488134,
+        "meanAbsRG": 37.595848083496094,
+        "meanAbsGB": 41.82282257080078,
+        "bootstrapParityFraction": 0.515625
+      },
+      "outputBytes": 745489,
+      "pngSha256": "3fc42be789d75bd63523678b35e036c7b8235aaaaadc2505fac6fd4b55bcd65d",
+      "samplePreserving": true,
+      "decodeMs": 79.8725830000003,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.0370839999996,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 81.79387499999939,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2522,
+          "parityFlips": 2522,
+          "decodeMs": 79.35108300000138,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7764,
+          "parityFlips": 3966,
+          "decodeMs": 82.01425000000017,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7640,
+          "parityFlips": 3866,
+          "decodeMs": 78.09937499999796,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 106.18429200000173,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 3100,
+        "maximumDelta": 1,
+        "mse": 0.003941853841145833
+      },
+      "scores": {
+        "parityFraction": 0.48754119873046875,
+        "pairImbalance": 41733.839220203,
+        "meanAbsRG": 37.59566116333008,
+        "meanAbsGB": 41.82245635986328,
+        "bootstrapParityFraction": 0.514892578125
+      },
+      "outputBytes": 745704,
+      "pngSha256": "69483fbbd5b66d17360963e0647bcd40bb5770559f60a0949143a012a0e66aa2",
+      "samplePreserving": true,
+      "decodeMs": 79.14679199999955,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "saigon-2014",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.48765309651692706,
+        "pairImbalance": 42340.24636048139,
+        "meanAbsRG": 37.59592056274414,
+        "meanAbsGB": 41.822872161865234,
+        "bootstrapParityFraction": 0.515869140625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 79.84445799999958,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 257,
+          "parityFlips": 257,
+          "decodeMs": 84.88083299999926,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2524,
+          "parityFlips": 2524,
+          "decodeMs": 78.56158399999913,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7763,
+          "parityFlips": 3973,
+          "decodeMs": 81.53741700000319,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7641,
+          "parityFlips": 3862,
+          "decodeMs": 78.68416699999943,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 106.21550000000207,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 11364,
+        "maximumDelta": 1,
+        "mse": 0.0144500732421875
+      },
+      "scores": {
+        "parityFraction": 0.4870961507161458,
+        "pairImbalance": 39975.70965627595,
+        "meanAbsRG": 37.59518051147461,
+        "meanAbsGB": 41.82101821899414,
+        "bootstrapParityFraction": 0.5128173828125
+      },
+      "outputBytes": 746239,
+      "pngSha256": "77df2529b471155d5496495f8e5be77ab42deb77ec65c29c64a9d9ede09a6038",
+      "samplePreserving": true,
+      "decodeMs": 81.1526249999988,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 106.61929099999907,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 112.59245800000281,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2446,
+          "parityFlips": 2446,
+          "decodeMs": 105.60995800000092,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3868,
+          "decodeMs": 106.81708300000173,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3803,
+          "decodeMs": 114.30054100000052,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 108.38258399999904,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 64,
+        "total": 132,
+        "nonPayload": 68,
+        "keyedGroups": 116
+      },
+      "placement": {
+        "positions": 116,
+        "draws": 116,
+        "rejections": 0,
+        "peakEntries": 116,
+        "mapEntries": 116,
+        "maxDraws": 1256,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 528,
+        "maximumDelta": 1,
+        "mse": 0.00067138671875
+      },
+      "scores": {
+        "parityFraction": 0.44255701700846356,
+        "pairImbalance": 88689.67175735498,
+        "meanAbsRG": 52.35752868652344,
+        "meanAbsGB": 35.90432357788086,
+        "bootstrapParityFraction": 0.5035400390625
+      },
+      "outputBytes": 697858,
+      "pngSha256": "9cb179ce842e4c8f21bbf726f7f70f0586a122f5a02d0878849864c9ac604cd0",
+      "samplePreserving": true,
+      "decodeMs": 107.12245800000164,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 106.87333299999955,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 107.13541699999769,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2446,
+          "parityFlips": 2446,
+          "decodeMs": 105.48408299999937,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7779,
+          "parityFlips": 3869,
+          "decodeMs": 107.15879199999836,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3798,
+          "decodeMs": 106.00262500000099,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 107.56866699999955,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 512,
+        "total": 580,
+        "nonPayload": 68,
+        "keyedGroups": 564
+      },
+      "placement": {
+        "positions": 564,
+        "draws": 564,
+        "rejections": 0,
+        "peakEntries": 561,
+        "mapEntries": 561,
+        "maxDraws": 2152,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2317,
+        "maximumDelta": 1,
+        "mse": 0.0029462178548177085
+      },
+      "scores": {
+        "parityFraction": 0.44280751546223956,
+        "pairImbalance": 87904.64103853675,
+        "meanAbsRG": 52.35707473754883,
+        "meanAbsGB": 35.90397644042969,
+        "bootstrapParityFraction": 0.50439453125
+      },
+      "outputBytes": 698050,
+      "pngSha256": "a92fe9732a20f486049ddee45dd9f90debd27e7557e0f04855addd49803dc594",
+      "samplePreserving": true,
+      "decodeMs": 108.79375000000073,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 108.41670800000065,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 107.1941250000018,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2445,
+          "parityFlips": 2445,
+          "decodeMs": 105.79266700000153,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3864,
+          "decodeMs": 110.27724999999919,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7660,
+          "parityFlips": 3806,
+          "decodeMs": 106.23787500000253,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 106.78979099999924,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2116,
+        "nonPayload": 68,
+        "keyedGroups": 2100
+      },
+      "placement": {
+        "positions": 2100,
+        "draws": 2100,
+        "rejections": 0,
+        "peakEntries": 2052,
+        "mapEntries": 2052,
+        "maxDraws": 5224,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 8322,
+        "maximumDelta": 1,
+        "mse": 0.01058197021484375
+      },
+      "scores": {
+        "parityFraction": 0.4437548319498698,
+        "pairImbalance": 85015.92256368908,
+        "meanAbsRG": 52.35590744018555,
+        "meanAbsGB": 35.90223693847656,
+        "bootstrapParityFraction": 0.5025634765625
+      },
+      "outputBytes": 698666,
+      "pngSha256": "03b751770d0098ae5f6af3b86a533f542b3e4763d223f9971a964487a08d704a",
+      "samplePreserving": true,
+      "decodeMs": 108.80995800000164,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 108.0569170000017,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 108.50912499999686,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2446,
+          "parityFlips": 2446,
+          "decodeMs": 106.23037500000282,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3868,
+          "decodeMs": 106.59833300000173,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3810,
+          "decodeMs": 106.54616700000042,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 106.19895800000086,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 64,
+        "total": 228,
+        "nonPayload": 164,
+        "keyedGroups": 212
+      },
+      "placement": {
+        "positions": 212,
+        "draws": 212,
+        "rejections": 0,
+        "peakEntries": 212,
+        "mapEntries": 212,
+        "maxDraws": 1448,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 917,
+        "maximumDelta": 1,
+        "mse": 0.0011660257975260417
+      },
+      "scores": {
+        "parityFraction": 0.44270070393880206,
+        "pairImbalance": 88453.7901240662,
+        "meanAbsRG": 52.35753631591797,
+        "meanAbsGB": 35.904014587402344,
+        "bootstrapParityFraction": 0.503173828125
+      },
+      "outputBytes": 697914,
+      "pngSha256": "28c16d145d3888d04d77363aface2dd890566b81f43bcad9f3dab6dcb7be0744",
+      "samplePreserving": true,
+      "decodeMs": 117.7977499999979,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 106.60925000000134,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 106.61804200000188,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2447,
+          "parityFlips": 2447,
+          "decodeMs": 106.29845800000112,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3866,
+          "decodeMs": 108.11779199999728,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3808,
+          "decodeMs": 106.4287919999988,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 107.4958340000012,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 96,
+        "padding": 0,
+        "stored": 512,
+        "total": 740,
+        "nonPayload": 228,
+        "keyedGroups": 724
+      },
+      "placement": {
+        "positions": 724,
+        "draws": 724,
+        "rejections": 0,
+        "peakEntries": 722,
+        "mapEntries": 722,
+        "maxDraws": 2472,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2966,
+        "maximumDelta": 1,
+        "mse": 0.0037714640299479165
+      },
+      "scores": {
+        "parityFraction": 0.4428672790527344,
+        "pairImbalance": 87613.6647347679,
+        "meanAbsRG": 52.357181549072266,
+        "meanAbsGB": 35.903907775878906,
+        "bootstrapParityFraction": 0.5030517578125
+      },
+      "outputBytes": 698090,
+      "pngSha256": "14c3f10983ef5fc8d880f2a9ae727e1807597032a9f28118fc0397765a87272d",
+      "samplePreserving": true,
+      "decodeMs": 108.69216699999743,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 108.35737499999959,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 109.41979100000026,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2446,
+          "parityFlips": 2446,
+          "decodeMs": 108.64733400000114,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3868,
+          "decodeMs": 107.88870800000223,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7657,
+          "parityFlips": 3794,
+          "decodeMs": 107.7241670000003,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 109.5498329999973,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 320,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2500,
+        "nonPayload": 452,
+        "keyedGroups": 2484
+      },
+      "placement": {
+        "positions": 2484,
+        "draws": 2484,
+        "rejections": 0,
+        "peakEntries": 2415,
+        "mapEntries": 2415,
+        "maxDraws": 5992,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 10021,
+        "maximumDelta": 1,
+        "mse": 0.012742360432942709
+      },
+      "scores": {
+        "parityFraction": 0.4441324869791667,
+        "pairImbalance": 84440.95188610503,
+        "meanAbsRG": 52.355403900146484,
+        "meanAbsGB": 35.90220260620117,
+        "bootstrapParityFraction": 0.50244140625
+      },
+      "outputBytes": 698852,
+      "pngSha256": "39fda93bb6eeaba5e79ae6e88f0b36b23549356493e2a55750b14efa14ea5602",
+      "samplePreserving": true,
+      "decodeMs": 109.67929100000038,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 79.5947500000002,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 79.60633299999972,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2526,
+          "parityFlips": 2526,
+          "decodeMs": 80.2074999999968,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7772,
+          "parityFlips": 3907,
+          "decodeMs": 82.74970799999937,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7656,
+          "parityFlips": 3889,
+          "decodeMs": 77.7755419999994,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 105.29662499999904,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 785008
+      },
+      "changes": {
+        "changedSamples": 393138,
+        "maximumDelta": 1,
+        "mse": 0.49990081787109375
+      },
+      "scores": {
+        "parityFraction": 0.49950536092122394,
+        "pairImbalance": 115.30718262186475,
+        "meanAbsRG": 52.25473403930664,
+        "meanAbsGB": 35.82542037963867,
+        "bootstrapParityFraction": 0.498046875
+      },
+      "outputBytes": 712198,
+      "pngSha256": "ac76e6be09ae5e6f3a4440fdb078648323a8181e1df59ed02ee4ff80bb232f78",
+      "samplePreserving": true,
+      "decodeMs": 82.60550000000148,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 26,
+          "parityFlips": 26,
+          "decodeMs": 77.80341599999883,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 255,
+          "parityFlips": 255,
+          "decodeMs": 79.39666599999691,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2527,
+          "parityFlips": 2527,
+          "decodeMs": 80.58166600000186,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7777,
+          "parityFlips": 3954,
+          "decodeMs": 80.52783400000044,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7658,
+          "parityFlips": 3918,
+          "decodeMs": 80.89395799999693,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 108.44779200000266,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 780240
+      },
+      "changes": {
+        "changedSamples": 393787,
+        "maximumDelta": 1,
+        "mse": 0.500726064046224
+      },
+      "scores": {
+        "parityFraction": 0.49932861328125,
+        "pairImbalance": 151.96969516025922,
+        "meanAbsRG": 52.252967834472656,
+        "meanAbsGB": 35.825897216796875,
+        "bootstrapParityFraction": 0.491943359375
+      },
+      "outputBytes": 712169,
+      "pngSha256": "04720dc356ac7a845563a269d07ae97ababf44a3b6966ac9d36d10594bd1131f",
+      "samplePreserving": true,
+      "decodeMs": 80.35962500000096,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 24,
+          "parityFlips": 24,
+          "decodeMs": 78.9699159999982,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 254,
+          "parityFlips": 254,
+          "decodeMs": 81.57116700000188,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2529,
+          "parityFlips": 2529,
+          "decodeMs": 79.49783300000126,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7767,
+          "parityFlips": 3849,
+          "decodeMs": 81.16662500000166,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7655,
+          "parityFlips": 3889,
+          "decodeMs": 80.76862499999697,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 118.5347499999989,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 763856
+      },
+      "changes": {
+        "changedSamples": 392659,
+        "maximumDelta": 1,
+        "mse": 0.49929173787434894
+      },
+      "scores": {
+        "parityFraction": 0.49899037679036456,
+        "pairImbalance": 119.33087511065332,
+        "meanAbsRG": 52.25254440307617,
+        "meanAbsGB": 35.82612991333008,
+        "bootstrapParityFraction": 0.506591796875
+      },
+      "outputBytes": 712171,
+      "pngSha256": "22842e5b653897a561e402d248138c90d8a8b408c0bc947ed900ba41039d09ee",
+      "samplePreserving": true,
+      "decodeMs": 81.91891699999906,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.93754199999967,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 84.14191699999719,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2445,
+          "parityFlips": 2445,
+          "decodeMs": 83.90979100000186,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3869,
+          "decodeMs": 82.239749999997,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3805,
+          "decodeMs": 79.05133299999943,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 98.68999999999869,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 692,
+        "maximumDelta": 1,
+        "mse": 0.0008799235026041666
+      },
+      "scores": {
+        "parityFraction": 0.44266637166341144,
+        "pairImbalance": 88546.55977273881,
+        "meanAbsRG": 52.3574104309082,
+        "meanAbsGB": 35.90413284301758,
+        "bootstrapParityFraction": 0.5037841796875
+      },
+      "outputBytes": 697908,
+      "pngSha256": "255d17e42af839d227007857d2b67d985c3ef5d87d6c621ff30d8459d8a0968b",
+      "samplePreserving": true,
+      "decodeMs": 80.90716700000121,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 79.17912500000239,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 79.23412499999904,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2445,
+          "parityFlips": 2445,
+          "decodeMs": 78.38320799999929,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3863,
+          "decodeMs": 81.60304200000246,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3808,
+          "decodeMs": 78.41875000000073,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 99.61408300000039,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 3064,
+        "maximumDelta": 1,
+        "mse": 0.0038960774739583335
+      },
+      "scores": {
+        "parityFraction": 0.4428087870279948,
+        "pairImbalance": 87581.9506758763,
+        "meanAbsRG": 52.35670852661133,
+        "meanAbsGB": 35.903587341308594,
+        "bootstrapParityFraction": 0.5029296875
+      },
+      "outputBytes": 698191,
+      "pngSha256": "fb2d79ee6d5c44ebae24d1929335c137888598f52bde8cd4050937e4a3a55feb",
+      "samplePreserving": true,
+      "decodeMs": 79.63733299999876,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "minnesota-2019",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4426231384277344,
+        "pairImbalance": 88877.18066720353,
+        "meanAbsRG": 52.357765197753906,
+        "meanAbsGB": 35.90427780151367,
+        "bootstrapParityFraction": 0.50390625
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.8022920000003,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 252,
+          "parityFlips": 252,
+          "decodeMs": 82.2402080000029,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2446,
+          "parityFlips": 2446,
+          "decodeMs": 79.25487499999872,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3867,
+          "decodeMs": 80.33045800000036,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7659,
+          "parityFlips": 3797,
+          "decodeMs": 78.7117909999979,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 108.12387500000114,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 11295,
+        "maximumDelta": 1,
+        "mse": 0.014362335205078125
+      },
+      "scores": {
+        "parityFraction": 0.44334157307942706,
+        "pairImbalance": 84020.4282303949,
+        "meanAbsRG": 52.35458755493164,
+        "meanAbsGB": 35.90251922607422,
+        "bootstrapParityFraction": 0.501953125
+      },
+      "outputBytes": 699024,
+      "pngSha256": "489ccb4013f4d4cf31f445703cbd3399d67f82b09368d23820f051d7fe59e647",
+      "samplePreserving": true,
+      "decodeMs": 79.52495900000213,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 108.81745900000169,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 108.23708299999998,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 106.91033299999981,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3830,
+          "decodeMs": 107.47487499999988,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3749,
+          "decodeMs": 112.79162500000166,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 115.72149999999965,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 64,
+        "total": 132,
+        "nonPayload": 68,
+        "keyedGroups": 116
+      },
+      "placement": {
+        "positions": 116,
+        "draws": 116,
+        "rejections": 0,
+        "peakEntries": 116,
+        "mapEntries": 116,
+        "maxDraws": 1256,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 506,
+        "maximumDelta": 1,
+        "mse": 0.0006434122721354166
+      },
+      "scores": {
+        "parityFraction": 0.4857368469238281,
+        "pairImbalance": 21851.27648185065,
+        "meanAbsRG": 13.332988739013672,
+        "meanAbsGB": 17.902904510498047,
+        "bootstrapParityFraction": 0.4874267578125
+      },
+      "outputBytes": 596421,
+      "pngSha256": "24420790b8ee3e0f240d735bf4aa3356f89b9f8207ac571d06bb0deac182c638",
+      "samplePreserving": true,
+      "decodeMs": 110.42733399999997,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 107.29966599999898,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 107.31416700000045,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 109.070291,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3831,
+          "decodeMs": 107.91095900000073,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3761,
+          "decodeMs": 107.11516599999959,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 108.87066600000253,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 512,
+        "total": 580,
+        "nonPayload": 68,
+        "keyedGroups": 564
+      },
+      "placement": {
+        "positions": 564,
+        "draws": 564,
+        "rejections": 0,
+        "peakEntries": 559,
+        "mapEntries": 559,
+        "maxDraws": 2152,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2290,
+        "maximumDelta": 1,
+        "mse": 0.0029118855794270835
+      },
+      "scores": {
+        "parityFraction": 0.4856986999511719,
+        "pairImbalance": 21667.56397782873,
+        "meanAbsRG": 13.333259582519531,
+        "meanAbsGB": 17.902889251708984,
+        "bootstrapParityFraction": 0.4873046875
+      },
+      "outputBytes": 596961,
+      "pngSha256": "f6b4fc80dd192abd27864ae13335545ba6abd4d324aeb7ade057dcb0778aabb5",
+      "samplePreserving": true,
+      "decodeMs": 107.32441699999981,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "rgb-no-repair",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 106.48733300000094,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 108.02283399999942,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 106.08500000000276,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7777,
+          "parityFlips": 3811,
+          "decodeMs": 107.69958300000144,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7641,
+          "parityFlips": 3750,
+          "decodeMs": 109.24841699999888,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 110.2021249999998,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 0,
+        "authenticationTag": 16,
+        "payloadParity": 0,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2116,
+        "nonPayload": 68,
+        "keyedGroups": 2100
+      },
+      "placement": {
+        "positions": 2100,
+        "draws": 2100,
+        "rejections": 0,
+        "peakEntries": 2044,
+        "mapEntries": 2044,
+        "maxDraws": 5224,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 8483,
+        "maximumDelta": 1,
+        "mse": 0.010786692301432291
+      },
+      "scores": {
+        "parityFraction": 0.48601531982421875,
+        "pairImbalance": 20976.992810430453,
+        "meanAbsRG": 13.332828521728516,
+        "meanAbsGB": 17.90252685546875,
+        "bootstrapParityFraction": 0.488037109375
+      },
+      "outputBytes": 598504,
+      "pngSha256": "04a311db245089862ae9507f4b524b5623bea7e1aab63c06b4c6662ff1a86ea6",
+      "samplePreserving": true,
+      "decodeMs": 109.00154200000179,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 108.0850419999988,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 106.9752499999995,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 106.79041700000016,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3826,
+          "decodeMs": 108.17245900000125,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3756,
+          "decodeMs": 108.57000000000335,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 109.87220800000068,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 32,
+        "padding": 0,
+        "stored": 64,
+        "total": 228,
+        "nonPayload": 164,
+        "keyedGroups": 212
+      },
+      "placement": {
+        "positions": 212,
+        "draws": 212,
+        "rejections": 0,
+        "peakEntries": 212,
+        "mapEntries": 212,
+        "maxDraws": 1448,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 911,
+        "maximumDelta": 1,
+        "mse": 0.0011583964029947917
+      },
+      "scores": {
+        "parityFraction": 0.48576100667317706,
+        "pairImbalance": 21775.42980005124,
+        "meanAbsRG": 13.332870483398438,
+        "meanAbsGB": 17.902942657470703,
+        "bootstrapParityFraction": 0.4876708984375
+      },
+      "outputBytes": 596480,
+      "pngSha256": "5c4b52ba124c459f6fff8819245ca38da0fba0f95d96b21c7aefc687208e4dc1",
+      "samplePreserving": true,
+      "decodeMs": 107.42525000000023,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 107.87824999999793,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 109.50458299999809,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 108.30487500000163,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3829,
+          "decodeMs": 107.56441700000141,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3750,
+          "decodeMs": 113.33316700000069,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 108.36504199999763,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 96,
+        "padding": 0,
+        "stored": 512,
+        "total": 740,
+        "nonPayload": 228,
+        "keyedGroups": 724
+      },
+      "placement": {
+        "positions": 724,
+        "draws": 724,
+        "rejections": 0,
+        "peakEntries": 718,
+        "mapEntries": 718,
+        "maxDraws": 2472,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 4096
+      },
+      "changes": {
+        "changedSamples": 2963,
+        "maximumDelta": 1,
+        "mse": 0.0037676493326822915
+      },
+      "scores": {
+        "parityFraction": 0.4857381184895833,
+        "pairImbalance": 21606.188270884875,
+        "meanAbsRG": 13.332965850830078,
+        "meanAbsGB": 17.90279769897461,
+        "bootstrapParityFraction": 0.4869384765625
+      },
+      "outputBytes": 597101,
+      "pngSha256": "9195b81bd5edc1b4ec40645ff1ade33aac9dcb29fbcfabd60f3617e6407effb0",
+      "samplePreserving": true,
+      "decodeMs": 107.4262499999968,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "rgb-grouped-p32",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 109.15300000000207,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 108.78037499999846,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2584,
+          "parityFlips": 2584,
+          "decodeMs": 108.63008300000001,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7779,
+          "parityFlips": 3816,
+          "decodeMs": 111.77329199999804,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3761,
+          "decodeMs": 118.71208300000217,
+          "outcome": "exact-ready",
+          "exact": true
+        }
+      ],
+      "encodeMs": 111.53749999999854,
+      "overhead": {
+        "salt": 16,
+        "metadataData": 36,
+        "metadataParity": 64,
+        "authenticationTag": 16,
+        "payloadParity": 320,
+        "padding": 0,
+        "stored": 2048,
+        "total": 2500,
+        "nonPayload": 452,
+        "keyedGroups": 2484
+      },
+      "placement": {
+        "positions": 2484,
+        "draws": 2484,
+        "rejections": 0,
+        "peakEntries": 2422,
+        "mapEntries": 2422,
+        "maxDraws": 5992,
+        "streamChunkBytes": 4096,
+        "generatedStreamBytes": 12288
+      },
+      "changes": {
+        "changedSamples": 9926,
+        "maximumDelta": 1,
+        "mse": 0.012621561686197916
+      },
+      "scores": {
+        "parityFraction": 0.4860699971516927,
+        "pairImbalance": 20835.203017990705,
+        "meanAbsRG": 13.333454132080078,
+        "meanAbsGB": 17.90322494506836,
+        "bootstrapParityFraction": 0.4892578125
+      },
+      "outputBytes": 598885,
+      "pngSha256": "0fae6c8174fb4318937a168b927b3d798281bee20d58fc30fec472fb744282bd",
+      "samplePreserving": true,
+      "decodeMs": 108.46879099999933,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 79.97295800000211,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 81.17191599999933,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2597,
+          "parityFlips": 2597,
+          "decodeMs": 81.13325000000259,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7779,
+          "parityFlips": 3909,
+          "decodeMs": 85.39229200000045,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7645,
+          "parityFlips": 3887,
+          "decodeMs": 79.76441700000214,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 110.84937499999796,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 785008
+      },
+      "changes": {
+        "changedSamples": 393298,
+        "maximumDelta": 1,
+        "mse": 0.5001042683919271
+      },
+      "scores": {
+        "parityFraction": 0.4995002746582031,
+        "pairImbalance": 143.9777605428546,
+        "meanAbsRG": 13.335247039794922,
+        "meanAbsGB": 17.889854431152344,
+        "bootstrapParityFraction": 0.4979248046875
+      },
+      "outputBytes": 642076,
+      "pngSha256": "12e1c11319d5c519358b6b79ede9663dc520a980adefcd543ec8a36b3d5b38d0",
+      "samplePreserving": true,
+      "decodeMs": 82.75354099999822,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 78.54958299999998,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 259,
+          "parityFlips": 259,
+          "decodeMs": 79.7197500000002,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2599,
+          "parityFlips": 2599,
+          "decodeMs": 79.96158400000058,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7770,
+          "parityFlips": 3959,
+          "decodeMs": 83.76395799999955,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7650,
+          "parityFlips": 3917,
+          "decodeMs": 79.94574999999895,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 109.03583399999843,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 780240
+      },
+      "changes": {
+        "changedSamples": 392893,
+        "maximumDelta": 1,
+        "mse": 0.4995892842610677
+      },
+      "scores": {
+        "parityFraction": 0.49923960367838544,
+        "pairImbalance": 114.07759282479022,
+        "meanAbsRG": 13.334663391113281,
+        "meanAbsGB": 17.889728546142578,
+        "bootstrapParityFraction": 0.49169921875
+      },
+      "outputBytes": 642127,
+      "pngSha256": "2208ecaa79b66e4b62d1ac0f788a7d4bf18818f279b7294d4a79df248ac894d7",
+      "samplePreserving": true,
+      "decodeMs": 82.7776249999988,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "legacy-filler-on",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 79.06887500000448,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 259,
+          "parityFlips": 259,
+          "decodeMs": 81.48616700000275,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2597,
+          "parityFlips": 2597,
+          "decodeMs": 79.999791000002,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7775,
+          "parityFlips": 3864,
+          "decodeMs": 84.31350000000384,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7643,
+          "parityFlips": 3870,
+          "decodeMs": 81.8942920000045,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 113.87304199999926,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 763856
+      },
+      "changes": {
+        "changedSamples": 393196,
+        "maximumDelta": 1,
+        "mse": 0.4999745686848958
+      },
+      "scores": {
+        "parityFraction": 0.4990221659342448,
+        "pairImbalance": 108.50517024928784,
+        "meanAbsRG": 13.334075927734375,
+        "meanAbsGB": 17.888423919677734,
+        "bootstrapParityFraction": 0.504638671875
+      },
+      "outputBytes": 641929,
+      "pngSha256": "40ea186875e56a02bc3fa933b81702af326dba50e8db135a83c7531c81798afb",
+      "samplePreserving": true,
+      "decodeMs": 80.25095800000054,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 64,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 80.35879099999875,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 79.17570800000249,
+          "outcome": "exact-ready",
+          "exact": true
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 80.88620800000353,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7778,
+          "parityFlips": 3827,
+          "decodeMs": 79.70270799999707,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3750,
+          "decodeMs": 77.39700000000448,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 95.43516600000294,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 48,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 114,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 739,
+        "maximumDelta": 1,
+        "mse": 0.0009396870930989584
+      },
+      "scores": {
+        "parityFraction": 0.4857686360677083,
+        "pairImbalance": 21844.22641041941,
+        "meanAbsRG": 13.333049774169922,
+        "meanAbsGB": 17.90301513671875,
+        "bootstrapParityFraction": 0.4873046875
+      },
+      "outputBytes": 596601,
+      "pngSha256": "48f36c729aca8e2ecd4ce25522f2020b8a8cd9b8c36ff9474540aaf878ee67b3",
+      "samplePreserving": true,
+      "decodeMs": 78.28316700000141,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 512,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 77.71087499999703,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 79.47075000000041,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 78.53329200000007,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7777,
+          "parityFlips": 3825,
+          "decodeMs": 84.47683300000062,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7642,
+          "parityFlips": 3747,
+          "decodeMs": 78.24412500000471,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 102.81695900000341,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 196,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 262,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 3042,
+        "maximumDelta": 1,
+        "mse": 0.00386810302734375
+      },
+      "scores": {
+        "parityFraction": 0.48578770955403644,
+        "pairImbalance": 21617.77496488283,
+        "meanAbsRG": 13.33340835571289,
+        "meanAbsGB": 17.90292739868164,
+        "bootstrapParityFraction": 0.4853515625
+      },
+      "outputBytes": 597704,
+      "pngSha256": "79f05f621a984a0c311081aeeed5d955f124f304b70284b5adb2fa870979fe04",
+      "samplePreserving": true,
+      "decodeMs": 78.72079200000007,
+      "outcome": "exact-ready",
+      "exact": true
+    },
+    {
+      "id": "lake-clouds-2019",
+      "photo": true,
+      "profile": "legacy-filler-off",
+      "size": 2048,
+      "coverScores": {
+        "parityFraction": 0.4857927958170573,
+        "pairImbalance": 21914.113195146812,
+        "meanAbsRG": 13.33306884765625,
+        "meanAbsGB": 17.902931213378906,
+        "bootstrapParityFraction": 0.487060546875
+      },
+      "damage": [
+        {
+          "kind": "random-0.0001",
+          "seed": 35,
+          "selectedPixels": 26,
+          "changedSamples": 25,
+          "parityFlips": 25,
+          "decodeMs": 77.73199999999633,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.001",
+          "seed": 35,
+          "selectedPixels": 262,
+          "changedSamples": 258,
+          "parityFlips": 258,
+          "decodeMs": 80.54945900000166,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "random-0.01",
+          "seed": 35,
+          "selectedPixels": 2621,
+          "changedSamples": 2583,
+          "parityFlips": 2583,
+          "decodeMs": 78.69129099999554,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "patch",
+          "seed": 35,
+          "selectedPixels": 2601,
+          "changedSamples": 7777,
+          "parityFlips": 3826,
+          "decodeMs": 84.54283299999952,
+          "outcome": "safe-failure",
+          "exact": false
+        },
+        {
+          "kind": "stripe",
+          "seed": 35,
+          "selectedPixels": 2560,
+          "changedSamples": 7643,
+          "parityFlips": 3765,
+          "decodeMs": 80.76154200000019,
+          "outcome": "safe-failure",
+          "exact": false
+        }
+      ],
+      "encodeMs": 103.890542000001,
+      "overhead": {
+        "salt": 32,
+        "nonce": 12,
+        "tag": 16,
+        "separators": 3,
+        "compressionFlag": 0,
+        "base64Expansion": 708,
+        "endMarker": 3,
+        "repair": 0,
+        "finalBlockPadding": 0,
+        "totalOverhead": 774,
+        "fillerBits": 0
+      },
+      "changes": {
+        "changedSamples": 11242,
+        "maximumDelta": 1,
+        "mse": 0.014294942220052084
+      },
+      "scores": {
+        "parityFraction": 0.48551050821940106,
+        "pairImbalance": 20748.81439340863,
+        "meanAbsRG": 13.3331298828125,
+        "meanAbsGB": 17.902118682861328,
+        "bootstrapParityFraction": 0.4859619140625
+      },
+      "outputBytes": 601498,
+      "pngSha256": "bda0e174c1f1df8906df4730c3e0694c62c2ec6945533d7945811185972a43bf",
+      "samplePreserving": true,
+      "decodeMs": 79.3009169999932,
+      "outcome": "exact-ready",
+      "exact": true
+    }
+  ],
+  "peakRssBytes": 446791680
+}
