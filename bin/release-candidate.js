@@ -17,6 +17,16 @@ const print = (stream, message) => stream.write(safe(message) + "\n");
 process.stdout.on("error", cancel);
 process.stderr.on("error", cancel);
 
+async function readRequest(values) {
+  if (values.event && values["event-name"] && !values.request) {
+    return selectRequest(values["event-name"], JSON.parse(await readFile(values.event, "utf8")));
+  }
+  if (!values.event && !values["event-name"] && values.request) {
+    return selectRequest("workflow_dispatch", { inputs: { request: values.request } });
+  }
+  throw new Error("arguments");
+}
+
 async function main() {
   let values;
   try {
@@ -43,12 +53,7 @@ async function main() {
     ].join("\n"));
     return;
   }
-  let request;
-  if (values.event && values["event-name"] && !values.request) {
-    request = selectRequest(values["event-name"], JSON.parse(await readFile(values.event, "utf8")));
-  } else if (!values.event && !values["event-name"] && values.request) {
-    request = selectRequest("workflow_dispatch", { inputs: { request: values.request } });
-  } else throw new Error("arguments");
+  const request = await readRequest(values);
   if (request === "skip") {
     print(process.stderr, "Draft PR: no candidate checks or builds. No publication.");
     return;
