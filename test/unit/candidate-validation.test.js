@@ -407,10 +407,14 @@ test.each([
   await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "approval" });
 });
 
-test("an old unresolved review stays intact when affected reviews rerun", async () => {
+async function reviewedHistory(change = () => {}) {
   const prior = fixture.index.records.find(record => record.kind === "independent-review");
+  const { fixtures, observations, exclusions } = prior;
   prior.status = "fail";
-  prior.review.findings = [{ id: "review-failure", status: "open", evidence: prior.observations[0] }];
+  const evidence = await fixture.put("history/old-finding.txt", "Original failed public review observation");
+  const humanDecision = await fixture.json("history/old-decision.json", { decision: "pending", reviewer: "Public reviewer" });
+  prior.review.findings = [{ id: "review-failure", status: "open", evidence, humanDecision }];
+  change(prior);
   await fixture.saveReports();
   await fixture.save();
   const oldReportBytes = await readFile(path.join(fixture.root, prior.report.path));
@@ -421,7 +425,8 @@ test("an old unresolved review stays intact when affected reviews rerun", async 
   prior.candidate = fixture.manifest.identity.sha256;
   prior.run = "public-run-2";
   prior.status = "pass";
-  prior.review.findings[0].status = "fixed";
+  prior.review.findings = [];
+  Object.assign(prior, { fixtures, observations, exclusions });
   const { report, ...payload } = prior;
   prior.report = await fixture.json("reports/review-rerun.json", payload);
   const application = fixture.index.records.find(record => record.kind === "application-review");
@@ -430,9 +435,36 @@ test("an old unresolved review stays intact when affected reviews rerun", async 
   application.report = await fixture.json("reports/application-rerun.json", applicationPayload);
   fixture.index.carryForward[0].impact = await fixture.json("history/impact.json", impact);
   await fixture.save();
+  return { oldReportPath, oldReportBytes };
+}
+
+test("an old unresolved review stays intact when affected reviews rerun", async () => {
+  const { oldReportPath, oldReportBytes } = await reviewedHistory();
   await expect(validateCandidate(fixture.manifestPath)).resolves.toHaveProperty("candidate");
   expect(await readFile(path.join(fixture.root, oldReportPath))).toEqual(oldReportBytes);
 });
+
+test.each([
+  ["history/old-finding.txt", "missing"], ["history/old-finding.txt", "changed"],
+  ["history/old-decision.json", "missing"], ["history/old-decision.json", "changed"],
+])("a %s historical-only artifact cannot be %s", async (name, failure) => {
+  await reviewedHistory();
+  if (failure === "missing") await rm(path.join(fixture.root, name));
+  else await fixture.put(name, "Changed historical artifact");
+  await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "evidence.records.check-19" });
+});
+
+test.each([["non-array", {}], ["null entry", [null]]])(
+  "historical findings refuse a %s even when current reviews pass", async (_name, findings) => {
+    await reviewedHistory(record => { record.review.findings = findings; });
+    await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "evidence.records.check-19" });
+  });
+
+test.each(["fixtures", "observations", "exclusions"])(
+  "historical %s cannot hide references in a non-array value", async (key) => {
+    await reviewedHistory(record => { record[key] = {}; });
+    await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "evidence.records.check-19" });
+  });
 
 test("missing Git objects cannot invoke a supplied transport helper", async () => {
   const tree = fixture.git("rev-parse", "HEAD^{tree}");
