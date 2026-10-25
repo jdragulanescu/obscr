@@ -1,4 +1,7 @@
 import { selectArtifact, resolveRequest, createGithubApi } from "../../lib/release-github.js";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 
 const context = { repository: "jdragulanescu/obscr", runId: 123, runAttempt: 1,
   sourceRevision: "a".repeat(40) };
@@ -59,6 +62,26 @@ describe("retained GitHub release selection", () => {
 });
 
 describe("GitHub provider response contract", () => {
+  test("downloads Actions archives using the API media type, not release-asset media", async () => {
+    const root = await mkdtemp(path.join(tmpdir(), "obscr-artifact-http-"));
+    try {
+      const api = createGithubApi("public-test-token", { fetch: async (url, options) => {
+        if (url.endsWith("/actions/artifacts/456/zip")) {
+          if (options.headers.Accept !== "application/vnd.github+json") return new Response("", { status: 415 });
+          return new Response(null, { status: 302, headers: { location: "https://storage.example.invalid/archive" } });
+        }
+        if (url === "https://storage.example.invalid/archive" && !options.headers?.Authorization) {
+          return new Response("abc");
+        }
+        return new Response("", { status: 403 });
+      } });
+      const destination = path.join(root, "artifact.zip");
+      await api.download({ ...request, artifactSha256: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" }, destination);
+      expect(await readFile(destination, "utf8")).toBe("abc");
+      await expect(api.download(request, path.join(root, "changed.zip"))).rejects.toThrow("digest differs");
+    } finally { await rm(root, { recursive: true, force: true }); }
+  });
+
   test("reads a release asset through the binary API without forwarding authorization to storage", async () => {
     const api = createGithubApi("private-test-token", { fetch: async (url, options) => {
       if (url === "https://api.github.com/repos/jdragulanescu/obscr/releases/assets/9") {
