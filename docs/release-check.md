@@ -31,11 +31,12 @@ matching approval record is supplied. Never use its exit status alone to publish
 
 ## Build and retain a candidate
 
-**Current repository blocker (#55):** the actual repository build completes its
-baseline checks, then source validation refuses tracked `CLAUDE.md` because it is
-a symbolic link. The saved source contract below permits regular files only.
-Changing that contract or the repository link requires a decision. Public-fixture
-smoke results do not resolve this blocker or make #55 complete.
+The retained checkout stores Git symbolic-link entries as regular files containing
+their target text (`core.symlinks=false`). Validation checks those bytes against
+their Git blobs and never follows them. The separate build checkout keeps native
+Git checkout behavior. This source representation was
+[approved in #55](https://github.com/jdragulanescu/obscr/issues/55#issuecomment-6401290127);
+the repository's own links are not changed.
 
 Use Node 24.x, npm and Git. Select a committed checkout and a new output directory:
 
@@ -161,10 +162,13 @@ referenced reports/fixtures/history. Their filenames are selected by the manifes
 | `pwaDirectory` | Relative directory containing the complete PWA asset set |
 | `approval` | Optional bound approval record; see below |
 
-The source checkout must contain exactly its tracked regular files plus Git
-metadata: no links, submodules, build output, dependencies or untracked files.
-Keep build output outside the source directory. The checker compares HEAD to the
-40-character Git commit ID and hashes every tracked file against its Git blob.
+The source checkout must contain exactly its tracked Git blobs plus Git metadata.
+Git modes `100644`, `100755` and `120000` are accepted, but every retained path
+must be a regular filesystem file. A `120000` entry contains the link's target
+text, not its target's contents. Filesystem links, submodules, build output,
+dependencies and untracked files are refused. Keep build output outside the
+source directory. The checker compares HEAD to the 40-character Git commit ID
+and hashes every tracked file against its Git blob.
 It does not run checkout hooks, clean files, refresh the Git index, install
 packages or apply Git content filters. Lazy fetching is disabled and Git transports
 are denied, including transports enabled by the supplied repository configuration.

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `release:candidate` builds and retains exact npm/PWA candidates and observed
   baseline evidence with Node 24.x. Safe checks and release-validation requests
   are distinct; incomplete evidence cannot pass release validation.
+  Retained source stores Git link blobs as verified regular-file text without
+  following links; build checkouts retain native Git behavior.
 - Read-only `release:check -- --manifest <path>` command with exact-file candidate
   and evidence hashes, a shipped clause checklist, retained-report validation,
   reviewed evidence reuse, bound approval checks and safe cancellation. Public

@@ -14,6 +14,51 @@ test("a complete public candidate returns identity but no release authorization"
     evidenceIndex: fixture.manifest.evidenceIndex.sha256, purpose: "public-fixture", approvalRequired: true, publicationAuthorized: false });
 });
 
+async function retainedLinkFixture() {
+  await fixture.put("outside.txt", "Must not be followed\n");
+  const link = path.join(fixture.root, "source/link");
+  await symlink("../outside.txt", link);
+  fixture.git("add", "link");
+  fixture.git("-c", "commit.gpgsign=false", "commit", "-qm", "Retain a link blob");
+  await rm(link);
+  await fixture.put("source/link", "../outside.txt");
+  fixture.identity.sourceRevision = fixture.git("rev-parse", "HEAD");
+  await fixture.save();
+  fixture.index.candidate = fixture.manifest.identity.sha256;
+  for (const record of fixture.index.records) record.candidate = fixture.manifest.identity.sha256;
+  await fixture.saveReports();
+  await fixture.save();
+}
+
+test("a Git link blob retained as regular text validates without following its target", async () => {
+  await retainedLinkFixture();
+  await expect(validateCandidate(fixture.manifestPath)).resolves.toMatchObject({
+    candidate: fixture.manifest.identity.sha256, publicationAuthorized: false,
+  });
+});
+
+test("changed retained link text cannot validate against its committed blob", async () => {
+  await retainedLinkFixture();
+  await fixture.put("source/link", "code.js");
+  await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "identity.sourceRevision" });
+});
+
+test("a filesystem link is refused even when its Git link blob is allowed", async () => {
+  await retainedLinkFixture();
+  const link = path.join(fixture.root, "source/link");
+  await rm(link);
+  await symlink("../outside.txt", link);
+  await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "identity.sourceRevision" });
+});
+
+test("a Git submodule remains outside the retained-source contract", async () => {
+  fixture.git("update-index", "--add", "--cacheinfo", `160000,${fixture.git("rev-parse", "HEAD")},vendor`);
+  fixture.git("-c", "commit.gpgsign=false", "commit", "-qm", "Retain a submodule entry");
+  fixture.identity.sourceRevision = fixture.git("rev-parse", "HEAD");
+  await fixture.save();
+  await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "manifest.source" });
+});
+
 test("a changed npm archive is refused even when version text is unchanged", async () => {
   await fixture.put("package.tgz", "changed archive\n");
   await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "identity.npmSha256" });

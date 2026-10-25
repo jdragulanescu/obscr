@@ -12,16 +12,19 @@ manifest.source: source must contain regular tracked files, not links or submodu
 
 `git ls-tree -r HEAD` showed `CLAUDE.md` with mode `120000` and blob
 `47dc3e3d863cfb5727b87d785d09abf9743c0a72`. The version-1 source contract from
-#54 rejects that Git entry type. The fixture's source has only regular files,
-so its passing result did not establish that a real repository candidate passes.
-This remains an open contract decision, not a reason to remove the source guard.
+#54 rejected that Git entry type. The fixture's source had only regular files,
+so its passing result did not establish that a real repository candidate passed.
 
 A throwaway clone made with `git clone --no-hardlinks -c core.symlinks=false`
 materialized the link's stored target text as a regular file. `stat` reported a
 regular file, and `git hash-object CLAUDE.md` still returned the blob above.
-The Git tree still records mode `120000`. This proves a link-free representation
-is available; it does not authorize changing the saved-source contract or make
-the existing validator accept it. No repository link was changed.
+The Git tree still records mode `120000`. The user
+[approved this representation in #55](https://github.com/jdragulanescu/obscr/issues/55#issuecomment-6401290127).
+The retained clone now sets `core.symlinks=false`; the validator accepts link
+blobs only as regular files with their exact Git bytes. It still refuses actual
+filesystem links and submodules. The separate build clone keeps native checkout
+behavior, tested by running an npm test script through a tracked link.
+No repository link was changed.
 
 ## Cross-filesystem output
 
@@ -58,6 +61,13 @@ With Jest's default worker count, one existing full-workflow case hit its existi
 5-second deadline while all new cases passed. The entire suite passed with two
 workers. The repository now caps Jest at two workers; the default `npm test` then
 passed all 274 cases. No case was removed and no timeout was increased.
+
+A later local run at two workers timed out the existing large-report test; a
+serial full run timed out the existing message-integrity case. The large-report
+case passed alone in 4.3 seconds. At that point the workstation reported load
+averages `51.38 44.87 35.74` on 16 logical CPUs and 6487.75 MiB of swap in use.
+This is evidence of load, not proof of the cause of either timeout. All new
+source-contract cases passed. No timeout was increased or test removed.
 
 ## References
 

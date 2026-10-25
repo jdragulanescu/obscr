@@ -1,4 +1,4 @@
-import { readFile, readdir, mkdir, writeFile, access } from "node:fs/promises";
+import { readFile, readdir, mkdir, writeFile, access, symlink, lstat } from "node:fs/promises";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -27,6 +27,24 @@ test("baseline checks retain exact output identities without inventing release e
     await expect(validateCandidate(result.manifestPath)).rejects.toMatchObject({ field: "evidence.requiredKinds" });
     expect(index.records.every(record => record.run === "a".repeat(128))).toBe(true);
     expect(await readFile(path.join(fixture.source, "test.js"), "utf8")).toContain("process.exit(9)");
+  } finally { await fixture.cleanup(); }
+}, 30000);
+
+test("retained source stores link text while the build keeps native checkout behavior", async () => {
+  const fixture = await buildFixture();
+  try {
+    await symlink("test.js", path.join(fixture.source, "linked-test.js"));
+    const pkg = JSON.parse(await readFile(path.join(fixture.source, "package.json")));
+    pkg.scripts.test = "node linked-test.js";
+    await fixture.put("package.json", JSON.stringify(pkg));
+    fixture.git("add", ".");
+    fixture.git("-c", "commit.gpgsign=false", "commit", "-qm", "Build through a tracked link");
+    const result = await buildCandidate({ source: fixture.source, output: fixture.output, run: "link-run" });
+    const retained = path.join(fixture.output, "source/linked-test.js");
+    expect((await lstat(retained)).isFile()).toBe(true);
+    expect(await readFile(retained, "utf8")).toBe("test.js");
+    expect((await lstat(path.join(fixture.source, "linked-test.js"))).isSymbolicLink()).toBe(true);
+    await expect(validateCandidate(result.manifestPath)).rejects.toMatchObject({ field: "evidence.requiredKinds" });
   } finally { await fixture.cleanup(); }
 }, 30000);
 
