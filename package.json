@@ -12,6 +12,7 @@
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest test/unit",
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest test/integration",
+    "release:check": "node bin/release-check.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"

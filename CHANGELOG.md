@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Read-only `release:check -- --manifest <path>` command with exact-file candidate
+  and evidence hashes, a shipped clause checklist, retained-report validation,
+  reviewed evidence reuse, bound approval checks and safe cancellation. Public
+  fixtures cannot authorize production; command success does not grant approval.
 - **Vercel Web Analytics**: anonymous page-view counting in the web app via
   `@vercel/analytics`, mounted at the React root (`app/src/main.jsx`)
 - **Privacy notice**: always-visible summary above the tool explaining that all encryption
