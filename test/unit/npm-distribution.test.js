@@ -69,6 +69,12 @@ test.each(["application-review", "tools-review", "physical-iphone-safari", "inde
     await expect(prepareNpm(input())).rejects.toMatchObject({ code: "NPM_REFUSED" });
   });
 
+test("incomplete evidence identifies the missing requirement instead of a generic input error", async () => {
+  fixture.index.clauses = [];
+  await fixture.save();
+  await expect(prepareNpm(input())).rejects.toMatchObject({ code: "NPM_REFUSED", field: "evidence.clauses" });
+});
+
 async function npmArchive(packageFields = {}) {
   const staging = path.join(receipts, "staging");
   await mkdir(path.join(staging, "package"), { recursive: true });
