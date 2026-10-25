@@ -99,6 +99,8 @@ test("the real command distinguishes safe checks from refused release requests",
 test.each([
   ["missing PWA assets", 'import {mkdirSync} from "node:fs"; mkdirSync("dist");', "pwa-build"],
   ["linked PWA assets", 'import {mkdirSync,symlinkSync} from "node:fs"; mkdirSync("dist"); symlinkSync("../package.json","dist/link");', "pwa-build"],
+  ["PWA assets with a newline", 'import {mkdirSync,writeFileSync} from "node:fs"; mkdirSync("dist"); writeFileSync("dist/line\\nbreak.js","public");', "pwa-build"],
+  ["PWA assets with a backslash", 'import {mkdirSync,writeFileSync} from "node:fs"; mkdirSync("dist"); writeFileSync("dist/back\\\\slash.js","public");', "pwa-build"],
   ["a missing package entry point", null, "package"],
 ])("%s cannot leave a passing stage or candidate", async (name, build, stage) => {
   const fixture = await buildFixture();
@@ -110,7 +112,7 @@ test.each([
     await expect(buildCandidate({ source: fixture.source, output: fixture.output, run: "invalid-output" }))
       .rejects.toThrow();
     const status = await readFile(path.join(fixture.output, "stages.txt"), "utf8");
-    expect(status).toContain(`${stage}: fail`);
+    expect(status).toContain(`${stage}: fail (output verification)`);
     expect(status).not.toContain(`${stage}: pass`);
     await expect(access(path.join(fixture.output, "manifest.json"))).rejects.toMatchObject({ code: "ENOENT" });
   } finally { await fixture.cleanup(); }
