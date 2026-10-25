@@ -15,12 +15,15 @@
 - `lib/evidence-record.js`: clause/category coverage, retained evidence, review dispositions and reviewed carry-forward.
 - `lib/release-checklist.json`: versioned accepted-clause catalogue, source links and explicit scope precedence for release validation.
 - `lib/release-workflow.js`: candidate request selection, isolated build stages, immutable bundle creation and honest baseline evidence.
+- `lib/npm-distribution.js`: checked-archive npm publication, identity rechecks, isolated OIDC process and observed receipts.
+- `lib/release-github.js`: immutable Actions artifact selection and GitHub read/download contracts.
 
 ## CLI
 
 - `bin/index.js`: the obscr command: encrypt, decrypt, examples, and the inquirer interactive mode.
 - `bin/release-check.js`: manifest selection, safe terminal output and exit codes for read-only release validation.
 - `bin/release-candidate.js`: safe candidate checks or intentional release validation, retained-detail links and cancellation.
+- `bin/release-publish.js`: validates selected release files before native GitHub approval, then publishes and retains the npm outcome.
 
 ## PWA
 
@@ -35,7 +38,7 @@
 
 - `test/`: Jest unit and integration tests, PNG fixtures, and checkout-local scratch output.
 - `docs/`: agent instructions, architecture, research, security guide, and ADRs when written.
-- `.github/`: non-draft/manual/release-created candidate checks and retained artifacts in `workflows/publish.yml`; no publication.
+- `.github/`: safe candidate checks and protected npm release jobs; bounded regular-file candidate archive extraction.
 - `.claude/`: local Claude configuration.
 - `.vercel/`: local Vercel project metadata.
 - `package.json`, `package-lock.json`: npm commands, dependencies, and locked versions.

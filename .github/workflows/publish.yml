@@ -1,5 +1,5 @@
-name: Candidate checks
-run-name: Candidate checks (no publication)
+name: Checked releases
+run-name: Checked release (${{ inputs.request || github.event_name }})
 
 on:
   pull_request:
@@ -9,26 +9,39 @@ on:
   workflow_dispatch:
     inputs:
       request:
-        description: "check = safe candidate checks; release = intentional release validation, requiring complete evidence and later protected approval. Neither publishes here."
+        description: "check builds without publishing; release selects retained evidence and requests Production approval before npm publication."
         type: choice
         required: true
         default: check
         options: [check, release]
+      artifact_id:
+        description: "release only: retained candidate artifact ID"
+        type: string
+      artifact_sha256:
+        description: "release only: SHA-256 of the complete Actions artifact"
+        type: string
+      candidate:
+        description: "release only: candidate identity SHA-256"
+        type: string
+      evidence_index:
+        description: "release only: evidence-index SHA-256"
+        type: string
 
 permissions:
   contents: read
 
 concurrency:
   group: candidate-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   candidate:
     name: Check and retain candidate (no publication)
     if: >-
       !cancelled() &&
-      (github.event_name != 'pull_request' ||
-      (github.event.pull_request.draft == false && github.event.action != 'converted_to_draft'))
+      ((github.event_name == 'pull_request' &&
+      github.event.pull_request.draft == false && github.event.action != 'converted_to_draft') ||
+      (github.event_name == 'workflow_dispatch' && inputs.request == 'check'))
     runs-on: ubuntu-latest
     steps:
       - name: Select source without retained credentials
@@ -78,3 +91,67 @@ jobs:
               cat "$RUNNER_TEMP/candidate/release-refusal.txt"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  validate:
+    name: Validate selected release before approval
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.request == 'release')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      request: ${{ steps.checked.outputs.request }}
+      candidate: ${{ steps.checked.outputs.candidate }}
+      evidence_index: ${{ steps.checked.outputs.evidence_index }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24.x"
+      - name: Check exact files and complete release evidence
+        id: checked
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: exec node bin/release-publish.js --phase prepare --output "$RUNNER_TEMP/release-prepare"
+      - name: Retain selection and validation result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-prepare/
+          if-no-files-found: error
+          retention-days: 90
+
+  publish:
+    name: "npm approval: candidate ${{ needs.validate.outputs.candidate }} / evidence ${{ needs.validate.outputs.evidence_index }}"
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: Production
+      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24.x"
+      - name: Recheck approval identity and publish only the checked archive
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_REQUEST: ${{ needs.validate.outputs.request }}
+        run: exec node bin/release-publish.js --phase publish --output "$RUNNER_TEMP/release-publish"
+      - name: Retain actual npm outcome and approval
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: npm-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-publish/
+          if-no-files-found: error
+          retention-days: 90

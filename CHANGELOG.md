@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Protected npm workflow: select a retained candidate, validate complete evidence,
+  request native GitHub Production approval, recheck identity and publish the same
+  archive with OIDC. Receipts distinguish published, refused and unknown outcomes.
+  Production now requires maintainer approval with no admin bypass; the old
+  repository npm secret is removed. npm account controls remain unverified.
 - `release:candidate` builds and retains exact npm/PWA candidates and observed
   baseline evidence with Node 24.x. Safe checks and release-validation requests
   are distinct; incomplete evidence cannot pass release validation.

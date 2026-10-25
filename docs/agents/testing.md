@@ -65,10 +65,12 @@ There is no e2e harness. A spec that adds one must fill these fields.
 
 - **On pull requests**: `.github/workflows/publish.yml` runs Node 24.x clean install, the full Jest suite, PWA build and package checks for non-draft PRs; retains candidate files and raw evidence.
 - **Drafts**: GitHub Actions skips the whole candidate job; conversion to draft requests cancellation of an earlier PR run. Vercel Git deployments are disabled in `vercel.json`, and the real `obscr` project's Git connection was disconnected on 2026-10-25 to cover older branches too. The PR #61 walkthrough compared actual provider records across draft creation, updates and ready/draft transitions: no new deployment or active build appeared. Automatic ready-PR previews and Git-driven production updates also stop; existing deployments stay. See the release guide for the retained evidence and account control.
-- **By hand**: `gh workflow run publish.yml --ref <branch-or-tag> -f request=check`: safe candidate checks on a ref with the new workflow. GitHub must know `publish.yml` on the default branch. `-f request=release` intentionally requests full release validation; missing evidence refuses it. Neither mode publishes.
+- **By hand**: `gh workflow run publish.yml --ref <branch-or-tag> -f request=check`: safe candidate checks on a ref with the new workflow. GitHub must know `publish.yml` on the default branch. **`request=release` can publish npm after Production approval**; it requires the artifact ID, artifact digest, candidate hash and evidence-index hash documented in the release guide.
 
-Release creation enters the same checks and full evidence validation. The direct
-`npm publish` step is removed. No publication credentials enter these jobs.
-See [release checks](../release-check.md#workflow-entries-and-external-draft-controls)
-for retained artifacts, manual-entry prerequisites and the recorded real
-GitHub/Vercel walkthrough. Do not run the full e2e suite locally if one is added.
+Release-created events select `release-request.json` attached to the release.
+Both intentional routes validate the retained bundle before requesting approval.
+Only the protected npm job has OIDC permission. PRs and safe checks never do.
+The old repository `NPM_TOKEN` was removed; npm account controls still require
+verification through the account's human-verification screen.
+See [release checks](../release-check.md#intentional-npm-publication) for inputs,
+warnings and retained receipts. Do not run the full e2e suite locally if one is added.

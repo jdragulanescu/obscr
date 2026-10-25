@@ -264,8 +264,11 @@ It retains exact files and raw evidence without publication credentials.
 `--request release` additionally requires complete release evidence and refuses
 when it is missing. Neither mode publishes or grants approval. Automatic Vercel
 Git deployments are disabled in repository configuration and through the
-project's disconnected Git link. The release guide records those controls and
-their real-provider checks; protected publication remains a separate gate.
+project's disconnected Git link. Intentional npm publication uses the
+[protected release workflow](docs/release-check.md#intentional-npm-publication):
+complete retained evidence, your Production approval, then the same archive.
+The workflow never rebuilds approved files. Live npm account setup remains
+unverified; this is not a claim that a release is ready.
 
 ## Examples
 

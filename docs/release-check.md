@@ -20,11 +20,11 @@ with `NO_COLOR`; terminal controls and non-ASCII display text are escaped. Piped
 URLs and hashes remain unbroken. Long report lists are summarized by count and
 linked through the retained manifest instead of filling the terminal.
 
-**Validation does not grant publication authority.** The candidate workflow
-replaces direct npm publication with checks and retained artifacts. Protected
-npm/PWA publication and account-level controls remain #56–#57. A JSON assertion
-is not proof that a reviewer is independent or a phone run happened. The release
-review and protected publishing jobs must establish the provenance and authority
+**Validation does not grant publication authority.** Intentional npm requests
+select retained files, pass this check, and then wait for native GitHub Production
+approval. Live npm account controls remain unverified; protected PWA publication
+remains #57. A JSON assertion is not proof of independent review or device testing.
+The release review and protected publishing jobs must establish the provenance and authority
 of the retained records. This checker verifies their identity, completeness and
 disposition. It always returns `publicationAuthorized: false`, including when a
 matching approval record is supplied. Never use its exit status alone to publish.
@@ -80,11 +80,11 @@ summary links the archive and states the check/refusal outcome, not release succ
 ### Workflow entries and external draft controls
 
 `.github/workflows/publish.yml` accepts non-draft PR events, `release: created`,
-and a manual `request` choice. PR events run checks only. Draft creation and updates
-skip the whole candidate job. `ready_for_review` starts checks;
-`converted_to_draft` skips the new job and cancels the previous PR run through
-workflow concurrency. There is no branch-push trigger, publication secret,
-write permission, approval environment or direct-publish fallback in this workflow.
+and a manual `request` choice. PR events and manual `check` run checks only.
+Draft creation and updates skip the candidate job. `ready_for_review` starts checks;
+`converted_to_draft` cancels the previous PR check through workflow concurrency.
+Release requests instead select an existing bundle as described below. There is
+no branch-push trigger or npm token fallback. Only the approved npm job can request OIDC.
 
 The job condition includes `!cancelled()`, and the shell uses `exec node` so
 runner cancellation reaches the CLI's signal handler. GitHub cancellation is
@@ -98,11 +98,10 @@ Start a safe check on a branch or tag containing this workflow version:
 gh workflow run publish.yml --ref <branch-or-tag> -f request=check
 ```
 
-An intentional release validation request uses `-f request=release`. It can fail
-after a successful build because baseline CI is not the complete release review.
-GitHub must know the workflow on the default branch; this replaces the existing
-`publish.yml`. Use the CLI with `--ref` to select the candidate branch, rather than
-assuming the default branch's workflow form has these new inputs.
+An intentional release request uses `-f request=release` with the selection inputs
+below. GitHub must know `publish.yml` on the default branch. Use `--ref` to select
+the same source revision as the retained candidate. Safe baseline CI is not the
+complete release review; it cannot satisfy #53/#52 by itself.
 
 GitHub Actions and Vercel are separate routes. `vercel.json` sets
 `git.deploymentEnabled: false`, the documented control that stops automatic Git
@@ -139,6 +138,85 @@ as this project's enforcement mechanism. Do not disable status comments or
 `gitProviderOptions.createDeployments` and mistake that for disabling builds:
 the latter controls GitHub deployment records, not Vercel builds. Do not open a
 deploy-hook URL to inspect it: even a GET can request a deployment.
+
+
+## Intentional npm publication
+
+The path is: **validate retained files → your Production approval → publish the
+same npm archive → retain the observed result**. No rebuild follows approval.
+Public fixtures never request approval or enter the production npm process.
+
+Run a safe manual candidate check first. Complete the independent application
+and tools review evidence before selecting its retained artifact. A baseline-only
+artifact is refused. The selected artifact must be unexpired, from a successful
+manual `publish.yml` run in this repository, and built at the release workflow's
+exact source commit.
+
+**This command can publish after approval. Do not use it as a publication test.**
+
+```sh
+gh workflow run publish.yml --ref <same-source-branch-or-tag> \
+  -f request=release -f artifact_id=<id> -f artifact_sha256=<artifact-sha256> \
+  -f candidate=<identity-sha256> -f evidence_index=<index-sha256>
+```
+
+The artifact digest comes from the Actions artifact API or upload result. The
+other two hashes come from the retained candidate. A release-created event uses
+the same selection from a `release-request.json` asset attached before the event:
+
+```json
+{
+  "schemaVersion": 1,
+  "artifactId": 123,
+  "artifactSha256": "<64 lowercase hex characters>",
+  "candidate": "<64 lowercase hex characters>",
+  "evidenceIndex": "<64 lowercase hex characters>"
+}
+```
+
+These example values are not usable release evidence. Missing selection or
+evidence stops before approval. The job name and validation summary show both
+hashes. GitHub's Production gate—not another approval service—requires the
+maintainer's decision. The publishing job rereads the request and immutable
+artifact, checks the complete bundle again, snapshots the checked archive, and
+uses `npm publish` with scripts and retries disabled. It never accepts an ambient
+npm token or user npm configuration.
+
+`release-selection-<run>-<attempt>` retains preparation/refusal details.
+`npm-receipt-<run>-<attempt>` retains the request, GitHub review history and
+`npm-receipt.json`. Receipt version 1 records the source, candidate/index hashes,
+run/attempt, approving login and npm's observed result:
+
+- `refused`: no npm publication attempt occurred.
+- `published`: npm returned matching package/archive metadata.
+- `unknown`: publication was attempted without a confirmed matching result.
+
+If receipt retention fails after publication, the command fails but still reports
+the observed publication state. Inspect npm before any new request after an
+unknown or interrupted result. There is no automatic retry or rollback. Receipts
+expire after 90 days unless retained elsewhere. npm success is not PWA success.
+
+### Live controls and remaining account check
+
+On 2026-10-25, Production was configured to require `jdragulanescu`, allow the
+maintainer's own approval, disable administrator job bypass, and allow only
+`main` branches and `v*` tags. Independent security review remains separate.
+The repository-wide `NPM_TOKEN` was removed after inspection of all eight
+branches and eight tags found its old direct-publish consumers. This removes
+the repository secret copy, not the npm token or copies held elsewhere.
+
+npm settings inspection stopped at Cloudflare human verification (HTTP 403).
+Authentication status behind that screen is unknown; another login is not
+established as necessary. Until inspected, npm owners, alternate publishers,
+token restrictions and token scopes remain **unverified**.
+
+The approved setup is npm trusted publishing for `jdragulanescu/obscr`,
+`publish.yml`, environment `Production`, with traditional token publication
+disabled. npm's [trusted-publishing documentation](https://docs.npmjs.com/trusted-publishers/)
+says a new configuration expires without a first successful publish within two
+days. Recreate an expired configuration for the eventual planned release; never
+publish merely to test or keep the configuration alive. Owner administration
+and manual 2FA publication powers are not removed by this workflow.
 
 
 ## Bundle and hashes
