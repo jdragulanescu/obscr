@@ -86,6 +86,12 @@ skip the whole candidate job. `ready_for_review` starts checks;
 workflow concurrency. There is no branch-push trigger, publication secret,
 write permission, approval environment or direct-publish fallback in this workflow.
 
+The job condition includes `!cancelled()`, and the shell uses `exec node` so
+runner cancellation reaches the CLI's signal handler. GitHub cancellation is
+asynchronous: a cancelled workflow is not a usable candidate even if its build
+finished before cancellation arrived. See the
+[real cancellation observations](research/obscr-candidate-build-boundaries.md#github-cancellation-needs-both-boundaries).
+
 Start a safe check on a branch or tag containing this workflow version:
 
 ```sh

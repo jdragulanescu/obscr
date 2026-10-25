@@ -69,6 +69,53 @@ averages `51.38 44.87 35.74` on 16 logical CPUs and 6487.75 MiB of swap in use.
 This is evidence of load, not proof of the cause of either timeout. All new
 source-contract cases passed. No timeout was increased or test removed.
 
+## GitHub cancellation needs both boundaries
+
+The first real ready-to-draft transition on temporary PR #60 marked
+[run 40222284956](https://github.com/jdragulanescu/obscr/actions/runs/40222284956)
+cancelled, but its build step completed successfully. Draft conversion was
+recorded at `18:39:53Z`; the build ended at `18:40:25Z`.
+The workflow conclusion alone did not prove that work stopped.
+
+GitHub [re-evaluates running jobs' conditions during cancellation](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-cancellation).
+The job now includes `!cancelled()` so its own condition cannot keep it alive.
+With that guard, run `40222642473` stopped during Jest, but the CLI did not
+acknowledge cancellation and the runner cleaned up an orphan process.
+The step now uses `exec node`, making the CLI the runner's signal target rather
+than leaving a shell between them.
+
+[Run 40223699666](https://github.com/jdragulanescu/obscr/actions/runs/40223699666)
+then stopped during Jest and printed:
+
+```text
+Cancelled. No complete result. Raw observations remain. No publication.
+```
+
+Its retained `stages.txt` ends with
+`jest: incomplete; no passing candidate result.` The archive contains raw logs,
+reports, source and stage status, with no manifest, npm archive or PWA output.
+This is the real workflow regression check; a copied YAML condition in a unit
+test would not exercise GitHub's cancellation or runner signal delivery.
+
+Cancellation remains asynchronous. Another run, `40223278577`, completed its
+build before cancellation arrived. Do not accept a cancelled run merely because
+its individual build step succeeded.
+
+For the walkthrough, allow each draft update to settle before marking the PR
+ready. In an immediate push/ready sequence, GitHub emitted a ready run for the
+previous head, then a later draft-synchronize run for the new head cancelled it.
+Record the event and actual head SHA, not just the PR's current state.
+
+## Release-event workflow selection
+
+GitHub [selects workflow files from the event's commit or ref](https://docs.github.com/en/actions/using-workflows/about-workflows);
+a [release event uses the tagged commit](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release).
+A temporary prerelease pinned to the reviewed checks-only commit exercised the
+real `release.created` entry without invoking the old default-branch publisher.
+[Run 40221958371](https://github.com/jdragulanescu/obscr/actions/runs/40221958371)
+completed baseline checks and refused missing mandatory review/device evidence.
+The verification release and tag were removed afterward; no product was published.
+
 ## References
 
 - [Implementation ticket #55](https://github.com/jdragulanescu/obscr/issues/55)

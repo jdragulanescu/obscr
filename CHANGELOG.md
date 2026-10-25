@@ -39,8 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Replaced direct release-created npm publication with candidate checks and
   retained artifacts. Added checks-only non-draft PR and explicit manual entries.
+  Draft jobs are skipped; returning a PR to draft requests cancellation of active
+  checks, with direct CLI signal handling and retained incomplete-stage evidence.
 - Disabled automatic Vercel Git deployments in repository configuration.
-  Account-level enforcement and draft-transition evidence remain unverified.
+  Account-level enforcement and provider draft-transition evidence remain unverified.
 - Service worker no longer caches `/_vercel/` requests or non-GET requests, so analytics
   beacons always reach the network
 - Service worker cache bumped to `obscr-v1.1.2` so existing installs pick up the new assets
