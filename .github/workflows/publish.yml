@@ -1,4 +1,5 @@
 name: Candidate checks
+run-name: Candidate checks (no publication)
 
 on:
   pull_request:
