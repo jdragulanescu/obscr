@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `release:candidate` builds and retains exact npm/PWA candidates and observed
+  baseline evidence with Node 24.x. Safe checks and release-validation requests
+  are distinct; incomplete evidence cannot pass release validation.
+  Retained source stores Git link blobs as verified regular-file text without
+  following links; build checkouts retain native Git behavior.
 - Read-only `release:check -- --manifest <path>` command with exact-file candidate
   and evidence hashes, a shipped clause checklist, retained-report validation,
   reviewed evidence reuse, bound approval checks and safe cancellation. Public
@@ -32,6 +37,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   that file emit no preflight under Tailwind v4, leaving it to the UA stylesheet
 
 ### Changed
+- Replaced direct release-created npm publication with candidate checks and
+  retained artifacts. Added checks-only non-draft PR and explicit manual entries.
+  Draft jobs are skipped; returning a PR to draft requests cancellation of active
+  checks, with direct CLI signal handling and retained incomplete-stage evidence.
+- Disabled automatic Vercel Git deployments in repository configuration and
+  disconnected the real project's Git link. Provider records across draft/ready
+  transitions showed no new deployment; existing deployments were retained.
 - Service worker no longer caches `/_vercel/` requests or non-GET requests, so analytics
   beacons always reach the network
 - Service worker cache bumped to `obscr-v1.1.2` so existing installs pick up the new assets

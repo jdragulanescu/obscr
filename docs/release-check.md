@@ -20,13 +20,126 @@ with `NO_COLOR`; terminal controls and non-ASCII display text are escaped. Piped
 URLs and hashes remain unbroken. Long report lists are summarized by count and
 linked through the retained manifest instead of filling the terminal.
 
-**This command alone does not protect the existing publication routes.** Workflow,
-credential and external deployment protection belongs to #55–#57. A JSON assertion
+**Validation does not grant publication authority.** The candidate workflow
+replaces direct npm publication with checks and retained artifacts. Protected
+npm/PWA publication and account-level controls remain #56–#57. A JSON assertion
 is not proof that a reviewer is independent or a phone run happened. The release
 review and protected publishing jobs must establish the provenance and authority
 of the retained records. This checker verifies their identity, completeness and
 disposition. It always returns `publicationAuthorized: false`, including when a
 matching approval record is supplied. Never use its exit status alone to publish.
+
+## Build and retain a candidate
+
+The retained checkout stores Git symbolic-link entries as regular files containing
+their target text (`core.symlinks=false`). Validation checks those bytes against
+their Git blobs and never follows them. The separate build checkout keeps native
+Git checkout behavior. This source representation was
+[approved in #55](https://github.com/jdragulanescu/obscr/issues/55#issuecomment-6401290127);
+the repository's own links are not changed.
+
+Use Node 24.x, npm and Git. Select a committed checkout and a new output directory:
+
+```sh
+npm run release:candidate -- --request check --output /path/to/new-bundle --run local-1
+```
+
+The command builds committed `HEAD`, not uncommitted edits. `--source <checkout>`
+selects another local checkout. It clones a clean retained source and a separate
+temporary build checkout. The build processes receive no inherited publication
+tokens or user npm configuration. They run `npm ci`, the full `npm test`,
+`npm run build`, and `npm pack --json --ignore-scripts`. Package checks require
+the declared main/bin entries; PWA checks require a nonempty complete set of
+regular files. No publishing command runs.
+
+`--request check` exits 0 only after those baseline checks and output checks pass.
+It prints exact candidate/index hashes and states that release evidence is still
+incomplete. `--request release` intentionally requests full release validation
+after the same checks. Missing mandatory evidence makes that request exit 1.
+Neither choice grants approval or publishes. Complete #53/#52 evidence and
+protected approval remain required for a future release.
+
+Each output directory is new; an existing directory is refused, never reused.
+The version-1 manifest selects the retained source, npm archive, complete PWA
+inventory, reports and evidence index. Baseline records describe only observed
+commands, runtime/tool versions and raw stdout/stderr. They use generic check
+records, with no invented device or review records and no claimed normative
+clause coverage. The existing validator refuses this incomplete index.
+
+`stages.txt` records observed stage outcomes. `raw/` retains command output and
+output-verification failures. A failed stage stops subsequent work and cannot
+produce a complete manifest. Earlier observations remain. Ctrl-C stops the active
+process group, removes the temporary build checkout and exits 130. Retained
+evidence is not removed on failure or cancellation.
+
+The GitHub workflow uploads one immutable artifact per run/attempt for 90 days.
+Its tar archive preserves the retained Git metadata and file modes. Download and
+keep needed evidence before it expires; never overwrite an old report. The job
+summary links the archive and states the check/refusal outcome, not release success.
+
+### Workflow entries and external draft controls
+
+`.github/workflows/publish.yml` accepts non-draft PR events, `release: created`,
+and a manual `request` choice. PR events run checks only. Draft creation and updates
+skip the whole candidate job. `ready_for_review` starts checks;
+`converted_to_draft` skips the new job and cancels the previous PR run through
+workflow concurrency. There is no branch-push trigger, publication secret,
+write permission, approval environment or direct-publish fallback in this workflow.
+
+The job condition includes `!cancelled()`, and the shell uses `exec node` so
+runner cancellation reaches the CLI's signal handler. GitHub cancellation is
+asynchronous: a cancelled workflow is not a usable candidate even if its build
+finished before cancellation arrived. See the
+[real cancellation observations](research/obscr-candidate-build-boundaries.md#github-cancellation-needs-both-boundaries).
+
+Start a safe check on a branch or tag containing this workflow version:
+
+```sh
+gh workflow run publish.yml --ref <branch-or-tag> -f request=check
+```
+
+An intentional release validation request uses `-f request=release`. It can fail
+after a successful build because baseline CI is not the complete release review.
+GitHub must know the workflow on the default branch; this replaces the existing
+`publish.yml`. Use the CLI with `--ref` to select the candidate branch, rather than
+assuming the default branch's workflow form has these new inputs.
+
+GitHub Actions and Vercel are separate routes. `vercel.json` sets
+`git.deploymentEnabled: false`, the documented control that stops automatic Git
+deployments before a build. This also disables automatic ready-PR previews and
+production updates from Git; it does not remove an existing deployment.
+An Ignored Build Step is not an alternative: it runs after `BUILDING` begins.
+See [Vercel Git configuration](https://vercel.com/docs/project-configuration/git-configuration)
+and [Ignored Build Step](https://vercel.com/docs/project-configuration/project-settings#ignored-build-step).
+
+**Live Git-route enforcement was verified on 2026-10-25.** After owner login,
+the provider inventory found one project connected to this repository across
+two accessible teams. The `obscr` project had no deploy hooks or custom
+environments. Its Git connection was disconnected through Vercel's existing
+Git-disconnect operation; a fresh project read confirmed that the link was gone.
+This account control also covers older branches without the repository setting.
+All 22 existing deployment IDs remained present.
+
+The real PR #61 walkthrough compared provider deployment records across draft
+creation, updates and ready/draft transitions. No new provider deployment or
+active build appeared. GitHub skipped the draft jobs and ran the ready checks.
+The [retained provider observations](research/obscr-candidate-build-boundaries.md#live-vercel-git-route-enforcement)
+name the project, control, API evidence and workflow runs.
+
+Keep the Git connection disconnected. Reconnecting it restores automatic Git
+deployments, including ready-PR previews and Git-driven production updates.
+This is an external account setting: reverting a repository commit does not
+restore it. Existing deployments are not deleted. #57 separately proves
+protected production distribution; disabling this automatic route does not
+restrict an owner's CLI, dashboard or API publication authority.
+
+Vercel [Deployment Policies](https://vercel.com/docs/deployments/deployment-policy)
+can also restrict deployment sources before creation; no such policy is claimed
+as this project's enforcement mechanism. Do not disable status comments or
+`gitProviderOptions.createDeployments` and mistake that for disabling builds:
+the latter controls GitHub deployment records, not Vercel builds. Do not open a
+deploy-hook URL to inspect it: even a GET can request a deployment.
+
 
 ## Bundle and hashes
 
@@ -66,10 +179,13 @@ referenced reports/fixtures/history. Their filenames are selected by the manifes
 | `pwaDirectory` | Relative directory containing the complete PWA asset set |
 | `approval` | Optional bound approval record; see below |
 
-The source checkout must contain exactly its tracked regular files plus Git
-metadata: no links, submodules, build output, dependencies or untracked files.
-Keep build output outside the source directory. The checker compares HEAD to the
-40-character Git commit ID and hashes every tracked file against its Git blob.
+The source checkout must contain exactly its tracked Git blobs plus Git metadata.
+Git modes `100644`, `100755` and `120000` are accepted, but every retained path
+must be a regular filesystem file. A `120000` entry contains the link's target
+text, not its target's contents. Filesystem links, submodules, build output,
+dependencies and untracked files are refused. Keep build output outside the
+source directory. The checker compares HEAD to the 40-character Git commit ID
+and hashes every tracked file against its Git blob.
 It does not run checkout hooks, clean files, refresh the Git index, install
 packages or apply Git content filters. Lazy fetching is disabled and Git transports
 are denied, including transports enabled by the supplied repository configuration.
