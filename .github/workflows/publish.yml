@@ -42,7 +42,7 @@ jobs:
       - name: Clean install, Jest, PWA, package and evidence checks
         id: candidate
         run: >-
-          node bin/release-candidate.js
+          exec node bin/release-candidate.js
           --event "$GITHUB_EVENT_PATH" --event-name "$GITHUB_EVENT_NAME"
           --output "$RUNNER_TEMP/candidate" --run "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
       - name: Preserve candidate files and raw failures
