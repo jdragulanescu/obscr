@@ -74,6 +74,8 @@ It does not run checkout hooks, clean files, refresh the Git index, install
 packages or apply Git content filters. Lazy fetching is disabled and Git transports
 are denied, including transports enabled by the supplied repository configuration.
 Missing Git/source objects refuse validation.
+The [Git read-isolation finding](research/obscr-release-git-isolation.md) records
+the local reproduction and regression check.
 The checker binds the npm archive's bytes; it does not replace npm/package checks
 or attest how either distribution was built.
 
