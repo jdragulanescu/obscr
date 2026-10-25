@@ -34,6 +34,7 @@ test.each(["fail", "unmet", "skipped", "not-run"])("a mandatory %s record refuse
 test.each(["fixtureManifest", "fixtures", "environment", "actions", "expected", "actual", "limits", "verifier", "report", "observations", "exclusions"])(
   "a report without %s cannot be mandatory evidence", async (field) => {
     delete fixture.index.records[0][field];
+    if (field !== "report") await fixture.saveReports();
     await fixture.save();
     await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "evidence.records.check-0" });
   });
@@ -323,7 +324,7 @@ test.each([
   ["exclusions", [{ reason: "", artifact: {} }]],
 ])("invalid report field %s cannot count as evidence", async (key, value) => {
   fixture.index.records[0][key] = value;
-  // Retain the original report: field validity and report integrity both must hold.
+  await fixture.saveReports();
   await fixture.save();
   await expect(validateCandidate(fixture.manifestPath)).rejects.toHaveProperty("field");
 });
@@ -376,4 +377,71 @@ test("production selection cannot promote public fixture records", async () => {
   fixture.index.purpose = "release";
   await fixture.save();
   await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "evidence.records.check-0" });
+});
+
+async function releaseApprovalFixture() {
+  fixture.manifest.purpose = "release";
+  fixture.index.purpose = "release";
+  for (const record of fixture.index.records) record.purpose = "release";
+  await fixture.saveReports();
+  await fixture.save();
+  fixture.manifest.approval = { schemaVersion: 1, candidate: fixture.manifest.identity.sha256,
+    evidenceIndex: fixture.manifest.evidenceIndex.sha256, decision: "approved", reviewer: "Maintainer" };
+}
+
+test("a matching release approval validates its binding without authorizing publication", async () => {
+  await releaseApprovalFixture();
+  await fixture.save();
+  await expect(validateCandidate(fixture.manifestPath)).resolves.toMatchObject({
+    purpose: "release", approvalRequired: true, publicationAuthorized: false,
+  });
+});
+
+test.each([
+  ["reviewer", undefined], ["reviewer", ""], ["reviewer", " "], ["reviewer", null],
+  ["decision", "rejected"], ["decision", null], ["schemaVersion", 2],
+])("invalid release approval %s refuses validation", async (key, value) => {
+  await releaseApprovalFixture();
+  fixture.manifest.approval[key] = value;
+  await fixture.save();
+  await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "approval" });
+});
+
+test("an old unresolved review stays intact when affected reviews rerun", async () => {
+  const prior = fixture.index.records.find(record => record.kind === "independent-review");
+  prior.status = "fail";
+  prior.review.findings = [{ id: "review-failure", status: "open", evidence: prior.observations[0] }];
+  await fixture.saveReports();
+  await fixture.save();
+  const oldReportBytes = await readFile(path.join(fixture.root, prior.report.path));
+  const oldReportPath = prior.report.path;
+  const impact = await carryForward();
+  impact.affectedChecks.push(prior.check);
+  impact.unaffectedChecks = impact.unaffectedChecks.filter(check => check !== prior.check);
+  prior.candidate = fixture.manifest.identity.sha256;
+  prior.run = "public-run-2";
+  prior.status = "pass";
+  prior.review.findings[0].status = "fixed";
+  const { report, ...payload } = prior;
+  prior.report = await fixture.json("reports/review-rerun.json", payload);
+  const application = fixture.index.records.find(record => record.kind === "application-review");
+  application.review.coveredRecords = fixture.index.records.filter(record => record !== application).map(({ check, run }) => ({ check, run }));
+  const { report: oldApplication, ...applicationPayload } = application;
+  application.report = await fixture.json("reports/application-rerun.json", applicationPayload);
+  fixture.index.carryForward[0].impact = await fixture.json("history/impact.json", impact);
+  await fixture.save();
+  await expect(validateCandidate(fixture.manifestPath)).resolves.toHaveProperty("candidate");
+  expect(await readFile(path.join(fixture.root, oldReportPath))).toEqual(oldReportBytes);
+});
+
+test("missing Git objects cannot invoke a supplied transport helper", async () => {
+  const tree = fixture.git("rev-parse", "HEAD^{tree}");
+  const marker = path.join(fixture.root, "transport-executed");
+  fixture.git("config", "remote.origin.url", `ext::touch ${marker}`);
+  fixture.git("config", "remote.origin.promisor", "true");
+  fixture.git("config", "remote.origin.partialclonefilter", "blob:none");
+  fixture.git("config", "protocol.ext.allow", "always");
+  await rm(path.join(fixture.root, "source/.git/objects", tree.slice(0, 2), tree.slice(2)));
+  await expect(validateCandidate(fixture.manifestPath)).rejects.toMatchObject({ field: "identity.sourceRevision" });
+  await expect(readFile(marker)).rejects.toMatchObject({ code: "ENOENT" });
 });

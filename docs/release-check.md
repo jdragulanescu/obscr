@@ -71,7 +71,9 @@ metadata: no links, submodules, build output, dependencies or untracked files.
 Keep build output outside the source directory. The checker compares HEAD to the
 40-character Git commit ID and hashes every tracked file against its Git blob.
 It does not run checkout hooks, clean files, refresh the Git index, install
-packages or apply Git content filters. Missing Git/source objects refuse validation.
+packages or apply Git content filters. Lazy fetching is disabled and Git transports
+are denied, including transports enabled by the supplied repository configuration.
+Missing Git/source objects refuse validation.
 The checker binds the npm archive's bytes; it does not replace npm/package checks
 or attest how either distribution was built.
 
@@ -182,9 +184,10 @@ explicit contract/catalogue revision; residual-risk acceptance cannot hide it.
 A record for another candidate is stale unless an index `carryForward` entry
 supplies hash references `{identity, index, impact}` to its original identity,
 original index and a reviewed impact JSON file. Original records, including failed
-observations and exclusions, remain unchanged and readable. The old index must
-use the same checklist revision and purpose. A changed checklist requires fresh
-mapping, not automatic reuse.
+observations and exclusions, remain unchanged and readable. Historical reviews
+can retain open findings; only current passing records with completed dispositions
+can satisfy the release checks. The old index must use the same checklist revision
+and purpose. A changed checklist requires fresh mapping, not automatic reuse.
 
 The impact record contains `schemaVersion: 1`, `fromCandidate`, `toCandidate`,
 `previousIndex` (the old index's hash), `checklistRevision`, `decision: "approved"`,
