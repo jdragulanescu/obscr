@@ -21,7 +21,7 @@ Keep command lines short; put details beside the tool or in
 - **Typecheck**: none
 - **Lint**: none
 - **Format**: none
-- **Fast suite**: `npm test`: Jest over `test/unit/` and `test/integration/`, with coverage. Always run it whole. Never includes e2e.
+- **Fast suite**: `npm test`: Jest over `test/unit/` and `test/integration/`, with coverage and at most two workers. Always run it whole. Never includes e2e.
 - **One test file**: `npm test -- <path>`: while iterating on one module.
 - **One e2e file**: none
 - **Mutation testing**: none
@@ -32,6 +32,7 @@ Keep command lines short; put details beside the tool or in
 - **Install dependencies**: `npm ci`: prepare a fresh checkout.
 - **Dev server**: `npm run dev`: read its printed `Local:` URL; the port may not be 5173.
 - **PWA preview**: `npm run preview`: serve the built PWA after `npm run build`.
+- **Candidate check**: `npm run release:candidate -- --request check --output <new-directory> --run <id>`: builds committed HEAD with Node 24.x and retains baseline evidence; does not publish.
 
 ## Isolation
 
@@ -62,10 +63,12 @@ There is no e2e harness. A spec that adds one must fill these fields.
 
 ## CI
 
-- **On pull requests**: none
-- **Drafts**: skipped: no workflow runs on pull requests.
-- **By hand**: none: `publish.yml` has no `workflow_dispatch` trigger.
+- **On pull requests**: `.github/workflows/publish.yml` runs Node 24.x clean install, the full Jest suite, PWA build and package checks for non-draft PRs; retains candidate files and raw evidence.
+- **Drafts**: GitHub Actions skips the whole candidate job; conversion to draft cancels an earlier PR run. Vercel Git deployments are disabled in `vercel.json`, but live provider enforcement is not yet verified. The previous draft PR #59 received a Vercel preview; no Actions run is not proof of no provider work.
+- **By hand**: `gh workflow run publish.yml --ref <branch-or-tag> -f request=check`: safe candidate checks on a ref with the new workflow. GitHub must know `publish.yml` on the default branch. `-f request=release` intentionally requests full release validation; missing evidence refuses it. Neither mode publishes.
 
-`.github/workflows/publish.yml` runs `npm ci` and `npm publish`
-when a GitHub release is created. It runs no tests or e2e suite.
-Do not run the full e2e suite locally if one is added.
+Release creation enters the same checks and full evidence validation. The direct
+`npm publish` step is removed. No publication credentials enter these jobs.
+See [release checks](../release-check.md#workflow-entries-and-external-draft-controls)
+for retained artifacts, manual-entry prerequisites and the remaining real
+GitHub/Vercel walkthrough. Do not run the full e2e suite locally if one is added.

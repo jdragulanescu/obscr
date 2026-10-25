@@ -1,18 +1,78 @@
-name: Publish Package to npmjs
+name: Candidate checks
+
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
   release:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      request:
+        description: "check = safe candidate checks; release = intentional release validation, requiring complete evidence and later protected approval. Neither publishes here."
+        type: choice
+        required: true
+        default: check
+        options: [check, release]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: candidate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  candidate:
+    name: Check and retain candidate (no publication)
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.draft == false && github.event.action != 'converted_to_draft')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
+      - name: Select source without retained credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          node-version: "16.x"
-          registry-url: "https://registry.npmjs.org"
-      - run: npm ci
-      - run: npm publish
+          persist-credentials: false
+      - name: Use Node 24.x
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24.x"
+      - name: Clean install, Jest, PWA, package and evidence checks
+        id: candidate
+        run: >-
+          node bin/release-candidate.js
+          --event "$GITHUB_EVENT_PATH" --event-name "$GITHUB_EVENT_NAME"
+          --output "$RUNNER_TEMP/candidate" --run "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Preserve candidate files and raw failures
+        if: always()
+        run: |
+          if [ -d "$RUNNER_TEMP/candidate" ]; then
+            tar -czf "$RUNNER_TEMP/candidate-evidence.tar.gz" -C "$RUNNER_TEMP/candidate" .
+          fi
+      - name: Retain immutable run artifact
+        if: always()
+        id: retained
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/candidate-evidence.tar.gz
+          if-no-files-found: error
+          retention-days: 90
+      - name: Link the observed result and retained detail
+        if: always()
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          CHECK_OUTCOME: ${{ steps.candidate.outcome }}
+          ARTIFACT_URL: ${{ steps.retained.outputs.artifact-url }}
+        run: |
+          {
+            printf '## Candidate check: %s\n\n' "$CHECK_OUTCOME"
+            printf 'No publication was performed. Approval and complete release evidence remain required.\n\n'
+            if [ -n "$ARTIFACT_URL" ]; then
+              printf '[Retained candidate, stage logs and evidence](%s)\n\n' "$ARTIFACT_URL"
+            else
+              printf 'Artifact retention failed. Do not treat this run as a usable candidate.\n\n'
+            fi
+            if [ -f "$RUNNER_TEMP/candidate/release-refusal.txt" ]; then
+              cat "$RUNNER_TEMP/candidate/release-refusal.txt"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

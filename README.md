@@ -253,8 +253,18 @@ Missing, failed, stale or incomplete records refuse validation.
 
 See [the candidate and evidence contract](docs/release-check.md) for bundle
 fields, checklist revision, retained reports, reviewed reuse and cancellation.
-This command alone does not protect the existing publication routes; workflow
-and account-level protection remains part of the release-gate feature.
+Build a new candidate from committed HEAD with:
+
+```bash
+npm run release:candidate -- --request check --output /path/to/new-bundle --run local-1
+```
+
+This runs clean installation, the full Jest suite, PWA build and package checks.
+It retains exact files and raw evidence without publication credentials.
+`--request release` additionally requires complete release evidence and refuses
+when it is missing. Neither mode publishes or grants approval. Account-level
+draft controls and protected publication still require the real-provider checks
+described in the release guide.
 
 ## Examples
 
