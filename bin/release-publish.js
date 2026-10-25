@@ -14,7 +14,7 @@ const cancel = () => controller.abort();
 process.on("SIGINT", cancel);
 process.on("SIGTERM", cancel);
 const safe = value => String(value).replace(/[^\x20-\x7e\n]/gu, char => `\\u{${char.codePointAt(0).toString(16)}}`);
-let temporary, output, request;
+let temporary, output, request, observedReceipt;
 const save = (name, value) => writeFile(path.join(output, name), JSON.stringify(value, null, 2) + "\n", { flag: "wx" });
 
 async function main() {
@@ -78,18 +78,22 @@ async function main() {
     decision: "approved", reviewer: approvals[0].user.login, runId: context.runId, runAttempt: context.runAttempt };
   const receipt = await publishNpm({ ...options, approval, run: { id: context.runId, attempt: context.runAttempt },
     receiptPath: path.join(output, "npm-receipt.json") });
+  observedReceipt = receipt;
   await appendFile(env.GITHUB_STEP_SUMMARY, `## npm: ${receipt.npm.status}\n\n${summary}\nOnly the checked archive was published. PWA publication is separate.\n`);
   console.log(`npm: ${receipt.npm.status}\n${summary}`);
 }
 
 try { await main(); }
 catch (error) {
-  const status = error.receipt?.npm?.status || "refused";
+  const receipt = error.receipt || observedReceipt;
+  const status = receipt?.npm?.status || "refused";
+  let detail = "Check the workflow inputs and retained evidence.";
+  if (error.field) detail = `Check ${safe(error.field)} and the retained evidence.`;
+  else if (error.code === "RELEASE_REFUSED") detail = safe(error.message);
   if (output) {
-    await save("release-result.json", { request: request || null, npm: status,
-      receiptRetained: error.receiptRetained ?? false, cancelled: controller.signal.aborted }).catch(() => {});
+    await save("release-result.json", { request: request || null, npm: status, reason: detail,
+      receiptRetained: error.receiptRetained ?? Boolean(observedReceipt), cancelled: controller.signal.aborted }).catch(() => {});
   }
-  const detail = error.field ? `Check ${safe(error.field)} and the retained evidence.` : "Check the workflow inputs and retained evidence.";
   process.stderr.write(`Release request refused or incomplete. npm: ${status}. ${detail}\n`);
   if (status !== "refused") process.stderr.write("Inspect npm before any new request; publication may already have occurred.\n");
   process.exitCode = controller.signal.aborted ? 130 : 1;

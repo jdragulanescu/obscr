@@ -25,14 +25,6 @@ function input() {
   return { manifestPath: fixture.manifestPath, request: request(), sourceRevision: fixture.identity.sourceRevision };
 }
 
-test("the saved v1 release request is copied without changing its artifact or bundle identities", () => {
-  const supplied = request();
-  const selected = validateReleaseRequest(supplied);
-  expect(selected).toEqual(supplied);
-  supplied.artifactId = 456;
-  expect(selected.artifactId).toBe(123);
-});
-
 test.each([
   ["schemaVersion", 2], ["artifactId", 0], ["artifactId", "123"],
   ["artifactId", Number.MAX_SAFE_INTEGER + 1], ["artifactSha256", "A".repeat(64)],

@@ -148,9 +148,9 @@ Public fixtures never request approval or enter the production npm process.
 
 Run a safe manual candidate check first. Complete the independent application
 and tools review evidence before selecting its retained artifact. A baseline-only
-artifact is refused. The selected artifact must be unexpired, from a successful
-manual `publish.yml` run in this repository, and built at the release workflow's
-exact source commit.
+artifact is refused. Select an unexpired completed bundle from the review's
+successful manual Actions run in this repository, at the release workflow's exact
+source commit. It must use the same bundle layout as the candidate check.
 
 **This command can publish after approval. Do not use it as a publication test.**
 

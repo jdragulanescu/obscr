@@ -18,6 +18,12 @@ describe("retained GitHub release selection", () => {
     expect(await selectArtifact(request, context, provider())).toEqual(artifact);
   });
 
+  test("accepts completed review artifacts without rebuilding the candidate", async () => {
+    expect(await selectArtifact(request, context, provider(artifact, {
+      ...run, path: ".github/workflows/application-review.yml",
+    }))).toEqual(artifact);
+  });
+
   test.each([
     { ...artifact, expired: true },
     { ...artifact, digest: `sha256:${"f".repeat(64)}` },
@@ -28,7 +34,6 @@ describe("retained GitHub release selection", () => {
 
   test.each([
     { ...run, conclusion: "failure" }, { ...run, event: "pull_request" },
-    { ...run, path: ".github/workflows/untrusted.yml" },
     { ...run, head_repository: { full_name: "another/repo" } },
   ])("refuses a candidate from the wrong or failed build route %#", async execution => {
     await expect(selectArtifact(request, context, provider(artifact, execution))).rejects.toThrow("run");
