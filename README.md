@@ -237,6 +237,25 @@ PATH="./node_modules/.bin:$PATH"
 
 4. Now you can use the CLI globally! Type `obscr` or `obscr --help` to get started.
 
+## Check a Release Candidate Without Publishing
+
+With Node 24.x and Git installed:
+
+```bash
+npm run release:check -- --help
+npm run release:check -- --manifest /path/to/bundle/manifest.json
+```
+
+The command checks retained source, lockfile, npm/PWA hashes and complete
+candidate-bound evidence. It never writes files or publishes. Exit 0 still means
+human approval is required; public fixtures cannot authorize production.
+Missing, failed, stale or incomplete records refuse validation.
+
+See [the candidate and evidence contract](docs/release-check.md) for bundle
+fields, checklist revision, retained reports, reviewed reuse and cancellation.
+This command alone does not protect the existing publication routes; workflow
+and account-level protection remains part of the release-gate feature.
+
 ## Examples
 
 ### Hiding a Secret Note
