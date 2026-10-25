@@ -26,8 +26,9 @@ jobs:
   candidate:
     name: Check and retain candidate (no publication)
     if: >-
-      github.event_name != 'pull_request' ||
-      (github.event.pull_request.draft == false && github.event.action != 'converted_to_draft')
+      !cancelled() &&
+      (github.event_name != 'pull_request' ||
+      (github.event.pull_request.draft == false && github.event.action != 'converted_to_draft'))
     runs-on: ubuntu-latest
     steps:
       - name: Select source without retained credentials
