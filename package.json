@@ -12,6 +12,8 @@
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest test/unit",
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest test/integration",
+    "release:check": "node bin/release-check.js",
+    "release:candidate": "node bin/release-candidate.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
@@ -63,6 +65,7 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "maxWorkers": 2,
     "coverageDirectory": "coverage",
     "collectCoverageFrom": [
       "bin/**/*.js",
