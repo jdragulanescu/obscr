@@ -354,11 +354,16 @@ image, text or compression requires a new preparation; password-only edits
 do not. `await discard(preparation)` releases the current handle and reports
 `{ ok: true, discarded: true }`; stale, foreign and repeated handles report
 `discarded: false`. One heavyweight image operation runs per tab/process.
-An overlapping request returns `BUSY`, without cancelling the current request.
+A retained preparation keeps its raster and reserves the shared image resources.
+Its owner can replace or discard it, but other image work, including Diff,
+returns `BUSY` until it is discarded. Discard the preparation before starting
+other image work. An overlapping request also returns `BUSY`, without
+cancelling the current request.
 
 An `AbortSignal` cancels active work by terminating its worker. Cancellation,
-worker exit and failed replacement invalidate the preparation; a later call
-can start again. Progress reports `checking inputs` and
+worker exit and failed replacement invalidate the preparation. The shared
+resources stay reserved until worker termination finishes; a later call can
+then start again. Progress reports `checking inputs` and
 `preparing text/capacity`, without percentages. No key derivation or salt/nonce
 randomness runs during preparation. There is no main-thread fallback or timer
 that weakens the operation. Retained Node workers do not keep the process alive.

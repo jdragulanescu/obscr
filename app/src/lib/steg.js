@@ -11,7 +11,7 @@ function run(operation, args, { signal, onProgress } = {}) {
   if (active) return Promise.resolve({ ok: false, code: "BUSY", error: "Another image operation is active. Cancel it or wait for it to finish." });
   const id = ++revision;
   const lease = {};
-  if (!acquireImageOperation(lease)) return Promise.resolve({ ok: false, code: "BUSY", error: "Another image operation is active. Cancel it or wait for it to finish." });
+  if (!acquireImageOperation(lease)) return Promise.resolve({ ok: false, code: "BUSY", error: "Image resources are in use. Wait for active work to finish, cancel it, or discard the retained preparation." });
   return new Promise((resolve) => {
     let worker;
     let settled = false;
