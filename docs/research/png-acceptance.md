@@ -10,7 +10,7 @@ Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accep
 - `agent-local npm test`: 424 tests in 14 suites passed; 14.997 s.
 - `agent-local npm run build`: passed. Existing warnings: bundle size, vm-browserify eval, old Browserslist data and output directory. No configured typecheck, lint, format, mutation, e2e or PR-CI gate.
 - Automated shared-policy/worker/component checks are not actual-browser evidence. Browser worker modules in Jest run under Node; component checks run in jsdom.
-- Real browser: managed Chromium, session `png65-verified`, worktree Vite URL `http://localhost:5173/`, service-worker bypass and disabled HTTP cache. Worker requests resolved to `feat/45-supported-pngs--65/lib/png.js`. Browser/terminal step IDs and captures are recorded on #65.
+- Real browser: managed Chromium, session `png65-verified`, worktree Vite URL `http://localhost:5173/`, service-worker bypass and disabled HTTP cache. Worker requests resolved to `feat/45-supported-pngs--65/lib/png.js`. [Browser/terminal step IDs and captures](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6415375884) are recorded on #65.
 - Human check 4 (contrast, focus outline and wording judgment): **unmet — yours**. This remains open until your recorded answer. Mechanical focus/layout observations do not supply your judgment.
 - This is PNG/Diff proof, not device support, concealment, recovery, independent cryptographic review or release approval. #42 remains the publication gate; no default-branch merge or production publication is authorized.
 
