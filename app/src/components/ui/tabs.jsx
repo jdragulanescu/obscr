@@ -6,6 +6,13 @@ const TabsContext = React.createContext({
   onValueChange: () => {},
 })
 
+function nextTabIndex(key, index, count) {
+  if (key === "Home") return 0;
+  if (key === "End") return count - 1;
+  const direction = key === "ArrowRight" ? 1 : -1;
+  return (index + direction + count) % count;
+}
+
 const Tabs = React.forwardRef(({ className, value, onValueChange, ...props }, ref) => (
   <TabsContext.Provider value={{ value, onValueChange }}>
     <div ref={ref} className={cn("w-full", className)} {...props} />
@@ -23,7 +30,7 @@ const TabsList = React.forwardRef(({ className, ...props }, ref) => (
       if (!tabs.length) return;
       event.preventDefault();
       const index = tabs.indexOf(document.activeElement);
-      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      const next = nextTabIndex(event.key, index, tabs.length);
       tabs[next].focus();
     }}
     className={cn(

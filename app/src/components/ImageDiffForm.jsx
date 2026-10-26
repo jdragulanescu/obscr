@@ -6,6 +6,13 @@ import { Button } from "./ui/button";
 import { admitImage, generateImageDiff } from "../lib/steg";
 import { disposeComparison, useFormOperation } from "../lib/useFormOperation";
 
+function submissionReason(busy, accepted, mismatch) {
+  if (busy) return "Wait for this operation or select Cancel.";
+  if (!accepted.every(Boolean)) return "Choose and admit both images before comparison.";
+  if (mismatch) return "The images have different dimensions. Choose images with equal dimensions.";
+  return "";
+}
+
 export const ImageDiffForm = ({ onStateChange, requestClear }) => {
   const [inputs, setInputs] = useState([null, null]);
   const [accepted, setAccepted] = useState([null, null]);
@@ -32,7 +39,7 @@ export const ImageDiffForm = ({ onStateChange, requestClear }) => {
   const cancel = () => { operation.cancel(); setResult(null); setNotice("Cancelled. Your images are kept. Choose an image again if its admission was cancelled."); };
   const clear = () => { cancel(); setInputs([null, null]); setAccepted([null, null]); setErrors(["", ""]); setError(""); setNotice("Cleared. Choose two supported PNGs to start again."); };
   const mismatch = accepted.every(Boolean) && (accepted[0].width !== accepted[1].width || accepted[0].height !== accepted[1].height);
-  const reason = operation.busy ? "Wait for this operation or select Cancel." : !accepted.every(Boolean) ? "Choose and admit both images before comparison." : mismatch ? "The images have different dimensions. Choose images with equal dimensions." : "";
+  const reason = submissionReason(operation.busy, accepted, mismatch);
   const submit = async (event) => {
     event.preventDefault(); if (reason) return;
     setResult(null); setError(""); setNotice("");

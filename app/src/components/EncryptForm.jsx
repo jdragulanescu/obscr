@@ -7,6 +7,16 @@ import { Button } from "./ui/button";
 import { admitImage, embedMessage, estimateCapacity } from "../lib/steg";
 import { useFormOperation } from "../lib/useFormOperation";
 
+function submissionReason(locked, admitted, message, capacity, password) {
+  if (locked) return "Wait for the operation or select Cancel.";
+  if (!admitted) return "Choose a supported PNG and wait for admission.";
+  if (!message) return "Enter a message.";
+  if (!capacity) return "Edit the message and wait for its capacity check.";
+  if (capacity.estimatedBits > capacity.totalBits) return "The message is too large. Shorten it or choose a larger image.";
+  if (!password) return "Enter a password.";
+  return "";
+}
+
 export const EncryptForm = ({ onStateChange, requestClear }) => {
   const [selection, setSelection] = useState(null);
   const [admitted, setAdmitted] = useState(null);
@@ -49,7 +59,7 @@ export const EncryptForm = ({ onStateChange, requestClear }) => {
 
   const cancel = () => { clearTimeout(estimateTimer.current); operation.cancel(); setPassword(""); setCapacity(null); setNotice("Cancelled. Your image and message are kept. Edit the message to check capacity again, or choose the image again."); };
   const clear = () => { invalidate(); setSelection(null); setAdmitted(null); setMessage(""); setPassword(""); setCompress(false); setObfuscate(true); setImageError(""); setNotice("Cleared. Choose a supported PNG to start again."); };
-  const reason = locked ? "Wait for the operation or select Cancel." : !admitted ? "Choose a supported PNG and wait for admission." : !message ? "Enter a message." : !capacity ? "Edit the message and wait for its capacity check." : capacity.estimatedBits > capacity.totalBits ? "The message is too large. Shorten it or choose a larger image." : !password ? "Enter a password." : "";
+  const reason = submissionReason(locked, admitted, message, capacity, password);
   const submit = async (event) => {
     event.preventDefault(); if (reason || operation.busy) return;
     setError(""); setResult(null); setNotice("");

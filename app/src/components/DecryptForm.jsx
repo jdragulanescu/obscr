@@ -7,6 +7,13 @@ import { Button } from "./ui/button";
 import { admitImage, extractMessage, downloadBlob } from "../lib/steg";
 import { useFormOperation } from "../lib/useFormOperation";
 
+function submissionReason(locked, admitted, password) {
+  if (locked) return "Wait for decryption or select Cancel.";
+  if (!admitted) return "Choose a supported PNG and wait for admission.";
+  if (!password) return "Enter a password.";
+  return "";
+}
+
 export const DecryptForm = ({ onStateChange, requestClear }) => {
   const [file, setFile] = useState(null);
   const [admitted, setAdmitted] = useState(false);
@@ -29,7 +36,7 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
   };
   const cancel = () => { operation.cancel(); setPassword(""); setMessage(null); setNotice("Cancelled. Your image is kept. Enter the password to try again, or choose the image again if admission was cancelled."); };
   const clear = () => { cancel(); setFile(null); setAdmitted(false); setImageError(""); setError(""); setNotice("Cleared. Choose a supported PNG to start again."); };
-  const reason = locked ? "Wait for decryption or select Cancel." : !admitted ? "Choose a supported PNG and wait for admission." : !password ? "Enter a password." : "";
+  const reason = submissionReason(locked, admitted, password);
   const submit = async (event) => {
     event.preventDefault(); if (reason || operation.busy) return;
     setMessage(null); setError(""); setNotice("");
