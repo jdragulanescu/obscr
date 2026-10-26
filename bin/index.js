@@ -129,6 +129,7 @@ async function encryptCommand(filename, output, compress, message, password) {
   } finally { progress.stop(); }
   requireSuccess(result);
   process.stdout.write(`Saved PNG: ${terminalText(result.outputPath)}\n`);
+  process.stdout.write("Supported rendering information was retained.\nPersonal and non-rendering metadata was removed.\nThis does not make the image anonymous.\nRemoved metadata and PNG encoding can still be detected.\nInputs with unsupported color profiles are rejected.\n");
   if (verbose && !quiet) process.stderr.write(`Capacity used: ${result.capacity.utilization}.\n`);
 }
 

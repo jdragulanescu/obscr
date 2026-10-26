@@ -1,5 +1,6 @@
 import { jest } from "@jest/globals";
-import { admitImage, estimateCapacity, generateImageDiff } from "../../app/src/lib/steg.js";
+import { JSDOM } from "jsdom";
+import { admitImage, estimateCapacity, generateImageDiff, downloadBlob } from "../../app/src/lib/steg.js";
 
 // The transport fake controls timing and failures; parser requests are also
 // exercised against the real worker in browser-png-worker.test.js.
@@ -94,4 +95,28 @@ it.each([2, 3])("revokes earlier previews when creation %i fails", async (failed
   expect(result.error).not.toContain("private allocation detail");
   expect(result).not.toHaveProperty("original");
   for (const url of urls) await expect(fetch(url)).rejects.toThrow();
+});
+
+it("releases a download URL and link when the browser refuses the download", async () => {
+  const dom = new JSDOM("<!doctype html><body></body>");
+  const originalDocument = globalThis.document;
+  globalThis.document = dom.window.document;
+  const create = URL.createObjectURL.bind(URL);
+  let allocated;
+  jest.spyOn(URL, "createObjectURL").mockImplementation(blob => {
+    allocated = create(blob);
+    return allocated;
+  });
+  jest.spyOn(dom.window.HTMLAnchorElement.prototype, "click").mockImplementation(() => {
+    throw new Error("Browser refused download");
+  });
+  try {
+    expect(() => downloadBlob(new Blob(["complete output"]), "encoded.png")).toThrow("Browser refused download");
+    expect(document.querySelector("a")).toBeNull();
+    await expect(fetch(allocated)).rejects.toThrow();
+  } finally {
+    URL.revokeObjectURL(allocated);
+    globalThis.document = originalDocument;
+    dom.window.close();
+  }
 });

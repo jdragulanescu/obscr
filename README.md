@@ -73,6 +73,22 @@ unsupported color profiles, unknown chunks and malformed PNG data are refused.
 Chunk counts, metadata size and raster inflation are bounded. Images are not
 resized or color-converted to make them fit.
 
+Exports keep the dimensions, RGB/RGBA color type, opaque alpha and native samples
+except for the intended carrier changes. They retain supported cHRM, gAMA and
+sRGB rendering declarations byte-for-byte, in that order. Absent declarations
+stay absent. Personal and other non-rendering metadata is removed without
+expanding embedded text. Both apps show this policy after a successful export.
+This is not an anonymity guarantee: removed metadata and PNG encoding can be
+detected. Inputs with unsupported color profiles are rejected, not converted.
+
+Output is bounded before allocation and contains only complete PNG chunks.
+The current stored-DEFLATE writer's largest supported output is 4,195,789 bytes,
+below the 16 MiB output ceiling. CLI writes use a temporary file and an atomic
+rename; failure or cancellation leaves the source and existing destination
+unchanged. If the browser cannot start a download, the complete result remains
+available for another attempt. The browser controls the later disk save; the app
+cannot confirm that a download reached disk.
+
 One image operation runs at a time. In the browser, Cancel stops its worker and
 clears passwords while keeping the selected image and editable message.
 Replacement and capacity edits discard old work. Clear or leaving a task asks

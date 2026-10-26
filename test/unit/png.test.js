@@ -271,6 +271,19 @@ describe("PNG-ADMIT rendering and discardable metadata", () => {
 });
 
 describe("minimal shared PNG serialization", () => {
+  it.each([
+    { sRGB: new Uint8Array([4]) },
+    { gAMA: integers(0) },
+    { cHRM: new Uint8Array(31) },
+    { sRGB: new Uint8Array([0]), gAMA: integers(100000) },
+    { sRGB: new Uint8Array([0]), cHRM: new Uint8Array(32) },
+    { sRGB: [0] },
+  ])("refuses invalid rendering state before producing output: %j", rendering => {
+    const png = admitPNG(fixture());
+    png.rendering = rendering;
+    expect(() => serializePNG(png)).toThrow(expect.objectContaining({ code: "PNG_INVALID" }));
+    expect([...png.data]).toEqual([19, 127, 241, 255]);
+  });
   it.each([2, 6])("writes independently readable color type %i with exact samples", colorType => {
     const raw = Buffer.from(colorType === 2 ? [0, 19, 127, 241] : [0, 19, 127, 241, 255]);
     const png = admitPNG(fixture({ colorType, raw, before: [chunk("tEXt", known.tEXt), chunk("sRGB", known.sRGB), chunk("gAMA", known.gAMA), chunk("cHRM", known.cHRM)] }));
@@ -288,14 +301,15 @@ describe("minimal shared PNG serialization", () => {
     expect(types).toEqual(["IHDR", "cHRM", "gAMA", "sRGB", "IDAT", "IEND"]);
   });
   it("writes multiple stored DEFLATE blocks without an extra full-raster allocation", () => {
-    const png = { width: 1024, height: 1024, colorType: 6, data: new Uint8Array(4194304).fill(255) };
+    const png = { width: 1024, height: 1024, colorType: 6, data: new Uint8Array(4194304).fill(255), rendering: { cHRM: chrm, gAMA: known.gAMA, sRGB: known.sRGB } };
     let bytes;
     const sizes = allocationSizes(() => { bytes = serializePNG(png); });
     expect(sizes).toEqual([bytes.length]);
-    expect(bytes.length).toBeLessThan(MAX_SOURCE_BYTES);
+    expect(bytes.length).toBe(4195789);
     const decoded = PNG.sync.read(Buffer.from(bytes));
     expect(decoded.data.equals(Buffer.from(png.data))).toBe(true);
-    expect(admitPNG(bytes).rendering).toEqual({});
+    const admitted = admitPNG(bytes);
+    for (const type of ["cHRM", "gAMA", "sRGB"]) expect(Buffer.from(admitted.rendering[type])).toEqual(png.rendering[type]);
   });
   it("does not require Buffer or process globals", () => {
     const bytes = new Uint8Array(fixture());
