@@ -5,29 +5,37 @@ function image(width = 100, height = 100, alpha = 255) {
   const png = new PNG({ width, height });
   png.data.fill(255);
   png.data[3] = alpha;
-  return new Blob([PNG.sync.write(png)], { type: "image/png" });
+  return new Blob([PNG.sync.write(png, { filterType: 0 })], { type: "image/png" });
 }
 
 const workerModule = new URL("../../app/src/lib/png-worker.js", import.meta.url).href;
-function request(operation, args) {
-  return new Promise((resolve, reject) => {
-    const worker = new Worker(`
-      const { parentPort } = require('node:worker_threads');
-      globalThis.self = { postMessage: (data) => parentPort.postMessage(data) };
-      import(${JSON.stringify(workerModule)}).then(() => {
-        parentPort.on('message', data => self.onmessage({data}));
-        parentPort.postMessage({ready: true});
-      });
-    `, { eval: true, resourceLimits: { stackSizeMb: 1 } });
-    worker.on("error", reject);
-    worker.on("message", (data) => {
-      if (data.ready) worker.postMessage({ id: 1, operation, args });
-      else if (data.result) {
-        worker.terminate();
-        resolve(data.result);
-      }
+const workers = new Set();
+afterEach(async () => {
+  await Promise.all([...workers].map(worker => worker.terminate()));
+});
+async function request(operation, args) {
+  const worker = new Worker(`
+    const { parentPort } = require('node:worker_threads');
+    globalThis.self = { postMessage: (data) => parentPort.postMessage(data) };
+    import(${JSON.stringify(workerModule)}).then(() => {
+      parentPort.on('message', data => self.onmessage({data}));
+      parentPort.postMessage({ready: true});
     });
-  });
+  `, { eval: true, resourceLimits: { stackSizeMb: 1 } });
+  workers.add(worker);
+  try {
+    return await new Promise((resolve, reject) => {
+      worker.on("error", reject);
+      worker.on("exit", () => reject(new Error("Test worker exited before replying")));
+      worker.on("message", (data) => {
+        if (data.ready) worker.postMessage({ id: 1, operation, args });
+        else if (data.result) resolve(data.result);
+      });
+    });
+  } finally {
+    await worker.terminate();
+    workers.delete(worker);
+  }
 }
 
 it("reports malformed PNG input before attempting hidden-message recovery", async () => {

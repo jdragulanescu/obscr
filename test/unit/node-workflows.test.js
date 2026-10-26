@@ -5,24 +5,47 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
 import { PNG } from "pngjs";
-import {
-  encodeMessageToImage,
-  extractMessageFromImage,
-  encryptMessageToImage,
-  decryptMessageFromImage,
-} from "../../lib/steg.js";
+import * as operations from "../../lib/steg.js";
 
 const fixture = fileURLToPath(new URL("../fixtures/test-medium.png", import.meta.url));
 const workerURL = new URL("../../lib/steg-worker.js", import.meta.url);
 const MAX_SOURCE_BYTES = 16 * 1024 * 1024;
 let directory;
 let destination;
+let cleanupController;
+const pendingOperations = new Set();
+const workers = new Set();
+
+// Own real operations even when Jest stops awaiting a timed-out test.
+function ownedOperation(operation, optionsIndex) {
+  return (...args) => {
+    const options = args[optionsIndex] ?? {};
+    args[optionsIndex] = {
+      ...options,
+      signal: options.signal
+        ? AbortSignal.any([options.signal, cleanupController.signal])
+        : cleanupController.signal,
+    };
+    const pending = operation(...args).finally(() => pendingOperations.delete(pending));
+    pendingOperations.add(pending);
+    return pending;
+  };
+}
+
+const encodeMessageToImage = ownedOperation(operations.encodeMessageToImage, 5);
+const extractMessageFromImage = ownedOperation(operations.extractMessageFromImage, 2);
+const encryptMessageToImage = ownedOperation(operations.encryptMessageToImage, 4);
+const decryptMessageFromImage = ownedOperation(operations.decryptMessageFromImage, 2);
 
 beforeEach(() => {
+  cleanupController = new AbortController();
   directory = fs.mkdtempSync(path.join(os.tmpdir(), "obscr-node-worker-"));
   destination = path.join(directory, "result.png");
 });
-afterEach(() => {
+afterEach(async () => {
+  cleanupController.abort();
+  await Promise.all([...workers].map(worker => worker.terminate()));
+  while (pendingOperations.size) await Promise.allSettled([...pendingOperations]);
   jest.restoreAllMocks();
   fs.rmSync(directory, { recursive: true, force: true });
 });
@@ -35,9 +58,11 @@ function inputFile(bytes, name = "input.png") {
 
 async function requestWorker(request) {
   const worker = new Worker(workerURL);
+  workers.add(worker);
   try {
     return await new Promise((resolve, reject) => {
       worker.on("error", reject);
+      worker.on("exit", () => reject(new Error("Test worker exited before replying")));
       worker.on("message", (reply) => {
         if (reply.type === "result") resolve(reply.result);
       });
@@ -45,6 +70,7 @@ async function requestWorker(request) {
     });
   } finally {
     await worker.terminate();
+    workers.delete(worker);
   }
 }
 
@@ -160,7 +186,8 @@ describe("PNG-ADMIT through the Node operation owner", () => {
   it("cancels an admitted maximum-dimension image in the real worker without a late publication", async () => {
     const png = new PNG({ width: 1024, height: 1024 });
     png.data.fill(255);
-    const source = inputFile(PNG.sync.write(png));
+    // Adaptive filter scoring measures pngjs/Jest overhead, not cancellation.
+    const source = inputFile(PNG.sync.write(png, { filterType: 0 }));
     fs.writeFileSync(destination, "previous result");
     const controller = new AbortController();
     const result = await encryptMessageToImage(source, "public text", "password", destination, {
