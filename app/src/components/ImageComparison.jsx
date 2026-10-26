@@ -8,9 +8,12 @@ export const ImageComparison = ({ images }) => {
       <div className="result-section">
         <h3 className="result-label">Visual comparison — not a security test</h3>
         <div className="diff-info">
-          <span className="diff-stat">
-            Average pixel difference: {images.averageDifference} / 255
-          </span>
+          <div className="diff-stat">
+            Changed pixels: {images.changedPixels} / {images.totalPixels}
+          </div>
+          <div className="diff-stat">
+            Mean RGB sample difference: {images.averageDifference} / 255
+          </div>
         </div>
         <div className="image-comparison">
           <div className="image-item">
@@ -28,7 +31,7 @@ export const ImageComparison = ({ images }) => {
         <div className="result-label">Visual Difference (Amplified)</div>
         <div className="diff-info">
           <span className="diff-stat">
-            Green areas show modified pixels. Brighter = larger changes.
+            Green pixels show sample changes, amplified 50 times and capped at full brightness. Black pixels are unchanged.
           </span>
         </div>
         <div className="diff-container">

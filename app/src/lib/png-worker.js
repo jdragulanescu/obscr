@@ -1,4 +1,5 @@
 import { admitPNG, serializePNG, MAX_SOURCE_BYTES } from "../../../lib/png.js";
+import { comparePNGs } from "../../../lib/png-diff.js";
 import { encrypt, decrypt } from "./webCrypto.js";
 import {
   prepare_write_data, prepare_read_data, get_bits_lsb, write_lsb,
@@ -10,7 +11,7 @@ const operations = new Set(["admit", "capacity", "embed", "extract", "diff"]);
 const failure = (code, message) => Object.assign(new Error(message), { code });
 let busy = false;
 
-async function readImage(file) {
+async function readBytes(file) {
   if (!(file instanceof Blob)) throw failure("INPUT_INVALID", "Select a supported PNG file.");
   if (file.size > MAX_SOURCE_BYTES) throw failure("PNG_LIMIT", "PNG input must be at most 16 MiB. Choose a smaller PNG.");
   let bytes;
@@ -19,7 +20,7 @@ async function readImage(file) {
   } catch {
     throw failure("READ_FAILED", "Could not read the image. Select it again.");
   }
-  return admitPNG(bytes);
+  return bytes;
 }
 
 function validateText(value, label, allowEmpty = false) {
@@ -32,70 +33,18 @@ function validateText(value, label, allowEmpty = false) {
   }
 }
 
-function compare(original, encoded) {
-  const { width, height, data } = original;
-  if (width !== encoded.width || height !== encoded.height) {
-    throw failure("DIMENSIONS", "Images must have matching dimensions. Select another PNG.");
-  }
-  let totalDiff = 0;
-  const changedPixels = [];
-  for (let i = 0; i < data.length; i += 4) {
-    const diff = Math.abs(data[i] - encoded.data[i]) +
-      Math.abs(data[i + 1] - encoded.data[i + 1]) +
-      Math.abs(data[i + 2] - encoded.data[i + 2]);
-    totalDiff += diff;
-    if (diff) changedPixels.push(i / 4);
-  }
-  if (changedPixels.length / (width * height) > 0.1) {
-    for (let i = 0; i < data.length; i += 4) {
-      const diff = Math.abs(data[i] - encoded.data[i]) +
-        Math.abs(data[i + 1] - encoded.data[i + 1]) +
-        Math.abs(data[i + 2] - encoded.data[i + 2]);
-      const amplified = Math.min(255, diff * 50);
-      data[i] = Math.round(amplified * 0.3);
-      data[i + 1] = amplified;
-      data[i + 2] = Math.round(amplified * 0.4);
-    }
-  } else {
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = 10;
-      data[i + 1] = 14;
-      data[i + 2] = 15;
-    }
-    const markerSize = Math.max(1, Math.floor(Math.max(width, height) / 800));
-    for (const position of changedPixels) {
-      const x = position % width;
-      const y = Math.floor(position / width);
-      for (let dy = -markerSize; dy <= markerSize; dy++) {
-        for (let dx = -markerSize; dx <= markerSize; dx++) {
-          const nx = x + dx;
-          const ny = y + dy;
-          if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-            const i = (ny * width + nx) * 4;
-            data[i] = 0;
-            data[i + 1] = 255;
-            data[i + 2] = 0;
-          }
-        }
-      }
-    }
-  }
-  return {
-    ok: true,
-    diffBlob: new Blob([serializePNG(original)], { type: "image/png" }),
-    averageDifference: (totalDiff / (width * height * 3)).toFixed(4),
-  };
-}
 
 async function run(operation, args, progress) {
   progress("Checking PNG input…");
-  const png = await readImage(args.file);
-  if (operation === "admit") return { ok: true, width: png.width, height: png.height };
   if (operation === "diff") {
-    const second = await readImage(args.secondFile);
+    const original = await readBytes(args.file);
+    const comparison = await readBytes(args.secondFile);
     progress("Creating visual comparison…");
-    return compare(png, second);
+    const { bytes, ...statistics } = comparePNGs(original, comparison);
+    return { ok: true, ...statistics, diffBlob: new Blob([bytes], { type: "image/png" }) };
   }
+  const png = admitPNG(await readBytes(args.file));
+  if (operation === "admit") return { ok: true, width: png.width, height: png.height };
   const totalBits = calculateImageCapacity(png);
   if (operation === "extract") {
     validateText(args.password, "a password");

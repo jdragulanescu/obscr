@@ -9,6 +9,7 @@
 - `lib/crypto.js`: Node encryption: AES-256-GCM, PBKDF2-SHA512 keys, and optional gzip compression.
 - `lib/steg-core.js`: platform-free steganography shared by CLI and PWA: LSB bits, password-scrambled order, and capacity.
 - `lib/png.js`: shared bounded PNG validation, raw-sample admission and serialization.
+- `lib/png-diff.js`: shared native-sample comparison; bounded admission, in-place overlay and visual-only statistics.
 - `lib/steg.js`: Node operation owner: bounded file reads, cancellable workers and atomic output publication.
 - `lib/steg-worker.js`: Node worker boundary for PNG admission, the existing carrier and encryption.
 - `lib/utils.js`: password-seeded pixel order and string/bit conversion.

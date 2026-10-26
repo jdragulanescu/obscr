@@ -249,6 +249,67 @@ describe("real browser components", () => {
     } else expect(container.textContent).toBe("");
   });
 
+  test.each([0, 1])("replacing comparison input %i during work cancels it and rejects late previews", async (index) => {
+    await render(ImageDiffForm);
+    await admit("original.png", 0);
+    await admit("comparison.png", 1);
+    const pending = await submit();
+    expect(container.querySelectorAll('input[type="file"]')[index].disabled).toBe(false);
+    const replacement = await pick("replacement.png", index);
+    expect(pending.aborted).toBe(true);
+    await reply(pending, preview());
+    expect(container.querySelector("img")).toBeNull();
+    expect(URL.revokeObjectURL.mock.calls).toEqual([["blob:original"], ["blob:encoded"], ["blob:diff"]]);
+    expect(button("Generate Diff").disabled).toBe(true);
+    await reply(replacement, { ok: true, width: 8, height: 8 });
+    expect(button("Generate Diff").disabled).toBe(false);
+  });
+
+  test.each(["first", "second", "reset", "restart", "leave"])("%s invalidates a completed comparison and releases its previews", async (change) => {
+    await render(App);
+    await click(container.querySelector("#task-diff"));
+    await admit("original.png", 0);
+    await admit("comparison.png", 1);
+    await reply(await submit(), preview());
+    expect(container.querySelectorAll("img")).toHaveLength(3);
+    if (change === "first" || change === "second") await pick("replacement.png", change === "first" ? 0 : 1);
+    if (change === "restart") await submit();
+    if (change === "reset" || change === "leave") {
+      await click(change === "reset" ? button("Reset") : container.querySelector("#task-decrypt"));
+      await click(button("Stay"));
+      expect(container.querySelectorAll("img")).toHaveLength(3);
+      await click(change === "reset" ? button("Reset") : container.querySelector("#task-decrypt"));
+      await click(button("Switch and clear"));
+      if (change === "leave") await click(container.querySelector("#task-diff"));
+      expect(container.querySelectorAll('input[type="file"]')).toHaveLength(2);
+      expect(button("Generate Diff").disabled).toBe(true);
+      expect(container.textContent).not.toContain("original.png");
+      expect(container.textContent).not.toContain("comparison.png");
+    }
+    expect(container.querySelector("img")).toBeNull();
+    expect(URL.revokeObjectURL.mock.calls).toEqual([["blob:original"], ["blob:encoded"], ["blob:diff"]]);
+  });
+
+  test.each(["reset", "leave"])("%s confirms discard and aborts an active comparison", async (change) => {
+    await render(App);
+    await click(container.querySelector("#task-diff"));
+    await admit("original.png", 0);
+    await admit("comparison.png", 1);
+    const pending = await submit();
+    const trigger = change === "reset" ? button("Reset") : container.querySelector("#task-decrypt");
+    expect(trigger.disabled).toBe(false);
+    await click(trigger);
+    await click(button("Stay"));
+    expect(pending.aborted).toBe(false);
+    expect(document.activeElement).toBe(trigger);
+    await click(trigger);
+    await click(button("Switch and clear"));
+    expect(pending.aborted).toBe(true);
+    await reply(pending, preview());
+    expect(container.querySelector("img")).toBeNull();
+    expect(URL.revokeObjectURL.mock.calls).toEqual([["blob:original"], ["blob:encoded"], ["blob:diff"]]);
+  });
+
   test("comparison requires both admissions and equal dimensions", async () => {
     await render(ImageDiffForm);
     expect(container.textContent).toContain("Choose and admit both images before comparison.");
