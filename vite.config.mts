@@ -16,6 +16,9 @@ export default defineConfig({
     }),
   ],
   root: "app",
+  worker: {
+    format: "es",
+  },
   build: {
     outDir: "../dist",
   },

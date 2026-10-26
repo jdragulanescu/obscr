@@ -38,6 +38,8 @@
     "chalk": "^4.1.2",
     "crypto-js": "^4.1.1",
     "inquirer": "^8.0.0",
+    "libsodium-sumo": "0.8.4",
+    "libsodium-wrappers-sumo": "0.8.4",
     "ora": "^5.4.1",
     "pako": "1.0.11",
     "pngjs": "^6.0.0",

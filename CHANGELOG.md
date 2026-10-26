@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Complete worker-backed next-format recovery in Node and browsers, with fixed
+  Argon2id/HKDF keys, full-key placement, licensed bounded repair, authenticated
+  raw/gzip text and cancellable failure without partial text. Independent complete
+  PNG fixtures cover the new decoder; existing app routes remain unchanged.
 - Worker-backed preparation for the next protected-image format: exact UTF-8,
   bounded optional gzip, detail-ranked net capacity, retained opaque handles and
   cancellation in Node and browsers. The existing app routes are not switched yet.

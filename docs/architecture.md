@@ -12,10 +12,14 @@
 - `lib/png-diff.js`: shared native-sample comparison; bounded admission, in-place overlay and visual-only statistics.
 - `lib/steg.js`: Node operation owner: bounded file reads, cancellable workers and atomic output publication.
 - `lib/steg-worker.js`: Node worker boundary for PNG admission, the existing carrier and encryption.
-- `lib/protected-image.js`: shared next-format text preparation, bounded gzip, detail ranking, exact capacity and worker-owned state.
+- `lib/protected-image.js`: shared next-format preparation, recovery dispatch, detail ranking, exact capacity and worker-owned state.
 - `lib/protected-transport.js`: retained worker transport, opaque preparations, cancellation and stale-response suppression.
-- `lib/protected-node.js`: Node preparation/discard adapter; owns the retained worker thread.
+- `lib/protected-node.js`: Node preparation/recovery/discard adapter; owns the worker thread.
 - `lib/protected-worker.js`: Node request gate for the shared protected-image operation.
+- `lib/protected-recovery.js`: bounded matrix/frame extraction, repair, authentication and exact raw/gzip text recovery.
+- `lib/protected-keys.js`: private fixed Argon2id/HKDF schedule and continuous bounded sparse position source.
+- `lib/protected-native-node.js`, `lib/protected-native-browser.js`: native HKDF, full-counter AES-CTR and authenticated AES-GCM adapters.
+- `lib/protected-repair.js`: pinned ZXing-derived shortened Reed–Solomon decoder; adjacent LICENSE and NOTICE preserve provenance.
 - `lib/image-operation.js`: per-tab/process heavyweight-operation lease shared by image worker adapters.
 - `lib/utils.js`: password-seeded pixel order and string/bit conversion.
 - `lib/mersenne-twister.js`: vendored seeded PRNG used by pixel ordering.
