@@ -77,3 +77,15 @@ it("checks a large message without overflowing argument or carrier allocations",
   const result = await request("capacity", { file: image(1024, 1024), message: "a".repeat(200000), compress: false });
   expect(result).toMatchObject({ ok: true, totalBits: 3145728, estimatedBits: 2134064 });
 });
+
+it.each([
+  ["ASCII", "a".repeat(1048576)],
+  ["multibyte", "é".repeat(524288)],
+])("admits exactly 1 MiB of %s text and rejects one more UTF-8 byte", async (_kind, message) => {
+  const args = { file: image(), message, compress: false };
+  expect(await request("capacity", args)).toMatchObject({
+    ok: true, totalBits: 30000, estimatedBits: 11185552,
+  });
+  expect(await request("capacity", { ...args, message: message + "a" }))
+    .toMatchObject({ ok: false, code: "INPUT_LIMIT" });
+});

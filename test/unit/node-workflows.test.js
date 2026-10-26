@@ -312,4 +312,19 @@ describe("PNG-ADMIT real worker request boundary", () => {
     expect(await requestWorker({ id: 1, action: "extract", key: "key", bytes: new Uint8Array([1, 2, 3]) }))
       .toMatchObject({ success: false, code: "PNG_INVALID" });
   });
+
+  it.each([
+    ["encode", "ASCII", "a".repeat(1048576)],
+    ["encode", "multibyte", "é".repeat(524288)],
+    ["encrypt", "ASCII", "a".repeat(1048576)],
+    ["encrypt", "multibyte", "é".repeat(524288)],
+  ])("%s admits exactly 1 MiB of %s text and refuses one more UTF-8 byte", async (action, _kind, message) => {
+    const request = {
+      id: 1, action, bytes: new Uint8Array(fs.readFileSync(fixture)),
+      key: "key", password: "public-password", message, obfuscate: false, compress: false,
+    };
+    expect(await requestWorker(request)).toMatchObject({ success: false, code: "CAPACITY" });
+    expect(await requestWorker({ ...request, message: message + "a" }))
+      .toMatchObject({ success: false, code: "MESSAGE_LIMIT" });
+  });
 });
