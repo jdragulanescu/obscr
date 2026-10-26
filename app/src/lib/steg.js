@@ -75,11 +75,15 @@ export async function generateImageDiff(originalFile, encodedFile, options = {})
 
 export function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  let a;
+  try {
+    a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+  } finally {
+    a?.remove();
+    URL.revokeObjectURL(url);
+  }
 }

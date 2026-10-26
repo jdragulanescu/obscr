@@ -1,6 +1,7 @@
 import { jest, beforeAll, beforeEach, afterEach, afterAll, describe, test, expect } from "@jest/globals";
 import { JSDOM } from "jsdom";
 import React, { act } from "react";
+import { downloadBlob as browserDownload } from "../../app/src/lib/steg.js";
 
 const adapter = {
   admitImage: jest.fn(),
@@ -123,6 +124,40 @@ async function capacity(result = { ok: true, estimatedBits: 8, totalBits: 64, ut
 const preview = () => ({ ok: true, original: "blob:original", encoded: "blob:encoded", diff: "blob:diff", averageDifference: 0 });
 
 describe("real browser components", () => {
+  test.each(["image", "message"])("keeps the completed %s available after a refused download", async (kind) => {
+    await render(kind === "image" ? EncryptForm : DecryptForm);
+    await admit();
+    if (kind === "image") {
+      await type("textarea", "Public export text");
+      await capacity();
+    }
+    await type('input[type="password"]', "public-password");
+    const pending = await submit();
+    await reply(pending, kind === "image"
+      ? { ok: true, blob: new Blob(["complete PNG"]) }
+      : { ok: true, message: "Public export text" });
+    adapter.downloadBlob.mockImplementation(browserDownload);
+    URL.revokeObjectURL.mockImplementation(savedRevoke.value);
+    let downloaded;
+    const browserClick = jest.spyOn(dom.window.HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function () { downloaded = fetch(this.href).then(response => response.text()); })
+      .mockImplementationOnce(() => { throw new Error("private browser detail"); });
+    try {
+      const download = button(kind === "image" ? "Download encoded image" : "Download message");
+      await click(download);
+      expect(container.querySelector('[role="alert"]').textContent).toMatch(/download/i);
+      expect(container.textContent).not.toContain("private browser detail");
+      expect(download.disabled).toBe(false);
+      await click(download);
+      expect(await downloaded).toBe(kind === "image" ? "complete PNG" : "Public export text");
+      expect(container.querySelector('[role="alert"]')).toBeNull();
+      expect(container.querySelector('input[type="password"]').value).toBe("");
+    } finally {
+      browserClick.mockRestore();
+      URL.revokeObjectURL.mockReset();
+    }
+  });
+
   test("replacement admission aborts the old operation and ignores its late error", async () => {
     await render(DecryptForm);
     const old = await pick("old.png");

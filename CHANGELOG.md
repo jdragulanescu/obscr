@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   inputs; raw RGB and opaque RGBA samples are checked without canvas conversion.
 - Cancellable image workers, stale-result suppression, explicit discard confirmation,
   keyboard password reveal and public PNG errors beside the browser inputs.
+- Successful PNG exports explain which rendering metadata is kept and which
+  personal metadata is removed, without claiming anonymity.
 - **Vercel Web Analytics**: anonymous page-view counting in the web app via
   `@vercel/analytics`, mounted at the React root (`app/src/main.jsx`)
 - **Privacy notice**: always-visible summary above the tool explaining that all encryption
@@ -25,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reader users are not dropped back to the top of the tab order
 
 ### Fixed
+- PNG serialization checks rendering values and consistency before output.
+- Refused browser downloads release their temporary URLs and links, report the
+  failure and keep the complete result available for another download attempt.
 - Large browser capacity checks no longer exceed engine argument limits during
   base64 conversion.
 - Hash routes are resolved with an own-property check, so inherited keys such as

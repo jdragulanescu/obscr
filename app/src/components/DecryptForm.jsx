@@ -46,6 +46,11 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
     if (result.ok) { setMessage(result.message); setNotice("Decryption complete."); }
     else setError(result.error);
   };
+  const download = () => {
+    setError("");
+    try { downloadBlob(new Blob([message], { type: "text/plain" }), "message.txt"); }
+    catch { setError("Could not start the download. Your message is kept. Try Download message again."); }
+  };
   return <form className="panel" onSubmit={submit}>
     <ImageUpload label="Encoded image (PNG)" filePath={file} onPick={pick} disabled={locked} error={imageError} />
     <PasswordInput label="Password" value={password} disabled={locked || !admitted} showStrength={false} onChange={(value) => { setPassword(value); setMessage(null); setError(""); }} />
@@ -59,7 +64,7 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
     {message !== null && <section aria-labelledby={`${id}-result`}>
       <h3 id={`${id}-result`}>Decrypted message</h3>
       <MessageDisplay message={message} />
-      <Button type="button" onClick={() => downloadBlob(new Blob([message], { type: "text/plain" }), "message.txt")}>Download message</Button>
+      <Button type="button" onClick={download}>Download message</Button>
     </section>}
   </form>;
 };
