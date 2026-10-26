@@ -66,7 +66,11 @@ export async function generateImageDiff(originalFile, encodedFile, options = {})
   const urls = [];
   try {
     for (const blob of [originalFile, encodedFile, result.diffBlob]) urls.push(URL.createObjectURL(blob));
-    return { ok: true, original: urls[0], encoded: urls[1], diff: urls[2], averageDifference: result.averageDifference };
+    return {
+      ok: true, original: urls[0], encoded: urls[1], diff: urls[2],
+      averageDifference: result.averageDifference,
+      changedPixels: result.changedPixels, totalPixels: result.totalPixels,
+    };
   } catch {
     urls.forEach((url) => URL.revokeObjectURL(url));
     return { ok: false, code: "PREVIEW_FAILED", error: "Could not show the visual comparison. Try again." };

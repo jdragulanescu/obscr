@@ -97,6 +97,33 @@ it.each([2, 3])("revokes earlier previews when creation %i fails", async (failed
   for (const url of urls) await expect(fetch(url)).rejects.toThrow();
 });
 
+it("terminates cancelled comparison work and ignores its late result while a new comparison runs", async () => {
+  const create = jest.spyOn(URL, "createObjectURL");
+  const controller = new AbortController();
+  const first = generateImageDiff(new Blob(["first"]), new Blob(["second"]), { signal: controller.signal });
+  expect(await admitImage(new Blob(["competing"]))).toMatchObject({ code: "BUSY" });
+  controller.abort();
+  expect(await first).toMatchObject({ ok: false, code: "CANCELLED" });
+  expect(workers[0].terminated).toBe(true);
+  const next = generateImageDiff(new Blob(["replacement"]), new Blob(["second"]));
+  workers[0].reply({ ok: true, diffBlob: new Blob(["late"]) });
+  workers[1].reply({ ok: false, code: "PNG_INVALID" });
+  expect(await next).toMatchObject({ ok: false, code: "PNG_INVALID" });
+  expect(workers[1].terminated).toBe(true);
+  expect(create).not.toHaveBeenCalled();
+});
+
+it("cancelling after a comparison reply but before its continuation creates no previews", async () => {
+  const create = jest.spyOn(URL, "createObjectURL");
+  const controller = new AbortController();
+  const pending = generateImageDiff(new Blob(["first"]), new Blob(["second"]), { signal: controller.signal });
+  workers[0].reply({ ok: true, diffBlob: new Blob(["complete"]) });
+  controller.abort();
+  expect(await pending).toMatchObject({ ok: false, code: "CANCELLED" });
+  expect(workers[0].terminated).toBe(true);
+  expect(create).not.toHaveBeenCalled();
+});
+
 it("releases a download URL and link when the browser refuses the download", async () => {
   const dom = new JSDOM("<!doctype html><body></body>");
   const originalDocument = globalThis.document;

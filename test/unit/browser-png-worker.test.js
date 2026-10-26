@@ -66,6 +66,30 @@ it("keeps image geometry mismatch separate from hidden recovery", async () => {
   expect(await request("diff", { file: image(2, 2), secondFile: image(3, 2) })).toMatchObject({ ok: false, code: "DIMENSIONS" });
 });
 
+it.each([
+  [{}, "INPUT_INVALID"],
+  [{ file: image() }, "INPUT_INVALID"],
+  [{ file: image(), secondFile: { size: 1 } }, "INPUT_INVALID"],
+  [{ file: image(), secondFile: image(1, 1, 254) }, "PNG_UNSUPPORTED"],
+  [{ file: image(), secondFile: new Blob([new Uint8Array(16777217)]) }, "PNG_LIMIT"],
+])("refuses invalid comparison request %# at the real worker boundary", async (args, code) => {
+  expect(await request("diff", args)).toMatchObject({ ok: false, code });
+});
+
+it("compares native samples and reports changed pixels without a security score", async () => {
+  const original = new PNG({ width: 2, height: 1 });
+  original.data.set([10, 20, 30, 255, 40, 50, 60, 255]);
+  const changed = new PNG({ width: 2, height: 1 });
+  changed.data.set([13, 20, 30, 255, 40, 50, 60, 255]);
+  const result = await request("diff", {
+    file: new Blob([PNG.sync.write(original)]),
+    secondFile: new Blob([PNG.sync.write(changed)]),
+  });
+  expect(result).toMatchObject({ ok: true, changedPixels: 1, totalPixels: 2, averageDifference: "0.5000" });
+  const overlay = PNG.sync.read(Buffer.from(await result.diffBlob.arrayBuffer()));
+  expect([...overlay.data]).toEqual([45, 150, 60, 255, 0, 0, 0, 255]);
+});
+
 it("exchanges a complete message through real worker encode and decode", async () => {
   const encoded = await request("embed", { file: image(), message: "Public message", password: "public-password", compress: false, obfuscate: false });
   expect(encoded.ok).toBe(true);

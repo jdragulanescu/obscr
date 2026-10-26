@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   keyboard password reveal and public PNG errors beside the browser inputs.
 - Successful PNG exports explain which rendering metadata is kept and which
   personal metadata is removed, without claiming anonymity.
+- Shared native-sample PNG comparison reports changed pixels and mean RGB
+  differences, reusing an input raster for its bounded overlay without a pixel list.
 - **Vercel Web Analytics**: anonymous page-view counting in the web app via
   `@vercel/analytics`, mounted at the React root (`app/src/main.jsx`)
 - **Privacy notice**: always-visible summary above the tool explaining that all encryption
@@ -30,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PNG serialization checks rendering values and consistency before output.
 - Refused browser downloads release their temporary URLs and links, report the
   failure and keep the complete result available for another download attempt.
+- Diff allows either input to be replaced during comparison. Reset and task
+  navigation confirm discard, stop obsolete work and remove stale preview URLs.
 - Large browser capacity checks no longer exceed engine argument limits during
   base64 conversion.
 - Hash routes are resolved with an own-property check, so inherited keys such as

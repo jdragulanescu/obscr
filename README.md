@@ -95,6 +95,16 @@ Replacement and capacity edits discard old work. Clear or leaving a task asks
 for confirmation before discarding entered data or results. Completed results
 remain until an edit, Clear or navigation; use Download to save them.
 
+Generate Diff compares two admitted PNGs of equal dimensions. It reports the
+number of changed pixels and the mean absolute RGB sample difference, not a
+security score. The green overlay amplifies changes 50 times, capped at full
+brightness; black pixels are unchanged. Comparison reuses one input raster for
+the overlay: at most two RGBA processing buffers total 8 MiB, with one bounded
+filtered raster admitted at a time and no per-changed-pixel list.
+Cancel keeps both selected inputs. Replacing either input stops obsolete work
+and removes its previews. Reset or leaving Diff asks before clearing the inputs
+and result. Starting another comparison also removes the previous previews.
+
 These limits are policy bounds, not measured whole-process memory or device
 performance guarantees. Visual comparison is not a security test.
 

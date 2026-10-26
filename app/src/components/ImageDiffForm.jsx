@@ -22,9 +22,8 @@ export const ImageDiffForm = ({ onStateChange, requestClear }) => {
   const [notice, setNotice] = useState("Choose two supported PNGs for a visual comparison.");
   const operation = useFormOperation();
   const id = useId();
-  const locked = operation.stage === "Comparing images…";
   const dirty = inputs.some(Boolean);
-  useLayoutEffect(() => { onStateChange?.({ dirty, busy: operation.busy, locked }); }, [dirty, locked, operation.busy, onStateChange]);
+  useLayoutEffect(() => { onStateChange?.({ dirty, busy: operation.busy, locked: false }); }, [dirty, operation.busy, onStateChange]);
   useEffect(() => () => disposeComparison(result), [result]);
   const pick = async (index, file) => {
     operation.cancel(); setResult(null); setError(""); setNotice("");
@@ -49,13 +48,13 @@ export const ImageDiffForm = ({ onStateChange, requestClear }) => {
     else setError(compared.error);
   };
   return <form className="panel" onSubmit={submit}>
-    <ImageUpload label="Original image (PNG)" filePath={inputs[0]} onPick={(file) => pick(0, file)} disabled={locked} error={errors[0]} />
-    <ImageUpload label="Comparison image (PNG)" filePath={inputs[1]} onPick={(file) => pick(1, file)} disabled={locked} error={errors[1]} />
+    <ImageUpload label="Original image (PNG)" filePath={inputs[0]} onPick={(file) => pick(0, file)} error={errors[0]} />
+    <ImageUpload label="Comparison image (PNG)" filePath={inputs[1]} onPick={(file) => pick(1, file)} error={errors[1]} />
     <p id={`${id}-reason`} className={mismatch ? "input-error" : "field-help"}>{reason}</p>
     {error && <p className="input-error" role="alert">{error}</p>}
     <div className="actions-row">
       <Button type="submit" variant="primary" disabled={Boolean(reason)} aria-describedby={`${id}-reason`}>Generate Diff</Button>
-      <Button type="button" variant="outline" disabled={locked} onClick={() => requestClear(clear)}>Clear</Button>
+      <Button type="button" variant="outline" onClick={() => requestClear(clear)}>Reset</Button>
     </div>
     <OperationStatus stage={operation.stage} notice={notice} onCancel={cancel} />
     {result && <ImageComparison images={result} />}
