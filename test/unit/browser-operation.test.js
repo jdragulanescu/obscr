@@ -1,4 +1,5 @@
-import { admitImage, estimateCapacity } from "../../app/src/lib/steg.js";
+import { jest } from "@jest/globals";
+import { admitImage, estimateCapacity, generateImageDiff } from "../../app/src/lib/steg.js";
 
 // The transport fake controls timing and failures; parser requests are also
 // exercised against the real worker in browser-png-worker.test.js.
@@ -11,7 +12,7 @@ class ControlledWorker {
   reply(result, id = this.request.id) { this.onmessage({ data: { id, result } }); }
 }
 beforeEach(() => { workers = []; globalThis.Worker = ControlledWorker; });
-afterEach(() => { globalThis.Worker = originalWorker; });
+afterEach(() => { globalThis.Worker = originalWorker; jest.restoreAllMocks(); });
 
 it("cancels obsolete capacity work and ignores its reply after a replacement starts", async () => {
   const controller = new AbortController();
@@ -58,4 +59,39 @@ it("handles worker construction and structured-clone failures without leaving th
   const next = admitImage(new Blob([]));
   workers[1].onmessageerror();
   expect(await next).toMatchObject({ code: "WORKER_FAILED" });
+});
+
+it("keeps completed comparison previews usable until the caller releases them", async () => {
+  const revoke = jest.spyOn(URL, "revokeObjectURL");
+  const pending = generateImageDiff(new Blob(["original"]), new Blob(["encoded"]));
+  workers[0].reply({ ok: true, diffBlob: new Blob(["difference"]), averageDifference: "0.5000" });
+  const result = await pending;
+  const urls = [result.original, result.encoded, result.diff];
+  try {
+    expect(result).toMatchObject({ ok: true, averageDifference: "0.5000" });
+    expect(revoke).not.toHaveBeenCalled();
+    expect(await Promise.all(urls.map(async url => (await fetch(url)).text())))
+      .toEqual(["original", "encoded", "difference"]);
+  } finally {
+    urls.forEach(url => URL.revokeObjectURL(url));
+  }
+});
+
+it.each([2, 3])("revokes earlier previews when creation %i fails", async (failedCreation) => {
+  const create = URL.createObjectURL.bind(URL);
+  const urls = [];
+  let calls = 0;
+  jest.spyOn(URL, "createObjectURL").mockImplementation(blob => {
+    if (++calls === failedCreation) throw new Error("private allocation detail");
+    const url = create(blob);
+    urls.push(url);
+    return url;
+  });
+  const pending = generateImageDiff(new Blob(["original"]), new Blob(["encoded"]));
+  workers[0].reply({ ok: true, diffBlob: new Blob(["difference"]), averageDifference: "0.5000" });
+  const result = await pending;
+  expect(result).toMatchObject({ ok: false, code: "PREVIEW_FAILED" });
+  expect(result.error).not.toContain("private allocation detail");
+  expect(result).not.toHaveProperty("original");
+  for (const url of urls) await expect(fetch(url)).rejects.toThrow();
 });
