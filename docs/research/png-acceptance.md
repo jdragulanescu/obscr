@@ -1,12 +1,14 @@
 # PNG acceptance evidence — #45 / #65
 
-Candidate: `0fe3d33`; runtime inherited from `ead1fcc`. Fixed point: `c7219a6dd9abb7abf779ca724f077a0bc80129ec` (first #62 claim). The default branch was already included. Date: 2026-10-26.
+Candidate: `5594f2f`; application code is unchanged from the accepted Human check at `a77d02c`. Fixed point: `c7219a6dd9abb7abf779ca724f077a0bc80129ec` (first #62 claim). The default branch was already included. Date: 2026-10-26.
 
 Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accepted format §6, D5 and PNG/resource parts of §5](https://github.com/jdragulanescu/obscr/issues/19#issuecomment-6387228703), [application D1 Diff](https://github.com/jdragulanescu/obscr/issues/21#issuecomment-6387616398).
 
 ## Result and evidence levels
 
-**Current acceptance: failed fast-suite gate; Human check passed.** After the user's answer, the full `agent-local npm test` run at `8f78948` reported 12 failed / 412 passed tests in 22.265 s: a maximum-image Node cancellation timeout with ten following assertion failures, and a large-message browser-worker timeout. Both timeouts exceeded Jest's 5-second limit. The affected files subsequently passed in isolation (36 Node cases, 16 browser-worker cases); those narrower passes do not clear the full-suite failure. The cause is not established. [Failures 1–2 and exact evidence](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419263565) await `/to-tickets 45`. The prior passing proof below remains historical evidence, not the current verdict.
+**Current acceptance: passed; Human check retained.** The approved tests-only repair at `78f99ce` keeps the maximum image, large message, real workers and result assertions. Its full suite passed all 424 tests in 14 suites (28.482 s), the assembled acceptance check passed all 29 cases (1.645 s), and the affected two worker files passed all 52 cases (4.641 s). Review added two password masking component cases in `5594f2f`; all 26 component cases passed (13.564 s), then the full suite passed all 426 tests in 14 suites (84.744 s). These full-suite results supersede, but do not erase, [Failures 1–2](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419263565). No timeout, runner setting or production code changed.
+
+Historical evidence before the repair:
 
 - `agent-local npm test -- test/integration/png-admission.test.js`: 29 passed; 1.386 s. New check IDs PNG-ACCEPT-01 through PNG-ACCEPT-13. The file did not exist at the fixed point.
 - `agent-local npm test`: 424 tests in 14 suites passed; 14.997 s.
@@ -16,9 +18,25 @@ Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accep
 - Human check 4 (contrast, focus outline and wording judgment): **pass — user accepted**. After the guided Try it, the user answered "ok all good"; [recorded answer](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419143563). This is the user's judgment, not an inference from mechanical focus/layout observations.
 - This is PNG/Diff proof, not device support, concealment, recovery, independent cryptographic review or release approval. #42 remains the publication gate; no default-branch merge or production publication is authorized.
 
-Each table result applies to the named tests and observed/source-reviewed scope only. A required supplement named G1–G8 is resolved in the supplement table below; it is not silently inferred from a broad test title. All named automated checks passed in the earlier full suite above; the current failed gate is recorded separately and overrides the overall acceptance verdict. PNG-CLAUSE IDs index clauses; their concrete test titles and deterministic fixtures identify the executable checks.
+Each table result applies to the named tests and observed/source-reviewed scope only. A required supplement named G1–G8 is resolved in the supplement table below; it is not silently inferred from a broad test title. All named automated checks passed again in the current full suite. Browser/terminal observations and the user's approval remain the earlier evidence, retained under the approved tests-only scope. PNG-CLAUSE IDs index clauses; their concrete test titles and deterministic fixtures identify the executable checks.
 
-Abbreviations: P=`test/unit/png.test.js`; E=`test/unit/png-export.test.js`; D=`test/unit/png-diff.test.js`; N=`test/unit/node-workflows.test.js`; W=`test/unit/browser-png-worker.test.js`; O=`test/unit/browser-operation.test.js`; C=`test/unit/browser-components.test.js`; T=`test/integration/cli.test.js`. Line references identify the candidate, not a permanent API.
+Abbreviations: P=`test/unit/png.test.js`; E=`test/unit/png-export.test.js`; D=`test/unit/png-diff.test.js`; N=`test/unit/node-workflows.test.js`; W=`test/unit/browser-png-worker.test.js`; O=`test/unit/browser-operation.test.js`; C=`test/unit/browser-components.test.js`; T=`test/integration/cli.test.js`. Line references identify the earlier `0fe3d33` candidate, not a permanent API; named check titles remain unchanged in the repair.
+
+## Tests-only repair of Failures 1–2
+
+The failed gate at `8f78948` had 12 failures / 412 passes in 22.265 s: two five-second timeouts and ten following Node failures. Isolated passes did not clear that gate. The user approved measured test-side repair in #65, not a production change.
+
+A temporary cost probe used the same 1024×1024 opaque white raster and real browser-compatible worker. Inside Jest, pngjs adaptive filtering took 4688 ms; fixed filter 0 took 14 ms. Worker startup took 59 ms, and startup plus capacity processing took 140 ms, returning `totalBits: 3145728` and `estimatedBits: 2134064` for 200000 characters. Outside Jest, adaptive filtering took 53 ms and filter 0 took 7 ms. These are local measurements, not device guarantees. They identify fixture filtering under Jest as the dominant measured cost, not a demonstrated production cancellation defect.
+
+The Node maximum-raster case and browser fixture helper now use PNG filter 0. A standalone smoke decoded both encodings independently with pngjs and checked all original samples and dimensions. It also cancelled the real Node operation after admission (82 ms total; 2 ms after abort), preserved the prior output and completed the next operation. Filter 0 changes compressed fixture bytes, not dimensions, samples or the large-message assertions; shared PNG tests still cover all five filters.
+
+Node test teardown aborts and awaits test-owned operations before restoring mocks or removing temporary files. Both worker helpers terminate and await their real workers on success or failure; teardown also terminates workers left pending by an interrupted case. Temporary one-millisecond timeout probes deliberately failed one Node and one browser case; both following cases passed, including the free Node operation slot and exact browser capacity result. The probes were removed before the passing proof set. No permanent case was skipped or reduced.
+
+The existing app build and real-app Human check remain historical evidence because app/lib code, screens and the acceptance contract did not change. This repair adds no browser, device, security or release approval.
+
+The whole-feature standards review found missing retained proof for password Reveal/Hide and masking after clear or operation lock. Commit `5594f2f` adds one case through each existing form (Encrypt and Decrypt), checking visible/masked input type, accessible action/pressed state, locking and masked entry after unlock. Application behavior and the Human check are unchanged.
+
+This continuation's independent review ended clean in two rounds: one Standards coverage finding fixed, none left or declined. Round 1 reviewed the whole feature from `c7219a6` through `c4f1269`; Spec and Security returned no findings. Security read the complete captured diff after an initial missing-artifact limitation was resolved. Round 2 reviewed the test-only fix through `5594f2f`; Standards and Spec returned no findings. Security was not repeated for that component-test-only change. Reviews did not run tests and do not grant cryptographic or release approval.
 
 # Section 6: clause-to-check index
 

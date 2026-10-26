@@ -125,6 +125,45 @@ async function capacity(result = { ok: true, estimatedBits: 8, totalBits: 64, ut
 const preview = () => ({ ok: true, original: "blob:original", encoded: "blob:encoded", diff: "blob:diff", averageDifference: 0 });
 
 describe("real browser components", () => {
+  test.each(["Encrypt", "Decrypt"])("%s masks a revealed password after clear or operation lock", async (task) => {
+    await render(task === "Encrypt" ? EncryptForm : DecryptForm);
+    await admit();
+    if (task === "Encrypt") {
+      await type("textarea", "Public message");
+      await capacity();
+    }
+    await type('input[type="password"]', "public-password");
+    const password = container.querySelector('input[type="password"]');
+    await click(container.querySelector('button[aria-label="Reveal password"]'));
+    const toggle = container.querySelector('button[aria-label="Hide password"]');
+    expect(password.type).toBe("text");
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
+
+    await click(toggle);
+    expect(password.type).toBe("password");
+    expect(toggle.getAttribute("aria-label")).toBe("Reveal password");
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    await click(toggle);
+    await type(".password-input-field", "");
+    expect(password.type).toBe("password");
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    await type(".password-input-field", "replacement-password");
+    expect(password.type).toBe("password");
+
+    await click(toggle);
+    const pending = await submit();
+    expect(password.disabled).toBe(true);
+    expect(password.type).toBe("password");
+    expect(toggle.disabled).toBe(true);
+    expect(toggle.getAttribute("aria-label")).toBe("Reveal password");
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    await reply(pending, { ok: false, code: "CANCELLED", error: "Operation cancelled." });
+    expect(password.disabled).toBe(false);
+    expect(toggle.disabled).toBe(false);
+    await type(".password-input-field", "next-password");
+    expect(password.type).toBe("password");
+  });
+
   test.each(["image", "message"])("keeps the completed %s available after a refused download", async (kind) => {
     await render(kind === "image" ? EncryptForm : DecryptForm);
     await admit();
