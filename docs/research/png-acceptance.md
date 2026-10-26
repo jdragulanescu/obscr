@@ -1,0 +1,155 @@
+# PNG acceptance evidence — #45 / #65
+
+Candidate: `0fe3d33`; runtime inherited from `ead1fcc`. Fixed point: `c7219a6dd9abb7abf779ca724f077a0bc80129ec` (first #62 claim). The default branch was already included. Date: 2026-10-26.
+
+Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accepted format §6, D5 and PNG/resource parts of §5](https://github.com/jdragulanescu/obscr/issues/19#issuecomment-6387228703), [application D1 Diff](https://github.com/jdragulanescu/obscr/issues/21#issuecomment-6387616398).
+
+## Result and evidence levels
+
+- `agent-local npm test -- test/integration/png-admission.test.js`: 29 passed; 1.386 s. New check IDs PNG-ACCEPT-01 through PNG-ACCEPT-13. The file did not exist at the fixed point.
+- `agent-local npm test`: 424 tests in 14 suites passed; 14.997 s.
+- `agent-local npm run build`: passed. Existing warnings: bundle size, vm-browserify eval, old Browserslist data and output directory. No configured typecheck, lint, format, mutation, e2e or PR-CI gate.
+- Automated shared-policy/worker/component checks are not actual-browser evidence. Browser worker modules in Jest run under Node; component checks run in jsdom.
+- Real browser: managed Chromium, session `png65-verified`, worktree Vite URL `http://localhost:5173/`, service-worker bypass and disabled HTTP cache. Worker requests resolved to `feat/45-supported-pngs--65/lib/png.js`. Browser/terminal step IDs and captures are recorded on #65.
+- Human check 4 (contrast, focus outline and wording judgment): **unmet — yours**. This remains open until your recorded answer. Mechanical focus/layout observations do not supply your judgment.
+- This is PNG/Diff proof, not device support, concealment, recovery, independent cryptographic review or release approval. #42 remains the publication gate; no default-branch merge or production publication is authorized.
+
+Each table result applies to the named tests and observed/source-reviewed scope only. A required supplement named G1–G8 is resolved in the supplement table below; it is not silently inferred from a broad test title. All named automated checks passed in the full suite above. PNG-CLAUSE IDs index clauses; their concrete test titles and deterministic fixtures identify the executable checks.
+
+Abbreviations: P=`test/unit/png.test.js`; E=`test/unit/png-export.test.js`; D=`test/unit/png-diff.test.js`; N=`test/unit/node-workflows.test.js`; W=`test/unit/browser-png-worker.test.js`; O=`test/unit/browser-operation.test.js`; C=`test/unit/browser-components.test.js`; T=`test/integration/cli.test.js`. Line references identify the candidate, not a permanent API.
+
+# Section 6: clause-to-check index
+
+## 6.1 Raw samples, supported profile and envelope
+
+| Check ID | Clause/scenario | Named check and fixture identity | Result |
+|---|---|---|---|
+| PNG-CLAUSE-01 | Both apps use the same bounded raw-sample policy, not canvas conversion | E:70, `preserves type %i samples and rendering=%s without personal chunks`, platform=node/browser × colorType=2/6 × metadata=false/true. Fixture: `exportFixture` at `test/fixtures/pngExport.js:26`, deterministic 64×64 samples `(17x+y,29y+x,7x+11y) mod 256`, opaque alpha. E:75–81 also exchanges each result into the other worker path. N:52, `keeps the existing format usable through worker-owned CLI encryption and decryption`, uses `test-medium.png`. W:93, `exchanges a complete message through real worker encode and decode`, uses 100×100 opaque white PNG. Source path: Node worker `lib/steg-worker.js:48,75`; browser worker `app/src/lib/png-worker.js:46,76`. These are Node-run checks, not a real browser observation. | pass (scope below) |
+| PNG-CLAUSE-02 | Accept RGB/RGBA8, noninterlaced and opaque | P:59, `accepts minimum dimensions and color type %i without conversion`: 1×1 RGB/RGBA, RGB=[19,127,241], alpha=255. P:65 maximum dimensions for both types. P:194, `refuses unsupported samples %j`: grayscale 0, palette 3, grayscale-alpha 4, depths 16/1, interlace 1. P:195, `refuses alpha %i without returning a partial raster`: alpha 0,1,254. W:41 and N:77 exercise transparent refusal through real workers. | pass (scope below) |
+| PNG-CLAUSE-03 | No resampling, color conversion, alpha premultiplication or upper-RGB change | P:76, `reconstructs filter %i across RGB/RGBA pixels and rows`: filters 0–4, both channel counts, deterministic 3×3 varied samples. P:287, `writes independently readable color type %i with exact samples`: pngjs decode and node:zlib inflate assertions. E:70 checks dimensions, color type, every upper RGB value and every alpha value after actual carrier encoding. Exact full sample equality is appropriate at the shared serializer; upper-bit equality is appropriate after the intentional carrier change. | pass (scope below) |
+| PNG-CLAUSE-04 | Signature and CRC | P:156, `refuses a bad signature and CRC`: first signature byte changed and IHDR CRC byte 29 changed. Independent fixture CRC implementation is P:7–23, not production CRC code. | pass (scope below) |
+| PNG-CLAUSE-05 | Chunk framing and declared sizes checked before slices/allocation | P:151, `refuses every partial prefix of a valid input`; P:160, `checks declared chunk lengths against the remaining source`: declared lengths 1000, 0x7fffffff, 0xffffffff, with zero numeric Uint8Array allocations asserted. P:166–189 parameterized `refuses %s`: `illegal chunk name`, `reserved lowercase name bit`. | pass (scope below) |
+| PNG-CLAUSE-06 | IHDR first/unique/exact length, methods and dimensions | P:166–189 `refuses %s`: `first chunk`, `duplicate header`, `short header` (12 bytes), `compression method` (1), `filter method` (1), `invalid interlace` (2). Geometry boundaries are indexed under section 5 below. | pass (scope below) |
+| PNG-CLAUSE-07 | Valid row filters | P:76 accepts/reconstructs 0,1,2,3,4; P:166–189 `refuses bad filter` uses 5. | pass (scope below) |
+| PNG-CLAUSE-08 | One contiguous IDAT run | P:99, `accepts byte-at-a-time contiguous IDAT and empty IDAT chunks`; P:166–189 `refuses noncontiguous IDAT`, with tEXt between IDAT chunks. `missing IDAT` and `empty stream` are separate checks. | pass (scope below) |
+| PNG-CLAUSE-09 | One final empty IEND and no trailing file bytes | P:166–189 `refuses nonempty IEND`, `refuses duplicate IEND`, `refuses trailing file byte`. P:151 includes truncation before/during final IEND. | pass (scope below) |
+| PNG-CLAUSE-10 | Exact raster, no early/excess/extra/trailing compressed data | P:166–189 `early raster`, `long raster`, `second zlib stream`, `trailing compressed byte`, `truncated zlib trailer`, `gzip instead of zlib`, `invalid deflate`; P:190, `checks the zlib checksum`. P:126 adds observable high-expansion allocation bounds. | pass (scope below) |
+| PNG-CLAUSE-11 | Reject transparency, animation and unsupported critical chunks | P:196, `refuses unsupported chunk %s`: tRNS, acTL, fcTL, fdAT, ABCD. Fixtures have correct outer CRC and empty payload; they prove rejection by chunk policy, not semantic decoding of their payloads. | pass (scope below) |
+
+## 6.2 Chunk budgets and opaque compressed metadata
+
+| Check ID | Clause/scenario | Named check and fixture identity | Result |
+|---|---|---|---|
+| PNG-CLAUSE-12 | Total chunks ≤4096 | P:133, `enforces the exact chunk-count boundary`: IHDR + one data-bearing IDAT + 4093 empty IDAT + IEND =4096 accepted; 4094 empty IDAT makes 4097 rejected before raster allocation. | pass (scope below) |
+| PNG-CLAUSE-13 | All data other than IHDR/IDAT/IEND totals ≤65536 bytes | P:140, `enforces the ancillary-data boundary before raster allocation`: tEXt data 65536 accepted, 65537 rejected with zero raster allocations. P:231, `counts optional PLTE data toward the ancillary limit`: 65534-byte tEXt + 3-byte PLTE rejected. | pass (scope below) |
+| PNG-CLAUSE-14 | Check declared sizes against remaining source before slicing/allocation | P:160 as above; implementation `lib/png.js:180–184,218–231` performs the remaining-length test before subarray creation. | pass (scope below) |
+| PNG-CLAUSE-15 | Do not inflate compressed text merely to strip it | P:212, `accepts compressed text without expanding it`: zTXt and compressed iTXt each contain zlib-compressed 8 MiB zeros; largest observed Uint8Array allocation is asserted ≤32768. P:235, `refuses malformed compressed-text envelopes without inflating them`: bad zlib check bits and preset dictionary envelopes for both chunks. | pass (scope below) |
+| PNG-CLAUSE-16 | Do not inflate color profiles merely to strip them | P:196 rejects iCCP immediately; E:84–88 `refuses unsupported profile without an output` does so through both workers. Existing fixtures are empty or `Profile\0\0`, not a large compressed ICC payload, and do not instrument profile expansion. See proof gap G4. | pass (scope below) |
+
+## 6.3 Rendering metadata
+
+| Check ID | Clause/scenario | Named check and fixture identity | Result |
+|---|---|---|---|
+| PNG-CLAUSE-17 | At most one sRGB/gAMA/cHRM, before IDAT | P:241 `refuses duplicate singleton %s` and P:242 `refuses late %s`, for each rendering type. P:243 also rejects rendering chunks after PLTE. | pass (scope below) |
+| PNG-CLAUSE-18 | Valid standard sizes/values | P:200 `admits structurally valid %s without changing samples`: sRGB intent 0; gAMA 45455; cHRM standard sRGB tuple. P:222 `accepts metadata value and size boundaries`: intents 0,1,2,3; gamma 1 and 0xffffffff. P:245–258 `refuses malformed %s data %j`: sRGB intent 4/empty; gAMA zero/3 bytes; cHRM 31 bytes and an x+y=180000 pair. See G2 for exact missing boundary proof. | pass (scope below) |
+| PNG-CLAUSE-19 | Preserve byte-for-byte; output cHRM,gAMA,sRGB order | P:206 `admits all rendering declarations together and owns their bytes`, including source-byte mutation after admission; P:287 independent readable output and chunk order; E:70 with metadata=true checks each output rendering payload against `test/fixtures/pngExport.js:21–25`, although input order is sRGB,gAMA,cHRM. | pass (scope below) |
+| PNG-CLAUSE-20 | sRGB requires standard coexisting gamma/chromaticities; reject contradictions | P:206 accepts all standard declarations together. P:259 `refuses rendering declarations that conflict with sRGB`: gamma 100000 and all-zero cHRM. P:274–281 serializer `refuses invalid rendering state before producing output: %j` repeats conflict/invalid-state cases. E:84–88 `refuses conflicting rendering without an output` exercises gamma conflict in both real worker modules. | pass (scope below) |
+| PNG-CLAUSE-21 | Absent declarations stay absent | P:59 checks empty rendering object; E:70 metadata=false checks exact output chunk list IHDR,IDAT,IEND. Mixed/present-independent export scenarios have a gap: G3. | pass (scope below) |
+| PNG-CLAUSE-22 | Reject iCCP,cICP,mDCV,cLLI rather than transforming/dropping | P:196 individually rejects all four. E unsupported-profile case covers iCCP through both workers. | pass (scope below) |
+
+## 6.4 Discardable metadata, PLTE and unknown chunks
+
+All allowed discardable types are present in the E:70 metadata=true fixture. E's exact output chunk allowlist proves none survive export. P:200 checks admitted native samples and that only the three rendering types appear in the retained metadata object.
+
+| Check ID | Type and structural scenario | Named checks / exact data | Result |
+|---|---|---|---|
+| PNG-CLAUSE-23 | tEXt | P:200 valid `Author\0Public fixture`; P:244 `accepts %s after the IDAT run`; P:222 accepts a 79-byte keyword. P:245–258 rejects empty keyword, leading/trailing/doubled spaces, embedded text NUL, 80-byte keyword and keyword byte 127. | pass (scope below) |
+| PNG-CLAUSE-24 | zTXt | P:200 valid `Note\0\0` + zlib(`Public`); P:244 after IDAT; P:212 8 MiB expansion bomb without inflation; P:235 malformed zlib headers; P:245–258 invalid compression method and missing compressed payload. | pass (scope below) |
+| PNG-CLAUSE-25 | iTXt | P:200 uncompressed UTF-8 `Public ✓`, language en-US and translated keyword; P:244 after IDAT; P:212 compressed bomb; P:235 malformed compressed envelopes; P:245–258 invalid flag=2, method=1, missing separators, invalid language byte, invalid translated UTF-8 and invalid text UTF-8. | pass (scope below) |
+| PNG-CLAUSE-26 | eXIf | P:200 little-endian 14-byte TIFF header/empty IFD; P:222 equivalent big-endian fixture; P:241 duplicate; P:244 after IDAT; P:245–258 7-byte payload, invalid 14-byte header and out-of-range IFD offset. | pass (scope below) |
+| PNG-CLAUSE-27 | tIME | P:200 year 2026, month 10, day 25, hour 23, minute 59, second 60; P:241 duplicate; P:244 after IDAT; P:245–258 6-byte payload, month13/day0/hour24/minute60/second61. | pass (scope below) |
+| PNG-CLAUSE-28 | pHYs | P:200 3780×3780, unit1; P:241 duplicate; P:242 after IDAT refusal; P:245–258 8-byte payload and unit2. | pass (scope below) |
+| PNG-CLAUSE-29 | sBIT | P:200 RGB [8,8,8]; P:222 RGBA [1,8,1,8]; P:241 duplicate; P:242 late; P:243 after PLTE; P:245–258 values0/9 and RGB length2. | pass (scope below) |
+| PNG-CLAUSE-30 | bKGD | P:200 [0,19,0,127,0,241]; E fixture also all-zero bKGD; P:241 duplicate; P:242 late; P:245–258 length5 and 16-bit value256. | pass (scope below) |
+| PNG-CLAUSE-31 | hIST | P:218 `accepts an optional palette and matching histogram without quantizing RGB`: one-entry palette and histogram [0,1]; P:222 256-entry PLTE/512-byte hIST; P:245–258 hIST without palette; P:263 `refuses palette ordering, duplicates and invalid histogram size`: oversized hIST for one-entry palette and hIST after IDAT. Duplicate hIST is not exercised: G1. | pass (scope below) |
+| PNG-CLAUSE-32 | Optional truecolor PLTE ignored, not used to quantize | P:218 compares the native RGB [19,127,241] despite a black-only palette. P:222 allows maximum 768-byte PLTE; P:245–258 rejects lengths0,4,771. P:263 rejects duplicate PLTE, PLTE after IDAT and PLTE after bKGD. E:70 removes PLTE/hIST from both RGB/RGBA exports. | pass (scope below) |
+| PNG-CLAUSE-33 | Unknown chunks rejected rather than copied/guessed | P:196 rejects unknown ancillary vpAg and unknown critical ABCD; E:84–88 `refuses unknown ancillary without an output` uses vpAg in both worker paths. This also evidences the intentional refusal of otherwise legal PNG extensions. | pass (scope below) |
+
+## 6.5 Fresh output, failures and user explanations
+
+| Check ID | Clause/scenario | Check and evidence | Result |
+|---|---|---|---|
+| PNG-CLAUSE-34 | Fresh same-dimension/type/sample PNG, opaque alpha and allowed rendering only | P:287 tests both color types with exact samples and independent pngjs decode; E:70 tests real carrier exports, dimensions/type, upper RGB, alpha, rendering and exact chunk allowlist. E fixture includes all nine discardable types and PLTE. No identifying comment/application chunk can appear without violating that assertion. | pass (scope below) |
+| PNG-CLAUSE-35 | Filters, IDAT splitting and DEFLATE need not be byte-identical | No byte-identical encoder assertion is needed. P:76 accepts all five filters; P:99 accepts bytewise/empty IDAT splitting; fixture input uses node:zlib while production writer uses stored DEFLATE; P:287 and E:70 compare decoded semantics. This is permission, not a missing mandatory encoder-variant output test. | pass (scope below) |
+| PNG-CLAUSE-36 | Never overwrite original source on failure | N:64, `returns the public malformed-PNG error from %s`, all four operations preserve an existing separate destination. N:196, `preserves an existing output if publication fails after the worker completed`; N:207, `cancels after worker completion before publication`; N:249, `removes a partial temporary write and preserves an existing output`; N:269, `cancels during a temporary write and publishes none of it`. T:264 public malformed-input failure and T:327 Ctrl-C preserve separate output. None uses the source itself as the destination: G5. No requirement for successful-path no-clobber from application D3 is imported into this PNG-only clause. | pass (scope below) |
+| PNG-CLAUSE-37 | Explain metadata removal, possible rejection of color-managed input and detectability of stripping/encoder output | Present in `app/src/components/EncryptionResult.jsx:30–31`, `bin/index.js:132`, `README.md:76–82`. Existing tests do not assert these notices. This needs #45 Human check 1/4 and a check-bound record; see G7. | pass (scope below) |
+| PNG-CLAUSE-38 | No fingerprint-imitation or hidden-image anonymity claim | Same source notices explicitly reject anonymity and warn about detection. This is a claim-review/human-check obligation, not a detector result. No automated wording test is proposed. | pass (scope below) |
+
+# Section 5: PNG, raster, allocation and active-operation clauses
+
+| Check ID | Clause / exact boundary | Named check and observation limit | Result |
+|---|---|---|---|
+| PNG-CLAUSE-39 | Source ≤16 MiB, inclusive | P:113 `accepts exactly 16 MiB of valid bounded input`: 1×1 valid PNG expanded to exactly 16777216 file bytes with empty stored-DEFLATE blocks and bounded text. P:109 `refuses an excessive source before allocating`: 16777217 bytes, zero numeric Uint8Array allocations. N:85 `refuses an oversized sparse file before allocating its declared source size`: no Buffer.allocUnsafeSlow call. W:41 rejects a 16777217-byte Blob in the real worker module. N's worker-request suite also enforces its own ceiling. | pass (scope below) |
+| PNG-CLAUSE-40 | Width/height 1–1024, pixels ≤1048576 | P:59 both 1×1 types; P:65 both 1024×1024 types; P:104 `refuses zero geometry %j`: width0 or height0; P:105 `refuses declared excessive geometry before raster allocation %j`: width1025, height1025, both0xffffffff, zero allocations. IHDR dimensions are unsigned integers by wire encoding. With both side bounds, the product bound is implied; there is no independent valid-sided over-product fixture. N:234 and W:46 distinguish admitted 1×1 geometry from carrier capacity. | pass (scope below) |
+| PNG-CLAUSE-41 | Export ≤16 MiB | P:303 `writes multiple stored DEFLATE blocks without an extra full-raster allocation`: 1024×1024 RGBA plus all three rendering chunks, exact 4195789-byte output, single numeric output allocation and independent full sample equality. E:70 asserts every real export ≤16 MiB. #45's explicit 2026-10-26 decision accepts this maximum-writer-size proof; an observed 16 MiB output-overflow fixture is neither reachable nor required. | pass (scope below) |
+| PNG-CLAUSE-42 | At most two full RGBA8 processing buffers, ≤4194304 each and ≤8388608 total | P:65 admission allocates one 4194304-byte RGBA raster plus one filtered buffer. D:72 `compares a fully changed maximum pair of color type %i with two rasters and no pixel list`: two 4194304-byte allocations, types2/6, every pixel changed, Array.push bounded to4096. P:303 writer allocates only output bytes. Real-caller complete-operation allocation proof has limits noted under G6. | pass (scope below) |
+| PNG-CLAUSE-43 | No duplicate canvas input raster; preview separate | E:70 proves native processing samples through worker callers. Source review: browser worker accepts Blob bytes only, uses admitPNG; adapter creates preview URLs only from original/result Blobs; no canvas path is called. This is source evidence plus worker semantic tests, not measured browser/GPU memory. | pass (scope below) |
+| PNG-CLAUSE-44 | Exact filtered inflation `(width*channels+1)*height`, maximum4195328; enforce while inflating | P:65 expects filtered sizes3146752 for RGB and4195328 for RGBA. P:126 high-expansion 8 MiB stream declared as1×1: output allocation4, maximum allocation≤32768, cumulative numeric Uint8Array allocations<65536. P:166–189 underflow/overrun/extra-stream/trailing cases. | pass (scope below) |
+| PNG-CLAUSE-45 | At most one live filtered raster, or bounded rows | P:65 proves one buffer per admission. D:72 records one filtered allocation per image, sequentially; `lib/png-diff.js:6–7` makes the first filtered buffer unreachable when first admitPNG returns. Tests count allocations, not live heap retention. Do not report two observed allocations as two simultaneously live filtered buffers, or as measured whole-process memory. | pass (scope below) |
+| PNG-CLAUSE-46 | One active operation per app instance | N:180 `rejects concurrent encryption and extraction instead of starting a second heavy operation`. O:31 `refuses competing operations without disturbing the active one`. O:100 `terminates cancelled comparison work and ignores its late result while a new comparison runs` attempts admission during Diff and expects BUSY. | pass (scope below) |
+| PNG-CLAUSE-47 | Expensive work in cancellable worker; stop and discard all partial results | N:147 maximum-size16MiB input cancellation; N:160 real1024² image cancelled on processing stage with no late publication and successful next operation; N:207 and N:269 publication-window cancellation. T:327 real CLI Ctrl-C at processing with1024² image, no Saved PNG and no temporary files. O:18 obsolete capacity cancellation, O:48 already-cancelled selection, O:100/116 cancelled Diff/continuation, with termination and no preview creation. C:179/209 encode/decode cancellation clears passwords and rejects late results; C:227/252/293 comparison cancellation/reset/leave. | pass (scope below) |
+| PNG-CLAUSE-48 | Resource/lifecycle failure leaves app able to start fresh | N:226 structured-clone transport failure then success. O:38 worker error then new admission; O:53 constructor/clone/message failures. O:81 preview creation failure on second/third URL revokes earlier URLs. These are specific controlled failures, not coverage of every browser allocation/CSP/WASM failure. | pass (scope below) |
+| PNG-CLAUSE-49 | Bounds/cancellation are not wall-clock or whole-process guarantees; runtime/library/browser/GPU memory still needs device checks | Record as an evidence limitation, not a passed automated test. No named physical-device or process-memory result was obtained. Parent A8/device work remains required. No invented whole-process numeric cap. | pass (scope below) |
+
+# Application D1 Diff and #45 state scenarios
+
+Exact application clause: “Bring the image-diff flow under the same bounded PNG admission policy; run it separately from a protected-image operation and label it a visual comparison, not a security or recovery test.”
+
+- **Same admission policy:** D:29 `compares identical color type %i samples without changing the source bytes` (1×1 RGB/RGBA); D:38 `counts RGB sample changes, not PNG encoding or color-type differences` (same samples, RGB versus RGBA); D:43 `counts each changed pixel once across all three channels and caps amplification` (black versus white); D:49–59 `refuses invalid pair %# without a successful empty comparison` (missing first/second, malformed first/second, width/height mismatch, transparent second, oversized second).
+- **Failed second admission after first success:** D:62 `does not allocate a second raster after later admission fails, and permits a fresh pair` uses32×32 first and bytes[1,2,3] second, exactly one4096-byte raster; W:59 `keeps a specific input error when the second comparison image fails admission` uses100×100 white first and `not PNG` second, no diffBlob.
+- **Actual worker comparison:** W:79 `compares native samples and reports changed pixels without a security score`:2×1 input, one red sample10→13; changedPixels1,totalPixels2,mean0.5000, first overlay pixel[45,150,60,255], unchanged pixel black. W:65 mismatch and W:69–76 invalid request cases retain public typed errors.
+- **Large pair:** D:72 both1024² color types, black versus white, all1048576 pixels changed, mean255.0000, no third raster or per-pixel list.
+- **Separate/exclusive operation:** O:100 as above proves admission is BUSY during Diff; Node operations are separately guarded by N:180. Browser adapter `app/src/lib/steg.js:7–42` uses one shared `active` slot for admit/capacity/embed/extract/diff.
+- **Cancelled and stale result:** O:100 and O:116; C:227 `%s aborts pending comparison and disposes all late preview URLs` for cancel/unmount; C:252 `replacing comparison input %i during work cancels it and rejects late previews` for both indices.
+- **Both revisions, replacement/clear/leave/restart invalidate completed result:** C:268 `%s invalidates a completed comparison and releases its previews`, cases first,second,reset,restart,leave. C:293 reset/leave confirmation during active comparison. O:65 `keeps completed comparison previews usable until the caller releases them` checks actual Blob URL content.
+- **Missing/mismatched inputs are public input errors:** C:313 `comparison requires both admissions and equal dimensions`; W:65; D invalid-pair width/height cases.
+- **Filename not identity / reread replacement:** N:189 `rereads a replaced path instead of returning a prior admission`; N:242 `does not change admission or hidden-message identity when a path is renamed`. Browser replacement tests use different filenames, not identical-name different-content selections; see G8.
+- **Visual, not security/recovery proof:** `app/src/components/ImageComparison.jsx:9` labels “Visual comparison — not a security test”; lines11–15 report changed pixels and mean RGB difference; lines31–35 explain capped amplification. `ImageDiffForm.jsx:47` repeats the warning. W:79's title says no security score, but its assertions only check expected statistics/overlay; it does not assert the absence of extra score fields or inspect UI wording. Human check3/4 must supply actual-app label evidence.
+
+
+## Supplementary proof and scope limits
+
+| Map gap | Required scenario | Check / fixture | Result |
+|---|---|---|---|
+| G1 | Duplicate hIST | PNG-ACCEPT-03: valid one-entry PLTE and two correctly sized hIST chunks | pass; PNG_INVALID |
+| G2 | Exact metadata boundaries | PNG-ACCEPT-04/05/07/08/09/10/11: overlong fixed chunks (RGB/RGBA sBIT included), IHDR14, cHRM100001, tIME endpoint/one-outside values, pHYs unit0, EXIF count/entry/offset/magic | pass |
+| G3 | Independent rendering retention | PNG-ACCEPT-06: sRGB intent3 alone, gamma1/max alone, nonstandard cHRM with coordinate sums100000; fresh output inspected with independent parser/pngjs | pass; byte-exact declarations, none invented |
+| G4 | ICC rejection without expansion | PNG-ACCEPT-12: compressed8MiB ICC payload; numeric Uint8Array constructor observation | pass; PNG_UNSUPPORTED, zero numeric allocations |
+| G4 | Browser source rejected before read | B18 real Chromium worker module:16777217-byte Blob; Blob.arrayBuffer and Uint8Array boundaries observed | pass; PNG_LIMIT, zero reads/large allocations |
+| G5 | Original source on failure | PNG-ACCEPT-13: requested output equals source, cancel at saving after successful worker completion | pass; original bytes unchanged, no temporary file |
+| G6 | Whole browser comparison worker and cancellation | B11/B12/B18: real1024² opaque RGBA pair, Cancel, fresh retry, constructor/byte-read observation | pass for application-owned allocations/lifecycle; no whole-process/device claim |
+| G7 | Real notices and Diff label | B2/B4/B8/B15; T1/T2; metadata removal, unsupported profiles, detectability/no-anonymity and visual-only comparison | pass for observed text; Human4 judgment remains unmet |
+| G8 | Same-name different-content replacement | B13: maximum.png1024² replaced by maximum.png64² after completed Diff | pass; reread/mismatch, prior result removed, all3 URLs revoked |
+| G9 | Named assembled acceptance check | PNG-ACCEPT-01/02: actual Node workers, independent output inspection, rename/recovery, semantic comparison, refused replacement | pass; color types2/6, unchanged prior export after refusal |
+| Navigation review | Hash/legal links; unload | C: hash/link draft Stay/confirm, locked operation, empty/dirty/cleared beforeunload (5 cases) | pass |
+
+B18 maximum worker sequence: two Blob reads; numeric large allocations in order4195328 filtered,4194304 RGBA,4195328 filtered,4194304 RGBA,4195789 serialized output. Two full processing rasters total8388608 bytes. The two filtered allocations occur in sequential admissions; source review confirms the first is unreachable before the second. Constructor observation is not a live heap/GC, browser-native/GPU or whole-process measurement. Shared tests separately cover maximum RGB pairs and exact16MiB input.
+
+D5: native samples/allowlisted rendering/stripped personal data map to PNG-CLAUSE §6 rows; file/chunk/raster/worker budgets map to §5 rows. Rejection of otherwise valid PNGs is observed by the unknown/profile fixtures. Fingerprints/detectability are an explicit limitation, not a detector pass. No silent color conversion is used.
+
+Application D1: PNG-DIFF checks and B8/B11–B14 prove bounded shared admission, separate operation ownership, visual-only statistics, cancellation and invalidation. These results do not approve a protected-format implementation.
+
+# Explicit deferral: non-PNG section5 clauses belong to protected format #46
+
+Do not count current carrier tests, broad round trips, or the PNG maximum tests as passing any of these:
+
+1. Exact UTF-8/surrogates/BOM/no normalization; original-text1MiB limit as part of the completed format. Current W:105/N's1MiB text cases are historical-carrier boundary candidates only, not full text-contract proof.
+2. Compression opt-in/smaller-only raw fallback; explicit compressor errors; bounded compression output; no partial compressed stream.
+3. Exact one-member gzip header `1f8b08000000000000ff`, little-endian trailer CRC/length, completed member, no trailing bytes/member, bounded complete-consumption decoder, authenticated-L/1MiB expansion and exact fatal UTF-8 result. PNG zlib tests are NOT gzip/message tests.
+4. Score storage ≤one Uint16/pixel (2MiB), histogram3049 counters, eligible indices≤786432 Uint32 (3MiB), no full shuffled permutation; sparse sampler≤k swaps,4096-byte stream chunks,≤8192 paired stream bytes.
+5. Fixed header896 positions; prefix draw ceiling2816; cumulative2k+1024 without reset; maximum11648 positions/24320 draws; earlier ceilings cannot authorize more.
+6. One salt read, one KDF, one placement stream, one header repair, ≤three body repairs, one GCM verification; maximum AEAD528/repaired body576/total keyed frame624 bytes; repair arrays≤255 symbols; size checks before allocations.
+7. KDF/WASM/library memory and completed-format timing/cancellation on named devices. PNG worker lifecycle candidates support A8 only for their exercised scope. Whole-format bounds and the release device matrix remain open.
+
+D5's PNG/sample/allowlist/personal-data/budget obligations map to section6 and the PNG rows above. Its stated tradeoffs—rejecting valid PNGs, metadata/encoder fingerprints and no silent color conversion—map to the rejection tests plus real-app notices, not to a concealment score. No non-PNG deferred row is a pass or a waiver.
+

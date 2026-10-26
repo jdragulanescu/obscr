@@ -7,7 +7,7 @@ This is the canonical text of the privacy policy shown in the web app at
 (`app/src/components/PrivacyPolicy.jsx`). Keep the two in sync when editing.
 
 Obscr is a client-side tool. Encryption, decryption and steganography all happen inside
-your browser using the Web Crypto API and the HTML canvas. There is no backend that
+your browser using the Web Crypto API and raw PNG samples in cancellable workers. There is no backend that
 receives your data.
 
 ## What we never collect

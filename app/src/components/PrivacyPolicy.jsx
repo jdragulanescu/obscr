@@ -9,7 +9,7 @@ export const PrivacyPolicy = () => (
   <LegalPage title="privacy-policy" updated="11 August 2026">
     <p>
       Obscr is a client-side tool. Encryption, decryption and steganography all
-      happen inside your browser using the Web Crypto API and the HTML canvas.
+      happen inside your browser using the Web Crypto API and raw PNG samples in cancellable workers.
       There is no backend that receives your data.
     </p>
 
