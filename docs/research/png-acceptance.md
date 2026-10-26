@@ -6,6 +6,8 @@ Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accep
 
 ## Result and evidence levels
 
+**Current acceptance: failed fast-suite gate; Human check passed.** After the user's answer, the full `agent-local npm test` run at `8f78948` reported 12 failed / 412 passed tests in 22.265 s: a maximum-image Node cancellation timeout with ten following assertion failures, and a large-message browser-worker timeout. Both timeouts exceeded Jest's 5-second limit. The affected files subsequently passed in isolation (36 Node cases, 16 browser-worker cases); those narrower passes do not clear the full-suite failure. The cause is not established. [Failures 1–2 and exact evidence](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419263565) await `/to-tickets 45`. The prior passing proof below remains historical evidence, not the current verdict.
+
 - `agent-local npm test -- test/integration/png-admission.test.js`: 29 passed; 1.386 s. New check IDs PNG-ACCEPT-01 through PNG-ACCEPT-13. The file did not exist at the fixed point.
 - `agent-local npm test`: 424 tests in 14 suites passed; 14.997 s.
 - `agent-local npm run build`: passed. Existing warnings: bundle size, vm-browserify eval, old Browserslist data and output directory. No configured typecheck, lint, format, mutation, e2e or PR-CI gate.
@@ -14,7 +16,7 @@ Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accep
 - Human check 4 (contrast, focus outline and wording judgment): **pass — user accepted**. After the guided Try it, the user answered "ok all good"; [recorded answer](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419143563). This is the user's judgment, not an inference from mechanical focus/layout observations.
 - This is PNG/Diff proof, not device support, concealment, recovery, independent cryptographic review or release approval. #42 remains the publication gate; no default-branch merge or production publication is authorized.
 
-Each table result applies to the named tests and observed/source-reviewed scope only. A required supplement named G1–G8 is resolved in the supplement table below; it is not silently inferred from a broad test title. All named automated checks passed in the full suite above. PNG-CLAUSE IDs index clauses; their concrete test titles and deterministic fixtures identify the executable checks.
+Each table result applies to the named tests and observed/source-reviewed scope only. A required supplement named G1–G8 is resolved in the supplement table below; it is not silently inferred from a broad test title. All named automated checks passed in the earlier full suite above; the current failed gate is recorded separately and overrides the overall acceptance verdict. PNG-CLAUSE IDs index clauses; their concrete test titles and deterministic fixtures identify the executable checks.
 
 Abbreviations: P=`test/unit/png.test.js`; E=`test/unit/png-export.test.js`; D=`test/unit/png-diff.test.js`; N=`test/unit/node-workflows.test.js`; W=`test/unit/browser-png-worker.test.js`; O=`test/unit/browser-operation.test.js`; C=`test/unit/browser-components.test.js`; T=`test/integration/cli.test.js`. Line references identify the candidate, not a permanent API.
 
