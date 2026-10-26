@@ -2,6 +2,7 @@ import { Worker } from "node:worker_threads";
 import { decode, prepareEncode, discard } from "../../lib/protected-node.js";
 import { cover } from "../fixtures/protected.js";
 import { referencePNG, PASSWORD, TEXT } from "../fixtures/protected-reference.js";
+import { createProtectedTransport } from "../../lib/protected-transport.js";
 
 async function openGate(platform, setup = "") {
   const module = platform === "node" ? new URL("../../lib/protected-worker.js", import.meta.url)
@@ -73,6 +74,14 @@ for (const platform of ["node", "browser"]) describe(`${platform} actual recover
     }
   }, 300000);
 
+  it("accepts exact 1,024-byte ASCII and multibyte passwords without normalization", async () => {
+    gate = await openGate(platform);
+    for (const password of ["a".repeat(1024), "é".repeat(512)]) {
+      expect(await gate.request({ pngBytes: await referencePNG({ password }), password }))
+        .toEqual({ ok: true, message: TEXT });
+    }
+  }, 30000);
+
   it("rejects malformed decode requests, profile overrides and invalid exact passwords", async () => {
     gate = await openGate(platform);
     const pngBytes = cover();
@@ -133,4 +142,51 @@ it("recovery replaces retained preparation and releases its image lock on succes
   const next = await prepareEncode({ pngBytes: cover(), message: "again", compress: false });
   expect(next).toMatchObject({ ok: true, storedBytes: 5 });
   await discard(next.preparation);
+}, 30000);
+
+it("terminates a worker inside a controlled repair call, drops its output and recovers again", async () => {
+  const imageModule = new URL("../../lib/protected-image.js", import.meta.url).href;
+  const nativeModule = new URL("../../lib/protected-native-node.js", import.meta.url).href;
+  const repairModule = new URL("../../lib/protected-repair.js", import.meta.url).href;
+  const controller = new AbortController();
+  let workers = 0;
+  let repairEntered = false;
+  let stopped = false;
+  const api = createProtectedTransport((reply, failed) => {
+    const pauseRepair = workers++ === 0;
+    const worker = new Worker(`
+      const {parentPort} = require('node:worker_threads');
+      Promise.all([import(${JSON.stringify(imageModule)}),import(${JSON.stringify(nativeModule)}),import(${JSON.stringify(repairModule)})])
+        .then(([{createProtectedImage},{nativeCrypto},{repair}]) => {
+          const repairCodeword = word => {
+            const repaired = repair(word);
+            if (${pauseRepair}) {
+              parentPort.postMessage({repairEntered:true});
+              Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0);
+            }
+            return repaired;
+          };
+          const execute=createProtectedImage({nativeCrypto,repairCodeword});
+          parentPort.on('message', async request => parentPort.postMessage({
+            id:request.id, result:await execute(request, progress=>parentPort.postMessage({id:request.id,progress}))
+          }));
+        });
+    `, { eval: true });
+    worker.on("message", message => {
+      if (message.repairEntered) { repairEntered = true; controller.abort(); }
+      else reply(message);
+    });
+    worker.on("error", failed);
+    return {
+      post: (request, transfer) => worker.postMessage(request, transfer),
+      async stop() { await worker.terminate(); stopped = true; },
+    };
+  });
+  const pngBytes = await referencePNG({ damage: { headerBytes: [{ offset: 0 }, { offset: 3 }] } });
+  const result = await api.decode({ pngBytes, password: PASSWORD }, { signal: controller.signal });
+  expect(repairEntered).toBe(true);
+  expect(stopped).toBe(true);
+  expect(result).toMatchObject({ ok: false, code: "CANCELLED" });
+  expect(result).not.toHaveProperty("message");
+  expect(await api.decode({ pngBytes: await referencePNG(), password: PASSWORD })).toEqual({ ok: true, message: TEXT });
 }, 30000);

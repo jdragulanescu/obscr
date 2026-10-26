@@ -126,32 +126,42 @@ function png(rgb, width, height, colorType) {
   ]);
 }
 
-function referenceCover(width, height) {
-  if (cachedCover?.width === width && cachedCover.height === height) return cachedCover;
-  const pixels = width * height;
-  const rgb = new Uint8Array(pixels * 3);
-  // A high-detail strip includes salt coordinates on the left edge. Lower-detail
-  // checkerboard ties elsewhere exercise row-major selection at the cutoff.
+function coverRGB(width, height) {
+  const rgb = new Uint8Array(width * height * 3);
+  // Salt samples cross the high-detail strip; checkerboard ties test the cutoff.
   for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
     const odd = (x + y) & 1;
     const value = x < Math.ceil(width / 8) ? odd * 254 : 124 + odd * 2;
     rgb.fill(value, 3 * (y * width + x), 3 * (y * width + x + 1));
   }
+  return rgb;
+}
+
+function referenceScore(rgb, width, height, p) {
+  const x = p % width;
+  const y = Math.floor(p / width);
+  const neighbors = [];
+  if (x > 0) neighbors.push(p - 1);
+  if (x + 1 < width) neighbors.push(p + 1);
+  if (y > 0) neighbors.push(p - width);
+  if (y + 1 < height) neighbors.push(p + width);
+  let score = 0;
+  for (let c = 0; c < 3; c++) {
+    let sum = 0;
+    for (const q of neighbors) sum += rgb[3 * q + c] & 254;
+    score += Math.abs(neighbors.length * (rgb[3 * p + c] & 254) - sum);
+  }
+  return score;
+}
+
+function referenceCover(width, height) {
+  if (cachedCover?.width === width && cachedCover.height === height) return cachedCover;
+  const pixels = width * height;
+  const rgb = coverRGB(width, height);
   const scores = new Uint16Array(pixels);
   const ranked = [];
   for (let p = 0; p < pixels; p++) {
-    const x = p % width;
-    const y = Math.floor(p / width);
-    const neighbors = [];
-    if (x > 0) neighbors.push(p - 1);
-    if (x + 1 < width) neighbors.push(p + 1);
-    if (y > 0) neighbors.push(p - width);
-    if (y + 1 < height) neighbors.push(p + width);
-    for (let c = 0; c < 3; c++) {
-      let sum = 0;
-      for (const q of neighbors) sum += rgb[3 * q + c] & 254;
-      scores[p] += Math.abs(neighbors.length * (rgb[3 * p + c] & 254) - sum);
-    }
+    scores[p] = referenceScore(rgb, width, height, p);
     if (scores[p] > 0) ranked.push(p);
   }
   ranked.sort((a, b) => scores[b] - scores[a] || a - b);
@@ -296,6 +306,80 @@ function matrixWrite(rgb, selected, start, data, badPadding = false) {
   }
 }
 
+function storedText(options) {
+  const raw = exactUTF8(options.text ?? TEXT);
+  integer(raw.length, 0, 1048576, "original text length");
+  let compression = integer(options.compression ?? 0, 0, 1, "compression");
+  let stored;
+  if (options.storedBytes !== undefined) {
+    if (!(options.storedBytes instanceof Uint8Array)) throw new TypeError("Reference fixture: storedBytes must be Uint8Array");
+    integer(options.storedBytes.length, 0, 512, "stored length");
+    stored = Uint8Array.from(options.storedBytes);
+  } else {
+    stored = compression === 1 ? referenceGzip(raw) : raw;
+    if (compression === 1 && stored.length >= raw.length) {
+      compression = 0;
+      stored = raw;
+    }
+  }
+  integer(stored.length, 0, 512, "stored length");
+  const defaultLength = compression === 0 ? stored.length : raw.length;
+  const originalLength = integer(options.originalLength ?? defaultLength, 0, 0xffffffff, "original length");
+  return { stored, compression, originalLength };
+}
+
+function referenceHeader(nonce, text, overrides) {
+  const header = new Uint8Array(32);
+  header.set(nonce);
+  header.set(u32(text.stored.length), 12);
+  header.set(u32(text.originalLength), 16);
+  header.set([16, 1, text.compression, 1, 1, 1, 1], 20);
+  applyOverrides(header, overrides);
+  return header;
+}
+
+function referenceBody(stored, key, header, aad, damage) {
+  const cipher = createCipheriv("aes-256-gcm", key, header.subarray(0, 12), { authTagLength: 16 });
+  cipher.setAAD(aad);
+  const ciphertext = concat([cipher.update(stored), cipher.final()]);
+  const tag = Uint8Array.from(cipher.getAuthTag());
+  xorBytes(tag, damage.tagBytes);
+  const body = concat([ciphertext, tag]);
+  const codewords = [];
+  for (let offset = 0; offset < body.length; offset += 239) codewords.push(encodeRS(body.subarray(offset, offset + 239)));
+  for (const mutation of damage.bodyBytes ?? []) {
+    const block = integer(mutation.block, 0, codewords.length - 1, "body block");
+    xorBytes(codewords[block], [mutation]);
+  }
+  return codewords;
+}
+
+function interleavedBody(codewords, bodyLength, order) {
+  const ordered = order === "reverse-blocks" ? [...codewords].reverse() : codewords;
+  if (order === "concatenate") return concat(ordered);
+  if (order !== undefined && order !== "reverse-blocks") throw new RangeError("Reference fixture: unknown body order");
+  const wire = new Uint8Array(bodyLength);
+  let cursor = 0;
+  for (let column = 0; column < 255; column++) for (const codeword of ordered) {
+    if (column < codeword.length) wire[cursor++] = codeword[column];
+  }
+  return wire;
+}
+
+function writeCarrier(cover, selected, salt, repairedHeader, wire, groups, damage) {
+  const rgb = Uint8Array.from(cover.rgb);
+  for (let bit = 0; bit < 128; bit++) {
+    const scalar = cover.saltPositions[bit];
+    rgb[scalar] = (rgb[scalar] & 254) | ((salt[bit >>> 3] >>> (7 - (bit & 7))) & 1);
+  }
+  matrixWrite(rgb, selected, 0, repairedHeader);
+  matrixWrite(rgb, selected, 896, wire, damage.padding === true);
+  for (const bit of damage.saltBits ?? []) rgb[cover.saltPositions[integer(bit, 0, 127, "salt bit")]] ^= 1;
+  for (const index of damage.positions ?? []) rgb[selected[integer(index, 0, 7 * groups - 1, "position index")]] ^= 1;
+  for (const { scalar, xor = 1 } of damage.rgb ?? []) rgb[integer(scalar, 0, rgb.length - 1, "RGB scalar")] ^= integer(xor, 1, 255, "RGB XOR");
+  return rgb;
+}
+
 /**
  * Return a complete deterministic PNG, with no production encoder/parser calls.
  *
@@ -340,32 +424,11 @@ export async function referencePNG(options = {}) {
   if (colorType !== 2 && colorType !== 6) throw new RangeError("Reference fixture: colorType must be 2 or 6");
   const salt = bytes(options.salt ?? SALT, 16, "salt");
   const nonce = bytes(options.nonce ?? NONCE, 12, "nonce");
-  const raw = exactUTF8(options.text ?? TEXT);
-  integer(raw.length, 0, 1048576, "original text length");
-  let compression = integer(options.compression ?? 0, 0, 1, "compression");
-  let stored;
-  if (options.storedBytes !== undefined) {
-    if (!(options.storedBytes instanceof Uint8Array)) throw new TypeError("Reference fixture: storedBytes must be Uint8Array");
-    integer(options.storedBytes.length, 0, 512, "stored length");
-    stored = Uint8Array.from(options.storedBytes);
-  } else {
-    stored = compression === 1 ? referenceGzip(raw) : raw;
-    if (compression === 1 && stored.length >= raw.length) {
-      compression = 0;
-      stored = raw;
-    }
-  }
-  integer(stored.length, 0, 512, "stored length");
-  const originalLength = integer(options.originalLength ?? (compression === 0 ? stored.length : raw.length), 0, 0xffffffff, "original length");
-  const header = new Uint8Array(32);
-  header.set(nonce);
-  header.set(u32(stored.length), 12);
-  header.set(u32(originalLength), 16);
-  header.set([16, 1, compression, 1, 1, 1, 1], 20);
-  applyOverrides(header, options.headerOverrides);
+  const text = storedText(options);
+  const header = referenceHeader(nonce, text, options.headerOverrides);
   const damage = options.damage ?? {};
   const cover = referenceCover(width, height);
-  const bodyLength = stored.length + 16 + 16 * Math.ceil((stored.length + 16) / 239);
+  const bodyLength = text.stored.length + 16 + 16 * Math.ceil((text.stored.length + 16) / 239);
   const groups = 128 + Math.ceil(bodyLength * 8 / 3);
   const budget = Math.min(cover.eligible.length, 262144);
   if (width * height * 3 < 128 || 3 * groups > Math.floor(budget / 50) || 7 * groups > budget) {
@@ -374,42 +437,12 @@ export async function referencePNG(options = {}) {
   const keys = await derive(options.password ?? PASSWORD, salt);
   const selected = positions(cover, keys.placement);
   const aad = concat([salt, header, u32(width), u32(height)]);
-  const cipher = createCipheriv("aes-256-gcm", keys.encryption, header.subarray(0, 12), { authTagLength: 16 });
-  cipher.setAAD(aad);
-  const ciphertext = concat([cipher.update(stored), cipher.final()]);
-  const tag = Uint8Array.from(cipher.getAuthTag());
-  xorBytes(tag, damage.tagBytes);
-  const body = concat([ciphertext, tag]);
-  const codewords = [];
-  for (let offset = 0; offset < body.length; offset += 239) codewords.push(encodeRS(body.subarray(offset, offset + 239)));
-  for (const mutation of damage.bodyBytes ?? []) {
-    const block = integer(mutation.block, 0, codewords.length - 1, "body block");
-    xorBytes(codewords[block], [mutation]);
-  }
-  const ordered = damage.bodyOrder === "reverse-blocks" ? [...codewords].reverse() : codewords;
-  let wire;
-  if (damage.bodyOrder === "concatenate") wire = concat(ordered);
-  else {
-    if (damage.bodyOrder !== undefined && damage.bodyOrder !== "reverse-blocks") throw new RangeError("Reference fixture: unknown body order");
-    wire = new Uint8Array(bodyLength);
-    let cursor = 0;
-    for (let column = 0; column < 255; column++) for (const codeword of ordered) {
-      if (column < codeword.length) wire[cursor++] = codeword[column];
-    }
-  }
+  const codewords = referenceBody(text.stored, keys.encryption, header, aad, damage);
+  const wire = interleavedBody(codewords, bodyLength, damage.bodyOrder);
   xorBytes(wire, damage.wireBytes);
   applyOverrides(header, damage.headerAfterAuth);
   const repairedHeader = encodeRS(header);
   xorBytes(repairedHeader, damage.headerBytes);
-  const rgb = Uint8Array.from(cover.rgb);
-  for (let bit = 0; bit < 128; bit++) {
-    const scalar = cover.saltPositions[bit];
-    rgb[scalar] = (rgb[scalar] & 254) | ((salt[bit >>> 3] >>> (7 - (bit & 7))) & 1);
-  }
-  matrixWrite(rgb, selected, 0, repairedHeader);
-  matrixWrite(rgb, selected, 896, wire, damage.padding === true);
-  for (const bit of damage.saltBits ?? []) rgb[cover.saltPositions[integer(bit, 0, 127, "salt bit")]] ^= 1;
-  for (const index of damage.positions ?? []) rgb[selected[integer(index, 0, 7 * groups - 1, "position index")]] ^= 1;
-  for (const { scalar, xor = 1 } of damage.rgb ?? []) rgb[integer(scalar, 0, rgb.length - 1, "RGB scalar")] ^= integer(xor, 1, 255, "RGB XOR");
+  const rgb = writeCarrier(cover, selected, salt, repairedHeader, wire, groups, damage);
   return png(rgb, width, height, colorType);
 }
