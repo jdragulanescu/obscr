@@ -1,12 +1,12 @@
 # PNG acceptance evidence — #45 / #65
 
-Candidate: `78f99ce`; application code is unchanged from the accepted Human check at `a77d02c`. Fixed point: `c7219a6dd9abb7abf779ca724f077a0bc80129ec` (first #62 claim). The default branch was already included. Date: 2026-10-26.
+Candidate: `5594f2f`; application code is unchanged from the accepted Human check at `a77d02c`. Fixed point: `c7219a6dd9abb7abf779ca724f077a0bc80129ec` (first #62 claim). The default branch was already included. Date: 2026-10-26.
 
 Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accepted format §6, D5 and PNG/resource parts of §5](https://github.com/jdragulanescu/obscr/issues/19#issuecomment-6387228703), [application D1 Diff](https://github.com/jdragulanescu/obscr/issues/21#issuecomment-6387616398).
 
 ## Result and evidence levels
 
-**Current proof: automated gates passed; Human check retained; review pending.** The approved tests-only repair at `78f99ce` keeps the maximum image, large message, real workers and result assertions. `agent-local npm test` passed all 424 tests in 14 suites (28.482 s); the assembled acceptance check passed all 29 cases (1.645 s). The affected two worker files passed all 52 cases (4.641 s). These full-suite results supersede, but do not erase, [Failures 1–2](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419263565). No timeout, runner setting or production code changed.
+**Current acceptance: passed; Human check retained.** The approved tests-only repair at `78f99ce` keeps the maximum image, large message, real workers and result assertions. Its full suite passed all 424 tests in 14 suites (28.482 s), the assembled acceptance check passed all 29 cases (1.645 s), and the affected two worker files passed all 52 cases (4.641 s). Review added two password masking component cases in `5594f2f`; all 26 component cases passed (13.564 s), then the full suite passed all 426 tests in 14 suites (84.744 s). These full-suite results supersede, but do not erase, [Failures 1–2](https://github.com/jdragulanescu/obscr/issues/65#issuecomment-6419263565). No timeout, runner setting or production code changed.
 
 Historical evidence before the repair:
 
@@ -33,6 +33,10 @@ The Node maximum-raster case and browser fixture helper now use PNG filter 0. A 
 Node test teardown aborts and awaits test-owned operations before restoring mocks or removing temporary files. Both worker helpers terminate and await their real workers on success or failure; teardown also terminates workers left pending by an interrupted case. Temporary one-millisecond timeout probes deliberately failed one Node and one browser case; both following cases passed, including the free Node operation slot and exact browser capacity result. The probes were removed before the passing proof set. No permanent case was skipped or reduced.
 
 The existing app build and real-app Human check remain historical evidence because app/lib code, screens and the acceptance contract did not change. This repair adds no browser, device, security or release approval.
+
+The whole-feature standards review found missing retained proof for password Reveal/Hide and masking after clear or operation lock. Commit `5594f2f` adds one case through each existing form (Encrypt and Decrypt), checking visible/masked input type, accessible action/pressed state, locking and masked entry after unlock. Application behavior and the Human check are unchanged.
+
+This continuation's independent review ended clean in two rounds: one Standards coverage finding fixed, none left or declined. Round 1 reviewed the whole feature from `c7219a6` through `c4f1269`; Spec and Security returned no findings. Security read the complete captured diff after an initial missing-artifact limitation was resolved. Round 2 reviewed the test-only fix through `5594f2f`; Standards and Spec returned no findings. Security was not repeated for that component-test-only change. Reviews did not run tests and do not grant cryptographic or release approval.
 
 # Section 6: clause-to-check index
 
