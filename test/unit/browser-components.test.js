@@ -29,6 +29,7 @@ beforeAll(async () => {
   // jsdom does not implement the native dialog API. Escape reaches React as cancel.
   dom.window.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
   dom.window.HTMLDialogElement.prototype.close = function () { this.open = false; };
+  dom.window.scrollTo = jest.fn();
   savedRevoke = Object.getOwnPropertyDescriptor(URL, "revokeObjectURL");
   Object.defineProperty(URL, "revokeObjectURL", { configurable: true, writable: true, value: jest.fn() });
   ({ createRoot } = await import("react-dom/client"));
@@ -373,5 +374,79 @@ describe("real browser components", () => {
       expect(tabs[0].getAttribute("aria-selected")).toBe("true");
       expect(container.querySelector("textarea")).not.toBeNull();
     }
+  });
+
+  test.each(["hash", "link"])("%s navigation keeps a draft on Stay and discards it only on confirmation", async entry => {
+    await render(App);
+    await admit();
+    await type("textarea", "Keep this draft");
+    await act(async () => jest.advanceTimersByTime(300));
+    const pending = calls.at(-1);
+    const navigate = async () => {
+      if (entry === "link") await click(container.querySelector('footer a[href="#privacy"]'));
+      else await act(async () => {
+        window.history.replaceState(null, "", "#privacy");
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+      });
+    };
+    await navigate();
+    expect(window.location.hash).toBe("");
+    expect(container.querySelector("dialog").open).toBe(true);
+    await click(button("Stay"));
+    expect(container.querySelector("textarea").value).toBe("Keep this draft");
+    expect(pending.aborted).toBe(false);
+    await navigate();
+    await click(button("Switch and clear"));
+    await act(async () => window.dispatchEvent(new HashChangeEvent("hashchange")));
+    expect(window.location.hash).toBe("#privacy");
+    expect(container.querySelector("textarea")).toBeNull();
+    expect(document.title).toContain("Privacy Policy");
+    expect(pending.aborted).toBe(true);
+    await reply(pending, { ok: false, error: "Late private result" });
+    await act(async () => {
+      window.history.replaceState(null, "", "/");
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
+    expect(container.querySelector("textarea").value).toBe("");
+    expect(container.textContent).not.toContain("Late private result");
+  });
+
+  test.each(["hash", "link"])("%s navigation cannot leave a locked operation", async entry => {
+    await render(App);
+    await admit();
+    await type("textarea", "Keep while working");
+    await capacity();
+    await type('input[type="password"]', "public-password");
+    const pending = await submit();
+    if (entry === "link") await click(container.querySelector('footer a[href="#terms"]'));
+    else await act(async () => {
+      window.history.replaceState(null, "", "#terms");
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
+    expect(window.location.hash).toBe("");
+    expect(container.querySelector("dialog").open).toBe(false);
+    expect(container.querySelector("textarea").value).toBe("Keep while working");
+    expect(pending.aborted).toBe(false);
+    const unload = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(unload);
+    expect(unload.defaultPrevented).toBe(true);
+    await click(button("Cancel"));
+    expect(pending.aborted).toBe(true);
+  });
+
+  test("unload warns for a draft but not for an empty or confirmed-cleared form", async () => {
+    await render(App);
+    const prevented = () => {
+      const event = new Event("beforeunload", { cancelable: true });
+      window.dispatchEvent(event);
+      return event.defaultPrevented;
+    };
+    expect(prevented()).toBe(false);
+    await admit();
+    await type("textarea", "Unsaved draft");
+    expect(prevented()).toBe(true);
+    await click(button("Clear"));
+    await click(button("Switch and clear"));
+    expect(prevented()).toBe(false);
   });
 });

@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   personal metadata is removed, without claiming anonymity.
 - Shared native-sample PNG comparison reports changed pixels and mean RGB
   differences, reusing an input raster for its bounded overlay without a pixel list.
+- PNG acceptance checks cover assembled workflows, metadata boundaries and
+  navigation guards; the clause evidence index separates app proof from release approval.
 - **Vercel Web Analytics**: anonymous page-view counting in the web app via
   `@vercel/analytics`, mounted at the React root (`app/src/main.jsx`)
 - **Privacy notice**: always-visible summary above the tool explaining that all encryption
