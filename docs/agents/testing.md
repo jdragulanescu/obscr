@@ -26,29 +26,39 @@ Keep command lines short; put details beside the tool or in
 - **One e2e file**: none
 - **Mutation testing**: none
 - **Unit only**: `npm run test:unit`: while iterating on `lib/`.
-- **Integration only**: `npm run test:integration`: child-process checks of `bin/index.js` and full engine workflows using `test/fixtures/`.
+- **Integration only**: `npm run test:integration`: real CLI/worker checks and engine workflows. Terminal tests need Python 3's standard `pty` module on macOS/Linux; fixtures are in `test/fixtures/`.
 - **Watch tests**: `npm run test:watch`: interactive Jest watch mode.
 - **PWA build**: `npm run build`: Vite builds `app/` into `dist/`, as Vercel does. Run when changing `app/` or `lib/`.
 - **Install dependencies**: `npm ci`: prepare a fresh checkout.
 - **Dev server**: `npm run dev`: read its printed `Local:` URL; the port may not be 5173.
 - **PWA preview**: `npm run preview`: serve the built PWA after `npm run build`.
 
+Component tests run in the same Jest suite with real React DOM and jsdom.
+`test/jsx-transform.cjs` compiles JSX for Jest. Worker-adapter fakes control
+cancellation and late replies; separate tests exercise the real workers.
+
 ## Isolation
 
-Tests write to `test/output/` inside each checkout.
+File-writing tests use unique system temporary directories and remove only their own files.
 Vite takes the next free port when 5173 is busy.
 Stop only the `npm run dev` process this run started.
 
 - **Shared**: none
-- **Approach**: none
-- **Setup**: none
-- **Start**: none
-- **Stop**: none
+- **Approach**: checkout-local files; Vite selects a free port. Use the printed URL.
+- **Setup**: `npm ci`
+- **Start**: `npm run dev`: keep its process handle and use the printed `Local:` URL.
+- **Stop**: send Ctrl-C to the Start process for this checkout; leave other servers running.
 - **TUI**: `node bin/index.js interactive`, 80x24, keyboard only; inquirer does not use mouse input.
 
 ## Browser tool
 
 - **Tool**: `agent-browser`: installed; use it for browser checks.
+
+Before a walkthrough, clear the origin's service-worker registrations and caches,
+or bypass its service worker and disable the browser cache. A new tab or named
+session can still share the old origin cache. Check the loaded worker/module
+request URLs: their filesystem paths must name this worktree before recording
+passes. The offline cache can otherwise serve an older checkout's worker.
 
 ## E2E shape
 

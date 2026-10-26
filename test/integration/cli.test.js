@@ -1,223 +1,346 @@
-import { exec, spawn } from "child_process";
-import { promisify } from "util";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import { spawn } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { PNG } from "pngjs";
+import { encryptMessageToImage, decryptMessageFromImage } from "../../lib/steg.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const root = fileURLToPath(new URL("../../", import.meta.url));
+const cli = path.join(root, "bin/index.js");
+const fixture = path.join(root, "test/fixtures/test-medium.png");
+const stripAnsi = (text) => text.replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, "");
+let directory;
+const children = new Set();
 
-const execAsync = promisify(exec);
+beforeEach(() => { directory = fs.mkdtempSync(path.join(os.tmpdir(), "obscr-cli-")); });
+afterEach(() => {
+  for (const child of children) child.kill("SIGKILL");
+  children.clear();
+  fs.rmSync(directory, { recursive: true, force: true });
+});
 
-const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
-const OUTPUT_DIR = path.join(__dirname, "..", "output");
-const TEST_IMAGE = path.join(FIXTURES_DIR, "test-medium.png");
-const CLI_PATH = path.join(__dirname, "..", "..", "bin", "index.js");
-const PKG_PATH = path.join(__dirname, "..", "..", "package.json");
-
-// Read from package.json so the assertion tracks version bumps automatically.
-const { version: PKG_VERSION } = JSON.parse(fs.readFileSync(PKG_PATH, "utf8"));
-
-describe("CLI Commands", () => {
-  beforeAll(() => {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
+function launch(command, args, extra = {}) {
+  const environment = { ...process.env, ...extra.env, NO_COLOR: "1" };
+  delete environment.FORCE_COLOR;
+  const child = spawn(command, args, {
+    cwd: directory,
+    env: environment,
+    stdio: ["pipe", "pipe", "pipe"],
   });
-
-  afterAll(() => {
-    if (fs.existsSync(OUTPUT_DIR)) {
-      const files = fs.readdirSync(OUTPUT_DIR);
-      files.forEach((file) => {
-        if (file.startsWith("cli-test-")) {
-          fs.unlinkSync(path.join(OUTPUT_DIR, file));
-        }
+  children.add(child);
+  let stdout = "";
+  let stderr = "";
+  let output = "";
+  let closed = false;
+  const listeners = new Set();
+  const record = (stream, chunk) => {
+    const text = chunk.toString();
+    if (stream === "stdout") stdout += text;
+    else stderr += text;
+    output += text;
+    for (const listener of listeners) listener();
+  };
+  child.stdout.on("data", (chunk) => record("stdout", chunk));
+  child.stderr.on("data", (chunk) => record("stderr", chunk));
+  const done = new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      child.kill("SIGKILL");
+      reject(new Error(`CLI did not exit promptly:\n${stripAnsi(output)}`));
+    }, 10000);
+    child.once("error", (failure) => { clearTimeout(timeout); reject(failure); });
+    child.once("close", (code, signal) => {
+      closed = true;
+      clearTimeout(timeout);
+      children.delete(child);
+      for (const listener of listeners) listener();
+      resolve({ code, signal, stdout, stderr, output: stripAnsi(output), raw: output });
+    });
+  });
+  // A prompt wait may reject before a process timeout; do not leave an unhandled promise.
+  done.catch(() => {});
+  return {
+    child,
+    done,
+    async respond(fragment, input) {
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          listeners.delete(check);
+          reject(new Error(`Prompt not reached: ${fragment}\n${stripAnsi(output)}`));
+        }, 7000);
+        const check = () => {
+          if (stripAnsi(output).includes(fragment)) {
+            clearTimeout(timeout);
+            listeners.delete(check);
+            resolve();
+          } else if (closed) {
+            clearTimeout(timeout);
+            listeners.delete(check);
+            reject(new Error(`CLI exited before ${fragment}:\n${stripAnsi(output)}`));
+          }
+        };
+        listeners.add(check);
+        check();
       });
-    }
+      child.stdin.write(input);
+    },
+  };
+}
+
+function terminal(args, { columns = 80, rows = 24, env = {}, stdoutPath } = {}) {
+  const command = ["/bin/sh", "-c",
+    `stty cols "$1" rows "$2"; shift 2; exec "$@"${stdoutPath ? ' > "$OBSCR_TEST_STDOUT"' : ""}`,
+    "obscr-test-terminal", String(columns), String(rows), process.execPath, cli, ...args];
+  const bridge = "import os, pty, sys; sys.exit(os.waitstatus_to_exitcode(pty.spawn(sys.argv[1:])))";
+  return launch("python3", ["-c", bridge, ...command], {
+    env: { ...env, ...(stdoutPath ? { OBSCR_TEST_STDOUT: stdoutPath } : {}) },
+  });
+}
+
+function editorFor(message) {
+  const editor = path.join(directory, "public-editor.cjs");
+  fs.writeFileSync(editor, `require("node:fs").writeFileSync(process.argv[2], ${JSON.stringify(message)});\n`);
+  return { EDITOR: `${process.execPath} ${editor}`, VISUAL: `${process.execPath} ${editor}` };
+}
+
+describe("CLI scripted entry points", () => {
+  it.each([[[]], [["interactive"]], [["encrypt", "-f", fixture]], [["decrypt", "-f", fixture]]])("refuses %j without waiting for piped input", async (args) => {
+    const session = launch(process.execPath, [cli, ...args]);
+    // Keep stdin open: refusal must not depend on EOF or a timeout.
+    const result = await session.done;
+    expect(result.code).toBe(1);
+    expect(result.signal).toBeNull();
+    expect(result.stdout).toBe("");
+    expect(result.stderr).toMatch(/terminal/i);
+    expect(fs.readdirSync(directory)).toEqual([]);
   });
 
-  describe("Help and examples", () => {
-    it("should display help message", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} --help`);
-      expect(stdout).toContain("Usage: obscr <command> [options]");
-      expect(stdout).toContain("Commands:");
-      expect(stdout).toContain("encrypt");
-      expect(stdout).toContain("decrypt");
-      expect(stdout).toContain("interactive");
-      expect(stdout).toContain("examples");
-    });
-
-    it("should display version", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} --version`);
-      expect(stdout).toContain(PKG_VERSION);
-    });
-
-    it("should display examples", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} examples`);
-      expect(stdout).toContain("Examples:");
-      expect(stdout).toContain("Encrypt with compression");
-      expect(stdout).toContain("Decrypt to file");
-      expect(stdout).toContain("Interactive mode");
-      expect(stdout).toContain("██████╗"); // ASCII art should be present
-    });
-
-    it("should show encrypt command help", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} encrypt --help`);
-      expect(stdout).toContain("Encrypt and hide a message in an image");
-      expect(stdout).toContain("--filename");
-      expect(stdout).toContain("--output");
-      expect(stdout).toContain("--compress");
-      expect(stdout).toContain("--verbose");
-      expect(stdout).toContain("--quiet");
-    });
-
-    it("should show decrypt command help", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} decrypt --help`);
-      expect(stdout).toContain("Decrypt and extract a message from an image");
-      expect(stdout).toContain("--filename");
-      expect(stdout).toContain("--output");
-      expect(stdout).toContain("--verbose");
-      expect(stdout).toContain("--quiet");
-    });
+  it.each(["encrypt", "decrypt"])("preserves existing output on scripted %s refusal", async (action) => {
+    const output = path.join(directory, "existing");
+    fs.writeFileSync(output, "keep this result");
+    const result = await launch(process.execPath, [cli, action, "-f", fixture, "-o", output, "--quiet"]).done;
+    expect(result.code).toBe(1);
+    expect(result.stdout).toBe("");
+    expect(fs.readFileSync(output, "utf8")).toBe("keep this result");
   });
 
-  describe("Interactive mode default", () => {
-    it("should enter interactive mode when no command is provided", (done) => {
-      // spawn already imported at top
-      const proc = spawn("node", [CLI_PATH]);
-
-      let output = "";
-      proc.stdout.on("data", (data) => {
-        output += data.toString();
-      });
-      proc.stderr.on("data", (data) => {
-        output += data.toString();
-      });
-
-      // Kill after 1 second and check output
-      setTimeout(() => {
-        proc.kill();
-        expect(output).toContain("What would you like to do?");
-        expect(output).toContain("Encrypt and hide a message");
-        expect(output).toContain("Decrypt and extract a message");
-        done();
-      }, 1000);
-    });
+  it.each([[[]], [["encrypt"]], [["decrypt"]]])("shows available help flags without prompting for %j", async (args) => {
+    const result = await launch(process.execPath, [cli, ...args, "--help"]).done;
+    expect(result.code).toBe(0);
+    expect(result.stdout).toContain("--help");
+    expect(result.stdout).toContain("Ctrl+C");
+    expect(result.stdout).toContain("--quiet");
+    if (args.length) expect(result.stdout).toContain("--filename");
+    expect(result.raw).not.toContain("\u001b");
   });
 
-  describe("Error handling", () => {
-    it("should fail encrypt without required filename", async () => {
-      try {
-        await execAsync(`node ${CLI_PATH} encrypt`);
-        fail("Should have thrown an error");
-      } catch (error) {
-        expect(error.stderr || error.stdout).toContain("Missing required argument");
-      }
-    });
-
-    it("should fail decrypt without required filename", async () => {
-      try {
-        await execAsync(`node ${CLI_PATH} decrypt`);
-        fail("Should have thrown an error");
-      } catch (error) {
-        expect(error.stderr || error.stdout).toContain("Missing required argument");
-      }
-    });
+  it("shows usable examples through a plain pipe", async () => {
+    const examples = await launch(process.execPath, [cli, "examples"]).done;
+    expect(examples.code).toBe(0);
+    expect(examples.stdout).toContain("obscr encrypt -f");
+    expect(examples.stdout).toContain("obscr decrypt -f");
+    expect(examples.raw).not.toContain("\u001b");
   });
 
-  describe("Verbose and Quiet modes", () => {
-    it("should accept verbose flag on encrypt", async () => {
-      // This will fail because it requires interactive input, but we're just checking that the flag is accepted
-      try {
-        const { stdout, stderr } = await execAsync(
-          `echo "" | node ${CLI_PATH} encrypt -f ${TEST_IMAGE} --verbose --output /tmp/test-verbose.png`,
-          { timeout: 2000 }
-        );
-        // Either succeeds with verbose output or times out (which is expected without proper input)
-      } catch (error) {
-        // Expected to fail due to stdin requirements, but verbose flag should be accepted
-        expect(error.killed || error.code > 0).toBeTruthy();
-      }
-    });
-
-    it("should accept quiet flag on encrypt", async () => {
-      // This will fail because it requires interactive input, but we're just checking that the flag is accepted
-      try {
-        const { stdout, stderr } = await execAsync(
-          `echo "" | node ${CLI_PATH} encrypt -f ${TEST_IMAGE} --quiet --output /tmp/test-quiet.png`,
-          { timeout: 2000 }
-        );
-        // Either succeeds with minimal output or times out (which is expected without proper input)
-      } catch (error) {
-        // Expected to fail due to stdin requirements, but quiet flag should be accepted
-        expect(error.killed || error.code > 0).toBeTruthy();
-      }
-    });
+  it.each(["encrypt", "decrypt"])("fails a missing required file argument for %s", async (action) => {
+    const result = await launch(process.execPath, [cli, action]).done;
+    expect(result.code).toBe(1);
+    expect(result.stdout).toBe("");
+    expect(result.stderr).toMatch(/filename|\bf\b/);
   });
 
-  describe("Compression flag", () => {
-    it("should accept compress flag on encrypt", async () => {
-      // This will fail because it requires interactive input, but we're just checking that the flag is accepted
-      try {
-        const { stdout, stderr } = await execAsync(
-          `echo "" | node ${CLI_PATH} encrypt -f ${TEST_IMAGE} --compress --output /tmp/test-compress.png`,
-          { timeout: 2000 }
-        );
-        // Either succeeds or times out (which is expected without proper input)
-      } catch (error) {
-        // Expected to fail due to stdin requirements, but compress flag should be accepted
-        expect(error.killed || error.code > 0).toBeTruthy();
-      }
-    });
+  it("does not print terminal control characters from invalid user arguments", async () => {
+    const result = await launch(process.execPath, [cli, "unknown-\u001b[31m\r-command"]).done;
+    expect(result.code).toBe(1);
+    expect(result.raw).not.toMatch(/[\u001b\r]/);
+  });
+});
+
+describe("CLI actual terminal workflows", () => {
+  it.each([[80, 24], [120, 40]])("shows help and keys at %ix%i", async (columns, rows) => {
+    const result = await terminal(["--help"], { columns, rows }).done;
+    expect(result.code).toBe(0);
+    expect(result.output).toContain("encrypt");
+    expect(result.output).toContain("decrypt");
+    expect(result.output).toContain("Ctrl+C");
+    expect(result.raw).not.toMatch(/\u001b\[[\d;]*m/);
   });
 
-  describe("Output flag", () => {
-    it("should accept custom output filename on encrypt", async () => {
-      const customOutput = path.join(OUTPUT_DIR, "cli-test-custom-output.png");
-      // This will fail because it requires interactive input, but we're checking the flag
-      try {
-        const { stdout, stderr } = await execAsync(
-          `echo "" | node ${CLI_PATH} encrypt -f ${TEST_IMAGE} -o ${customOutput}`,
-          { timeout: 2000 }
-        );
-      } catch (error) {
-        // Expected to fail due to stdin requirements
-        expect(error.killed || error.code > 0).toBeTruthy();
-      }
-    });
+  it("encrypts with editor/password prompts and decrypts the resulting file", async () => {
+    const output = path.join(directory, "encoded.png");
+    const message = "Public CLI round-trip text";
+    const session = terminal(["encrypt", "-f", fixture, "-o", output, "--compress"], { env: editorFor(message) });
+    await session.respond("Enter the message in your editor:", "\r");
+    await session.respond("Enter password:", "public-password\r");
+    await session.respond("Confirm password:", "public-password\r");
+    const result = await session.done;
+    expect(result.code).toBe(0);
+    expect(result.output).toContain("Task: Encrypt");
+    expect(result.output).toContain(output);
+    expect(result.output).not.toContain("public-password");
+    expect(await decryptMessageFromImage(output, "public-password")).toMatchObject({ success: true, data: message });
+  }, 15000);
 
-    it("should accept output filename on decrypt", async () => {
-      const customOutput = path.join(OUTPUT_DIR, "cli-test-decrypted.txt");
-      // This will fail because it requires a valid encrypted image and password
-      try {
-        const { stdout, stderr } = await execAsync(
-          `echo "" | node ${CLI_PATH} decrypt -f ${TEST_IMAGE} -o ${customOutput}`,
-          { timeout: 2000 }
-        );
-      } catch (error) {
-        // Expected to fail
-        expect(error.killed || error.code > 0).toBeTruthy();
-      }
-    });
-  });
+  it("recovers text through a stdout pipe without mixing prompts or progress into it", async () => {
+    const encoded = path.join(directory, "input.png");
+    const captured = path.join(directory, "stdout.txt");
+    expect(await encryptMessageToImage(fixture, "Public text\nsecond line", "public-password", encoded)).toMatchObject({ success: true });
+    const session = terminal(["decrypt", "-f", encoded, "--verbose"], { stdoutPath: captured });
+    await session.respond("Enter password:", "public-password\r");
+    expect((await session.done).code).toBe(0);
+    expect(fs.readFileSync(captured, "utf8")).toBe("Public text\nsecond line");
+  }, 15000);
 
-  describe("Banner display", () => {
-    it("should show ASCII banner in examples command", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} examples`);
-      // Check for ASCII art elements
-      expect(stdout).toContain("╭");
-      expect(stdout).toContain("╮");
-      expect(stdout).toContain("●"); // Terminal dots
-      expect(stdout).toContain("██████╗"); // Part of the ASCII logo
-      expect(stdout).toContain("Steganography & Encryption Tool");
-      expect(stdout).toContain("AES-256-GCM Encryption");
-    });
+  it("escapes recovered terminal controls without changing text saved to a file", async () => {
+    const encoded = path.join(directory, "input.png");
+    const captured = path.join(directory, "stdout.txt");
+    const message = "Public \u001b[31mred\rtext\u009b0m\u202e";
+    expect(await encryptMessageToImage(fixture, message, "public-password", encoded)).toMatchObject({ success: true });
+    const session = terminal(["decrypt", "-f", encoded, "--quiet"], { stdoutPath: captured });
+    await session.respond("Enter password:", "public-password\r");
+    expect((await session.done).code).toBe(0);
+    const printed = fs.readFileSync(captured, "utf8");
+    expect(printed).not.toMatch(/[\u001b\r\u009b\u202e]/);
+    expect(printed).toContain("\\u001b[31m");
+    const saved = path.join(directory, "message.txt");
+    expect(await decryptMessageFromImage(encoded, "public-password", { outputPath: saved })).toMatchObject({ success: true });
+    expect(fs.readFileSync(saved, "utf8")).toBe(message);
+  }, 15000);
 
-    it("should show banner with terminal controls", async () => {
-      const { stdout } = await execAsync(`node ${CLI_PATH} examples`);
-      // Check for all three colored dots (red, yellow, green)
-      const dotCount = (stdout.match(/●/g) || []).length;
-      expect(dotCount).toBeGreaterThanOrEqual(3);
-    });
-  });
+  it("runs the guided decrypt action and saves its actual result", async () => {
+    const encoded = path.join(directory, "input.png");
+    const saved = path.join(directory, "message.txt");
+    expect(await encryptMessageToImage(fixture, "Public menu text", "public-password", encoded)).toMatchObject({ success: true });
+    const session = terminal(["interactive"]);
+    await session.respond("Choose an action:", "\u001b[B\r");
+    await session.respond("Path to the PNG image:", `${encoded}\r`);
+    await session.respond("Output text path", `${saved}\r`);
+    await session.respond("Enter password:", "public-password\r");
+    const result = await session.done;
+    expect(result.code).toBe(0);
+    expect(result.output).toContain("Task: Decrypt");
+    expect(fs.readFileSync(saved, "utf8")).toBe("Public menu text");
+  }, 15000);
+
+  it("runs the guided encrypt action without bypassing PNG admission", async () => {
+    const saved = path.join(directory, "guided.png");
+    const session = terminal(["interactive"], { env: editorFor("Public guided text") });
+    await session.respond("Choose an action:", "\r");
+    await session.respond("Path to the PNG image:", `${fixture}\r`);
+    await session.respond("Output PNG path:", `${saved}\r`);
+    await session.respond("Compress the message?", "n\r");
+    await session.respond("Enter the message in your editor:", "\r");
+    await session.respond("Enter password:", "public-password\r");
+    await session.respond("Confirm password:", "public-password\r");
+    expect((await session.done).code).toBe(0);
+    expect(await decryptMessageFromImage(saved, "public-password")).toMatchObject({ success: true, data: "Public guided text" });
+  }, 15000);
+
+  it.each([
+    ["\u001b[B\u001b[B\r", true],
+    ["\u001b[B\u001b[B\u001b[B\r", false],
+  ])("leaves the guided menu without starting an image operation", async (keys, examples) => {
+    const session = terminal([]);
+    await session.respond("Choose an action:", keys);
+    const result = await session.done;
+    expect(result.code).toBe(0);
+    if (examples) expect(result.output).toContain("obscr encrypt -f");
+    expect(fs.readdirSync(directory)).toEqual([]);
+  }, 15000);
+
+  it("keeps an existing file when a terminal user declines replacement", async () => {
+    const encoded = path.join(directory, "input.png");
+    const saved = path.join(directory, "existing.txt");
+    expect(await encryptMessageToImage(fixture, "Public text", "public-password", encoded)).toMatchObject({ success: true });
+    fs.writeFileSync(saved, "previous result");
+    const session = terminal(["decrypt", "-f", encoded, "-o", saved]);
+    await session.respond("Enter password:", "public-password\r");
+    await session.respond("only after success?", "n\r");
+    const result = await session.done;
+    expect(result.output).not.toContain("Saved message:");
+    expect(fs.readFileSync(saved, "utf8")).toBe("previous result");
+  }, 15000);
+
+  it("reports a public PNG failure after prompts without recognition details or partial output", async () => {
+    const invalid = path.join(directory, "invalid.png");
+    const saved = path.join(directory, "existing.txt");
+    fs.writeFileSync(invalid, "not a PNG");
+    fs.writeFileSync(saved, "previous result");
+    const session = terminal(["decrypt", "-f", invalid, "-o", saved, "--verbose"]);
+    await session.respond("Enter password:", "public-password\r");
+    await session.respond("only after success?", "y\r");
+    const result = await session.done;
+    expect(result.output).toMatch(/PNG/);
+    expect(result.output).not.toMatch(/authenticated message|Saved message:/);
+    expect(result.output).not.toContain("public-password");
+    expect(fs.readFileSync(saved, "utf8")).toBe("previous result");
+  }, 15000);
+
+  it("escapes a long output path while preserving the real filename", async () => {
+    const encoded = path.join(directory, "input.png");
+    const saved = path.join(directory, `${"long-name-".repeat(12)}\u001b[31m\r.txt`);
+    const captured = path.join(directory, "stdout.txt");
+    expect(await encryptMessageToImage(fixture, "Public text", "public-password", encoded)).toMatchObject({ success: true });
+    const session = terminal(["decrypt", "-f", encoded, "-o", saved], { stdoutPath: captured });
+    await session.respond("Enter password:", "public-password\r");
+    expect((await session.done).code).toBe(0);
+    expect(fs.readFileSync(saved, "utf8")).toBe("Public text");
+    const printed = fs.readFileSync(captured, "utf8");
+    expect(printed).not.toMatch(/[\u001b\r]/);
+    expect(printed).toContain("\\u001b[31m\\u000d.txt");
+  }, 15000);
+
+  it("does not claim success or replace output for a wrong password", async () => {
+    const encoded = path.join(directory, "input.png");
+    const saved = path.join(directory, "existing.txt");
+    expect(await encryptMessageToImage(fixture, "Public text", "public-password", encoded)).toMatchObject({ success: true });
+    fs.writeFileSync(saved, "previous result");
+    const session = terminal(["decrypt", "-f", encoded, "-o", saved, "--verbose"]);
+    await session.respond("Enter password:", "different-password\r");
+    await session.respond("only after success?", "y\r");
+    const result = await session.done;
+    expect(result.output).toMatch(/Could not recover an authenticated message/);
+    expect(result.output).not.toMatch(/Saved message:|salt|ciphertext|authentication tag|different-password/);
+    expect(fs.readFileSync(saved, "utf8")).toBe("previous result");
+  }, 15000);
+
+  it.each([["", "public-password"], ["Public text", "different-password"]])("does not save empty messages or mismatched password confirmation", async (message, confirmation) => {
+    const saved = path.join(directory, "result.png");
+    const session = terminal(["encrypt", "-f", fixture, "-o", saved], { env: editorFor(message) });
+    await session.respond("Enter the message in your editor:", "\r");
+    await session.respond("Enter password:", "public-password\r");
+    await session.respond("Confirm password:", `${confirmation}\r`);
+    const result = await session.done;
+    expect(result.output).not.toContain("Saved PNG:");
+    expect(fs.existsSync(saved)).toBe(false);
+  }, 15000);
+
+  it("cancels a prompt with Ctrl-C without writing result bytes", async () => {
+    const captured = path.join(directory, "stdout.txt");
+    const session = terminal(["decrypt", "-f", fixture], { stdoutPath: captured });
+    await session.respond("Enter password:", "\u0003");
+    const result = await session.done;
+    expect(result.output).toMatch(/cancelled/i);
+    expect(fs.readFileSync(captured, "utf8")).toBe("");
+  }, 15000);
+
+  it("cancels worker processing with Ctrl-C and leaves an existing output unchanged", async () => {
+    const input = path.join(directory, "maximum.png");
+    const saved = path.join(directory, "existing.png");
+    const png = new PNG({ width: 1024, height: 1024 });
+    png.data.fill(255);
+    fs.writeFileSync(input, PNG.sync.write(png));
+    fs.writeFileSync(saved, "previous result");
+    const session = terminal(["encrypt", "-f", input, "-o", saved, "--verbose"], { env: editorFor("Public cancellation text") });
+    await session.respond("Enter the message in your editor:", "\r");
+    await session.respond("Enter password:", "public-password\r");
+    await session.respond("Confirm password:", "public-password\r");
+    await session.respond("only after success?", "y\r");
+    await session.respond("Processing the message", "\u0003");
+    const result = await session.done;
+    expect(result.output).toMatch(/cancelled/i);
+    expect(result.output).not.toContain("Saved PNG:");
+    expect(fs.readFileSync(saved, "utf8")).toBe("previous result");
+    expect(fs.readdirSync(directory).some((name) => name.startsWith(".obscr-"))).toBe(false);
+  }, 15000);
 });

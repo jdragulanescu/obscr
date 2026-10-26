@@ -8,7 +8,10 @@
 
 - `lib/crypto.js`: Node encryption: AES-256-GCM, PBKDF2-SHA512 keys, and optional gzip compression.
 - `lib/steg-core.js`: platform-free steganography shared by CLI and PWA: LSB bits, password-scrambled order, and capacity.
-- `lib/steg.js`: Node PNG adapter: image paths, reading, and writing through pngjs.
+- `lib/png.js`: shared bounded PNG validation, raw-sample admission and serialization.
+- `lib/png-diff.js`: shared native-sample comparison; bounded admission, in-place overlay and visual-only statistics.
+- `lib/steg.js`: Node operation owner: bounded file reads, cancellable workers and atomic output publication.
+- `lib/steg-worker.js`: Node worker boundary for PNG admission, the existing carrier and encryption.
 - `lib/utils.js`: password-seeded pixel order and string/bit conversion.
 - `lib/mersenne-twister.js`: vendored seeded PRNG used by pixel ordering.
 
@@ -20,9 +23,9 @@
 
 - `app/`: web entry in `index.html`, static assets and offline service worker in `public/`, React source in `src/`.
 - `app/src/main.jsx`: React mount.
-- `app/src/App.jsx`: Encrypt & Hide, Decrypt & Reveal, and Image Diff tabs.
-- `app/src/components/`: forms, upload, password strength, results, image comparison, and shared UI primitives.
-- `app/src/lib/`: browser steganography and Web Crypto adapters, plus styling helpers.
+- `app/src/App.jsx`: task navigation, active-operation locks and confirmed discard of entered data.
+- `app/src/components/`: admission forms, cancellable status, accessible controls and result previews.
+- `app/src/lib/`: browser worker adapter, operation revisions, Web Crypto and UI helpers; workers use the shared PNG policy.
 - `app/src/styles.css`: Tailwind styles and the app theme.
 
 ## Other folders and configuration

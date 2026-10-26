@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Shared bounded PNG admission for CLI, browser message operations and comparison
+  inputs; raw RGB and opaque RGBA samples are checked without canvas conversion.
+- Cancellable image workers, stale-result suppression, explicit discard confirmation,
+  keyboard password reveal and public PNG errors beside the browser inputs.
+- Successful PNG exports explain which rendering metadata is kept and which
+  personal metadata is removed, without claiming anonymity.
+- Shared native-sample PNG comparison reports changed pixels and mean RGB
+  differences, reusing an input raster for its bounded overlay without a pixel list.
+- PNG acceptance checks cover assembled workflows, metadata boundaries and
+  navigation guards; the clause evidence index separates app proof from release approval.
 - **Vercel Web Analytics**: anonymous page-view counting in the web app via
   `@vercel/analytics`, mounted at the React root (`app/src/main.jsx`)
 - **Privacy notice**: always-visible summary above the tool explaining that all encryption
@@ -21,6 +31,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reader users are not dropped back to the top of the tab order
 
 ### Fixed
+- PNG serialization checks rendering values and consistency before output.
+- Refused browser downloads release their temporary URLs and links, report the
+  failure and keep the complete result available for another download attempt.
+- Diff allows either input to be replaced during comparison. Reset and task
+  navigation confirm discard, stop obsolete work and remove stale preview URLs.
+- Large browser capacity checks no longer exceed engine argument limits during
+  base64 conversion.
 - Hash routes are resolved with an own-property check, so inherited keys such as
   `#constructor` or `#__proto__` can no longer be rendered as a component and blank
   the page
@@ -28,6 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   that file emit no preflight under Tailwind v4, leaving it to the UA stylesheet
 
 ### Changed
+- CLI prompts require a terminal; scripted calls fail rather than wait for credentials.
+  Cancellation and failed operations preserve existing files.
+- PNG input is limited to 16 MiB and 1024×1024, with strict framing, metadata,
+  color-profile and bounded-inflation checks. The hidden-message format is unchanged.
 - Service worker no longer caches `/_vercel/` requests or non-GET requests, so analytics
   beacons always reach the network
 - Service worker cache bumped to `obscr-v1.1.2` so existing installs pick up the new assets

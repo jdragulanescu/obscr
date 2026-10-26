@@ -24,14 +24,14 @@
 - **Compression**: Optional gzip compression to fit larger messages in smaller images (50-90% reduction)
 - **Password-Based Key Derivation**: PBKDF2 with SHA-512 for secure key generation (65,535 iterations)
 - **Data Obfuscation**: Password-seeded scrambling of data bits within the image
-- **Backward Compatible**: Can decrypt messages from older versions
+- **Existing message format**: Unchanged; older images must also meet the supported PNG input policy below
 
 ### User Experience
 
 **Progressive Web App:**
 - **Works Offline**: Full PWA support with service worker caching
 - **No Installation**: Use directly in your browser
-- **Visual Interface**: Drag-and-drop image upload, real-time capacity estimation
+- **Visual Interface**: PNG file picker and cancellable capacity estimation
 - **Image Comparison**: See visual diff between original and encoded images
 - **Cross-Platform**: Works on desktop and mobile browsers
 - **Password Strength Meter**: Real-time feedback on password security
@@ -41,7 +41,7 @@
 - **Progress Indicators**: Real-time spinners showing encryption/decryption progress
 - **Visual Feedback**: Color-coded messages, icons, and beautiful boxed outputs
 - **Verbose Mode**: Detailed technical information for debugging and learning
-- **Quiet Mode**: Minimal output perfect for scripting and automation
+- **Quiet Mode**: Reduced terminal output; message and password prompts still require a terminal
 - **Confirmation Prompts**: Prevents accidental file overwrites
 - **Smart Validation**: Input validation with helpful error messages
 - **Usage Examples**: Built-in examples command for quick reference
@@ -64,6 +64,50 @@ The web app provides the same encryption security as the CLI but with a visual i
 npm install -g obscr
 ```
 
+## Supported PNG input
+
+Both apps check the same raw PNG samples before message processing. Inputs must
+be non-interlaced, 8-bit RGB or fully opaque RGBA, at most 16 MiB, and between
+1 and 1024 pixels on each side. Transparency, palettes, grayscale, animation,
+unsupported color profiles, unknown chunks and malformed PNG data are refused.
+Chunk counts, metadata size and raster inflation are bounded. Images are not
+resized or color-converted to make them fit.
+
+Exports keep the dimensions, RGB/RGBA color type, opaque alpha and native samples
+except for the intended carrier changes. They retain supported cHRM, gAMA and
+sRGB rendering declarations byte-for-byte, in that order. Absent declarations
+stay absent. Personal and other non-rendering metadata is removed without
+expanding embedded text. Both apps show this policy after a successful export.
+This is not an anonymity guarantee: removed metadata and PNG encoding can be
+detected. Inputs with unsupported color profiles are rejected, not converted.
+
+Output is bounded before allocation and contains only complete PNG chunks.
+The current stored-DEFLATE writer's largest supported output is 4,195,789 bytes,
+below the 16 MiB output ceiling. CLI writes use a temporary file and an atomic
+rename; failure or cancellation leaves the source and existing destination
+unchanged. If the browser cannot start a download, the complete result remains
+available for another attempt. The browser controls the later disk save; the app
+cannot confirm that a download reached disk.
+
+One image operation runs at a time. In the browser, Cancel stops its worker and
+clears passwords while keeping the selected image and editable message.
+Replacement and capacity edits discard old work. Clear or leaving a task asks
+for confirmation before discarding entered data or results. Completed results
+remain until an edit, Clear or navigation; use Download to save them.
+
+Generate Diff compares two admitted PNGs of equal dimensions. It reports the
+number of changed pixels and the mean absolute RGB sample difference, not a
+security score. The green overlay amplifies changes 50 times, capped at full
+brightness; black pixels are unchanged. Comparison reuses one input raster for
+the overlay: at most two RGBA processing buffers total 8 MiB, with one bounded
+filtered raster admitted at a time and no per-changed-pixel list.
+Cancel keeps both selected inputs. Replacing either input stops obsolete work
+and removes its previews. Reset or leaving Diff asks before clearing the inputs
+and result. Starting another comparison also removes the previous previews.
+
+These limits are policy bounds, not measured whole-process memory or device
+performance guarantees. Visual comparison is not a security test.
+
 ## CLI Usage
 
 ### Interactive Mode (Recommended for Beginners)
@@ -73,6 +117,12 @@ obscr interactive
 ```
 
 Launches a guided workflow with menu-driven interface. Perfect for first-time users!
+
+Encrypt, decrypt and interactive mode require terminal input and a terminal on
+stderr for their prompts. Piped input is refused promptly; `--quiet` does not
+supply credentials. Output on stdout can be redirected without prompt text.
+Use arrow keys and Enter in the menu, and Ctrl-C to cancel.
+`--help` and `examples` work without a terminal. `NO_COLOR=1` disables color.
 
 ### Command Line Mode
 
@@ -100,7 +150,7 @@ obscr encrypt -f photo.png -o secret.png --compress
 # Verbose mode for detailed information
 obscr encrypt -f photo.png --verbose
 
-# Quiet mode for scripts
+# Quiet mode in a terminal
 obscr encrypt -f photo.png -o output.png --quiet
 ```
 
@@ -114,7 +164,7 @@ obscr decrypt -f <encoded-image.png> [-o <output-file.txt>] [--verbose] [--quiet
 - `-f, --filename`: Path to the PNG image containing the hidden message (required)
 - `-o, --output`: Save decrypted message to a file (optional)
 - `-v, --verbose`: Show detailed progress information
-- `-q, --quiet`: Output only the decrypted message (useful for piping)
+- `-q, --quiet`: Reduce status output; prompts still require a terminal
 
 **Examples:**
 ```bash
@@ -124,8 +174,8 @@ obscr decrypt -f encoded.png
 # Save to file
 obscr decrypt -f encoded.png -o message.txt
 
-# Quiet mode for piping to other commands
-obscr decrypt -f secret.png --quiet | grep "password"
+# Quiet mode in a terminal
+obscr decrypt -f secret.png --quiet
 ```
 
 ### Additional Commands
@@ -211,7 +261,7 @@ policy and terms of use, also available in the app at
 The tool automatically checks if your message fits in the chosen image:
 
 - **Capacity**: 3 bits per pixel (RGB channels only)
-- **Example**: A 1920x1080 image can hold ~777 KB of encrypted data
+- **Maximum input example**: 1024×1024 provides 393,216 carrier bytes before message framing and encryption overhead
 - **Formula**: `(width × height × 3) / 8 = bytes capacity`
 
 If your message is too large:
@@ -261,9 +311,9 @@ obscr encrypt -f large-photo.png -o secret.png --compress
 
 ## Backward Compatibility
 
-This version maintains full backward compatibility:
-- Can decrypt images created with older versions
-- Automatically detects and handles compressed vs. uncompressed messages
+The hidden-message format is unchanged:
+- Older images remain readable when they meet the supported PNG input policy.
+- Compressed and uncompressed messages use the existing format.
 
 ## Technical Details
 
@@ -279,7 +329,7 @@ Encrypted message format: `salt:nonce:ciphertext:tag[:compressed]`
 ### Dependencies
 - `crypto` (Node.js built-in): For AES-256-GCM encryption
 - `zlib` (Node.js built-in): For optional compression
-- `pngjs`: For PNG image manipulation
+- `pako`: Bounded raw PNG inflation shared by the CLI and browser
 - `crypto-js`: For SHA-512 hashing
 - `yargs`: For CLI argument parsing
 - `inquirer`: For interactive prompts

@@ -39,6 +39,7 @@
     "crypto-js": "^4.1.1",
     "inquirer": "^8.0.0",
     "ora": "^5.4.1",
+    "pako": "1.0.11",
     "pngjs": "^6.0.0",
     "yargs": "^17.5.1"
   },
@@ -50,7 +51,9 @@
     "class-variance-authority": "^0.7.1",
     "cli-progress": "^3.12.0",
     "clsx": "^2.1.1",
+    "esbuild": "0.25.12",
     "jest": "^29.7.0",
+    "jsdom": "25.0.1",
     "lucide-react": "^0.562.0",
     "postcss": "^8.5.6",
     "react": "^18.3.1",
@@ -71,6 +74,11 @@
     "testMatch": [
       "**/test/**/*.test.js"
     ],
-    "transform": {}
+    "extensionsToTreatAsEsm": [
+      ".jsx"
+    ],
+    "transform": {
+      "^.+\\.jsx$": "<rootDir>/test/jsx-transform.cjs"
+    }
   }
 }

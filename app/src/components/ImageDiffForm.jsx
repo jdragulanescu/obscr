@@ -1,82 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useId, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { ImageComparison } from "./ImageComparison";
+import { OperationStatus } from "./OperationStatus";
 import { Button } from "./ui/button";
-import { generateImageDiff } from "../lib/steg";
+import { admitImage, generateImageDiff } from "../lib/steg";
+import { disposeComparison, useFormOperation } from "../lib/useFormOperation";
 
-export const ImageDiffForm = () => {
-  const [originalFile, setOriginalFile] = useState(null);
-  const [encodedFile, setEncodedFile] = useState(null);
+function submissionReason(busy, accepted, mismatch) {
+  if (busy) return "Wait for this operation or select Cancel.";
+  if (!accepted.every(Boolean)) return "Choose and admit both images before comparison.";
+  if (mismatch) return "The images have different dimensions. Choose images with equal dimensions.";
+  return "";
+}
+
+export const ImageDiffForm = ({ onStateChange, requestClear }) => {
+  const [inputs, setInputs] = useState([null, null]);
+  const [accepted, setAccepted] = useState([null, null]);
+  const [errors, setErrors] = useState(["", ""]);
   const [result, setResult] = useState(null);
-  const [status, setStatus] = useState("");
-  const [busy, setBusy] = useState(false);
-
-  const handleGenerateDiff = async (e) => {
-    e.preventDefault();
-    if (!originalFile || !encodedFile) {
-      setStatus("Both images are required.");
-      return;
-    }
-
-    setBusy(true);
-    setStatus("Generating image diff...");
-
-    const diffResult = await generateImageDiff(originalFile, encodedFile);
-
-    setBusy(false);
-
-    if (!diffResult?.ok) {
-      setStatus(diffResult?.error || "Failed to generate diff");
-      setResult(null);
-      return;
-    }
-
-    setResult(diffResult);
-    setStatus("");
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("Choose two supported PNGs for a visual comparison.");
+  const operation = useFormOperation();
+  const id = useId();
+  const dirty = inputs.some(Boolean);
+  useLayoutEffect(() => { onStateChange?.({ dirty, busy: operation.busy, locked: false }); }, [dirty, operation.busy, onStateChange]);
+  useEffect(() => () => disposeComparison(result), [result]);
+  const pick = async (index, file) => {
+    operation.cancel(); setResult(null); setError(""); setNotice("");
+    setInputs((values) => values.map((value, i) => i === index ? file : value));
+    setAccepted((values) => values.map((value, i) => i === index ? null : value));
+    setErrors((values) => values.map((value, i) => i === index ? "" : value));
+    const checked = await operation.run("Checking PNG…", (options) => admitImage(file, options));
+    if (!checked) return;
+    if (checked.ok) setAccepted((values) => values.map((value, i) => i === index ? checked : value));
+    else setErrors((values) => values.map((value, i) => i === index ? checked.error : value));
   };
-
-  const handleReset = () => {
-    setOriginalFile(null);
-    setEncodedFile(null);
-    setResult(null);
-    setStatus("");
+  const cancel = () => { operation.cancel(); setResult(null); setNotice("Cancelled. Your images are kept. Choose an image again if its admission was cancelled."); };
+  const clear = () => { cancel(); setInputs([null, null]); setAccepted([null, null]); setErrors(["", ""]); setError(""); setNotice("Cleared. Choose two supported PNGs to start again."); };
+  const mismatch = accepted.every(Boolean) && (accepted[0].width !== accepted[1].width || accepted[0].height !== accepted[1].height);
+  const reason = submissionReason(operation.busy, accepted, mismatch);
+  const submit = async (event) => {
+    event.preventDefault(); if (reason) return;
+    setResult(null); setError(""); setNotice("");
+    const compared = await operation.run("Comparing images…", (options) => generateImageDiff(inputs[0], inputs[1], options));
+    if (!compared) return;
+    if (compared.ok) { setResult(compared); setNotice("Visual comparison complete. This is not a security test."); }
+    else setError(compared.error);
   };
-
-  return (
-    <form className="panel" onSubmit={handleGenerateDiff}>
-      <ImageUpload
-        label="Original image (PNG)"
-        filePath={originalFile}
-        onPick={setOriginalFile}
-      />
-
-      <ImageUpload
-        label="Encoded image (PNG)"
-        filePath={encodedFile}
-        onPick={setEncodedFile}
-      />
-
-      <div className="actions-row">
-        <Button type="submit" variant="primary" disabled={busy}>
-          Generate Diff
-        </Button>
-        {result && (
-          <Button type="button" variant="outline" onClick={handleReset}>
-            Reset
-          </Button>
-        )}
-        <div className="status-inline">
-          {busy && (
-            <div className="progress-indicator-inline">
-              <span className="spinner" />
-              <span>{status}</span>
-            </div>
-          )}
-          {!busy && status && <span className="status-message">{status}</span>}
-        </div>
-      </div>
-
-      {result && <ImageComparison images={result} />}
-    </form>
-  );
+  return <form className="panel" onSubmit={submit}>
+    <ImageUpload label="Original image (PNG)" filePath={inputs[0]} onPick={(file) => pick(0, file)} error={errors[0]} />
+    <ImageUpload label="Comparison image (PNG)" filePath={inputs[1]} onPick={(file) => pick(1, file)} error={errors[1]} />
+    <p id={`${id}-reason`} className={mismatch ? "input-error" : "field-help"}>{reason}</p>
+    {error && <p className="input-error" role="alert">{error}</p>}
+    <div className="actions-row">
+      <Button type="submit" variant="primary" disabled={Boolean(reason)} aria-describedby={`${id}-reason`}>Generate Diff</Button>
+      <Button type="button" variant="outline" onClick={() => requestClear(clear)}>Reset</Button>
+    </div>
+    <OperationStatus stage={operation.stage} notice={notice} onCancel={cancel} />
+    {result && <ImageComparison images={result} />}
+  </form>;
 };

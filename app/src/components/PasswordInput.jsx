@@ -1,10 +1,12 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useId, useState, useMemo, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import zxcvbn from "zxcvbn";
 
-export const PasswordInput = ({ label, value, onChange, showStrength = true }) => {
+export const PasswordInput = ({ label, value, onChange, showStrength = true, disabled = false }) => {
+  const id = useId();
   const [visible, setVisible] = useState(false);
   const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => { if (!value || disabled) setVisible(false); }, [value, disabled]);
 
   // Debounce the password value for analysis
   useEffect(() => {
@@ -56,10 +58,13 @@ export const PasswordInput = ({ label, value, onChange, showStrength = true }) =
 
   return (
     <div className="field">
-      <label className="field-label">{label}</label>
+      <label className="field-label" htmlFor={id}>{label}</label>
       <div className="password-input-row">
         <div className="password-input-wrapper">
           <input
+            id={id}
+            disabled={disabled}
+            autoComplete="off"
             type={visible ? "text" : "password"}
             value={value}
             onChange={(e) => onChange(e.target.value)}
@@ -68,11 +73,10 @@ export const PasswordInput = ({ label, value, onChange, showStrength = true }) =
           <button
             type="button"
             className="password-toggle"
-            onMouseDown={() => setVisible(true)}
-            onMouseUp={() => setVisible(false)}
-            onMouseLeave={() => setVisible(false)}
-            onTouchStart={() => setVisible(true)}
-            onTouchEnd={() => setVisible(false)}
+            disabled={disabled}
+            aria-label={visible ? "Hide password" : "Reveal password"}
+            aria-pressed={visible}
+            onClick={() => setVisible((shown) => !shown)}
           >
             {visible ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>

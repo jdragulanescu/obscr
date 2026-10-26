@@ -1,91 +1,70 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useId, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { PasswordInput } from "./PasswordInput";
 import { MessageDisplay } from "./MessageDisplay";
+import { OperationStatus } from "./OperationStatus";
 import { Button } from "./ui/button";
-import { extractMessage, downloadBlob } from "../lib/steg";
+import { admitImage, extractMessage, downloadBlob } from "../lib/steg";
+import { useFormOperation } from "../lib/useFormOperation";
 
-export const DecryptForm = () => {
-  const [imagePath, setImagePath] = useState("");
+function submissionReason(locked, admitted, password) {
+  if (locked) return "Wait for decryption or select Cancel.";
+  if (!admitted) return "Choose a supported PNG and wait for admission.";
+  if (!password) return "Enter a password.";
+  return "";
+}
+
+export const DecryptForm = ({ onStateChange, requestClear }) => {
+  const [file, setFile] = useState(null);
+  const [admitted, setAdmitted] = useState(false);
   const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [status, setStatus] = useState("");
-  const [message, setMessage] = useState("");
-  const [saveToFile, setSaveToFile] = useState(false);
-
-  const handleDecrypt = async (e) => {
-    e.preventDefault();
-    if (!imagePath || !password) {
-      setStatus("Image and password are required.");
-      return;
-    }
-
-    setBusy(true);
-    setStatus("Decrypting and extracting message…");
-    setMessage("");
-
-    const result = await extractMessage(imagePath, password);
-
-    setBusy(false);
-
-    if (!result?.ok) {
-      setStatus(result?.error || "Decryption failed");
-      return;
-    }
-
-    setMessage(result.message);
-
-    if (saveToFile) {
-      const blob = new Blob([result.message], { type: "text/plain" });
-      downloadBlob(blob, "message.txt");
-      setStatus("Message decrypted and saved to message.txt");
-    } else {
-      setStatus("Message decrypted successfully.");
-    }
+  const [message, setMessage] = useState(null);
+  const [imageError, setImageError] = useState("");
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("Choose a supported PNG to start.");
+  const operation = useFormOperation();
+  const id = useId();
+  const locked = operation.stage === "Decrypting message…";
+  const dirty = Boolean(file || password || message !== null);
+  useLayoutEffect(() => { onStateChange?.({ dirty, busy: operation.busy, locked }); }, [dirty, locked, operation.busy, onStateChange]);
+  const pick = async (selected) => {
+    operation.cancel(); setFile(selected); setAdmitted(false); setMessage(null); setImageError(""); setError(""); setNotice("");
+    const result = await operation.run("Checking PNG…", (options) => admitImage(selected, options));
+    if (!result) return;
+    if (result.ok) { setAdmitted(true); setNotice("PNG accepted. Enter the password."); }
+    else { setImageError(result.error); setPassword(""); }
   };
-
-  return (
-    <form className="panel" onSubmit={handleDecrypt}>
-      <ImageUpload
-        label="Encoded image (PNG)"
-        filePath={imagePath}
-        onPick={setImagePath}
-      />
-
-      <PasswordInput
-        label="Password"
-        value={password}
-        onChange={setPassword}
-        showStrength={false}
-      />
-
-      <div className="field">
-        <label className="checkbox">
-          <input
-            type="checkbox"
-            checked={saveToFile}
-            onChange={(e) => setSaveToFile(e.target.checked)}
-          />
-          <span>Save message to file</span>
-        </label>
-      </div>
-
-      <div className="actions-row">
-        <Button type="submit" variant="primary" disabled={busy}>
-          Decrypt &amp; Extract
-        </Button>
-        <div className="status-inline">
-          {busy && (
-            <div className="progress-indicator-inline">
-              <span className="spinner" />
-              <span>{status}</span>
-            </div>
-          )}
-          {!busy && status && <span className="status-message">{status}</span>}
-        </div>
-      </div>
-
-      {message && <MessageDisplay message={message} />}
-    </form>
-  );
+  const cancel = () => { operation.cancel(); setPassword(""); setMessage(null); setNotice("Cancelled. Your image is kept. Enter the password to try again, or choose the image again if admission was cancelled."); };
+  const clear = () => { cancel(); setFile(null); setAdmitted(false); setImageError(""); setError(""); setNotice("Cleared. Choose a supported PNG to start again."); };
+  const reason = submissionReason(locked, admitted, password);
+  const submit = async (event) => {
+    event.preventDefault(); if (reason || operation.busy) return;
+    setMessage(null); setError(""); setNotice("");
+    const result = await operation.run("Decrypting message…", (options) => extractMessage(file, password, options));
+    if (!result) return;
+    setPassword("");
+    if (result.ok) { setMessage(result.message); setNotice("Decryption complete."); }
+    else setError(result.error);
+  };
+  const download = () => {
+    setError("");
+    try { downloadBlob(new Blob([message], { type: "text/plain" }), "message.txt"); }
+    catch { setError("Could not start the download. Your message is kept. Try Download message again."); }
+  };
+  return <form className="panel" onSubmit={submit}>
+    <ImageUpload label="Encoded image (PNG)" filePath={file} onPick={pick} disabled={locked} error={imageError} />
+    <PasswordInput label="Password" value={password} disabled={locked || !admitted} showStrength={false} onChange={(value) => { setPassword(value); setMessage(null); setError(""); }} />
+    {error && <p className="input-error" role="alert">{error}</p>}
+    <p id={`${id}-reason`} className="field-help">{reason}</p>
+    <div className="actions-row">
+      <Button type="submit" variant="primary" disabled={Boolean(reason) || operation.busy} aria-describedby={`${id}-reason`}>Decrypt &amp; Extract</Button>
+      <Button type="button" variant="outline" disabled={locked} onClick={() => requestClear(clear)}>Clear</Button>
+    </div>
+    <OperationStatus stage={operation.stage} notice={notice} onCancel={cancel} />
+    {message !== null && <section aria-labelledby={`${id}-result`}>
+      <h3 id={`${id}-result`}>Decrypted message</h3>
+      <MessageDisplay message={message} />
+      <Button type="button" onClick={download}>Download message</Button>
+    </section>}
+  </form>;
 };
