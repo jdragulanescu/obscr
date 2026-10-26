@@ -54,9 +54,11 @@ Stop only the `npm run dev` process this run started.
 
 - **Tool**: `agent-browser`: installed; use it for browser checks.
 
-Use a fresh browser session after source changes, or clear that session's service
-worker caches before checking changed code. The offline cache can otherwise serve
-an older worker module during development.
+Before a walkthrough, clear the origin's service-worker registrations and caches,
+or bypass its service worker and disable the browser cache. A new tab or named
+session can still share the old origin cache. Check the loaded worker/module
+request URLs: their filesystem paths must name this worktree before recording
+passes. The offline cache can otherwise serve an older checkout's worker.
 
 ## E2E shape
 
