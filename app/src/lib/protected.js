@@ -11,4 +11,4 @@ const operations = createProtectedTransport((message, failed) => {
   };
 });
 
-export const { prepareEncode, discard } = operations;
+export const { prepareEncode, decode, discard } = operations;

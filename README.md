@@ -326,12 +326,12 @@ Encrypted message format: `salt:nonce:ciphertext:tag[:compressed]`
 - **tag**: 16 bytes (base64) - GCM authentication tag
 - **compressed**: Optional flag "1" if data was compressed
 
-### Next-format preparation (development branch)
+### Next-format operations (development branch)
 
 The next-format operation is separate from the current CLI and PWA routes.
-It is not a release or a format cutover. Node callers import `prepareEncode`
-and `discard` from `lib/protected-node.js`; browser callers use
-`app/src/lib/protected.js`. Encoding and recovery are not exported by these adapters.
+It is not a release or a format cutover. Node callers import `prepareEncode`,
+`decode` and `discard` from `lib/protected-node.js`; browser callers use
+`app/src/lib/protected.js`. Encoding is not yet exported by these adapters.
 
 `await prepareEncode({ pngBytes, message, compress }, { signal, onProgress })`
 returns `{ ok: true, preparation, originalBytes, storedBytes, compressionUsed,
@@ -368,10 +368,35 @@ then start again. Progress reports `checking inputs` and
 randomness runs during preparation. There is no main-thread fallback or timer
 that weakens the operation. Retained Node workers do not keep the process alive.
 
+`await decode({ pngBytes, password }, { signal, onProgress })` returns
+`{ ok: true, message }` only after complete authentication and exact text decoding.
+An empty `message` is valid authenticated text. Passwords are exact nonempty
+UTF-8, at most 1,024 bytes, without trimming or normalization; unpaired surrogates
+are refused. Recovery replaces any preparation held by the same adapter and
+terminates its worker on success, failure or cancellation.
+
+Recovery uses fixed Argon2id v19 (64 MiB, three passes, one lane), separated HKDF
+keys, native AES-256-CTR placement, bounded shortened Reed–Solomon repair, and
+AES-256-GCM with a full tag. Gzip expansion occurs only after authentication and
+must match the authenticated length. Wrong passwords, hidden format errors,
+damage and invalid authenticated text return `RECOVERY_FAILED` with no message:
+“Could not recover an authenticated message. The password may be wrong, or the
+image may be damaged or changed.” Public PNG, input, capacity, runtime and
+cancellation errors remain separate. No legacy recovery or weaker fallback runs.
+
+Safe recovery stages are `checking inputs`, `deriving keys`, `recovering` and
+`preparing result`. Cancellation suppresses late replies and allows a new
+operation. Password and key buffers are cleared where possible; worker termination
+releases remaining state, without a secure-erasure guarantee. Required worker,
+WASM or native-crypto support must be available.
+
+
 ### Dependencies
 - `crypto` (Node.js built-in): For AES-256-GCM encryption
 - `zlib` (Node.js built-in): For optional compression
 - `pako`: Bounded PNG inflation and next-format gzip preparation shared by the CLI and browser
+- `libsodium-wrappers-sumo` and `libsodium-sumo` 0.8.4: Fixed next-format Argon2id inside workers
+- Vendored ZXing-derived repair: pinned source and license in `lib/protected-repair.NOTICE` and `lib/protected-repair.LICENSE`
 - `crypto-js`: For SHA-512 hashing
 - `yargs`: For CLI argument parsing
 - `inquirer`: For interactive prompts
