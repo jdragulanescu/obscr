@@ -6,7 +6,7 @@ export const ImageComparison = ({ images }) => {
   return (
     <>
       <div className="result-section">
-        <div className="result-label">Image Comparison</div>
+        <h3 className="result-label">Visual comparison — not a security test</h3>
         <div className="diff-info">
           <span className="diff-stat">
             Average pixel difference: {images.averageDifference} / 255
@@ -18,8 +18,8 @@ export const ImageComparison = ({ images }) => {
             <img src={images.original} alt="Original" className="result-thumbnail" />
           </div>
           <div className="image-item">
-            <div className="image-item-label">Encoded</div>
-            <img src={images.encoded} alt="Encoded" className="result-thumbnail" />
+            <div className="image-item-label">Comparison</div>
+            <img src={images.encoded} alt="Comparison" className="result-thumbnail" />
           </div>
         </div>
       </div>
@@ -29,9 +29,6 @@ export const ImageComparison = ({ images }) => {
         <div className="diff-info">
           <span className="diff-stat">
             Green areas show modified pixels. Brighter = larger changes.
-            {parseFloat(images.averageDifference) < 0.5 &&
-              " Very low average difference - changes are nearly invisible!"
-            }
           </span>
         </div>
         <div className="diff-container">

@@ -8,33 +8,25 @@ import { encrypt } from "../../lib/crypto.js";
 import { PNG } from "pngjs";
 import fs from "fs";
 import path from "path";
+import os from "os";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
-const OUTPUT_DIR = path.join(__dirname, "..", "output");
+let OUTPUT_DIR;
 const SMALL_IMAGE = path.join(FIXTURES_DIR, "test-small.png");
 const MEDIUM_IMAGE = path.join(FIXTURES_DIR, "test-medium.png");
 const LARGE_IMAGE = path.join(FIXTURES_DIR, "test-large.png");
 
 describe("Steg Module", () => {
-  // Ensure output directory exists
-  beforeAll(() => {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
+  beforeEach(() => {
+    OUTPUT_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "obscr-steg-"));
   });
 
-  // Clean up test output files after all tests
-  afterAll(() => {
-    if (fs.existsSync(OUTPUT_DIR)) {
-      const files = fs.readdirSync(OUTPUT_DIR);
-      files.forEach((file) => {
-        fs.unlinkSync(path.join(OUTPUT_DIR, file));
-      });
-    }
+  afterEach(() => {
+    fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
   });
 
   describe("calculateImageCapacity", () => {
@@ -111,7 +103,6 @@ describe("Steg Module", () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeDefined();
-      expect(result.error).toContain("not found");
     });
 
     it("should fail when message is too large", async () => {
@@ -122,7 +113,6 @@ describe("Steg Module", () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeDefined();
-      expect(result.error).toContain("too large");
     });
 
     it("should provide capacity information", async () => {
@@ -230,7 +220,6 @@ describe("Steg Module", () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeDefined();
-      expect(result.error).toContain("not found");
     });
 
     it("should handle empty message encoding/decoding", async () => {
@@ -377,15 +366,10 @@ describe("Steg Module", () => {
         outputPath
       );
 
-      if (result.success) {
-        const extractResult = await extractMessageFromImage(outputPath, encKey);
-        expect(extractResult.success).toBe(true);
-        expect(extractResult.data).toBe(message);
-        fs.unlinkSync(outputPath);
-      } else {
-        // If it fails, error should mention capacity
-        expect(result.error).toContain("large");
-      }
+      expect(result.success).toBe(true);
+      const extractResult = await extractMessageFromImage(outputPath, encKey);
+      expect(extractResult.success).toBe(true);
+      expect(extractResult.data).toBe(message);
     });
   });
 

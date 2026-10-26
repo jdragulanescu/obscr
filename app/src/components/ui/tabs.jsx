@@ -16,6 +16,16 @@ Tabs.displayName = "Tabs"
 const TabsList = React.forwardRef(({ className, ...props }, ref) => (
   <div
     ref={ref}
+    role="tablist"
+    onKeyDown={(event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      const tabs = [...event.currentTarget.querySelectorAll('[role="tab"]:not(:disabled)')];
+      if (!tabs.length) return;
+      event.preventDefault();
+      const index = tabs.indexOf(document.activeElement);
+      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].focus();
+    }}
     className={cn(
       "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
       className
@@ -35,6 +45,8 @@ const TabsTrigger = React.forwardRef(({ className, value: triggerValue, ...props
       type="button"
       role="tab"
       aria-selected={isActive}
+      id={`task-${triggerValue}`}
+      aria-controls={`panel-${triggerValue}`}
       onClick={() => onValueChange(triggerValue)}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -58,6 +70,8 @@ const TabsContent = React.forwardRef(({ className, value: contentValue, ...props
     <div
       ref={ref}
       role="tabpanel"
+      id={`panel-${contentValue}`}
+      aria-labelledby={`task-${contentValue}`}
       className={cn(
         "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         className

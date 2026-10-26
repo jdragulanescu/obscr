@@ -2,542 +2,244 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import chalk from "chalk";
-import fs from "fs";
+import fs from "node:fs";
 import inquirer from "inquirer";
-const { prompt } = inquirer;
 import ora from "ora";
-import boxen from "boxen";
+import { encryptMessageToImage, decryptMessageFromImage } from "../lib/steg.js";
 
-// Shared core logic (reused by CLI and desktop UI)
-import { encrypt, decrypt } from "../lib/crypto.js";
-import {
-  encodeMessageToImage,
-  extractMessageFromImage,
-} from "../lib/steg.js";
+const controller = new AbortController();
+const prompt = inquirer.createPromptModule({ input: process.stdin, output: process.stderr, skipTTYChecks: false });
+let quiet = false;
+let verbose = false;
+let commandExecuted = false;
+// The shared Chalk instance also controls Inquirer's prompt colors.
+if (Object.hasOwn(process.env, "NO_COLOR") || !process.stderr.isTTY) chalk.level = 0;
+const primary = chalk.hex("#B4FA72");
+const cancellation = () => Object.assign(new Error("Operation cancelled. No result was saved."), { code: "CANCELLED" });
+const helpText = "Prompts require terminal stdin and stderr. Keys: Up/Down selects; Enter confirms; Ctrl+C cancels. No scripted secret-input flags. NO_COLOR disables color. Progress goes to stderr; results go to stdout.";
 
-// NOTE: This is just to increase obfuscation for steganography, NOT used for AES encryption
-// Kept for backward compatibility with images encoded using older versions
-const SECRET_KEY = "S3cReTK3Y";
-
-// Global flags
-let VERBOSE = false;
-let QUIET = false;
-
-// Color palette - using custom green #B4FA72 for consistent branding
-const colors = {
-  primary: chalk.hex("#B4FA72"), // Custom lime green
-  secondary: chalk.hex("#B4FA72"), // Same green for consistency
-  accent: chalk.hex("#B4FA72"), // Same green
-  muted: chalk.gray, // Gray for secondary text
-  error: chalk.red,
-  warning: chalk.yellow,
-  dim: chalk.hex("#B4FA72").dim, // Dimmed custom green for subtle text
-};
-
-/**
- * ASCII Art Logo (matching the UI)
- */
-const asciiLogo = `
-   ██████╗ ██████╗ ███████╗ ██████╗██████╗
-  ██╔═══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗
-  ██║   ██║██████╔╝███████╗██║     ██████╔╝
-  ██║   ██║██╔══██╗╚════██║██║     ██╔══██╗
-  ╚██████╔╝██████╔╝███████║╚██████╗██║  ██║
-   ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝
-`;
-
-/**
- * Terminal-style controls (for visual effect)
- */
-const terminalControls = chalk.red("●") + " " + chalk.yellow("●") + " " + chalk.green("●");
-
-/**
- * Logging utilities
- */
-const log = {
-  info: (msg) => !QUIET && console.log(colors.accent("ℹ"), msg),
-  success: (msg) => !QUIET && console.log(colors.primary("✔"), msg),
-  error: (msg) => console.error(colors.error("✖"), msg),
-  warn: (msg) => !QUIET && console.log(colors.warning("⚠"), msg),
-  verbose: (msg) => VERBOSE && console.log(colors.dim("→"), msg),
-  box: (msg, options = {}) => !QUIET && console.log(boxen(msg, {
-    padding: 1,
-    margin: 1,
-    borderStyle: "round",
-    borderColor: "#B4FA72", // Custom lime green
-    ...options
-  })),
-};
-
-/**
- * Display welcome banner with ASCII art
- */
-function showBanner() {
-  if (QUIET) return;
-
-  const header = terminalControls;
-  const logo = colors.primary(asciiLogo);
-  const subtitle = colors.primary("$") + " " + chalk.white("Steganography & Encryption Tool");
-  const info = colors.muted("AES-256-GCM Encryption | LSB Steganography | Secure Data Hiding");
-  const version = colors.dim("v1.1.1");
-
-  const banner = `${header}\n${logo}\n${subtitle}\n${info}\n\n${version}`;
-
-  log.box(banner, { borderColor: "green", padding: 0, margin: { top: 1, bottom: 1, left: 1, right: 1 } });
+function terminalText(value, multiline = false) {
+  return String(value).replace(/[\u0000-\u001f\u007f-\u009f\u2028-\u202e\u2066-\u2069]/g, (character) => {
+    if (multiline && character === "\n") return "\n";
+    return `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`;
+  });
 }
 
-/**
- * Show usage examples
- */
+function checkCancelled() {
+  if (controller.signal.aborted) throw cancellation();
+}
+
+function requireTerminal() {
+  if (!process.stdin.isTTY || !process.stderr.isTTY) {
+    throw new Error("This action needs a terminal for message and password prompts. Run it in a terminal; use --help for available flags. Scripted secret input is not supported.");
+  }
+}
+
+function configure(argv) {
+  quiet = Boolean(argv.quiet);
+  verbose = Boolean(argv.verbose);
+  commandExecuted = true;
+}
+
+function task(name) {
+  process.stderr.write(`${primary("Task:")} ${name}. Ctrl+C cancels.\n`);
+}
+
+async function ask(questions) {
+  requireTerminal();
+  checkCancelled();
+  const pending = prompt(questions);
+  return new Promise((resolve, reject) => {
+    const abort = () => {
+      pending.ui.close();
+      reject(cancellation());
+    };
+    // Inquirer's default SIGINT handler writes to stdout and exits before cleanup.
+    pending.ui.rl.removeListener("SIGINT", pending.ui.onForceClose);
+    pending.ui.rl.on("SIGINT", () => controller.abort());
+    controller.signal.addEventListener("abort", abort, { once: true });
+    pending.then(resolve, reject).finally(() => controller.signal.removeEventListener("abort", abort));
+    if (controller.signal.aborted) abort();
+  });
+}
+
+const passwordQuestion = {
+  type: "password", name: "password", message: "Enter password:", mask: "*",
+  validate: (value) => value.length > 0 || "Enter a password.",
+};
+const imageQuestion = {
+  type: "input", name: "filename", message: "Path to the PNG image:",
+  transformer: (value) => terminalText(value),
+  validate: (value) => value.length > 0 || "Enter a path to a supported PNG.",
+};
+const outputQuestion = (encrypting) => ({
+  type: "input", name: "output", message: encrypting ? "Output PNG path:" : "Output text path (empty displays the message):",
+  default: encrypting ? "encoded.png" : "", transformer: (value) => terminalText(value),
+  validate: (value) => !encrypting || value.length > 0 || "Enter an output path.",
+});
+
+async function confirmOutput(output) {
+  if (!output || !fs.existsSync(output)) return;
+  const { overwrite } = await ask({
+    type: "confirm", name: "overwrite", default: false,
+    message: `Replace the existing file ${terminalText(output)} only after success?`,
+  });
+  if (!overwrite) throw cancellation();
+}
+
+function progressDisplay() {
+  const stages = {
+    reading: "Reading the image",
+    admitting: "Checking the PNG",
+    processing: "Processing the message",
+    saving: "Saving the completed result",
+  };
+  let stage = stages.reading;
+  const spinner = ora({ stream: process.stderr, text: stage, color: "green", isEnabled: !quiet && !Object.hasOwn(process.env, "NO_COLOR") });
+  const timer = setTimeout(() => {
+    if (!quiet) {
+      if (Object.hasOwn(process.env, "NO_COLOR")) process.stderr.write(`${stage}. Ctrl+C cancels.\n`);
+      else spinner.start(`${stage}. Ctrl+C cancels.`);
+    }
+  }, 1000);
+  return {
+    update(next) {
+      stage = stages[next] || stage;
+      if (spinner.isSpinning) spinner.text = `${stage}. Ctrl+C cancels.`;
+      if (verbose && !quiet) process.stderr.write(`${stage}.\n`);
+    },
+    stop() { clearTimeout(timer); spinner.stop(); },
+  };
+}
+
+function requireSuccess(result) {
+  if (!result.success) throw Object.assign(new Error(result.error), { code: result.code });
+}
+
+async function encryptCommand(filename, output, compress, message, password) {
+  if (!message || !message.trim()) throw new Error("Message cannot be empty. Enter a message and try again.");
+  await confirmOutput(output);
+  checkCancelled();
+  const progress = progressDisplay();
+  let result;
+  try {
+    result = await encryptMessageToImage(filename, message, password, output, {
+      compress, signal: controller.signal, onProgress: progress.update,
+    });
+  } finally { progress.stop(); }
+  requireSuccess(result);
+  process.stdout.write(`Saved PNG: ${terminalText(result.outputPath)}\n`);
+  if (verbose && !quiet) process.stderr.write(`Capacity used: ${result.capacity.utilization}.\n`);
+}
+
+async function decryptCommand(filename, output, password) {
+  await confirmOutput(output);
+  checkCancelled();
+  const progress = progressDisplay();
+  let result;
+  try {
+    result = await decryptMessageFromImage(filename, password, {
+      outputPath: output || undefined, signal: controller.signal, onProgress: progress.update,
+    });
+  } finally { progress.stop(); }
+  requireSuccess(result);
+  if (result.outputPath) {
+    process.stdout.write(`Saved message: ${terminalText(result.outputPath)}\n`);
+  } else {
+    if (!quiet) process.stderr.write("Recovered message (terminal control characters are escaped):\n");
+    const text = terminalText(result.data, true);
+    process.stdout.write(text + (process.stdout.isTTY && !text.endsWith("\n") ? "\n" : ""));
+  }
+}
+
+async function encryptionQuestions() {
+  process.stderr.write("Message editor: save and close the editor to continue. Passwords stay masked.\n");
+  const answers = await ask([
+    { type: "editor", name: "message", message: "Enter the message in your editor:" },
+    passwordQuestion,
+    { type: "password", name: "confirmPassword", message: "Confirm password:", mask: "*" },
+  ]);
+  if (answers.password !== answers.confirmPassword) throw new Error("Passwords do not match. Start again with the same password in both fields.");
+  return answers;
+}
+
 function showExamples() {
-  const examples = `
-${colors.primary.bold("Examples:")}
-
-${colors.primary(">")} ${colors.secondary("Encrypt with compression:")}
-  ${colors.dim("$")} obscr encrypt -f photo.png -o secret.png --compress
-
-${colors.primary(">")} ${colors.secondary("Decrypt to file:")}
-  ${colors.dim("$")} obscr decrypt -f secret.png -o message.txt
-
-${colors.primary(">")} ${colors.secondary("Interactive mode:")}
-  ${colors.dim("$")} obscr interactive
-
-${colors.primary(">")} ${colors.secondary("Verbose output:")}
-  ${colors.dim("$")} obscr encrypt -f image.png --verbose
-
-${colors.primary(">")} ${colors.secondary("Quiet mode (minimal output):")}
-  ${colors.dim("$")} obscr decrypt -f image.png --quiet
-`;
-
-  console.log(examples);
+  process.stdout.write("Examples:\n\n  obscr encrypt -f photo.png -o secret.png --compress\n  obscr decrypt -f secret.png -o message.txt\n  obscr interactive\n\nMessage and password prompts require a terminal.\nKeys: Up/Down selects; Enter confirms; Ctrl+C cancels.\nUse --help for flags. Set NO_COLOR for plain text.\n");
 }
 
-/**
- * Interactive mode - guided workflow
- */
 async function interactiveMode() {
-  showBanner();
-
-  const { action } = await prompt({
-    type: "list",
-    name: "action",
-    message: "What would you like to do?",
+  requireTerminal();
+  task("Choose an action");
+  process.stderr.write("Obscr - image messages\nKeys: Up/Down selects; Enter confirms; Ctrl+C cancels.\n");
+  const { action } = await ask({
+    type: "list", name: "action", message: "Choose an action:",
     choices: [
-      { name: colors.primary("[+]") + " Encrypt and hide a message in an image", value: "encrypt" },
-      { name: colors.secondary("[-]") + " Decrypt and extract a message from an image", value: "decrypt" },
-      { name: colors.accent("[?]") + " Show usage examples", value: "examples" },
-      { name: colors.dim("[x]") + " Exit", value: "exit" },
+      { name: "Encrypt and hide a message", value: "encrypt" },
+      { name: "Decrypt and extract a message", value: "decrypt" },
+      { name: "Show usage examples", value: "examples" },
+      { name: "Exit", value: "exit" },
     ],
   });
-
-  if (action === "exit") {
-    log.info("Goodbye!");
-    return;
-  }
-
-  if (action === "examples") {
-    showExamples();
-    return;
-  }
-
+  if (action === "exit") return;
+  if (action === "examples") { showExamples(); return; }
+  task(action === "encrypt" ? "Encrypt" : "Decrypt");
+  const files = await ask([imageQuestion, outputQuestion(action === "encrypt")]);
   if (action === "encrypt") {
-    const answers = await prompt([
-      {
-        type: "input",
-        name: "filename",
-        message: "Path to the PNG image:",
-        validate: (input) => {
-          if (!input) return "Filename is required";
-          if (!fs.existsSync(input)) return "File does not exist";
-          if (!input.toLowerCase().endsWith(".png")) return "Must be a PNG file";
-          return true;
-        },
-      },
-      {
-        type: "input",
-        name: "output",
-        message: "Output filename:",
-        default: "encoded.png",
-      },
-      {
-        type: "confirm",
-        name: "compress",
-        message: "Enable compression?",
-        default: false,
-      },
-      {
-        type: "editor",
-        name: "message",
-        message: "Enter your secret message (editor will open):",
-      },
-      {
-        type: "password",
-        name: "password",
-        message: "Enter password:",
-        mask: "*",
-      },
-      {
-        type: "password",
-        name: "confirmPassword",
-        message: "Confirm password:",
-        mask: "*",
-      },
-    ]);
-
-    if (answers.password !== answers.confirmPassword) {
-      log.error("Passwords don't match!");
-      return;
-    }
-
-    await encryptCommand(
-      answers.filename,
-      answers.output,
-      answers.compress,
-      answers.message,
-      answers.password
-    );
-  } else if (action === "decrypt") {
-    const answers = await prompt([
-      {
-        type: "input",
-        name: "filename",
-        message: "Path to the encoded PNG image:",
-        validate: (input) => {
-          if (!input) return "Filename is required";
-          if (!fs.existsSync(input)) return "File does not exist";
-          return true;
-        },
-      },
-      {
-        type: "input",
-        name: "output",
-        message: "Save to file (leave empty to display):",
-        default: "",
-      },
-      {
-        type: "password",
-        name: "password",
-        message: "Enter password:",
-        mask: "*",
-      },
-    ]);
-
-    await decryptCommand(answers.filename, answers.output || null, answers.password);
+    const { compress } = await ask({ type: "confirm", name: "compress", message: "Compress the message?", default: false });
+    const { message, password } = await encryptionQuestions();
+    await encryptCommand(files.filename, files.output, compress, message, password);
+  } else {
+    const { password } = await ask(passwordQuestion);
+    await decryptCommand(files.filename, files.output, password);
   }
 }
 
-/**
- * Encrypt command with enhanced UX
- */
-async function encryptCommand(filename, output, compress, message, password) {
-  const spinner = ora();
+process.on("SIGINT", () => controller.abort());
 
-  try {
-    // Validate input file
-    log.verbose(`Validating input file: ${filename}`);
-    if (!fs.existsSync(filename)) {
-      log.error(`Image file not found: ${filename}`);
-      return process.exit(1);
-    }
-
-    // Check for output file overwrite
-    if (fs.existsSync(output)) {
-      const { overwrite } = await prompt({
-        type: "confirm",
-        name: "overwrite",
-        message: `File ${output} already exists. Overwrite?`,
-        default: false,
-      });
-
-      if (!overwrite) {
-        log.warn("Operation cancelled");
-        return process.exit(0);
-      }
-    }
-
-    if (!message || message.trim().length === 0) {
-      log.error("Message cannot be empty");
-      return process.exit(1);
-    }
-
-    // Step 1: Encrypt message
-    spinner.start("Encrypting message with AES-256-GCM...");
-    log.verbose(`Using ${compress ? "compressed" : "uncompressed"} format`);
-
-    const encrypted = await encrypt(message, password, compress);
-
-    spinner.succeed("Message encrypted");
-    log.verbose(`Encrypted data length: ${encrypted.length} characters`);
-
-    if (compress) {
-      log.info("Compression enabled");
-    }
-
-    // Step 2: Embed in image
-    spinner.start("Embedding encrypted message into image...");
-    log.verbose(`Encoding to: ${output}`);
-
-    const result = await encodeMessageToImage(
-      filename,
-      encrypted,
-      password + SECRET_KEY,
-      output
-    );
-
-    if (!result.success) {
-      spinner.fail("Encoding failed");
-      log.error(result.error);
-      return process.exit(1);
-    }
-
-    spinner.succeed("Message successfully hidden in image");
-
-    // Show summary
-    if (!QUIET) {
-      const summary = `
-${colors.primary.bold("✔ Encryption Successful")}
-
-${colors.primary(">")} ${colors.muted("Output:")} ${chalk.white(output)}
-${colors.primary(">")} ${colors.muted("Capacity Used:")} ${colors.secondary(result.capacity.utilization)}
-    ${colors.dim("Total:")} ${result.capacity.totalBits} bits
-    ${colors.dim("Used:")} ${result.capacity.usedBits} bits
-${compress ? colors.primary(">") + " " + colors.muted("Compression:") + " " + colors.secondary("Enabled") : ""}
-`;
-      log.box(summary.trim(), { borderColor: "green" });
-    }
-
-    log.verbose("Encryption complete");
-  } catch (err) {
-    spinner.fail("Encryption failed");
-    log.error(err.message);
-    log.verbose(err.stack);
-    process.exit(1);
-  }
-}
-
-/**
- * Decrypt command with enhanced UX
- */
-async function decryptCommand(filename, output, password) {
-  const spinner = ora();
-
-  try {
-    // Validate input file
-    log.verbose(`Validating input file: ${filename}`);
-    if (!fs.existsSync(filename)) {
-      log.error(`Image file not found: ${filename}`);
-      return process.exit(1);
-    }
-
-    // Step 1: Extract from image
-    spinner.start("Extracting encrypted message from image...");
-    log.verbose(`Reading from: ${filename}`);
-
-    const extractResult = await extractMessageFromImage(
-      filename,
-      password + SECRET_KEY
-    );
-
-    if (!extractResult.success) {
-      spinner.fail("Extraction failed");
-      log.error(extractResult.error);
-      return process.exit(1);
-    }
-
-    spinner.succeed("Encrypted message extracted");
-    log.verbose(`Extracted ${extractResult.data.length} characters`);
-
-    // Step 2: Decrypt message
-    spinner.start("Decrypting message with AES-256-GCM...");
-
-    const decrypted = await decrypt(extractResult.data, password);
-
-    spinner.succeed("Message decrypted successfully");
-
-    // Display or save result
-    if (output) {
-      fs.writeFileSync(output, decrypted);
-      log.success(`Message saved to: ${output}`);
-    } else {
-      if (!QUIET) {
-        const messageBox = `
-${colors.primary.bold("✔ Decryption Successful")}
-
-${colors.primary(">")} ${colors.muted("Message:")}
-
-${chalk.white(decrypted)}
-`;
-        log.box(messageBox.trim(), { borderColor: "green" });
-      } else {
-        console.log(decrypted);
-      }
-    }
-
-    log.verbose("Decryption complete");
-  } catch (err) {
-    spinner.fail("Decryption failed");
-    log.error("Could not decrypt. Wrong password or corrupted image.");
-    log.verbose(err.message);
-    log.verbose(err.stack);
-    process.exit(1);
-  }
-}
-
-// Parse arguments
-const usage = colors.primary("\nUsage: obscr <command> [options]");
-
-// Track if a command was executed
-let commandExecuted = false;
-
-const argv = yargs(hideBin(process.argv))
-  .usage(usage)
-  .option("verbose", {
-    alias: "v",
-    describe: "Show detailed output",
-    type: "boolean",
-    global: true,
-  })
-  .option("quiet", {
-    alias: "q",
-    describe: "Minimal output (only essential messages)",
-    type: "boolean",
-    global: true,
-  })
-  .command(
-    "encrypt",
-    "Encrypt and hide a message in an image",
-    {
-      f: {
-        alias: "filename",
-        describe: "PNG image to hide the message in",
-        demandOption: true,
-        type: "string",
-      },
-      o: {
-        alias: "output",
-        describe: "Output filename for encoded image",
-        demandOption: false,
-        type: "string",
-        default: "encoded.png",
-      },
-      c: {
-        alias: "compress",
-        describe: "Compress message before encryption (50-90% size reduction)",
-        demandOption: false,
-        type: "boolean",
-        default: false,
-      },
-    },
-    async (argv) => {
-      commandExecuted = true;
-      VERBOSE = argv.verbose;
-      QUIET = argv.quiet;
-
-      if (!QUIET) showBanner();
-
-      const { f: filename, o: output, c: compress } = argv;
-
-      const { password, confirmPassword, message } = await prompt([
-        {
-          type: "editor",
-          name: "message",
-          message: "Type the secret message:",
-        },
-        {
-          type: "password",
-          name: "password",
-          message: "Enter password:",
-          mask: "*",
-        },
-        {
-          type: "password",
-          name: "confirmPassword",
-          message: "Confirm password:",
-          mask: "*",
-        },
-      ]);
-
-      if (password !== confirmPassword) {
-        log.error("Passwords don't match");
-        return process.exit(1);
-      }
-
-      await encryptCommand(filename, output, compress, message, password);
-    }
-  )
-  .command(
-    "decrypt",
-    "Decrypt and extract a message from an image",
-    {
-      f: {
-        alias: "filename",
-        describe: "PNG image containing hidden message",
-        demandOption: true,
-        type: "string",
-      },
-      o: {
-        alias: "output",
-        describe: "Save decrypted message to file",
-        demandOption: false,
-        type: "string",
-      },
-    },
-    async (argv) => {
-      commandExecuted = true;
-      VERBOSE = argv.verbose;
-      QUIET = argv.quiet;
-
-      if (!QUIET) showBanner();
-
-      const { f: filename, o: output } = argv;
-
-      const { password } = await prompt({
-        type: "password",
-        name: "password",
-        message: "Enter password:",
-        mask: "*",
-      });
-
-      await decryptCommand(filename, output, password);
-    }
-  )
-  .command(
-    "interactive",
-    "Start interactive mode with guided workflow",
-    {},
-    async (argv) => {
-      commandExecuted = true;
-      VERBOSE = argv.verbose;
-      QUIET = argv.quiet;
+try {
+  const argv = await yargs(hideBin(process.argv))
+    .usage("Usage: obscr <command> [options]")
+    .wrap(Math.min(process.stdout.columns || 80, 100))
+    .option("verbose", { alias: "v", describe: "Show safe progress details on stderr", type: "boolean", global: true })
+    .option("quiet", { alias: "q", describe: "Hide progress; keep results and errors", type: "boolean", global: true })
+    .command("encrypt", "Encrypt and hide a message in an image", (command) => command.options({
+      f: { alias: "filename", describe: "Supported PNG input", demandOption: true, type: "string" },
+      o: { alias: "output", describe: "Output PNG path", default: "encoded.png", type: "string" },
+      c: { alias: "compress", describe: "Compress the message before encryption", default: false, type: "boolean" },
+    }).epilog(helpText), async (args) => {
+      configure(args);
+      requireTerminal();
+      task("Encrypt");
+      const { message, password } = await encryptionQuestions();
+      await encryptCommand(args.f, args.o, args.c, message, password);
+    })
+    .command("decrypt", "Decrypt and extract a message from an image", (command) => command.options({
+      f: { alias: "filename", describe: "Supported PNG input", demandOption: true, type: "string" },
+      o: { alias: "output", describe: "Output text path; omit to display text", type: "string" },
+    }).epilog(helpText), async (args) => {
+      configure(args);
+      requireTerminal();
+      task("Decrypt");
+      const { password } = await ask(passwordQuestion);
+      await decryptCommand(args.f, args.o, password);
+    })
+    .command("interactive", "Start the guided workflow", (command) => command.epilog(helpText), async (args) => {
+      configure(args);
       await interactiveMode();
-    }
-  )
-  .command(
-    "examples",
-    "Show usage examples",
-    {},
-    () => {
-      commandExecuted = true;
-      showBanner();
-      showExamples();
-    }
-  )
-  .epilog(`Run ${colors.primary("obscr examples")} to see usage examples`)
-  .help()
-  .alias("help", "h")
-  .version("1.1.1")
-  .alias("version", "V")
-  .strict();
-
-// Parse the arguments
-const parsedArgv = argv.parse();
-
-// If no command was executed and not showing help/version, enter interactive mode
-if (!commandExecuted && !parsedArgv.help && !parsedArgv.version) {
-  VERBOSE = parsedArgv.verbose;
-  QUIET = parsedArgv.quiet;
-  interactiveMode().catch((err) => {
-    log.error(err.message);
-    process.exit(1);
-  });
+    })
+    .command("examples", "Show usage examples", {}, (args) => { configure(args); showExamples(); })
+    .epilog(helpText)
+    .help().alias("help", "h")
+    .version("1.1.1").alias("version", "V")
+    .strict().exitProcess(false).showHelpOnFail(false)
+    .fail((message, failure) => { throw failure || new Error(message); })
+    .parseAsync();
+  if (!commandExecuted && !argv.help && !argv.version) {
+    configure(argv);
+    await interactiveMode();
+  }
+} catch (failure) {
+  const cancelled = controller.signal.aborted || failure.code === "CANCELLED";
+  process.stderr.write(`Error: ${terminalText(cancelled ? cancellation().message : failure.message)}\n`);
+  process.exitCode = cancelled ? 130 : 1;
 }

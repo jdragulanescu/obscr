@@ -237,9 +237,10 @@ button {
 .image-path {
   font-size: 12px;
   color: hsl(var(--foreground));
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
   flex: 1;
   background: hsl(var(--muted) / 0.5);
   padding: 8px 12px;
@@ -877,4 +878,84 @@ button {
   .legal-page h1 {
     font-size: 16px;
   }
+}
+
+/* Shared operation controls retain the terminal palette at narrow widths. */
+.panel, .field, .image-item, .result-section, .password-input-wrapper {
+  min-width: 0;
+}
+.panel textarea, .panel input:not([type="checkbox"]) {
+  max-width: 100%;
+}
+.image-upload, .password-input-row, .actions-row, .result-actions {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.image-path, .field-help, .input-error, .result-value, .operation-status,
+.message-display, .result-section, .discard-dialog {
+  overflow-wrap: anywhere;
+}
+.terminal-tabs {
+  height: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.terminal-tab, button {
+  white-space: normal;
+  height: auto;
+}
+.terminal-tab {
+  min-width: 0;
+  padding: 8px;
+}
+.field-help {
+  margin: 0;
+  font-size: 0.85rem;
+  color: hsl(var(--foreground));
+}
+.input-error {
+  margin: 0;
+  color: #ffb5ae;
+}
+.operation-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.operation-status [role="status"] {
+  flex: 1 1 12rem;
+}
+.discard-dialog {
+  width: min(32rem, calc(100% - 24px));
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--primary));
+  border-radius: 6px;
+  padding: 24px;
+}
+.discard-dialog::backdrop {
+  background: rgb(0 0 0 / 75%);
+}
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 3px;
+}
+button:disabled, a[aria-disabled="true"] {
+  opacity: 0.6;
+}
+.message-display pre, .panel pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+  .terminal-tabs { grid-template-columns: 1fr; }
+  .image-comparison { grid-template-columns: 1fr; flex-direction: column; }
+  .password-input-row, .image-upload { flex-direction: column; align-items: stretch; }
+  .ascii-art { font-size: min(11px, 1.7vw); }
+  .result-actions > button, .actions-row > button { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
 }

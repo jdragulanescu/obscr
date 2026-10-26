@@ -5,30 +5,24 @@ import {
 } from "../../lib/steg.js";
 import fs from "fs";
 import path from "path";
+import os from "os";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
-const OUTPUT_DIR = path.join(__dirname, "..", "output");
+let OUTPUT_DIR;
 const TEST_IMAGE = path.join(FIXTURES_DIR, "test-large.png");
 const SECRET_KEY = "S3cReTK3Y"; // Same as in index.js
 
 describe("Full Encryption/Decryption Workflow", () => {
-  beforeAll(() => {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
+  beforeEach(() => {
+    OUTPUT_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "obscr-workflow-"));
   });
 
-  afterAll(() => {
-    if (fs.existsSync(OUTPUT_DIR)) {
-      const files = fs.readdirSync(OUTPUT_DIR);
-      files.forEach((file) => {
-        fs.unlinkSync(path.join(OUTPUT_DIR, file));
-      });
-    }
+  afterEach(() => {
+    fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
   });
 
   describe("Basic workflow", () => {

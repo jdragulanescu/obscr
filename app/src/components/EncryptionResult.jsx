@@ -1,100 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ImageComparison } from "./ImageComparison";
-import { CheckCircle2, Download } from "lucide-react";
+import { OperationStatus } from "./OperationStatus";
 import { generateImageDiff, downloadBlob } from "../lib/steg";
+import { disposeComparison, useFormOperation } from "../lib/useFormOperation";
 
-export const EncryptionResult = ({ result, onReset }) => {
+export const EncryptionResult = ({ result, onBusyChange }) => {
   const [images, setImages] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadImages = async () => {
-      if (!result.originalFile || !result.encodedBlob) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        // Convert blob to File for diff generation
-        const encodedFile = new File([result.encodedBlob], "encoded.png", { type: "image/png" });
-        const imageData = await generateImageDiff(result.originalFile, encodedFile);
-
-        if (imageData?.ok) {
-          setImages(imageData);
-        }
-      } catch (err) {
-        console.error("Failed to generate image diff:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadImages();
-  }, [result]);
-
-  if (!result) return null;
-
-  return (
-    <div className="encryption-result">
-      <div className="result-header">
-        <CheckCircle2 size={24} className="success-icon" />
-        <h3>Encryption Successful!</h3>
-      </div>
-
-      <div className="result-content">
-        <div className="result-section">
-          <div className="result-label">Output Image</div>
-          <div className="result-value">{result.outputPath}</div>
-        </div>
-
-        {images && !loading && <ImageComparison images={images} />}
-
-        {loading && (
-          <div className="result-section">
-            <div className="result-label">Loading images...</div>
-          </div>
-        )}
-
-        {result.capacity && (
-          <div className="result-section">
-            <div className="result-label">Capacity Statistics</div>
-            <div className="capacity-stats">
-              <div className="stat-item">
-                <span className="stat-label">Capacity Used:</span>
-                <span className="stat-value">{result.capacity.utilization}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">Total Bits:</span>
-                <span className="stat-value">{result.capacity.totalBits?.toLocaleString() || 'N/A'}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">Used Bits:</span>
-                <span className="stat-value">{result.capacity.usedBits?.toLocaleString() || 'N/A'}</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="result-info">
-          <p>Your message has been encrypted with AES-256-GCM and hidden in the image using LSB steganography.</p>
-          <p>The entire image capacity has been filled with random data to prevent statistical analysis.</p>
-          <p>The encrypted image has been downloaded to your device.</p>
-        </div>
-      </div>
-
-      <div className="result-actions">
-        <Button
-          variant="primary"
-          onClick={() => downloadBlob(result.encodedBlob, result.outputPath || "encoded.png")}
-        >
-          <Download size={16} />
-          Download Encoded Image
-        </Button>
-        <Button variant="outline" onClick={onReset}>
-          Encrypt Another Message
-        </Button>
-      </div>
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const operation = useFormOperation();
+  useLayoutEffect(() => { onBusyChange?.(operation.busy); }, [operation.busy, onBusyChange]);
+  useEffect(() => () => disposeComparison(images), [images]);
+  const compare = async () => {
+    setImages(null); setError(""); setNotice("");
+    const compared = await operation.run("Comparing images…", (options) => generateImageDiff(result.originalFile, result.encodedBlob, options));
+    if (!compared) return;
+    if (compared.ok) { setImages(compared); setNotice("Visual comparison complete. This is not a security test."); }
+    else setError(compared.error);
+  };
+  return <section className="encryption-result" aria-label="Encryption result">
+    <div className="result-header"><h3>Encryption complete</h3></div>
+    <p>The encoded image is ready. Download it to keep a copy.</p>
+    <div className="result-actions">
+      <Button type="button" variant="primary" disabled={operation.busy} onClick={() => downloadBlob(result.encodedBlob, "encoded.png")}>Download encoded image</Button>
+      <Button type="button" variant="outline" disabled={operation.busy} onClick={compare}>Generate visual comparison</Button>
     </div>
-  );
+    {operation.busy && <p className="field-help">Download and comparison controls are unavailable until comparison ends. You can cancel below.</p>}
+    <OperationStatus stage={operation.stage} notice={notice} onCancel={() => { operation.cancel(); setImages(null); setNotice("Comparison cancelled. Your encoded image is kept."); }} />
+    {error && <p className="input-error" role="alert">{error}</p>}
+    {images && <ImageComparison images={images} />}
+  </section>;
 };
