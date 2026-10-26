@@ -326,10 +326,47 @@ Encrypted message format: `salt:nonce:ciphertext:tag[:compressed]`
 - **tag**: 16 bytes (base64) - GCM authentication tag
 - **compressed**: Optional flag "1" if data was compressed
 
+### Next-format preparation (development branch)
+
+The next-format operation is separate from the current CLI and PWA routes.
+It is not a release or a format cutover. Node callers import `prepareEncode`
+and `discard` from `lib/protected-node.js`; browser callers use
+`app/src/lib/protected.js`. Encoding and recovery are not exported by these adapters.
+
+`await prepareEncode({ pngBytes, message, compress }, { signal, onProgress })`
+returns `{ ok: true, preparation, originalBytes, storedBytes, compressionUsed,
+maxStoredBytes, hasFrameCapacity, fits, metadataNotice }`, or
+`{ ok: false, code, error }`. `pngBytes` must be a whole, owned `Uint8Array`
+backed by an `ArrayBuffer`; the worker takes that buffer by transfer.
+Bound file reads to 16 MiB before calling. Do not reuse transferred bytes.
+
+Preparation preserves exact UTF-8, including BOM, line endings and whitespace,
+rejects unpaired surrogates and more than 1 MiB of text, and permits empty wire
+text. Gzip is explicit, bounded, and used only when smaller. If compression
+cannot provide a smaller bounded stream, raw fallback requires enough capacity;
+a compressor failure is an error. Raw preparation can return `fits: false`.
+Capacity includes framing, authentication, repair and symbol padding; it is
+limited to 512 stored bytes. `hasFrameCapacity: false` is distinct from
+`hasFrameCapacity: true, maxStoredBytes: 0` (empty-only).
+
+The opaque handle belongs to this worker and input revision. Replacing the
+image, text or compression requires a new preparation; password-only edits
+do not. `await discard(preparation)` releases the current handle and reports
+`{ ok: true, discarded: true }`; stale, foreign and repeated handles report
+`discarded: false`. One heavyweight image operation runs per tab/process.
+An overlapping request returns `BUSY`, without cancelling the current request.
+
+An `AbortSignal` cancels active work by terminating its worker. Cancellation,
+worker exit and failed replacement invalidate the preparation; a later call
+can start again. Progress reports `checking inputs` and
+`preparing text/capacity`, without percentages. No key derivation or salt/nonce
+randomness runs during preparation. There is no main-thread fallback or timer
+that weakens the operation. Retained Node workers do not keep the process alive.
+
 ### Dependencies
 - `crypto` (Node.js built-in): For AES-256-GCM encryption
 - `zlib` (Node.js built-in): For optional compression
-- `pako`: Bounded raw PNG inflation shared by the CLI and browser
+- `pako`: Bounded PNG inflation and next-format gzip preparation shared by the CLI and browser
 - `crypto-js`: For SHA-512 hashing
 - `yargs`: For CLI argument parsing
 - `inquirer`: For interactive prompts
