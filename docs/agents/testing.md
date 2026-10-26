@@ -33,6 +33,10 @@ Keep command lines short; put details beside the tool or in
 - **Dev server**: `npm run dev`: read its printed `Local:` URL; the port may not be 5173.
 - **PWA preview**: `npm run preview`: serve the built PWA after `npm run build`.
 
+Component tests run in the same Jest suite with real React DOM and jsdom.
+`test/jsx-transform.cjs` compiles JSX for Jest. Worker-adapter fakes control
+cancellation and late replies; separate tests exercise the real workers.
+
 ## Isolation
 
 File-writing tests use unique system temporary directories and remove only their own files.
