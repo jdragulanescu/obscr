@@ -44,6 +44,15 @@ async function deriveKey(password, salt) {
   return derivedKey;
 }
 
+function toBase64(bytes) {
+  const parts = [];
+  // Bound argument counts on engines with smaller stacks than Node.
+  for (let offset = 0; offset < bytes.length; offset += 8192) {
+    parts.push(String.fromCharCode(...bytes.subarray(offset, offset + 8192)));
+  }
+  return btoa(parts.join(""));
+}
+
 /**
  * Encrypts a message using AES-256-GCM with optional compression
  * Format: salt:nonce:ciphertext:tag[:compressed]
@@ -83,10 +92,10 @@ export async function encrypt(message, password, compress = false) {
   const tag = encryptedArray.slice(-cryptoConfig.tagLength);
 
   // Convert to base64 format: salt:nonce:ciphertext:tag[:compressed]
-  const saltB64 = btoa(String.fromCharCode(...salt));
-  const nonceB64 = btoa(String.fromCharCode(...nonce));
-  const ciphertextB64 = btoa(String.fromCharCode(...ciphertext));
-  const tagB64 = btoa(String.fromCharCode(...tag));
+  const saltB64 = toBase64(salt);
+  const nonceB64 = toBase64(nonce);
+  const ciphertextB64 = toBase64(ciphertext);
+  const tagB64 = toBase64(tag);
 
   const compressionFlag = compress ? ":1" : "";
   return `${saltB64}:${nonceB64}:${ciphertextB64}:${tagB64}${compressionFlag}`;
