@@ -1,3 +1,5 @@
+import { acquireImageOperation, releaseImageOperation } from "../../../lib/image-operation.js";
+
 // The worker owns input bytes, admitted samples and all expensive image work.
 // Only small results and completed output blobs cross back to this tab.
 let active = null;
@@ -8,6 +10,8 @@ function run(operation, args, { signal, onProgress } = {}) {
   if (signal?.aborted) return Promise.resolve(cancelled());
   if (active) return Promise.resolve({ ok: false, code: "BUSY", error: "Another image operation is active. Cancel it or wait for it to finish." });
   const id = ++revision;
+  const lease = {};
+  if (!acquireImageOperation(lease)) return Promise.resolve({ ok: false, code: "BUSY", error: "Image resources are in use. Wait for active work to finish, cancel it, or discard the retained preparation." });
   return new Promise((resolve) => {
     let worker;
     let settled = false;
@@ -17,6 +21,7 @@ function run(operation, args, { signal, onProgress } = {}) {
       signal?.removeEventListener("abort", abort);
       worker?.terminate();
       if (active?.id === id) active = null;
+      releaseImageOperation(lease);
       resolve(result);
     };
     const abort = () => finish(cancelled());

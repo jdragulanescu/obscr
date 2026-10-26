@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Worker-backed preparation for the next protected-image format: exact UTF-8,
+  bounded optional gzip, detail-ranked net capacity, retained opaque handles and
+  cancellation in Node and browsers. The existing app routes are not switched yet.
 - Shared bounded PNG admission for CLI, browser message operations and comparison
   inputs; raw RGB and opaque RGBA samples are checked without canvas conversion.
 - Cancellable image workers, stale-result suppression, explicit discard confirmation,
