@@ -2,6 +2,12 @@
 
 Candidate: `5594f2f`; application code is unchanged from the accepted Human check at `a77d02c`. Fixed point: `c7219a6dd9abb7abf779ca724f077a0bc80129ec` (first #62 claim). The default branch was already included. Date: 2026-10-26.
 
+This is the historical P1 evidence record. #70 migrates the export and Diff
+journeys to the new protected-image operations, with 512×512 detailed covers
+where a complete frame is required. Its verification is recorded on #70;
+the older dimensions, APIs and line references below describe the named P1
+candidate, not the current format. PNG policy remains unchanged.
+
 Sources: [feature #45](https://github.com/jdragulanescu/obscr/issues/45), [accepted format §6, D5 and PNG/resource parts of §5](https://github.com/jdragulanescu/obscr/issues/19#issuecomment-6387228703), [application D1 Diff](https://github.com/jdragulanescu/obscr/issues/21#issuecomment-6387616398).
 
 ## Result and evidence levels

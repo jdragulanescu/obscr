@@ -4,7 +4,8 @@ import { PasswordInput } from "./PasswordInput";
 import { MessageDisplay } from "./MessageDisplay";
 import { OperationStatus } from "./OperationStatus";
 import { Button } from "./ui/button";
-import { admitImage, extractMessage, downloadBlob } from "../lib/steg";
+import { admitImage, readImageBytes, downloadBlob } from "../lib/steg";
+import { decode } from "../lib/protected";
 import { useFormOperation } from "../lib/useFormOperation";
 
 function submissionReason(locked, admitted, password) {
@@ -22,9 +23,10 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
   const [imageError, setImageError] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("Choose a supported PNG to start.");
+  const [decoding, setDecoding] = useState(false);
   const operation = useFormOperation();
   const id = useId();
-  const locked = operation.stage === "Decrypting message…";
+  const locked = decoding;
   const dirty = Boolean(file || password || message !== null);
   useLayoutEffect(() => { onStateChange?.({ dirty, busy: operation.busy, locked }); }, [dirty, locked, operation.busy, onStateChange]);
   const pick = async (selected) => {
@@ -34,16 +36,19 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
     if (result.ok) { setAdmitted(true); setNotice("PNG accepted. Enter the password."); }
     else { setImageError(result.error); setPassword(""); }
   };
-  const cancel = () => { operation.cancel(); setPassword(""); setMessage(null); setNotice("Cancelled. Your image is kept. Enter the password to try again, or choose the image again if admission was cancelled."); };
+  const cancel = () => { operation.cancel(); setDecoding(false); setPassword(""); setMessage(null); setNotice("Cancelled. Your image is kept. Enter the password to try again, or choose the image again if admission was cancelled."); };
   const clear = () => { cancel(); setFile(null); setAdmitted(false); setImageError(""); setError(""); setNotice("Cleared. Choose a supported PNG to start again."); };
   const reason = submissionReason(locked, admitted, password);
   const submit = async (event) => {
     event.preventDefault(); if (reason || operation.busy) return;
-    setMessage(null); setError(""); setNotice("");
-    const result = await operation.run("Decrypting message…", (options) => extractMessage(file, password, options));
+    setMessage(null); setError(""); setNotice(""); setDecoding(true);
+    const result = await operation.run("Checking inputs…", async (options) => {
+      const pngBytes = await readImageBytes(file);
+      return decode({ pngBytes, password }, options);
+    });
     if (!result) return;
-    setPassword("");
-    if (result.ok) { setMessage(result.message); setNotice("Decryption complete."); }
+    setDecoding(false); setPassword("");
+    if (result.ok) { setMessage(result.message); setNotice("Authenticated message recovered."); }
     else setError(result.error);
   };
   const download = () => {
@@ -53,7 +58,7 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
   };
   return <form className="panel" onSubmit={submit}>
     <ImageUpload label="Encoded image (PNG)" filePath={file} onPick={pick} disabled={locked} error={imageError} />
-    <PasswordInput label="Password" value={password} disabled={locked || !admitted} showStrength={false} onChange={(value) => { setPassword(value); setMessage(null); setError(""); }} />
+    <PasswordInput label="Password" value={password} disabled={locked || !admitted} showStrength={false} onChange={(value) => { setPassword(value); setMessage(null); setError(""); setNotice(""); }} />
     {error && <p className="input-error" role="alert">{error}</p>}
     <p id={`${id}-reason`} className="field-help">{reason}</p>
     <div className="actions-row">

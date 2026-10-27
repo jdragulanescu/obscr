@@ -16,12 +16,11 @@ it("uses one bounded gzip member only when it makes the exact text smaller", asy
   await discard(result.preparation);
 });
 
-it("rejects competing work across the retained interface and existing image operations", async () => {
-  const { extractMessageFromImage } = await import("../../lib/steg.js");
+it("rejects an overlapping preparation without replacing the active one", async () => {
   const pending = prepareEncode({ pngBytes: image(), message: "public", compress: false });
   expect(await prepareEncode({ pngBytes: image(1, 1), message: "", compress: false })).toMatchObject({ ok: false, code: "BUSY" });
-  expect(await extractMessageFromImage("unused.png", "public")).toMatchObject({ success: false, code: "BUSY" });
   const result = await pending;
+  expect(result).toMatchObject({ ok: true, fits: true, originalBytes: 6 });
   await discard(result.preparation);
 });
 

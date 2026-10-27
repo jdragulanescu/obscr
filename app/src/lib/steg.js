@@ -1,4 +1,5 @@
 import { acquireImageOperation, releaseImageOperation } from "../../../lib/image-operation.js";
+export { readImageBytes } from "./readImageBytes.js";
 
 // The worker owns input bytes, admitted samples and all expensive image work.
 // Only small results and completed output blobs cross back to this tab.
@@ -51,18 +52,6 @@ export function admitImage(file, options = {}) {
   return run("admit", { file }, options);
 }
 
-export function embedMessage(file, message, password, options = {}) {
-  const { compress = false, obfuscate = true } = options;
-  return run("embed", { file, message, password, compress, obfuscate }, options);
-}
-
-export function extractMessage(file, password, options = {}) {
-  return run("extract", { file, password }, options);
-}
-
-export function estimateCapacity(file, message, compress = false, options = {}) {
-  return run("capacity", { file, message, compress }, options);
-}
 
 export async function generateImageDiff(originalFile, encodedFile, options = {}) {
   const result = await run("diff", { file: originalFile, secondFile: encodedFile }, options);

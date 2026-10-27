@@ -38,10 +38,9 @@ async function request(operation, args) {
   }
 }
 
-it("reports malformed PNG input before attempting hidden-message recovery", async () => {
-  const result = await request("extract", {
+it("reports malformed PNG input at admission", async () => {
+  const result = await request("admit", {
     file: new Blob([new Uint8Array([1, 2, 3])]),
-    password: "public-password",
   });
   expect(result).toMatchObject({ ok: false, code: "PNG_INVALID" });
 });
@@ -52,16 +51,17 @@ it("refuses transparent input and excessive source bytes in the real worker", as
 });
 
 it("admits the minimum dimensions without claiming message capacity", async () => {
-  expect(await request("capacity", { file: image(1, 1), message: "hello", compress: false })).toMatchObject({
-    ok: true, totalBits: 3, estimatedBits: 784,
+  expect(await request("admit", { file: image(1, 1) })).toMatchObject({
+    ok: true, width: 1, height: 1,
   });
 });
 
 it("rejects invalid requests at the actual worker boundary", async () => {
   expect(await request("unknown", {})).toMatchObject({ ok: false, code: "INPUT_INVALID" });
   expect(await request("admit", { file: { size: 1 } })).toMatchObject({ ok: false, code: "INPUT_INVALID" });
-  expect(await request("embed", { file: image(), message: "hello", password: "", compress: false, obfuscate: false })).toMatchObject({ ok: false, code: "INPUT_INVALID" });
-  expect(await request("capacity", { file: image(), message: "hello", compress: "yes" })).toMatchObject({ ok: false, code: "INPUT_INVALID" });
+  for (const operation of ["embed", "extract", "capacity"]) {
+    expect(await request(operation, { file: image() })).toMatchObject({ ok: false, code: "INPUT_INVALID" });
+  }
 });
 
 it("keeps a specific input error when the second comparison image fails admission", async () => {
@@ -98,26 +98,3 @@ it("compares native samples and reports changed pixels without a security score"
   expect([...overlay.data]).toEqual([45, 150, 60, 255, 0, 0, 0, 255]);
 });
 
-it("exchanges a complete message through real worker encode and decode", async () => {
-  const encoded = await request("embed", { file: image(), message: "Public message", password: "public-password", compress: false, obfuscate: false });
-  expect(encoded.ok).toBe(true);
-  expect(await request("extract", { file: encoded.blob, password: "public-password" })).toEqual({ ok: true, message: "Public message" });
-  expect(await request("extract", { file: encoded.blob, password: "wrong-password" })).toMatchObject({ ok: false, code: "RECOVERY_FAILED" });
-});
-
-it("checks a large message without overflowing argument or carrier allocations", async () => {
-  const result = await request("capacity", { file: image(1024, 1024), message: "a".repeat(200000), compress: false });
-  expect(result).toMatchObject({ ok: true, totalBits: 3145728, estimatedBits: 2134064 });
-});
-
-it.each([
-  ["ASCII", "a".repeat(1048576)],
-  ["multibyte", "é".repeat(524288)],
-])("admits exactly 1 MiB of %s text and rejects one more UTF-8 byte", async (_kind, message) => {
-  const args = { file: image(), message, compress: false };
-  expect(await request("capacity", args)).toMatchObject({
-    ok: true, totalBits: 30000, estimatedBits: 11185552,
-  });
-  expect(await request("capacity", { ...args, message: message + "a" }))
-    .toMatchObject({ ok: false, code: "INPUT_LIMIT" });
-});
