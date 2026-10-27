@@ -1,4 +1,4 @@
-Obscr protected-image Reed-Solomon repair
+Obscr protected-image Reed-Solomon repair and encoding
 
 Copyright 2007 ZXing authors
 Licensed under Apache License 2.0; see protected-repair.LICENSE.
@@ -26,15 +26,16 @@ ReedSolomonDecoder.ts: c5838e86b04bddb3ffb5a1e7c6197f17cd4ce5bd576fb6e60f44d87ec
 LICENSE: 849b3ff4527ff587eecc78736b5685bbba7a44b071f3b944da914e832292f6c0
 
 Changes in protected-repair.js:
-- Merge only the decode dependency closure into one private ES module.
+- Merge the repair dependency closure into one private ES module.
 - Fix GF(256) to 0x11d, primitive element 2, generator base 0 and 16 parity bytes.
-- Remove encoding, generic field selection and unused polynomial methods.
+- Remove generic field selection and unused polynomial methods.
 - Use Uint8Array arithmetic buffers and views for leading-zero removal.
 - Store logarithms at value minus one; field tables each contain 255 entries.
 - Bound array lengths, Euclidean/division iterations and correction count.
 - Reject locations outside the shortened codeword and nonzero residual syndromes.
 - Preserve the input; return a data-only copy with 16 parity bytes removed.
+- Add fixed systematic shortened encoding using the same field and polynomial arithmetic.
 
 The accompanying LICENSE is the full unmodified historical upstream license,
 including its third-party jai-imageio notice. No jai-imageio code is included
-in this decode-only port.
+in this port.
