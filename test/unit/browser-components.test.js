@@ -5,13 +5,15 @@ import { downloadBlob as browserDownload } from "../../app/src/lib/steg.js";
 
 const adapter = {
   admitImage: jest.fn(),
-  estimateCapacity: jest.fn(),
-  embedMessage: jest.fn(),
-  extractMessage: jest.fn(),
+  readImageBytes: jest.fn(),
   generateImageDiff: jest.fn(),
   downloadBlob: jest.fn(),
 };
 jest.unstable_mockModule("../../app/src/lib/steg.js", () => adapter);
+const protectedAdapter = {
+  prepareEncode: jest.fn(), encode: jest.fn(), decode: jest.fn(), discard: jest.fn(),
+};
+jest.unstable_mockModule("../../app/src/lib/protected.js", () => protectedAdapter);
 
 let dom, createRoot, EncryptForm, DecryptForm, ImageDiffForm, App;
 let root, container, calls;
@@ -42,7 +44,10 @@ beforeAll(async () => {
 beforeEach(() => {
   jest.useFakeTimers();
   calls = [];
-  for (const [name, fn] of Object.entries(adapter)) {
+  adapter.readImageBytes.mockReset().mockResolvedValue(new Uint8Array([1, 2, 3]));
+  protectedAdapter.discard.mockReset();
+  for (const [name, fn] of Object.entries({ ...adapter, ...protectedAdapter })) {
+    if (name === "readImageBytes" || name === "discard") continue;
     fn.mockReset();
     if (name === "downloadBlob") continue;
     fn.mockImplementation((...args) => {
@@ -117,14 +122,226 @@ async function submit() {
   await act(async () => container.querySelector("form").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })));
   return calls.at(-1);
 }
-async function capacity(result = { ok: true, estimatedBits: 8, totalBits: 64, utilization: "12.5%" }) {
+async function capacity(result = { ok: true, preparation: {}, originalBytes: 14, storedBytes: 14, maxStoredBytes: 512, compressionUsed: false, hasFrameCapacity: true, fits: true, metadataNotice: "Personal metadata is removed." }) {
   await act(async () => jest.advanceTimersByTime(300));
-  expect(calls.at(-1).name).toBe("estimateCapacity");
+  expect(calls.at(-1).name).toBe("prepareEncode");
   await reply(calls.at(-1), result);
 }
 const preview = () => ({ ok: true, original: "blob:original", encoded: "blob:encoded", diff: "blob:diff", averageDifference: 0 });
 
 describe("real browser components", () => {
+  test("compression displays its actual use and empty creation does not prepare", async () => {
+    await render(EncryptForm);
+    await admit();
+    await type(".password-input-field", "public-password");
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+    await act(async () => jest.advanceTimersByTime(300));
+    expect(protectedAdapter.prepareEncode).not.toHaveBeenCalled();
+    await type("textarea", "public ".repeat(200));
+    await click(container.querySelector('input[type="checkbox"]'));
+    await capacity({ ok: true, preparation: {}, originalBytes: 1400, storedBytes: 40, maxStoredBytes: 512, compressionUsed: true, hasFrameCapacity: true, fits: true, metadataNotice: "Metadata notice." });
+    expect(protectedAdapter.prepareEncode.mock.calls.at(-1)[0]).toEqual({
+      pngBytes: new Uint8Array([1, 2, 3]), message: "public ".repeat(200), compress: true,
+    });
+    expect(container.textContent).toContain("Original: 1400 bytes");
+    expect(container.textContent).toContain("Stored: 40 bytes");
+    expect(container.textContent).toContain("Compression used: yes");
+    expect(container.textContent).toContain("Metadata notice.");
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+  });
+  test("a bounded-read failure clears the password without sending a recovery request", async () => {
+    await render(DecryptForm);
+    await admit();
+    await type(".password-input-field", "public-password");
+    adapter.readImageBytes.mockRejectedValueOnce(Object.assign(new Error("Could not read the image. Select it again."), { code: "READ_FAILED" }));
+    await submit();
+    expect(protectedAdapter.decode).not.toHaveBeenCalled();
+    expect(container.textContent).toContain("Could not read the image. Select it again.");
+    expect(container.querySelector(".password-input-field").value).toBe("");
+    expect(container.querySelector(".password-input-field").disabled).toBe(false);
+    expect(container.textContent).toContain("source.png");
+  });
+
+  test("safe progress keeps recovery locked, delays its spinner and ignores late stages", async () => {
+    await render(App);
+    await click(container.querySelector("#task-decrypt"));
+    await admit();
+    await type(".password-input-field", "public-password");
+    const pending = await submit();
+    expect(container.querySelector(".spinner")).toBeNull();
+    await act(async () => pending.args[1].onProgress("deriving keys"));
+    expect(container.textContent).toContain("deriving keys");
+    expect(container.querySelector(".password-input-field").disabled).toBe(true);
+    expect(container.querySelector("#task-encrypt").disabled).toBe(true);
+    await act(async () => jest.advanceTimersByTime(1000));
+    expect(container.querySelector(".spinner")).not.toBeNull();
+    await click(button("Cancel"));
+    await act(async () => pending.args[1].onProgress("preparing result"));
+    expect(container.textContent).not.toContain("preparing result");
+    expect(container.querySelector(".spinner")).toBeNull();
+    await type(".password-input-field", "retry");
+    expect(button("Decrypt & Extract").disabled).toBe(false);
+  });
+  test.each(["message", "compression", "image"])("%s edits release the retained preparation and remove current fit", async (change) => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity();
+    await type(".password-input-field", "keep password until terminal outcome");
+    if (change === "message") await type("textarea", "new public text");
+    else if (change === "compression") await click(container.querySelector('input[type="checkbox"]'));
+    else await pick("replacement.png");
+    expect(protectedAdapter.discard).toHaveBeenCalledTimes(1);
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+  });
+
+  test.each(["message", "image"])("%s replacement waits for discard before accepting new capacity", async (change) => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity();
+    await type(".password-input-field", "public-password");
+    let releaseDiscard;
+    protectedAdapter.discard.mockImplementationOnce(() => new Promise(resolve => { releaseDiscard = resolve; }));
+    if (change === "image") await pick("replacement.png");
+    else await type("textarea", "replacement text");
+    await act(async () => jest.advanceTimersByTime(300));
+    expect(adapter.admitImage).toHaveBeenCalledTimes(1);
+    expect(protectedAdapter.prepareEncode).toHaveBeenCalledTimes(1);
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+    await act(async () => releaseDiscard());
+    if (change === "image") await reply(calls.at(-1), { ok: true, width: 640, height: 640 });
+    await capacity();
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+    expect(container.textContent).toContain("Maximum stored: 512 bytes");
+  });
+
+  test("cancelling while discard is pending rejects late capacity and allows retry", async () => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity();
+    let releaseDiscard;
+    protectedAdapter.discard.mockImplementationOnce(() => new Promise(resolve => { releaseDiscard = resolve; }));
+    await type("textarea", "replacement text");
+    await act(async () => jest.advanceTimersByTime(300));
+    await click(button("Cancel"));
+    await act(async () => releaseDiscard());
+    await reply(calls.at(-1), { ok: true, preparation: {}, originalBytes: 16, storedBytes: 16, maxStoredBytes: 512, hasFrameCapacity: true, fits: true, compressionUsed: false });
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(container.querySelector("textarea").value).toBe("replacement text");
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+    expect(protectedAdapter.discard).toHaveBeenCalledTimes(2);
+    await click(button("Check capacity"));
+    await capacity();
+    await type(".password-input-field", "public-password");
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+  });
+
+  test("cancelled preparation releases a late handle and unchanged inputs can restart", async () => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "unchanged public text");
+    await type(".password-input-field", "public-password");
+    await act(async () => jest.advanceTimersByTime(300));
+    const pending = calls.at(-1);
+    await click(button("Cancel"));
+    await reply(pending, { ok: true, preparation: {}, originalBytes: 21, storedBytes: 21, maxStoredBytes: 512, hasFrameCapacity: true, fits: true, compressionUsed: false });
+    expect(protectedAdapter.discard).toHaveBeenCalledTimes(1);
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(container.querySelector(".password-input-field").value).toBe("");
+    await click(button("Check capacity"));
+    await capacity();
+    await type(".password-input-field", "restart");
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+  });
+
+  test("complete output keeps its current comparison and password edits remove both", async () => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity();
+    await type(".password-input-field", "public-password");
+    await reply(await submit(), { ok: true, pngBytes: new Uint8Array([1, 2, 3]) });
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    await click(button("Generate visual comparison"));
+    const pending = calls.at(-1);
+    expect(pending.name).toBe("generateImageDiff");
+    expect(pending.args[0].name).toBe("source.png");
+    expect(await pending.args[1].arrayBuffer()).toEqual(new Uint8Array([1, 2, 3]).buffer);
+    await reply(pending, preview());
+    expect(container.querySelectorAll("img")).toHaveLength(3);
+    await type(".password-input-field", "changed");
+    expect(container.querySelectorAll("img")).toHaveLength(0);
+    expect(container.textContent).not.toContain("Download encoded image");
+    expect(URL.revokeObjectURL.mock.calls).toEqual([["blob:original"], ["blob:encoded"], ["blob:diff"]]);
+  });
+
+  test.each(["RESOURCE_FAILED", "RECOVERY_FAILED", "PNG_INVALID"])("recovery %s preserves the image but clears the password and allows restart", async (code) => {
+    await render(DecryptForm);
+    await admit();
+    await type(".password-input-field", "first");
+    await reply(await submit(), { ok: false, code, error: "Public operation failure." });
+    expect(container.querySelector(".password-input-field").value).toBe("");
+    expect(container.textContent).toContain("source.png");
+    expect(container.textContent).toContain("Public operation failure.");
+    expect(container.textContent).not.toContain("Download message");
+    await type(".password-input-field", "second");
+    expect(button("Decrypt & Extract").disabled).toBe(false);
+  });
+  test("preparation reports exact bytes and survives password-only edits", async () => {
+    await render(EncryptForm);
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    await admit();
+    expect(container.querySelector('input[type="checkbox"]').checked).toBe(false);
+    await type("textarea", " ");
+    await capacity();
+    expect(container.textContent).toContain("Original: 14 bytes");
+    expect(container.textContent).toContain("Stored: 14 bytes");
+    expect(container.textContent).toContain("Maximum stored: 512 bytes");
+    await type(".password-input-field", "  exact password  ");
+    expect(protectedAdapter.discard).not.toHaveBeenCalled();
+    const pending = await submit();
+    expect(pending.args[0]).toEqual({ preparation: {}, password: "  exact password  " });
+    await reply(pending, { ok: false, code: "WORKER_FAILED", error: "Protected processing stopped." });
+    expect(container.querySelector(".password-input-field").value).toBe("");
+    expect(container.querySelector("textarea").value).toBe(" ");
+    await capacity();
+    await type(".password-input-field", "retry");
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+  });
+
+  test.each([
+    [{ hasFrameCapacity: false, maxStoredBytes: 0, fits: false }, "This image has no protected-frame capacity."],
+    [{ hasFrameCapacity: true, maxStoredBytes: 0, fits: false }, "This image can hold only an empty message."],
+  ])("capacity refusal is distinct and an estimate failure clears prior fit", async (fields, reason) => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity({ ok: true, preparation: {}, originalBytes: 6, storedBytes: 6, compressionUsed: false, ...fields });
+    expect(container.textContent).toContain(reason);
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+    await type("textarea", "replacement");
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(protectedAdapter.discard).toHaveBeenCalled();
+    await capacity({ ok: false, code: "INPUT_INVALID", error: "Invalid text." });
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+  });
+
+  test.each(["", "<script>alert('public')</script>"])("authenticated text remains visible and is rendered safely: %s", async (text) => {
+    await render(DecryptForm);
+    await admit();
+    await type(".password-input-field", " exact ");
+    const pending = await submit();
+    expect(pending.args[0].password).toBe(" exact ");
+    await reply(pending, { ok: true, message: text });
+    expect(container.textContent).toContain("Authenticated message recovered");
+    expect(container.querySelector("script")).toBeNull();
+    expect(button("Download message").disabled).toBe(false);
+  });
   test.each(["Encrypt", "Decrypt"])("%s masks a revealed password after clear or operation lock", async (task) => {
     await render(task === "Encrypt" ? EncryptForm : DecryptForm);
     await admit();
@@ -174,7 +391,7 @@ describe("real browser components", () => {
     await type('input[type="password"]', "public-password");
     const pending = await submit();
     await reply(pending, kind === "image"
-      ? { ok: true, blob: new Blob(["complete PNG"]) }
+      ? { ok: true, pngBytes: new TextEncoder().encode("complete PNG") }
       : { ok: true, message: "Public export text" });
     adapter.downloadBlob.mockImplementation(browserDownload);
     URL.revokeObjectURL.mockImplementation(savedRevoke.value);
@@ -223,7 +440,7 @@ describe("real browser components", () => {
     expect(container.textContent).toContain("Enter a message.");
     await type("textarea", "Keep this message");
     expect(container.textContent).toContain("Edit the message and wait for its capacity check.");
-    await capacity({ ok: true, estimatedBits: 65, totalBits: 64, utilization: "101%" });
+    await capacity({ ok: true, preparation: {}, originalBytes: 513, storedBytes: 513, maxStoredBytes: 512, compressionUsed: false, hasFrameCapacity: true, fits: false });
     expect(container.textContent).toContain("The message is too large. Shorten it or choose a larger image.");
     await type("textarea", "Smaller message");
     await capacity();
@@ -231,7 +448,7 @@ describe("real browser components", () => {
     await type('input[type="password"]', "secret");
     expect(button("Encrypt & Hide").disabled).toBe(false);
     const pending = await submit();
-    expect(pending.name).toBe("embedMessage");
+    expect(pending.name).toBe("encode");
     expect(container.querySelector("textarea").disabled).toBe(true);
     expect(container.textContent).toContain("Wait for the operation or select Cancel.");
     await click(button("Cancel"));
@@ -251,7 +468,7 @@ describe("real browser components", () => {
     await admit("encoded.png");
     await type('input[type="password"]', "secret");
     const pending = await submit();
-    expect(pending.name).toBe("extractMessage");
+    expect(pending.name).toBe("decode");
     expect(container.textContent).toContain("Wait for decryption or select Cancel.");
     await click(button("Cancel"));
     expect(pending.aborted).toBe(true);
@@ -368,7 +585,7 @@ describe("real browser components", () => {
     await type('input[type="password"]', "secret");
     await act(async () => jest.advanceTimersByTime(300));
     const pending = calls.at(-1);
-    expect(pending.name).toBe("estimateCapacity");
+    expect(pending.name).toBe("prepareEncode");
     const decryptTab = container.querySelector('#task-decrypt');
     await click(decryptTab);
     const dialog = container.querySelector("dialog");

@@ -43,16 +43,22 @@ it.each([null, () => { throw new Error("private compressor failure"); }, () => (
     expect(await execute(request("again", false))).toMatchObject({ ok: true, storedBytes: 5 });
   });
 
-it("falls back on a bounded or larger stream only when raw text fits", async () => {
+it("reports exact raw capacity after a bounded or larger stream and refuses non-fitting encoding", async () => {
   const execute = createProtectedImage();
   expect(await execute(request("abc"))).toMatchObject({ ok: true, storedBytes: 3, compressionUsed: false, fits: true });
-  expect(await execute(request("abc", true, cover(256, 168)))).toMatchObject({ ok: false, code: "CAPACITY" });
+  const emptyOnly = await execute(request("abc", true, cover(256, 168)));
+  expect(emptyOnly).toMatchObject({ ok: true, originalBytes: 3, storedBytes: 3, compressionUsed: false, hasFrameCapacity: true, maxStoredBytes: 0, fits: false });
+  expect(await execute({ id: 2, generation: 1, action: "encode", preparation: emptyOnly.preparation, password: "public" }))
+    .toMatchObject({ ok: false, code: "CAPACITY" });
   let state = 1;
   const message = Array.from({ length: 2000 }, () => {
     state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
     return String.fromCharCode(32 + ((state >>> 16) % 95));
   }).join("");
-  expect(await execute(request(message))).toMatchObject({ ok: false, code: "CAPACITY" });
+  const oversized = await execute(request(message));
+  expect(oversized).toMatchObject({ ok: true, originalBytes: 2000, storedBytes: 2000, compressionUsed: false, fits: false });
+  expect(await execute({ id: 3, generation: 1, action: "encode", preparation: oversized.preparation, password: "public" }))
+    .toMatchObject({ ok: false, code: "CAPACITY" });
   expect(await execute(request(message, false))).toMatchObject({ ok: true, storedBytes: 2000, fits: false });
 });
 
