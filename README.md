@@ -330,8 +330,8 @@ Encrypted message format: `salt:nonce:ciphertext:tag[:compressed]`
 
 The next-format operation is separate from the current CLI and PWA routes.
 It is not a release or a format cutover. Node callers import `prepareEncode`,
-`decode` and `discard` from `lib/protected-node.js`; browser callers use
-`app/src/lib/protected.js`. Encoding is not yet exported by these adapters.
+`encode`, `decode` and `discard` from `lib/protected-node.js`; browser callers use
+`app/src/lib/protected.js`.
 
 `await prepareEncode({ pngBytes, message, compress }, { signal, onProgress })`
 returns `{ ok: true, preparation, originalBytes, storedBytes, compressionUsed,
@@ -367,6 +367,23 @@ then start again. Progress reports `checking inputs` and
 `preparing text/capacity`, without percentages. No key derivation or salt/nonce
 randomness runs during preparation. There is no main-thread fallback or timer
 that weakens the operation. Retained Node workers do not keep the process alive.
+
+`await encode({ preparation, password }, { signal, onProgress })` consumes the
+current preparation once and returns `{ ok: true, pngBytes }` only after complete
+PNG serialization. It uses the exact retained text bytes and raster without
+recompression or rereading the source. Password-only changes use the same handle
+with the new exact password. Non-fitting preparations return `CAPACITY` before
+key derivation or salt/nonce generation; stale, foreign, discarded, consumed and
+cancelled handles return `PREPARATION_INVALID`. After an encode attempt finishes
+or is cancelled, prepare again before another attempt.
+
+Each encoding uses a fresh CSPRNG salt and nonce, the fixed key/frame contract,
+and matrix writes over the full eligible domain. Alpha and upper RGB bits stay
+unchanged; no filler is written. PNG dimensions, color type and approved rendering
+metadata are preserved, and personal metadata is removed. Progress reports
+`checking inputs`, `deriving keys`, `encoding` and `preparing result`.
+Failures return no partial PNG. The worker transfers the complete output buffer
+and terminates on success, failure or cancellation.
 
 `await decode({ pngBytes, password }, { signal, onProgress })` returns
 `{ ok: true, message }` only after complete authentication and exact text decoding.

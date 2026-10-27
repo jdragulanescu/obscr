@@ -446,3 +446,11 @@ export async function referencePNG(options = {}) {
   const rgb = writeCarrier(cover, selected, salt, repairedHeader, wire, groups, damage);
   return png(rgb, width, height, colorType);
 }
+
+/** Plain public cover for independent operation-level encoder comparisons. */
+export function referenceCoverPNG({ width = 1024, height = 1024, colorType = 2 } = {}) {
+  integer(width, 1, 1024, "width");
+  integer(height, 1, 1024, "height");
+  if (colorType !== 2 && colorType !== 6) throw new RangeError("Reference fixture: colorType must be 2 or 6");
+  return png(coverRGB(width, height), width, height, colorType);
+}

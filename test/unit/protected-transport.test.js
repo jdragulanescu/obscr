@@ -245,3 +245,35 @@ it("blocks all image work while an idle failed worker is still stopping", async 
   await workers[1].deliver();
   await release;
 });
+
+it.each([
+  [undefined, "INPUT_INVALID"],
+  ["", "INPUT_INVALID"],
+  ["x".repeat(1025), "INPUT_LIMIT"],
+])("invalid encode input releases the consumed handle only after worker termination (%#)", async (password, code) => {
+  const { api, workers } = controlledRuntime();
+  const other = controlledRuntime();
+  const pending = api.prepareEncode(fields());
+  await workers[0].deliver();
+  const prepared = await pending;
+  let stopped;
+  workers[0].stop = () => new Promise(resolve => { stopped = resolve; });
+
+  const invalid = api.encode({ preparation: prepared.preparation, password });
+  expect(workers[0].pending).toEqual([]);
+  expect(await other.api.prepareEncode(fields())).toMatchObject({ ok: false, code: "BUSY" });
+  stopped();
+  const result = await invalid;
+  expect(result).toMatchObject({ ok: false, code });
+  expect(result).not.toHaveProperty("pngBytes");
+  expect(await api.encode({ preparation: prepared.preparation, password: "public" }))
+    .toMatchObject({ ok: false, code: "PREPARATION_INVALID" });
+
+  const fresh = other.api.prepareEncode(fields());
+  await other.workers[0].deliver();
+  const next = await fresh;
+  expect(next).toMatchObject({ ok: true, fits: true });
+  const cleanup = other.api.discard(next.preparation);
+  await other.workers[0].deliver();
+  expect(await cleanup).toEqual({ ok: true, discarded: true });
+});

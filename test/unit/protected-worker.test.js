@@ -56,7 +56,7 @@ for (const platform of ["node", "browser"]) describe(`${platform} real request g
     gate = await workerGate(platform);
     const good = { action: "prepareEncode", pngBytes: cover(1, 1), message: "", compress: false };
     for (const fields of [
-      { ...good, action: "encode" }, { ...good, generation: -1 },
+      { ...good, action: "unsupported" }, { ...good, generation: -1 },
       { ...good, message: "\ud800" }, { ...good, message: null },
       { ...good, pngBytes: good.pngBytes.subarray(1) }, { ...good, compress: "yes" },
       { ...good, pngBytes: new Uint8Array(new SharedArrayBuffer(8)) },

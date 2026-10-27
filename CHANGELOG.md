@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Complete worker-backed next-format encoding in Node and browsers: single-use
+  prepared bytes, fresh salt/nonce, authenticated framing and repaired matrix
+  placement, complete PNG delivery and cancellation without partial output.
+  Independent full-image expectations and real platform exchange cover the writer;
+  current app routes remain unchanged until their joint migration.
 - Complete worker-backed next-format recovery in Node and browsers, with fixed
   Argon2id/HKDF keys, full-key placement, licensed bounded repair, authenticated
   raw/gzip text and cancellable failure without partial text. Independent complete
