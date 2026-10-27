@@ -45,6 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   retain valid preparation; cancellation releases it without partial output.
 - The ASCII header stays within its own scroll area at enlarged text sizes,
   without pushing the forms outside the page.
+- Capacity summaries grow with enlarged text instead of overlapping controls.
+- Cancelling PNG admission tells users to choose the image again; later
+  cancellation points offer the available capacity retry.
 - Hash routes are resolved with an own-property check, so inherited keys such as
   `#constructor` or `#__proto__` can no longer be rendered as a component and blank
   the page

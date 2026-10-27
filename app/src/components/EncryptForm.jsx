@@ -78,7 +78,7 @@ export const EncryptForm = ({ onStateChange, requestClear }) => {
     return () => clearTimeout(timer);
   }, [admitted, message, compress, retry, operation.run, operation.cancel]);
 
-  const cancel = () => { clearTimeout(estimateTimer.current); operation.cancel(); release(); setEncoding(false); setPassword(""); setCapacity(null); setResult(null); setNotice("Cancelled. Your image and message are kept. Select Check capacity to try again."); };
+  const cancel = () => { clearTimeout(estimateTimer.current); operation.cancel(); release(); setEncoding(false); setPassword(""); setCapacity(null); setResult(null); setNotice(admitted ? "Cancelled. Your image and message are kept. Select Check capacity to try again." : "Cancelled. Choose the image again to retry its check."); };
   const clear = () => { invalidate(); setEncoding(false); setSelection(null); setAdmitted(null); setMessage(""); setPassword(""); setCompress(false); setImageError(""); setNotice("Cleared. Choose a supported PNG to start again."); };
   const reason = submissionReason(locked, admitted, message, capacity, password);
   const submit = async (event) => {
