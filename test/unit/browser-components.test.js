@@ -196,6 +196,50 @@ describe("real browser components", () => {
     expect(button("Encrypt & Hide").disabled).toBe(true);
   });
 
+  test.each(["message", "image"])("%s replacement waits for discard before accepting new capacity", async (change) => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity();
+    await type(".password-input-field", "public-password");
+    let releaseDiscard;
+    protectedAdapter.discard.mockImplementationOnce(() => new Promise(resolve => { releaseDiscard = resolve; }));
+    if (change === "image") await pick("replacement.png");
+    else await type("textarea", "replacement text");
+    await act(async () => jest.advanceTimersByTime(300));
+    expect(adapter.admitImage).toHaveBeenCalledTimes(1);
+    expect(protectedAdapter.prepareEncode).toHaveBeenCalledTimes(1);
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+    await act(async () => releaseDiscard());
+    if (change === "image") await reply(calls.at(-1), { ok: true, width: 640, height: 640 });
+    await capacity();
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+    expect(container.textContent).toContain("Maximum stored: 512 bytes");
+  });
+
+  test("cancelling while discard is pending rejects late capacity and allows retry", async () => {
+    await render(EncryptForm);
+    await admit();
+    await type("textarea", "public");
+    await capacity();
+    let releaseDiscard;
+    protectedAdapter.discard.mockImplementationOnce(() => new Promise(resolve => { releaseDiscard = resolve; }));
+    await type("textarea", "replacement text");
+    await act(async () => jest.advanceTimersByTime(300));
+    await click(button("Cancel"));
+    await act(async () => releaseDiscard());
+    await reply(calls.at(-1), { ok: true, preparation: {}, originalBytes: 16, storedBytes: 16, maxStoredBytes: 512, hasFrameCapacity: true, fits: true, compressionUsed: false });
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    expect(container.querySelector("textarea").value).toBe("replacement text");
+    expect(button("Encrypt & Hide").disabled).toBe(true);
+    expect(protectedAdapter.discard).toHaveBeenCalledTimes(2);
+    await click(button("Check capacity"));
+    await capacity();
+    await type(".password-input-field", "public-password");
+    expect(button("Encrypt & Hide").disabled).toBe(false);
+  });
+
   test("cancelled preparation releases a late handle and unchanged inputs can restart", async () => {
     await render(EncryptForm);
     await admit();
