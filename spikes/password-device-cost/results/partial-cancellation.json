@@ -1,0 +1,7 @@
+{
+  "status": "Cancelled; no weaker fallback",
+  "completed": 2,
+  "hasCompleteSweep": false,
+  "error": "cancelled",
+  "canRun": true
+}

@@ -1,0 +1,26 @@
+{
+  "status": "Offline probe failed: Aborted(CompileError: WebAssembly.instantiate(): Compiling or instantiating WebAssembly module violates the following Content Security policy directive because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self'\".). Build with -sASSERTIONS for more info.",
+  "report": {
+    "schema": 1,
+    "metadata": {
+      "device": "MacBook Pro Mac15,8;64GB;macOS26.6.2;Chrome154;CSP forbids WASM",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+      "hardwareConcurrency": 16,
+      "deviceMemoryGB": 32,
+      "secureContext": true,
+      "crossOriginIsolated": false,
+      "startedAt": "2026-10-23T19:55:01.556Z"
+    },
+    "error": "Aborted(CompileError: WebAssembly.instantiate(): Compiling or instantiating WebAssembly module violates the following Content Security policy directive because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self'\".). Build with -sASSERTIONS for more info."
+  },
+  "console": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  },
+  "errors": {
+    "entries": [],
+    "nextSeq": 0,
+    "dropped": 0
+  }
+}

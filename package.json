@@ -14,7 +14,8 @@
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest test/integration",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "spike-password-device-cost": "npm --prefix spikes/password-device-cost run build && npm --prefix spikes/password-device-cost start"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
