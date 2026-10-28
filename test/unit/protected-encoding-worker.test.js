@@ -58,11 +58,15 @@ for (const platform of ["node", "browser"]) describe(`${platform} actual encodin
   it("exchanges exact raw, gzip and empty text with the other platform", async () => {
     gate = await openGate(platform);
     other = await openGate(platform === "node" ? "browser" : "node");
-    for (const [message, compress] of [["\ufeff public é🙂\r\n\t ", false], ["\ufeff é\r\n ".repeat(500), true], ["", false]]) {
-      const prepared = await prepare(gate, message, compress);
-      expect(prepared.compressionUsed).toBe(compress);
+    for (const [message, compress, originalBytes, storedBytes] of [
+      ["\ufeff public é🙂\r\n\t ", false, 21, 21], ["\ufeff é\r\n ".repeat(500), true, 4500, 59], ["", false, 0, 0],
+    ]) {
+      const prepared = await prepare(gate, message, compress, cover(600, 600));
       const result = await gate.request({ action: "encode", preparation: prepared.preparation, password: PASSWORD });
-      expect(result.ok).toBe(true);
+      expect(result).toEqual({
+        ok: true, pngBytes: expect.any(Uint8Array), originalBytes, storedBytes, compressionUsed: compress,
+        maxStoredBytes: 512, hasFrameCapacity: true, fits: true, metadataNotice: prepared.metadataNotice,
+      });
       expect(result.pngBytes).toBeInstanceOf(Uint8Array);
       expect(result.pngBytes.byteOffset).toBe(0);
       expect(result.pngBytes.byteLength).toBe(result.pngBytes.buffer.byteLength);
@@ -122,8 +126,7 @@ for (const platform of ["node", "browser"]) describe(`${platform} actual encodin
     gate = await openGate(platform, "globalThis.WebAssembly = undefined;");
     const prepared = await prepare(gate);
     const result = await gate.request({ action: "encode", preparation: prepared.preparation, password: PASSWORD });
-    expect(result).toMatchObject({ ok: false, code: "RESOURCE_FAILED" });
-    expect(result).not.toHaveProperty("pngBytes");
+    expect(result).toEqual({ ok: false, code: "RESOURCE_FAILED", error: expect.any(String) });
     expect(await gate.request({ action: "encode", preparation: prepared.preparation, password: PASSWORD }))
       .toMatchObject({ ok: false, code: "PREPARATION_INVALID" });
   }, 30000);
@@ -139,7 +142,11 @@ it("exchanges every raw stored length 0..512 across real workers at all block an
       const prepared = await prepare(writer, message, false, pngBytes);
       expect(prepared.storedBytes).toBe(length);
       const result = await writer.request({ action: "encode", preparation: prepared.preparation, password: PASSWORD });
-      expect(result.ok).toBe(true);
+      expect(result).toEqual({
+        ok: true, pngBytes: expect.any(Uint8Array),
+        originalBytes: length, storedBytes: length, compressionUsed: false,
+        maxStoredBytes: 512, hasFrameCapacity: true, fits: true, metadataNotice: prepared.metadataNotice,
+      });
       expect(await reader.request({ action: "decode", pngBytes: result.pngBytes, password: PASSWORD })).toEqual({ ok: true, message });
     }
   } finally { await Promise.all(gates.map(gate => gate.close())); }
@@ -165,13 +172,16 @@ for (const platform of ["node", "browser"]) for (const stage of ["deriving keys"
       signal: controller.signal,
       onProgress(value) { if (value === stage) controller.abort(); },
     });
-    expect(result).toMatchObject({ ok: false, code: "CANCELLED" });
-    expect(result).not.toHaveProperty("pngBytes");
+    expect(result).toEqual({ ok: false, code: "CANCELLED", error: expect.any(String) });
     expect(await api.encode({ preparation: prepared.preparation, password: PASSWORD }))
       .toMatchObject({ ok: false, code: "PREPARATION_INVALID" });
     const next = await api.prepareEncode({ pngBytes: cover(), message: "again", compress: false });
     const encoded = await api.encode({ preparation: next.preparation, password: PASSWORD });
-    expect(encoded.ok).toBe(true);
+    expect(encoded).toMatchObject({
+      ok: true, originalBytes: 5, storedBytes: 5, compressionUsed: false,
+      maxStoredBytes: next.maxStoredBytes, hasFrameCapacity: true, fits: true,
+      metadataNotice: next.metadataNotice,
+    });
     expect(await api.decode({ pngBytes: encoded.pngBytes, password: PASSWORD })).toEqual({ ok: true, message: "again" });
   }, 30000);
 }
@@ -212,9 +222,11 @@ it("ignores a cancelled encoder's late bytes after a new worker has started", as
   const encoding = api.encode({ preparation: prepared.preparation, password: PASSWORD }, { signal: controller.signal });
   const oldId = workers[0].request.id;
   controller.abort();
-  expect(await encoding).toMatchObject({ ok: false, code: "CANCELLED" });
+  expect(await encoding).toEqual({ ok: false, code: "CANCELLED", error: expect.any(String) });
   const next = api.prepareEncode({ pngBytes: cover(), message: "second", compress: false });
-  workers[0].reply({ id: oldId, result: { ok: true, pngBytes: new Uint8Array([1, 2, 3]) } });
+  workers[0].reply({ id: oldId, result: { ok: true, pngBytes: new Uint8Array([1, 2, 3]),
+    originalBytes: 5, storedBytes: 5, compressionUsed: false, maxStoredBytes: 512,
+    hasFrameCapacity: true, fits: true, metadataNotice: "obsolete result" } });
   workers[1].reply({ id: workers[1].request.id, result: { ok: true, preparation: { generation: 2, revision: 1 }, storedBytes: 6 } });
   const fresh = await next;
   expect(fresh).toMatchObject({ ok: true, storedBytes: 6 });
@@ -232,8 +244,7 @@ for (const unavailable of ["RNG", "native crypto"]) it(`fails without browser ${
   try {
     const prepared = await prepare(gate);
     const result = await gate.request({ action: "encode", preparation: prepared.preparation, password: PASSWORD });
-    expect(result).toMatchObject({ ok: false, code: "RESOURCE_FAILED" });
-    expect(result).not.toHaveProperty("pngBytes");
+    expect(result).toEqual({ ok: false, code: "RESOURCE_FAILED", error: expect.any(String) });
     expect(result.error).not.toContain("private");
     expect(await gate.request({ action: "encode", preparation: prepared.preparation, password: PASSWORD }))
       .toMatchObject({ ok: false, code: "PREPARATION_INVALID" });

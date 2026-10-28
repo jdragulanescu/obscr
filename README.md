@@ -345,9 +345,12 @@ randomness runs during preparation. There is no main-thread fallback or timer
 that weakens the operation. Retained Node workers do not keep the process alive.
 
 `await encode({ preparation, password }, { signal, onProgress })` consumes the
-current preparation once and returns `{ ok: true, pngBytes }` only after complete
-PNG serialization. It uses the exact retained text bytes and raster without
-recompression or rereading the source. Password-only changes use the same handle
+current preparation once and returns `{ ok: true, pngBytes, originalBytes,
+storedBytes, compressionUsed, maxStoredBytes, hasFrameCapacity, fits,
+metadataNotice }` only after complete PNG serialization. These summary fields
+come from the consumed preparation, not a new estimate. It uses the exact
+retained text bytes and raster without recompression or rereading the source.
+Password-only changes use the same handle
 with the new exact password. Non-fitting preparations return `CAPACITY` before
 key derivation or salt/nonce generation; stale, foreign, discarded, consumed and
 cancelled handles return `PREPARATION_INVALID`. After an encode attempt finishes
@@ -358,7 +361,7 @@ and matrix writes over the full eligible domain. Alpha and upper RGB bits stay
 unchanged; no filler is written. PNG dimensions, color type and approved rendering
 metadata are preserved, and personal metadata is removed. Progress reports
 `checking inputs`, `deriving keys`, `encoding` and `preparing result`.
-Failures return no partial PNG. The worker transfers the complete output buffer
+Failures return neither a PNG nor a successful capacity summary. The worker transfers the complete output buffer
 and terminates on success, failure or cancellation.
 
 `await decode({ pngBytes, password }, { signal, onProgress })` returns
