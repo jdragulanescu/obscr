@@ -1,5 +1,5 @@
 import { cover as image } from "../fixtures/protected.js";
-import { prepareEncode, discard } from "../../lib/protected-node.js";
+import { prepareEncode, encode, decode, discard } from "../../lib/protected-node.js";
 import { PNG } from "pngjs";
 
 
@@ -124,4 +124,58 @@ it("preserves PNG admission failures for nonopaque and out-of-domain covers", as
     expect(await prepareEncode({ pngBytes: new Uint8Array(PNG.sync.write(png)), message: "", compress: false }))
       .toMatchObject({ ok: false, code });
   }
+});
+
+it.each([
+  ["\uFEFFé😀\r\n ", false, 12, 12, false, 600, 600, 512],
+  ["a".repeat(1000), true, 1000, 29, true, 600, 600, 512],
+  ["", false, 0, 0, false, 256, 168, 0],
+  ["é".repeat(256), false, 512, 512, false, 600, 600, 512],
+])("returns the consumed preparation's exact summary with its complete PNG %#", async (
+  message, compress, originalBytes, storedBytes, compressionUsed, width, height, maxStoredBytes,
+) => {
+  const prepared = await prepareEncode({ pngBytes: image(width, height), message, compress });
+  expect(prepared.ok).toBe(true);
+  const result = await encode({ preparation: prepared.preparation, password: "public summary fixture" });
+  expect(result).toEqual({
+    ok: true, pngBytes: expect.any(Uint8Array),
+    originalBytes, storedBytes, compressionUsed,
+    maxStoredBytes, hasFrameCapacity: true, fits: true,
+    metadataNotice: prepared.metadataNotice,
+  });
+  expect(await decode({ pngBytes: result.pngBytes, password: "public summary fixture" }))
+    .toEqual({ ok: true, message });
+});
+
+it("binds the result to replacement inputs, not caller-edited summaries or an earlier password", async () => {
+  const first = await prepareEncode({ pngBytes: image(600, 600), message: "old", compress: false });
+  const next = await prepareEncode({ pngBytes: image(512, 334), message: "a".repeat(1000), compress: true });
+  expect(await encode({ preparation: first.preparation, password: "old password" }))
+    .toEqual({ ok: false, code: "PREPARATION_INVALID", error: expect.any(String) });
+  expect(await encode({ preparation: {}, password: "foreign password" }))
+    .toEqual({ ok: false, code: "PREPARATION_INVALID", error: expect.any(String) });
+  const metadataNotice = next.metadataNotice;
+  Object.assign(next, { originalBytes: -1, storedBytes: -1, compressionUsed: false,
+    maxStoredBytes: -1, hasFrameCapacity: false, fits: false, metadataNotice: "caller edited" });
+  const result = await encode({ preparation: next.preparation, password: "changed password" });
+  expect(result).toEqual({
+    ok: true, pngBytes: expect.any(Uint8Array),
+    originalBytes: 1000, storedBytes: 29, compressionUsed: true,
+    maxStoredBytes: 224, hasFrameCapacity: true, fits: true, metadataNotice,
+  });
+  expect(await encode({ preparation: next.preparation, password: "changed password" }))
+    .toEqual({ ok: false, code: "PREPARATION_INVALID", error: expect.any(String) });
+  expect(await decode({ pngBytes: result.pngBytes.slice(), password: "old password" }))
+    .toEqual({ ok: false, code: "RECOVERY_FAILED", error: expect.any(String) });
+  expect(await decode({ pngBytes: result.pngBytes, password: "changed password" }))
+    .toEqual({ ok: true, message: "a".repeat(1000) });
+});
+
+it("returns no PNG or successful summary for a non-fitting preparation and consumes it", async () => {
+  const prepared = await prepareEncode({ pngBytes: image(600, 600), message: "x".repeat(513), compress: false });
+  expect(prepared).toMatchObject({ ok: true, storedBytes: 513, maxStoredBytes: 512, fits: false });
+  expect(await encode({ preparation: prepared.preparation, password: "public summary fixture" }))
+    .toEqual({ ok: false, code: "CAPACITY", error: expect.any(String) });
+  expect(await encode({ preparation: prepared.preparation, password: "public summary fixture" }))
+    .toEqual({ ok: false, code: "PREPARATION_INVALID", error: expect.any(String) });
 });

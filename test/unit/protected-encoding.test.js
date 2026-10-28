@@ -86,6 +86,11 @@ it("encrypts the exact retained compressed bytes once, without admitting the sou
   source.fill(0);
   const encoded = await run({ action: "encode", preparation: prepared.preparation, password: PASSWORD + " changed" });
   expect(encoded.ok).toBe(true);
+  expect(encoded).toMatchObject({
+    originalBytes: 2800, storedBytes: 56, compressionUsed: true,
+    maxStoredBytes: prepared.maxStoredBytes, hasFrameCapacity: true, fits: true,
+    metadataNotice: prepared.metadataNotice,
+  });
   expect(compressions).toBe(1);
   expect(encrypted.every(value => value === 0)).toBe(true);
   expect(await run({ action: "decode", pngBytes: encoded.pngBytes, password: PASSWORD + " changed" }))
@@ -138,8 +143,7 @@ it("returns no partial PNG on allocation failure after encryption and clears sec
   const prepared = await run({ action: "prepareEncode", pngBytes: source, message: TEXT, compress: false });
   const request = { action: "encode", preparation: prepared.preparation, password: PASSWORD };
   const result = await run(request);
-  expect(result).toMatchObject({ ok: false, code: "RESOURCE_FAILED" });
-  expect(result).not.toHaveProperty("pngBytes");
+  expect(result).toEqual({ ok: false, code: "RESOURCE_FAILED", error: expect.any(String) });
   expect(result.error).not.toContain("private");
   expect(Buffer.from(source).equals(Buffer.from(original))).toBe(true);
   expect(held.every(bytes => bytes.every(value => value === 0))).toBe(true);

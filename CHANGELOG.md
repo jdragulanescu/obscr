@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reader users are not dropped back to the top of the tab order
 
 ### Fixed
+- Successful Node/browser encoding returns the consumed preparation's exact
+  capacity and metadata summary with the complete PNG, without preparing again.
 - PNG serialization checks rendering values and consistency before output.
 - Refused browser downloads release their temporary URLs and links, report the
   failure and keep the complete result available for another download attempt.
