@@ -143,6 +143,8 @@ PASS. Nothing is declined or left at the round limit. Typecheck, lint, format,
 mutation and e2e remain configured none; no by-hand CI command exists.
 
 Acceptance remains failed; no Human7 hand-over/ready PR/release claim is made.
+The [final review record](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6523253257) and parent notes71.1/71.2/71.3 preserve the dispositions. The original title-plus-historical-body reconstruction exactly matches its recorded SHA-256.
+
 The failure closeout merges this evidence/test work into the spec branch only;
 it does not merge PR#72 into main.
 
@@ -154,7 +156,7 @@ The following addendum records the **initial in-progress released #71 pass**, fo
 - **Current completed automated results, supplied by the acceptance owner:** the [posted automated proof](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6522357908) records the final exact test bytes at 7f3b2d4. Named integration: **6 tests passed, 45.686 s**. Full `npm test`: **563 tests / 23 suites passed, 291.378 s**. Separate new proof-unit run: **2 tests passed, 6.16 s**. PWA build: **passed, 1.72 s**, retaining bundle-size/Browserslist/outDir warnings. Typecheck, lint, format, mutation and e2e: configured **none**. These are owner-run results, not tests executed by this document task. They do not make unsupported clause mappings pass.
 - **Current still not run/completed:** fresh stable-server browser/TUI walkthrough and formal whole-feature Standards/Spec/Security review rounds remain main-owner work. No such completion is claimed here. Human7 remains THEIRS; downstream and release gates stay separate.
 - **Prior results, not the final run:** 558/22 predates these test edits; the initial a2ad212 proof tree passed 563/23 in 300.137 s and integration6 in25.194 s before 7f3b2d4 expanded tags to every length0..15. The older 538/22 and four-case integration results below belong to their historical candidates. None replaces the final exact-byte results above.
-- The original document is retained **byte-for-byte after the historical divider** (pre-addendum SHA-256 `92b8f67f67f71acf3cf5145cde6ff470bd9c3c12ed45cd5ffa85c0e11b5b53b9`). Its failures, statuses, source digests, observations and next-action wording are historical facts, not current instructions to reopen implementation tickets.
+- The original title remains the first line; its body is retained **byte-for-byte from the historical `Identity and result` heading onward** (pre-addendum title-plus-body SHA-256 `92b8f67f67f71acf3cf5145cde6ff470bd9c3c12ed45cd5ffa85c0e11b5b53b9`). Its failures, statuses, source digests, observations and next-action wording are historical facts, not current instructions to reopen implementation tickets.
 
 ### Latest proof revision — 28d84fd
 
