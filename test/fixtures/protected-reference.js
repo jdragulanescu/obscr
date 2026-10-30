@@ -198,29 +198,38 @@ async function derive(password, salt) {
   return work;
 }
 
+function referenceDrawSource(cipher, total) {
+  let stream = new Uint8Array();
+  let cursor = 0;
+  let draws = 0;
+  return (index) => {
+    const budget = index < 896 ? 2816 : 2 * total + 1024;
+    if (++draws > budget) {
+      throw new Error("Reference fixture: sampler draw ceiling");
+    }
+    if (cursor === stream.length) {
+      stream = cipher.update(new Uint8Array(4096));
+      cursor = 0;
+    }
+    const draw = new DataView(stream.buffer, stream.byteOffset + cursor, 4).getUint32(0, true);
+    cursor += 4;
+    return draw;
+  };
+}
+
 function positions(cover, key) {
   const keyID = Buffer.from(key).toString("hex");
   if (cachedPositions?.cover === cover && cachedPositions.keyID === keyID) return cachedPositions.result;
   const cipher = createCipheriv("aes-256-ctr", key, new Uint8Array(16));
   const swaps = new Map();
   const result = new Uint32Array(Math.min(MAX_POSITIONS, cover.eligible.length));
-  let stream = new Uint8Array();
-  let cursor = 0;
-  let draws = 0;
+  const nextDraw = referenceDrawSource(cipher, result.length);
   for (let i = 0; i < result.length; i++) {
     const remaining = cover.eligible.length - i;
     const ceiling = Math.floor(0x100000000 / remaining) * remaining;
     let draw;
     do {
-      if (++draws > (i < 896 ? 2816 : 2 * result.length + 1024)) {
-        throw new Error("Reference fixture: sampler draw ceiling");
-      }
-      if (cursor === stream.length) {
-        stream = cipher.update(new Uint8Array(4096));
-        cursor = 0;
-      }
-      draw = new DataView(stream.buffer, stream.byteOffset + cursor, 4).getUint32(0, true);
-      cursor += 4;
+      draw = nextDraw(i);
     } while (draw >= ceiling);
     const selected = draw % remaining;
     const index = swaps.get(selected) ?? selected;
