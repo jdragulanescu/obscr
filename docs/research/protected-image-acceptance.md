@@ -1,5 +1,697 @@
 # Protected-image acceptance evidence (#71)
 
+## Current acceptance disposition
+
+**Acceptance fails.** The released production candidate is
+`a3a21178e63a144700adc47c65d29f49c41bf93b`. No production change was made during
+this acceptance run. Independent whole-feature review uses fixed point
+`4c8f7c5d1e2ca9ac37810cc74a997f4819309736` and initial endpoint
+`9f6bd17bc903469b7c1f4f5e5b2a9f60cf0cbfd8`. The [numbered failure disposition
+on #71](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6523048211)
+returns missing requirements to `/to-tickets 46` rather than patching them here.
+
+- **Failure7 — pre-encode PNG/metadata disclosure.** Application D4 requires the
+  bounded opaque, noninterlaced RGB/RGBA8 profile, personal stripping, approved
+  rendering retention and otherwise-valid-PNG rejection notice before encoding.
+  The actual CLI publishes output before its fuller notice. The browser already
+  displays metadata/opaque-RGB(A)/numeric-limit guidance, but not the full
+  supported-profile/rejection explanation. This is not deferred P3 password UI.
+- **Failure8 — format-break/help guidance.** The browser lacks the prominent
+  current-format-only/cannot-read-old-images warning and plain/old common-failure
+  help. CLI help has the first warning, but lacks the shared-failure explanation.
+  Correct generic failure for an old image is not user guidance.
+- **Continuing failure6 — remaining observations.** A genuine long wait with a
+  delayed visible spinner and keyboard scrolling in the exact final
+  all-controls-doubled 320px dialog state remain unobserved. The new runtime
+  negative/resource proofs pass; no device or product failure is inferred from
+  an unobserved timing case. The fresh walk's failed/skipped harness attempts
+  remain explicitly recorded, not rewritten into passes.
+
+Human7 remains the user's contrast/focus-quality/tone judgment. Physical-device,
+security/audit, publication and downstream gates remain separate and unapproved.
+The earlier failures1–6 and historical observations below are preserved. The
+initial audit's open-clause counts are not the current count after the following
+fresh observations. Current grouped overrides apply to every cited stable ID;
+they do not imply blanket PASS for a partial combined clause.
+
+## Fresh browser/TUI walkthrough disposition
+
+[Full verbatim skill reports and representative uploaded
+captures](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6523024943)
+are on #71. The full local evidence bundle is
+`/tmp/obscr-71-released-evidence/`: `manifest.json`, `evidence-index.md`,
+`scenario-index.json`, `browser-report.txt`, `tui-report.txt`, public inputs,
+PNG/text downloads, 102 final width/text captures, short/long timing attempts
+and all original failed harness logs. No historical output was reused as fresh.
+The walk changed no tracked files or production hooks. Its final environment
+capture was taken at tests-only HEAD28d84fd; all production matches a3a2117.
+
+| Released scenario | Current direct observation | Disposition / limitation |
+| --- | --- | --- |
+| Empty/current capacity | No initial claim; compression off; raw35/35/512, gzip2560/74/512; message/image/compression changes; password-only preparation preservation and output invalidation | PASS recorded actions; historical reload failures unchanged |
+| Refusals | Distinct no-frame, empty-only and513-byte oversize messages; encode disabled | PASS |
+| Actual CLI ↔ PWA exchange | Guided CLI external editor and real browser downloads, raw/gzip both ways; four byte comparisons independently rechecked by acceptance owner | PASS supplementary observations; initial stale-prompt failures retained |
+| Independent decode | Raw/gzip/empty/eight-symbol damage exact downloads; wrong/plain/legacy/altered-tag/nine-symbol damage common failure; malformed PNG distinct; no partial output | PASS; BOM/CRLF recovery is not a future P4 file-input claim |
+| Cancellation/restart | Actual browser preparation/KDF/recovery Cancel; retained editable inputs, cleared password, no late download, successful fresh work; guided CLI real KDF Ctrl+C/no output and fresh decode | PASS named observations; failed decoder-cancellation pane capture not claimed complete |
+| Clear/navigation/keyboard/locks | Clear/Stay focus restoration, Switch and clear/tab discard, result headings, every listed control traversed/activated, actual-work locks | PASS recorded actions; detached later-cleanup Cancel attempts remain FAIL |
+| Width/text |17 states ×320/768/1440px ×1x/2x; final2x font ratios measured before/after including controls | Static102-combination matrix captured; initial typography failures preserved; exact final2x-dialog keyboard-scroll variant UNMET |
+| Diff/export/sentinels | Second actual selection during first pending admission; visual-only comparison; cHRM/gAMA/sRGB bytes retained, named personal/nonrendering chunks removed; failure/cancel sentinel retained | PASS; not a sequential substitute for #74 |
+| Spinner | Visible35.8ms real preparation recording shows no flash; page-throttle20 encode/decode still has displayed stages under1s | Short PASS; genuine long-wait visible-spinner requirement UNMET, not a product defect or device measurement |
+| Terminal dimensions/safety |80×24 and120×40 NO_COLOR long path/text; escaped ESC/TAB/CR/BEL/bidi; non-TTY refusal; help/keys | PASS supplementary observations; initial prompt/pane/scrollback failures retained |
+| Password bound | Actual input contains1025 ASCII bytes; exact bound error; password cleared, no download or truncation | PASS; closes M02's fresh browser observation |
+| Disclosure/help | G-PWA-PNG/G-CLI-PNG and G-PWA-OLD/G-CLI-OLD | FAIL; concrete requirements7/8, not aesthetic judgments |
+
+Browser Console/Errors/Failed requests lists are empty. The short visible video
+includes status/Cancel and a >1s completion tail; earlier clipped videos are not
+sufficient visual proof. `matrix-stable-text.json` is the definitive2x run;
+transition/reset failures in `matrix-exact-text.json` remain intact. All four
+exchange SHA-256 values were checked against actual downloaded files.
+
+### Current stable-ID overrides of the initial audit
+
+- M01/K-L049-02 and M07/S-L109-01's active KDF/compression intervals: the28d84fd
+  proof table below applies. Both exact observations PASS; source-only or phase-
+  only limitations are not incorrectly attributed to the new observers.
+- M02/K-L049-04: actual PASSWORD-1025 plus CLI T04 now establishes the missing
+  bound-error observation on both apps. PASS for that obligation, not broad P3.
+- M03/A-L083-01..04: source and actual guidance observations agree on failure7.
+  Browser metadata stripping/retention notice is present; it is not all absent.
+- M04/A-L089-02..03: source and actual guidance agree on failure8. CLI's existing
+  current-format warning passes its constituent, not the missing common-help one.
+- M05/S-L081-02..03: real short no-flash constituent PASS; real delayed visible
+  long-spinner constituent UNMET. Fake timers do not supply the missing case.
+- M06/S-L077-01..06 and S-L078-01:102 static combinations and listed keyboard
+  actions captured; exact final all-controls-doubled dialog keyboard scrolling
+  remains UNMET. No visual-quality or screen-reader-device approval is inferred.
+- M08 and historical failures4/5: fresh current-preparation/restart and exact
+  overlapping Diff/export flows now observed successfully. Initial failure logs
+  remain FAIL. The complete strict walkthrough still reports failed/incomplete;
+  formal review dispositions are below, not an awaited result.
+
+The caller-owned Vite process was stopped after the last HTTP200 check. Walker
+browser/tmux sessions were already closed. No unrelated process was stopped.
+
+## Review ledger
+
+| Origin / finding | Root cause / disposition | Repair or remaining action |
+| --- | --- | --- |
+| Standards1 | Fixture `positions()` complexity16 >15; `fix` | Test-only independent helper decomposition; final verification below |
+| Standards2 | Fixture `matrixWrite()` complexity18 >15; `fix` | Test-only target/current-symbol helpers; final verification below |
+| Spec1 | Required disclosure too late/incomplete; `ticket` | Failure7 → `/to-tickets 46`; no production patch |
+| Spec2 | Browser format-break/common-failure help absent; `ticket` | Failure8 → `/to-tickets 46`; actual CLI help adds its narrower common-help omission |
+| Spec3 | Mandatory real-screen/timing proof incomplete; `ticket` | Continuing failure6; no invented long-wait/final-dialog observation |
+| Security |0 concrete exploitable findings | Not an independent release audit or device/stealth approval |
+| Walk harness | Stale prompt, pane loss, detached Cancel, typography transitions/reset | Original failed steps retained; supplementary observations mapped above; no invented product cause |
+| (user) Duration | User challenged the approximately47-minute walk; owner did not bound repeated harness repair/checkpoint sooner | Walker told to stop expanding and return partial evidence; no exhaustive restart |
+
+Failure7/8 should have been caught by the CLI/browser implementation Verify and
+Spec review: the incorporated D4 disclosures were incorrectly treated as deferred
+P3 guidance or omitted from the actual pre-encode/help check. This is a documented
+requirement breach, not a new discretionary coding rule. Proposed global
+workflow guard: check the actual pre-action notice/help against each incorporated
+contract clause before a ticket's Spec review. No global file is edited here.
+Remaining failure6's assembled real-screen/runtime proof is acceptance-owned;
+acceptance was the right place to find an unobserved genuine long operation.
+
+### Global workflow suggestion
+
+Timebox/checkpoint walkthrough harness repair and ask before restarting a large
+matrix. This run supplies one specific duration example (about47minutes);
+Optional, not a claim of recurrence across two runs. It belongs in the global
+implement/browser-check/tui-check workflow, not a repo lesson rule. Existing
+complexity standards already cover both fixture findings, so no redundant rule
+is added for them. No global skill or agent instruction was edited.
+
+### Final verification / review closure
+
+Standards1 is fixed in `050952b49fa51e325278172af870ca7ca9d0a571`;
+Standards2 in `4d6a8d373ce86b697545a07c7808af5c0ecfaf32`. All74 independent
+fixture PNG SHA-256s match before/after each refactor, including all64 physical
+shortened-tag cases. The three manifests in `/tmp/obscr-71-standards.PEOEVh/`
+each hash to `b6946f12a1962d6f4e7846a7071ce4ba75774632e717a8497d86345cba774626`.
+Only test helpers moved: no production import, changed fixture output or format.
+Older fixture line ranges/digests below remain pinned to their stated revision.
+
+On final code4d6a8d3, named assembled integration passed **6 tests/42.635s**;
+full `npm test` passed **568 tests/24 suites/272.418s**. On document endpoint
+`d5b67390206632c2aba02e567ebfa81bba22b39d`, required PWA build passed **1.68s**
+with existing outDir/Browserslist/bundle warnings. Fresh independent round2
+reviewed only9f6bd17..d5b6739: **Standards0, Spec0 new, Security0**. Both
+standards findings are verified fixed; three original Spec findings retain their
+`ticket` dispositions. Loop clean means no remaining `fix` finding, not acceptance
+PASS. Nothing is declined or left at the round limit. Typecheck, lint, format,
+mutation and e2e remain configured none; no by-hand CI command exists.
+
+Acceptance remains failed; no Human7 hand-over/ready PR/release claim is made.
+The [final review record](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6523253257) and parent notes71.1/71.2/71.3 preserve the dispositions. The original title-plus-historical-body reconstruction exactly matches its recorded SHA-256.
+
+The failure closeout merges this evidence/test work into the spec branch only;
+it does not merge PR#72 into main.
+
+## Released acceptance pass — initial reconciliation (historical audit trail)
+
+The following addendum records the **initial in-progress released #71 pass**, following the approval/release recorded in `/tmp/obscr-46-comments.md` (2026-10-28 closeout; [release disposition](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6477369774)). Proof-only failures 2, 3, 4 and 6 remain acceptance-owned; code fixes 1 and 5 belong to #73/#74. Release of the acceptance ticket is not a passing acceptance result, merge approval or release authorization.
+
+- Current production candidate: **`a3a21178e63a144700adc47c65d29f49c41bf93b`**. Whole-feature fixed point: **`4c8f7c5d1e2ca9ac37810cc74a997f4819309736`**, the earliest implementation base, not an acceptance-only diff. Current tests-only candidate: **`7f3b2d45c4e3355b1be317a97cd716480ef3c0bf`**, following the five-file proof/fixture addition `a2ad2124bfa640d958a7a53f6380b0bdc5aaf155`. Production paths match a3a2117; the later28d84fd proof revision is recorded below. This is an acceptance evidence document, not a release verdict.
+- **Current completed automated results, supplied by the acceptance owner:** the [posted automated proof](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6522357908) records the final exact test bytes at 7f3b2d4. Named integration: **6 tests passed, 45.686 s**. Full `npm test`: **563 tests / 23 suites passed, 291.378 s**. Separate new proof-unit run: **2 tests passed, 6.16 s**. PWA build: **passed, 1.72 s**, retaining bundle-size/Browserslist/outDir warnings. Typecheck, lint, format, mutation and e2e: configured **none**. These are owner-run results, not tests executed by this document task. They do not make unsupported clause mappings pass.
+- **Current still not run/completed:** fresh stable-server browser/TUI walkthrough and formal whole-feature Standards/Spec/Security review rounds remain main-owner work. No such completion is claimed here. Human7 remains THEIRS; downstream and release gates stay separate.
+- **Prior results, not the final run:** 558/22 predates these test edits; the initial a2ad212 proof tree passed 563/23 in 300.137 s and integration6 in25.194 s before 7f3b2d4 expanded tags to every length0..15. The older 538/22 and four-case integration results below belong to their historical candidates. None replaces the final exact-byte results above.
+- The original title remains the first line; its body is retained **byte-for-byte from the historical `Identity and result` heading onward** (pre-addendum title-plus-body SHA-256 `92b8f67f67f71acf3cf5145cde6ff470bd9c3c12ed45cd5ffa85c0e11b5b53b9`). Its failures, statuses, source digests, observations and next-action wording are historical facts, not current instructions to reopen implementation tickets.
+
+### Latest proof revision — 28d84fd
+
+The assertion audit below was first made at 7f3b2d4. Two additional test-only observations now close M01 and M07 without changing production. Current test identity is **28d84fdf66043940b5afd605ece6c52d0b59992d**. `npm test` on these exact bytes passed **568 tests, 24 suites, 267.47 s**; the focused proof pair passed **7 tests, 2 suites, 9.271 s**. The six-case named integration passed again within that full suite (48.164 s); its separate named-command result45.686 s and the unchanged-production PWA build1.72 s are recorded above. No new e2e, lint, format, typecheck or mutation command exists.
+
+| ID / clauses closed | Exact current observation |
+|---|---|
+| PROTECTED-PROOF-03 / M01, K-L049-02 | `test/unit/protected-proof.test.js:115–145`: through complete prepare/encode/decode, null/empty/lone-high/lone-low-surrogate/1025 ASCII/513 é passwords return typed refusal and no PNG/text. A spy delegates the real pinned Sodium primitive: **zero Argon calls throughout all refusals and preparations**, then exactly one real call on a successful independent-PNG positive control. Pair with the unchanged both-platform invalid-request gate cases in `protected-recovery-worker.test.js` and `protected-encoding-worker.test.js`. PASS at28d84fd. |
+| PROTECTED-PROOF-04 / M07, S-L109-01 cancellation constituents | `test/unit/protected-cancellation-proof.test.js`: four cases, Node/browser actual gate × KDF/compression. A test-bootstrap observer delegates the **real synchronous call without injected sleep or replacement output**, marking shared state1 at entry and2 only on return. Cancel observes state1, worker termination returns CANCELLED with no message/preparation/PNG, and state remains1 after exit; the call did not return. Compression uses the maximum1MiB original input. Fresh workers complete real preparation/discard/recovery and state2. This observes termination in an active primitive/compressor **call interval**, not a particular WASM instruction, secure erasure or device timing. Both unchanged production entry gates run. PASS at28d84fd. |
+
+Any older mapping below that retains M01 or M07 as a missing constituent is superseded **only for those named observations** by this table. Disclosure/help, fresh real-screen/timing proof, formal review and downstream/release gates are not supplied by these tests. The remaining directly identified mandatory feature gaps number16 (M02–M06); fresh walks may settle observations or expose further failures. No production fix is performed in acceptance.
+
+### Reading current dispositions
+
+`MAPPED` records PASS for the cited exact assertion at its stated candidate/evidence class (or explicitly historical real-program evidence where stated). A combined clause retaining an UNMET constituent is UNMET as a whole, not PASS. It is an assertion-level mapping, **not a blanket clause or feature PASS**. It is not PASS inferred from a related title. `REVIEWED` means a source/design/ownership/non-claim was checked against the exact normative source and specified production range; it is not a fabricated executable test or an independent audit. `UNMET` retains an absent mandatory observation or an identified source discrepancy. `DOWNSTREAM` and `RELEASE` remain unmet at their existing owners, not waived or silently moved into #46. `THEIRS` is Human 7. Combined requirements retain their unresolved parts even when some constituents are mapped.
+
+Ranges such as `K-L065-02..06` enumerate **each** stable ID through that suffix, inclusively; comma-separated items are separate IDs. The source letter and line retain the meanings in the historical index. A grouped entry shares an actual assertion/review rationale; distinctions inside a group are stated explicitly. The tables below reconcile all **872 historical UNMET rows** (865 clause rows plus G03/G04/G09/G10/G11/G12/G13). Original PASS/FAIL observations remain intact too; supersession of a failed observation requires a fresh observation, not source inspection.
+
+### Exact primary-source identity and narrowing
+
+The primary inputs for this pass are `/tmp/contract-{6373122896,6374176664,6386604139,6387228703,6387616398}.md`, `/tmp/obscr-46-body.md` and filtered `/tmp/obscr-46-comments.md`, not the earlier verdict as a substitute specification. The five contract files differ from the archived `/tmp/obscr-71-evidence/contract-*.md` only by one additional terminal blank line: normative line IDs and content are unchanged. Preserve both digest sets rather than replacing the historical set.
+
+| Source | SHA-256 of the current exact input |
+|---|---|
+| K / `6373122896` | `6ed4378b2b694dd115648ca2ea11ab51c2f5499f613b644906a7277310b4c80a` |
+| P / `6374176664` | `d250916beb84259f28a921a3b671cfc53c7b13c9140ccde5f84f7fef1f2cda84` |
+| C / `6386604139` | `e27e8bfd98282a3a24200272a685e6a9737e432ef33ffade5ab83632c2cff2bf` |
+| F / `6387228703` | `86e05d84d827c0b4a4c5e50358d50bc9cb14b672fcd336a57597db3a4f5fb8fd` |
+| A / `6387616398` | `87929d48891dbdcc7df3b631b0658b815388b30cdb672be7865aeea6d51d1cc7` |
+| S / #46 body | `4206505aa6122793ffb8dfcf892016ea6ccef6023cba500c275e901a785f0137` |
+| Filtered #46 comments | `8e542a7d6cec431c0b141885b275f3f3b7d63807df27f9c63a08d1210269bfef` |
+
+F §§1/5 and S implementation bounds narrow P's provisional 4096-side/12,192,768-pixel/525,312-draw experiment ceilings to 1024-side/1,048,576 pixels/24,320 draws. F §1 expressly moves hidden-profile checking after the fixed KDF; no public profile selector exists. S ownership/flow supersedes A's suggested `lib/steg-core.js` retention with the private carrier in the complete shared operation; absence of that legacy filename is not permission for duplicated application policy. S Further Notes explicitly retains P3 (#47) guidance/password choices, P4 (#48) exact file/stdin/output policy, P5 (#49) offline/update work, and independent device/security/release gates. The 2026-10-28 comments release proof work only and change none of those requirements.
+
+### New and extended exact catalogue (current test bytes)
+
+These entries supplement the immutable older catalogue. All fixture data is public. Line ranges identify inspected assertion bodies, not merely declarations. Node execution of the browser request gate/WebCrypto is **not** actual-browser evidence.
+
+| ID | Exact title, fixture, assertions and execution qualification |
+|---|---|
+| PROTECTED-PROOF-01 | `test/unit/protected-proof.test.js:9–47` — `PROTECTED-PROOF-01: failed GCM does no payload decompression; successful authentication precedes real gzip work`. Independent `referencePNG` gzip of `Public authenticated gzip 日本 ` repeated 100 times; tag byte 0 changed **before RS**. Real operation/native decrypt, delegated real pako calls: bad image yields exact common failure, events exactly `GCM start,GCM rejected` (zero gzip initialization **and** work). Good image returns exact text; events start `GCM start,GCM accepted,gzip init`, followed by a nonempty all-`gzip work` tail. PNG inflate uses windowBits 15; only payload gzip initialization 31 is counted. Positive control validates the observer, not a mocked decompressor. PASS in the owner-run proof units and final full suite at 7f3b2d4. |
+| PROTECTED-PROOF-02 | `test/unit/protected-proof.test.js:49–113` — `PROTECTED-PROOF-02: maximum complete recovery respects allocations, salt/KDF/repair/GCM attempts and stream ownership`. Independent **1024×1024 opaque RGBA**, raw 512-byte text; fixture/Sodium initialization precede instrumentation. `test/fixtures/protected-observation.js:3–37` delegates real constructors/Map methods, excludes buffer views, observes pre-KDF raster sample accesses after domain allocation. Assertions: score allocation `[2097152]`; large uint32 allocations `[12196,3145728]`; large uint8 allocations `[4195328,4194304]` (one filtered raster and one RGBA, not two RGBA); exactly one 576-byte repaired-body allocation; exactly 128 salt accesses `i*32768`; exactly one **real Sodium crypto_pwhash** call, salt bytes 0..15 once, output32/ops3/memory67108864/algorithm2; repair lengths **`[48,255,255,66]`**, sum624; one GCM body528; one sparse Map, peak >896 and ≤11648, final size0; ≤24 stream chunks; same reusable4096-byte zero input, previous outputs cleared before replacement, paired input/output8192, continuous counters +256 blocks, final input/output cleared. No whole-process/RSS, JS Map byte-size or physical-device claim. PASS in the owner-run proof units and final full suite at 7f3b2d4. |
+| K12 | `test/unit/protected-keys.test.js:322–336` — `enforces the final cumulative 24320-draw boundary without restarting the stream`. Controlled little-endian words, domain30001: 1920 rejected +896 accepted prefix draws consume2816; `setLimit(11648)` retains the count; next acceptance at zero-based draw24319 returns scalar29105; at24320 rejects; exactly24 CTR chunks in both cases. This proves the final cumulative boundary, not just a position limit. PASS in the owner-run final full suite at 7f3b2d4. |
+| K13 | `test/unit/protected-keys.test.js:225–236` — `enforces the fixed prefix and exact total position ceilings`: draw896 positions then reject; reject limits -1/0.5/11649/NaN; limit11648 emits11648 unique values then rejects. PASS in the owner-run final full suite at 7f3b2d4. |
+| PROTECTED-ACCEPT-01 (extended) | Exact two expanded titles remain those in the older catalogue. `test/integration/protected-image.test.js:51–90`, especially65–67: for raw TEXT and gzip TEXT×100, both origin variants compare **all seven encoded summary fields exactly to the consumed preparation** (`originalBytes,storedBytes,compressionUsed,maxStoredBytes,hasFrameCapacity,fits,metadataNotice`), not merely their presence. PASS in the final integration/full-suite runs at 7f3b2d4, closing the missing assertion behind historical F1/#73. Self-roundtrip portions are still compatibility evidence only; independent E01/E09 remain necessary. |
+| PROTECTED-ACCEPT-04 | `test/integration/protected-image.test.js:130–148` — `PROTECTED-ACCEPT-04: independent physically shortened tags never release text through either real gate`. Independent640×640 images; empty text, `Short public tag fixture`,224 and512 raw bytes; positive full-tag control recovers exact text through both gates. For **every retained tag length 0..15**, physically remove tag bytes **before the separate RS/interleaver/matrix writer**, keep the canonical full-tag header, and require the entire exact common-failure object, with no message. The final 7f3b2d4 loop expands the earlier five representative lengths; it covers all16 shortened lengths at each of the four stored sizes through each gate (128 negative recoveries), plus eight full-tag positive recoveries. `test/fixtures/protected-reference.js:341–354,425–451` supplies that independent construction; no production encoder import or native-AEAD-only truncation. **The short text is24 UTF-8 bytes, not23**; a23-byte claim is not supported. PASS in final integration6/45.686 s and full-suite563/23 at 7f3b2d4. |
+| PROTECTED-ACCEPT-05 | `test/integration/protected-image.test.js:150–162` — `PROTECTED-ACCEPT-05: real gates authenticate independent gzip and refuse its bad tag without text`. Independent gzip positive/changed-tag pair, both actual gates, exact good message or exact common-failure object. Pair with PROTECTED-PROOF-01: -05 alone does **not** observe non-invocation/order. PASS in the final integration/full-suite runs at 7f3b2d4. |
+| O12 | `test/unit/protected-operation.test.js:129–148` — `returns the consumed preparation's exact summary with its complete PNG %#`: exact object including seven fields, raw Unicode/BOM, gzip, empty-only and512-byte cases, then recovery. `:150–172` — `binds the result to replacement inputs, not caller-edited summaries or an earlier password`: old/foreign handles refused, caller mutation cannot change worker summary, changed password binds output, consumed handle refused. `:174–182` — `returns no PNG or successful summary for a non-fitting preparation and consumes it`: exact CAPACITY object then PREPARATION_INVALID. Prior production-fix checks, not a fresh run here. |
+| U06 | `test/unit/browser-components.test.js:485–502` — `overlapping Diff selections starting in slot %i admit serially and compare the current pair` (both slots): second selection does not abort first; one pending admission, disabled compare until both current dimensions admitted, ordered original/comparison arguments and three result images. `:611–697` — `overlapping form requests pass the real PNG gate at maximum dimensions and recover from rejected inputs`: actual gate under Node, two1024-square covers, malformed/alpha/1025-width refusal, unequal dimensions, corrected pair and exact1048576-pixel comparison. Source #74 fix evidence, **not** a fresh browser B15 pass. |
+| U07 | `test/unit/browser-components.test.js:166–184` — `safe progress keeps recovery locked, delays its spinner and ignores late stages`: fake timer/operation, spinner absent initially, present after1000ms, password/task locks, Cancel removes spinner and ignores late progress. This is controlled timing only; real timing remains unmet. |
+| T01 | `test/integration/cli.test.js:117–168` exact cases `refuses %j without waiting for piped input`, `preserves existing output on scripted %s refusal`, `shows available help flags without prompting for %j`, `shows usable examples through a plain pipe`, `fails a missing required file argument for %s`, `does not print terminal control characters from invalid user arguments`. Open stdin does not stall refusal; exit1/no stdout/file mutation; help flags/keys/old-format warning; no ANSI/control injection. |
+| T02 | `test/integration/cli.test.js:171–223` exact cases `shows help and keys at %ix%i`, `encrypts with editor/password prompts and decrypts the resulting file`, `accepts nonempty public editor text and reports actual compression`, `refuses preparation at %ix%i before asking for a password`: 80×24/120×40 help, task/result path/byte summary, no printed password, whitespace preserved, raw/gzip use, no-frame/empty-only/513-byte refusal without password/deriving/success or output file. |
+| T03 | `test/integration/cli.test.js:225–276,317–358` exact cases `announces authenticated empty text while leaving piped result bytes empty`, `recovers text through a stdout pipe without mixing prompts or progress into it`, `escapes recovered terminal controls without changing text saved to a file`, `runs the guided decrypt action and saves its actual result`, `reports a public PNG failure after prompts without recognition details or partial output`, `escapes a long output path while preserving the real filename`, `does not claim success or replace output for a wrong password`. Exact safe display/file bytes and preserved existing files for the specified failures, not P4's future exact stdout policy. |
+| T04 | `test/integration/cli.test.js:278–315,360–421` exact cases `runs the guided encrypt action without bypassing PNG admission`, `leaves the guided menu without starting an image operation`, `keeps an existing file when a terminal user declines replacement`, `refuses empty editor text before asking for a password`, `keeps the prepared image when correcting only password confirmation`, `refuses a password above the UTF-8 limit then accepts an exact boundary password`, `cancels a prompt with Ctrl-C without writing result bytes`, `cancels worker processing with Ctrl-C and leaves an existing output unchanged`. Exact prompts, one preparation,513/512 é boundary, cancellation/no saved success/no temp file. This does not assert an actual in-Argon entry counter. |
+
+Inspected new-test identities: proof file `720e763ed968aa72e610dc3af9b9ae52a09cee94c25c2056196684c2b756da16`; observer `58224fe58d75ef5ff6e3a7e9b0de17e45965e181fd441c13cd022c457a6354c0`; key file `ce69fb6b48c92f818f904967e183eb7d85d77ac2efeb03018276899bdc7b57e3`; integration `58e65878ef2cd1731a58b536a44f2fd0b0569498a03069ea2c14006402dfea5b`; independent reference `0bca933615950db983ca5fc9774bb1dab28e9741d5b6d66219e16e3c2172d6b4` (SHA-256). These match the inspected files at the final tests-only candidate 7f3b2d4; the owner confirms the final full suite used these exact test bytes. Later edits require a new identity/result; the linked proof comment is the run record.
+
+### Assertion/review keys used by the reconciliation
+
+These keys expand precise evidence rather than conferring a blanket pass. Historical check IDs retain their exact titles above/below.
+
+| Key | Exact observation or source-review boundary |
+|---|---|
+| KEY | K01 `protected-keys.test.js:48–68`: fixed independent root seen twice by HKDF, same root object cleared, exact two labels, anchored32-byte children, unchanged password bytes. K05 `:109–127`: composed/decomposed, spaces/case/BOM/CRLF give distinct keys, changed salt changes both keys. R10 `protected-recovery.test.js:22–32`: invalid/empty/surrogate/over1024 rejected with no message, **HKDF** forbidden, not an Argon counter. R11 `protected-recovery-worker.test.js:77–83`: exact1024-byte ASCII/multibyte independent recovery through both gates. `lib/protected-keys.js:11–43` explicitly calls raw Sodium32/3/67108864/ARGON2ID13 once, fixed v19/p1/empty secret/AD API, no key cache; native HKDF adapters `protected-native-node.js:62–69`, `protected-native-browser.js:48–60` fix zero32 salt/SHA256/output32. Package pins in package.json/package-lock.json are source evidence, not completed artifact/license audit. |
+| STREAM | K02/K03 `protected-keys.test.js:70–107` compare independent128-byte zero-counter stream/24 positions on each native adapter, carry beyond bit63, final counter usable but17-byte wrap rejected,4097-byte chunk refused, fixed GCM vector, changed payload/AAD and primitive truncation rejected. K09 `:198–223` compares896+1153 positions to uninterrupted2049, counters0/0x100/0x200 and4096-byte chunks, clears retained chunks. `lib/protected-keys.js:46–162` plus native browser`:62–72`/Node`:71–91` show full128-bit increment and length128, not a reduced seed. |
+| SAMPLE | K06 `protected-keys.test.js:166–176` injects words `[ffffffff,1,ffffffff,0]`, asserts exact `[7,13,2]` from canonical `[2,7,13]` excluding9; K07`:178–189` singleton draws once,37-domain full uniqueness; K08`:191–196` emits786431 despite budget1; K10`:238–256` rejects all2816 exhausted prefix draws, accepts last permitted draw2815, retains prefix count across setLimit897. K11`:274–289` zero-demand no CTR, one budget negotiation, invalid demands rejected. K12/K13 add final boundaries. `lib/protected-keys.js:116–157` uses numeric2^32, LE uint32, rejection **before** modulo, sparse swap/delete, no biased fallback; final profile MAX_ELIGIBLE786432 is stricter than theoreticalN≤2^32. |
+| CARRIER | E01/E09 `protected-encoding-format.test.js:21–64` compare every output RGBA byte to independent full-sort scoring/RS/matrix/PNG expectations for **all S0..512**, plus both native adapters/raw/gzip/TEXT/whitespace. Fixture `protected-reference.js:130–179,255–312,370–382` makes checkerboard score ties, upper-bit scoring, canonical row-major scalar list, salt exclusions, separate header/body MSB-first symbols/padding. E02`:66–81` checks every alpha/upperRGB bit and ≤128+1664 changed scalars. O04 `protected-operation.test.js:105–117` demonstrates exact salt exclusion changes no-frame outcome and all-LSB toggling leaves capacity unchanged. These are independent samples, not self-roundtrips. `lib/protected-image.js:55–117` uses integer4-neighbor score, histogram3049, positive top quarter, row-major ties, no sort, full eligible domain. |
+| FRAME | R02 `protected-recovery-worker.test.js:48–75` asserts exact independent text for everyS0..512 through **each** real gate. R03 `protected-recovery.test.js:61–79` exact common failure/no message for changed salt, authenticated nonce, tag,16 damaged header/body bytes, concatenated/reversed body blocks, nonzero padding, S/L overflow, unequal raw lengths, invalidUTF8 and every fixed/reserved header offset20..31. R04`:51–59` exact512-byte recovery after1/7/8 independently damaged bytes in each header/body block. Fewer-than16-tag complete images are separately PROTECTED-ACCEPT-04; ordinary altered-tag R03 does not substitute for it. `lib/protected-recovery.js:19–79,112–157`, `lib/protected-encoding.js:17–103` fix layout, partition, AAD, bounds, one GCM, exact interleave; `lib/protected-repair.js:29–56,150–185,220–267` fixes GF/parity/eight-error/residual checks and bounded allocations. Retained LICENSE/NOTICE and pinned provenance are source-reviewed, not an independent release audit. |
+| CAP | O03/O05 `protected-operation.test.js:40–70` admits exact1MiB/1024-square and rejects one extra UTF8 byte; table`:49–58` distinguishes no-frame/empty-only and223/224,462/463 transitions, flat no-capacity; all S0..512 fit roomy cover,513 does not. E06 `protected-encoding.test.js:27–40` cryptoWork remains0 for no-frame/empty-only nonempty/oversize. `lib/protected-image.js:119–130,179–199` computes largestS0..512 by C=S+16,r=ceil(C/239),G=128+ceil(8(C+16r)/3), both inequalities, and checks fits before RNG/keys/output. F's capacity table is an arithmetic/design review of these formulae, not a claim of observed exact-B threshold fixtures at every row. |
+| TEXT | O03 plus `protected-operation.test.js:27–38` exact UTF8 counts for empty/whitespace/BOM/é/emoji/decomposed and lone-surrogate refusals. R01 independent raw/gzip/empty through both gates; E09 independent encoder samples preserve TEXT's BOM/Unicode/CRLF/tab. R03 invalidUTF8 fails. `lib/protected-image.js:16–33`; `lib/protected-recovery.js:137–156` fatalUTF8/ignoreBOM preserves U+FEFF, exact length, no text before successful return. |
+| ZIP | `protected-compression.test.js:10–31` exact gzip header, exact compressorUTF8 bytes and independent native gunzip/full-input consumption; `:33–44` null/throw/false compressor gives exact COMPRESSION_FAILED and releases prior handle; O06`:65–71` partial `[31,139]`/false never returns compressed success; O07`:46–63` raw fallbackabc, empty-only nonfit and deterministic2000-byte incompressible nonfit refused at encode. R05 `protected-recovery.test.js:81–101` independently authenticated bad flags/time/XFL/OS, CRC/ISIZE, truncation, trailing byte, second member and L±1 each gives exact common failure; positive stream exact text. R07`:121–128`400000-byte output succeeds, authenticatedL1000 overrun fails. `lib/protected-recovery.js:81–110` allocates boundedL plus one overflow byte, checks total_out and complete input consumption while decoding. Pair PROTECTED-PROOF-01/-05 for auth-before-init/work, not the R05 title. |
+| LIFE | O02 `protected-worker.test.js:40–51` both gates exact latest revision/foreigngeneration/idempotent discard; operation`:72–103` replacement/discard/input transfer-detachment and failed-replacement invalidation. E04 `protected-encoding.test.js:60–98` one compression, encrypt input equals retained compressed bytes even after caller zeroes source, input cleared after encode. O12 exact summary/worker-bound handles. `lib/protected-transport.js:39–165` frozen opaque handles/WeakMap, generation/id suppression, termination awaited before release; `lib/protected-image.js:204–263` one preparation/busy/revision, no app-visible key state. O01 `protected-worker.test.js:73–82` forbidden platform RNG/derivation APIs during successful preparation; this is not a direct Sodium invocation count, paired with source which never calls deriveKeys on prepare. |
+| CANCEL | O08 `protected-transport.test.js:27–62,127–147` late cancelled replies ignored/new generation completes, lease held until stop, failure termination awaited. O10 `protected-recovery-worker.test.js:147–194` **inside actual repair**, controlled Atomics wait after real repair, observe repairEntered and stopped, CANCELLED/no message, next exact recovery. `:126–135` cancels on deriving/recovering phases and restarts; operation`:82–93` cancels checking/preparing phases. E-worker `protected-encoding-worker.test.js:155–186` phase cancellation through both gates/old handle invalidated/fresh operation. These prove stage cancellation, not directly observed termination inside a running Argon call or compressor call; M07 below retains that distinction. PROTECTED-ACCEPT-03 tests real replacement after cancelled recovery. |
+| RUNTIME | `protected-recovery-worker.test.js:85–123` malformed requests/overrides/SharedArrayBuffer/16MiB+1 rejected, valid request follows; missingWASM RESOURCE_FAILED/no text and max-image score-allocation failure then fresh success through both gates. `protected-keys.test.js:129–164,291–320` clears root/first child on second-HKDF failure, missing native/WebCrypto/WASM and malformed stream failure/clear. E07 `protected-encoding.test.js:120–152` after-encryption serialization allocation failure gives exact RESOURCE_FAILED/no PNG/source unchanged/secrets zero, old handle consumed; `:100–118` RNG/HKDF/CTR/encrypt failures then fresh success. `protected-encoding-worker.test.js:239–263` missing browser RNG/native crypto consumes handle; O09 `protected-transport.test.js:81–87` failed constructor no main-thread image fallback. Controlled failures are not actual deployment CSP/phone results. |
+| PIXEL | P1 `lib/png.js:29–32,133–161,199–232,254–280,288–328`: geometry before raster allocation; one bounded filtered raster, one ownedRGBA; one complete zlib stream/exact declared raster; export cap checked before output allocation; direct serialization, no canvas codec input. P02 high-expansion observation and P03 valid16MiB input; P04 owned rendering declarations; E08 and integration-01 preserve cHRM/gAMA/sRGB bytes and strip all personal chunks; P05 preserves output on unsupportedalpha. PROTECTED-PROOF-02 observes maxRGBA recovery allocation/counts, not all process allocations. Preview/Diff own at most two raster leases via `lib/image-operation.js`/transport; transport tests`:112–125,149–245` hold/release raster budget through retained/discarded/failed work. |
+| UI | U01 `browser-components.test.js:295–333` no initial capacity/compressionoff, exact display, password-only edits don't discard, no-frame/empty-only distinctions/failure removesfit; `:134–151` empty creation never prepares, compressed display exact; `:186–260` edits/discard-pending/late handles/retry; `:262–293` password edits remove complete output/previews, failure clearspassword/keepsimage. U02`:437–483` locks, cancellation keeps inputs/clearspassword/rejectslatetext/no download; `:335–344` empty authenticated success and script text has no script element; `:346–383` reveal remasks on lock/clear. U03`:796–836` Stay/Escape retain draft and restore exact trigger focus; Switchandclear aborts/resets; U04`:838–848` arrow/Home/End movefocus without changingactive; navigation`:850–921` guardlocked/draft/unload. These are simulatedDOM/operation checks, paired with LIFE/FRAME real gates and historical B/W/T, not fresh viewport/accessibility proof. |
+| WALK | Historical B1–B17/W18–W22/T1–T9 in the linked walkthrough and immutable record, captures/manifest at `/tmp/obscr-71-evidence/`. Explicit successes: raw/gzipactualCLI↔PWA with four byte comparisons; empty/damaged/altered/plain/legacy outcomes; subsequent stagecancel/restarts; W20's **24** prepared/result/recovery/Diff views at320/768/1440×normal/doubledtext, W21keyboardreveal; T7sizes/longpaths/NO_COLOR,T8nonTTY. Failures B1/B10reload and B15overlap remain failed on that old candidate. No fresh B1/B10/B15, no real spinner-timing or all-secondary-state claim. |
+| REVIEW-KEY | K D3–D7/P D2/F §§1/3/7; `lib/protected-keys.js:11–162`, `protected-encoding.js:54–120`, `protected-recovery.js:120–157`: one expensive raw root precedes every keyed recognizer; no public password check/seed/passwordhash field/key persistence/secondAESsearch; raw salt is public, HKDFzero salt is extraction domain, labels are key-schedule domains, not format selectors. Full32-byte native keys, CTR placement only/GCM payload only; finally clears owned secret arrays, worker termination drops references, no guaranteedJS-erasure claim. Earliest header/repair/padding rejection is allowed **after** root, so not every guess costs fulldecode. This source argument does not certify absence of unknown attacks or phone performance. |
+| REVIEW-APP | S Ownership/Moduleflow/Cutover; `lib/steg.js:19–64,72–114,161–230`, `lib/protected-transport.js:39–165`, Node/browser worker entry points, `app/src/components/EncryptForm.jsx:1–131`, `DecryptForm.jsx:1–71`, `App.jsx:21–127`. Forms/CLI consume complete operations; bounded source reads precede fullbuffer allocation; native adapters implement crypto, not framing. No derive fallback/mainthreadcodec/algorithmoverride/secretstorage API is added. `bin/index.js:19–40,139–245` safe text/TTY/stages/editor/result paths, not P4's future no-clobber/stdout route. Source review is limited to named code paths, not network/cache audit or formal review-round completion. |
+| REVIEW-HISTORY | `git log 4c8f7c5d1e2ca9ac37810cc74a997f4819309736..a3a21178e63a144700adc47c65d29f49c41bf93b`: preparation8540b1e, recoverya89f05a, encodingb037ddf, jointcutover0040cca then acceptance544f774; later summaryb458fb7 and overlappingDiffdcfa356. Current production has no legacycrypto/carrier fallback; README current preparation/encode/recovery/examples and next changelog describe new contract. Historical changelog text remains historical. This checks sequence/source ownership, not a fresh formal whole-feature review. |
+
+### Initially unresolved mandatory feature observations
+
+The initial audit identified18 clauses in seven reasons. The latest proof revision above closes M01/M07, leaving **16 directly identified missing mandatory source clauses** in M02–M06, plus pending execution gates. The original diagnostic reasons below remain as the audit trail, with those two explicit resolutions. Repeated/enclosing coverage/scenario/story clauses in the mapping remain explicitly partial; they are not counted as additional distinct missing behaviors. Automated targeted/full-suite/build gates are now recorded above; fresh real-program observations and formal whole-feature review remain pending. Release/downstream rows and the three Human7 rows are not hidden inside the eighteen.
+
+| Reason | Stable IDs (18 clauses) | Exact remaining limitation / owner |
+|---|---|---|
+| M01 | K-L049-02 | R10 forbids HKDF, not the preceding real Argon call. Source `protected-image.js:154–176,179–199` validates before recover/encode and appears ordered correctly; no direct invalid-credential **zero-KDF** observation is established. Keep before-derivation proof unmet; not a diagnosed production defect. |
+| M02 | K-L049-04 | CLI T04 observes the1024-UTF8-byte rejection explanation, and module errors state1024; equivalent user-facing explanation across **both apps** is not established. No silent truncation was found. P3 owns broader guidance, but this specific exact-byte-limit obligation is not deleted. |
+| M03 | A-L083-01..04 | Before-encode disclosures across both apps are incomplete/unproven: CLI `bin/index.js:139–185` prints metadata/color rejection explanation **after successful encoding**, not before. Browser ImageUpload gives opaqueRGB/RGBA/size hint and preparation gives metadata notice, but the complete noninterlaced/profile/rejected-valid-PNG disclosure is not established. Tests/captures showing result notices cannot prove pre-encode disclosure. Potential production/UI work requires main-owner review/disposition; this task changes no code. |
+| M04 | A-L089-02..03 | CLI help/README explain old-image incompatibility, but no prominently presented browser equivalent or both-app general help explaining **plain and old images share the common failure** was found (`App.jsx:95–127`, forms, ImageUpload/PrivacyNote; source search). Correct hidden-failure output does not prove user guidance. Potential guidance work belongs in the main disposition, not a tautological test here. |
+| M05 | S-L081-02..03 | U07's fake timer establishes controlled1000ms behavior, not real short-operation no-flash or real long-wait spinner/Cancel timing. Historical walkthrough expressly did not observe it. Fresh real timing evidence is required. |
+| M06 | S-L077-01..06, S-L078-01 | W20 covers24 named views, not every changed/secondary screen at the required widths/text size. Complete wrapping/action reachability, every announced control name/live focus/color alternative and **every** keyboard action remain unobserved for the remaining states. Source labels/style and selective keyboard/component checks are useful but not a blanket real-screen acceptance pass. Human7's visual judgment is a different gate. |
+| M07 | S-L109-01 | Phase cancellation and the genuinely in-repair O10 observation do not directly establish worker termination **inside running KDF and compression calls**. These parts of the lifecycle coverage group remain unmet; no claim of defective cancellation follows. |
+| M08 | (execution gates, not extra clause count) | Final targeted integration/proof units/full suite/build are recorded as owner-run passes at 7f3b2d4 above. Fresh stable-environment real walkthrough (especially old B1/B10/B15 and M05/M06) and formal whole-feature Standards/Spec/Security reviews remain **pending main-owner work**. Automated success and this source reconciliation do not substitute for them. |
+
+The eight rows above include seven missing-observation categories plus the execution-gate category. Human7 (`G09`, `S-L132-01..03`) remains **THEIRS**. P3/P4/P5, physical-device timings/process-memory, deployedCSP/offline assets, independent final security/artifact/license/attack/detection gates remain unmet with their existing owners. No production fix is made or authorized by this reconciliation.
+
+### Reconciliation of the old gap rows and historical failures
+
+| Stable IDs / failure | Current disposition | Exact basis and remaining boundary |
+|---|---|---|
+| G03; historical F2 / numbered2 | MAPPED; exact negative proof PASS at 7f3b2d4 | PROTECTED-PROOF-01 observes failedGCM⇒zero payloadgzipinit/work and positive authenticategzip order; PROTECTED-ACCEPT-05 pairs both real gates. R05 alone still cannot close it. |
+| G04; historical F3 / numbered3 | MAPPED; exact integrated proof PASS at 7f3b2d4 | PROTECTED-ACCEPT-04 independent physically shortened tags, full-tag header, both real gates, full-tag positive controls; **all16 lengths0..15 at S0/24/224/512**. No S23 claim. |
+| G10; numbered6 resource part | MAPPED for named application counters; RELEASE for process memory | PROTECTED-PROOF-02 plus K10/K12/K13 and PIXEL: exact score/histogram/eligible/filtered/RGBA/sparse/stream/salt/KDF/repair/GCM observations. Counts/allocations are not physicalphoneRSS or portableMapbyte measurement. M05/M06/M07 and the remaining real-program/review gates still prevent blanket failure6 closure; its named resource proof passed at 7f3b2d4. |
+| G09 | THEIRS | Human7; no screenshots/tests/source-review substitution. |
+| G11 | RELEASE (UNMET) | Named physicaliPhone/Android/desktop/Node cold/warmkeyready and whole-processmemory/responsiveness; actual deployedCSP/WASM/support. RUNTIME is controlled/Node gate evidence only. |
+| G12 | RELEASE (UNMET) | REVIEW-KEY is a precise first-party source argument, not independent final audit/artifact/license review or bounded attack/detection results. |
+| G13 | DOWNSTREAM / RELEASE (UNMET) | P3generator/guidance, P4exactfile/stdout/output, P5fullversionedoffline/update/network-cache checks; S FurtherNotes retains owners. |
+| historical F1 / numbered1 | #73 source fixed; exact summary assertions PASS at 7f3b2d4 | `protected-encoding.js:103` returns `{ok:true,pngBytes,...summary}`; O12 exact worker-owned summary and integration-01's seven equality assertions. Old missing-summary result remains true ofb471500, not a3a2117. |
+| numbered4; old G06/G07 and S-L126-01..02/S-L129-01,06 | Fresh observation pending, old FAIL retained | Stable-server B1/B10 must be repeated. Later independent old-stage successes do not erase interrupted observations. No production cause inferred from Vite reloads. |
+| numbered5; old G08 and S-L131-01..02 | #74 source fixed; fresh browser observation pending | U06 observes serialized two-current-selection admissions; `ImageDiffForm.jsx` fixdcfa356. It does not turn historical B15 into PASS; rerun actual concurrent selection and export/Diff journey. |
+
+### K — every formerly UNMET clause
+
+| Stable IDs | Current disposition and exact evidence |
+|---|---|
+| K-L049-02 | UNMET M01: before-Argon observation absent; KEY invalid-input tests and exact source order are not mislabelled as that observation. |
+| K-L049-04 | UNMET M02: both-app byte-limit explanation not established; T04 proves CLI rejection explanation only. |
+| K-L051-02 | MAPPED E05 `protected-encoding.test.js:207–223`: two complete attempts yield16/12/16/12 bytes, unequal salt/nonce pairs, successful exact recovery. RUNTIME's failed-attempt/retry cases do not assert randomness equality and are not substituted. |
+| K-L051-03, K-L051-05 | REVIEWED REVIEW-KEY: saltFrom/writeSalt store public16-byte salt; raw root stays in deriveKeys/finally, no passwordhash/root image field; exact F§3 header/AAD/body contains no secretkey field. |
+| K-L053-03..05 | REVIEWED K D3/P D2.1/F§3 and KEY: labels version the key schedule, zeroHKDFsalt differs from randomArgonsalt, a future changed schedule requires new domains. No speculative future implementation test is needed. |
+| K-L055-01..02 | MAPPED clearing portions KEY/R09/E07 (`protected-recovery.test.js:144–172`, encoding`:120–152`, key`:129–141`); REVIEWED private/ephemeral/no-log/no-persist portions REVIEW-KEY/APP (no publickeyresult/cache). No universalJS-erasure inference. |
+| K-L055-03, K-L055-05..07 | REVIEWED K D3/F§3/7: no guaranteederasure, format owns serialization, HKDF adds no passwordentropy and correctguess yieldsAESkey without secondsearch; REVIEW-KEY confirms implementation/claim boundary. |
+| K-L055-04 | MAPPED STREAM K04/FRAME/PROTECTED-ACCEPT-04 and -05; Node native`:93–123` retains updateoutput untilfinal and clearsfailure; Browser native`:74–97` resolves only full128-bittag WebCrypto. No preauthtext; no self-roundtrip substituted for independent frame. |
+| K-L059-02..04 | MAPPED STREAM: both adapters compare independently anchoredstream, fullcountercarry/wrap and uninterruptedprefix/chunkcontinuity; source setsWebCrypto length128. |
+| K-L059-05..06 | REVIEWED K D4 with E05/STREAM: freshplacementkey permits fixedzero counter; decoder deterministically derives samekey/stream for sameinputs. This explains a design choice, not extra entropy or nonce reusepermission. |
+| K-L061-01..04 | REVIEWED K D4, nativeadapters/REVIEW-KEY: AESCTR existingnativeprimitive, ChaChaalternative rationale not a productionmode, CTRplacementnotpayload, no fillerstream now; futurestreams require separatedomains. |
+| K-L065-01 | MAPPED CARRIER O04/E01 and SAMPLE: canonical rowmajorRGB domain excludesrawsalt beforecapacity/sampling. |
+| K-L065-02..06 | MAPPED SAMPLE exactforcedtrace/LEwords/rejectthreshold/sparseorder and STREAM independentpositions; `protected-keys.js:116–144` matches conceptualswap. |
+| K-L065-07 | REVIEWED K D5/SAMPLE arithmetic: rejection gives unbiasedrangereduction conditional on uniformwords; finitekeyedgenerator does not claim allpermutations. |
+| K-L067-01, K-L067-03 | REVIEWED explicit final-profile narrowing F§5: legalproductiondomain1..786432⊂1..2^32, numericUINT32_RANGE not32-bittruncated, demands≤domain checked. MAPPED invalid/overdomain tests `protected-keys.test.js:143–152`,K11/K13; no unallocated2^32-domain runtime claim. |
+| K-L067-02, K-L067-04 | MAPPED SAMPLE K11zerowork and K06/K02exactconceptualorder; no full-domain runtime permutation. |
+| K-L067-05 | REVIEWED sparseMap implementation `protected-keys.js:53–79,136–143`; MAPPED PROTECTED-PROOF-02 oneMap≤k, no fullpermutation. |
+| K-L067-06 | RELEASE UNMET for portablebyte/processmemorymeasurement; PROTECTED-PROOF-02 establishes actualentryhighwater/clear, explicitly notMapbytes or nameddevices (P D5.1 warnsentrycap≠measurement). |
+| K-L069-01 | MAPPED CAP/PIXEL/PROTECTED-PROOF-02/K10/K12/K13; REVIEWED F§5 limitsbeforeallocation in pixel/frame/parser/sourcepaths, not wholeprocess guarantee. |
+| K-L069-02..03 | MAPPED SAMPLE K10/K12exhaustionfails withoutbiasedfallback/restart; source rejectedwords incrementcumulativecount. |
+| K-L069-04..06 | REVIEWED K D5/F§5: mathematicaldomainnotallocationpermission; carrier/repairownedelsewhere; samplerdoesnotproveconcealment. CARRIER/FRAME implementtheirseparatepolicies. |
+| K-L073-01 | REVIEWED **narrowed by F§1**: publicPNG/resourcechecks beforeKDF allowed; hiddenprofile checkedafterroot (`protected-recovery.js:38–55,130–137`), never selectsKDF. R08/FRAME observeplain/fixedfieldfailures. |
+| K-L073-02..04 | REVIEWED REVIEW-KEY/F§1/7: fixedrawsaltlayout public; allkeyedrecognizersafterroot; no separatepasswordcheckfield. R08 observes twoHKDFcalls/plainfailure/noGCM, not a directArgoncounter. PROOF02 counts realKDFonce for a validframe. |
+| K-L073-05..06 | REVIEWED REVIEW-HISTORY/S Cutover/F§1/7: obsoleteMT/SECRET_KEY/fastplacementremoved, no legacyfallback; legacydecisionseparate, historicalW22fixture exactcommonfailure. |
+| K-L075-01..06 | REVIEWED K D6/F§7/REVIEW-KEY: rootcostfloorconditional, earlyinnerrecognizerallowed, offlineguessing/weakreuse/oldsaltimagesremain, fullwidthplacementkeynot32-bitseed, generatedguidanceownedP3. None is a concealment/attacker-timeclaim. |
+| K-L077-01 | REVIEWED K D6/F§7/REVIEW-KEY: sourceargument notindependentaudit/no-shortcutproof. |
+| K-L077-02 | RELEASE UNMET independentcomplete-formatrecognizer/bootstrap/repair/extractedciphertextreview; current namedsourceinspection is recorded in REVIEW-KEY, not substituted for it. |
+| K-L081-01..02 | MAPPED KEY/STREAM/SAMPLE: independentlyanchoredpassword/salt/profile/root/children/128streambytes/24positions plus exactaccepted/rejectedworkedtrace; bothnativeadaptersruncomposedchain. HistoricalNoble/densereferenceprovenance remains historical, notselfwrapperindependence. |
+| K-L081-03 | REVIEWED independentprovenance/fixtureimports `protected-keys.test.js:7–22`, `protected-reference.js:1–18`: noexpectedbytescomputedbyproductionwrapper. |
+| K-L083-01 | MAPPED KEY K05/R10/R11 exactUnicode/rejections; beforederivationportionretainedatM01, notaddedto thisedge-list clause. |
+| K-L083-02 | MAPPED K05changedpublicsaltchangesbothchildren. |
+| K-L083-03 | MAPPED STREAM K03/K09carry/chunkboundaries. |
+| K-L083-04..06 | MAPPED SAMPLE K06forcedreject, K07singleton/nonpower37uniqueness. |
+| K-L083-07 | MAPPED CARRIER O04/E01 and SAMPLE canonicalexcluded9trace. |
+| K-L083-08 | MAPPED CAP/RUNTIME/K10/K12/K13boundaryfailures. |
+| K-L083-09..10 | MAPPED FRAME R03nonce/fields/body and wrongpassword exactfailure (`protected-recovery.test.js:42–49`). |
+| K-L083-11 | MAPPED PROTECTED-ACCEPT-04 PASS at 7f3b2d4, plus primitive K04 only as primitive evidence. |
+| K-L083-12 | REVIEWED fixture-controlledpublicrandomness, notproductionrequestoption (CARRIER/E09privateadapter). |
+| K-L083-13 | MAPPED E05fresh16/12pairs plus realnativeCSPRNG; source rejectsappoverride, RUNTIMErealgates. |
+| K-L083-14 | REVIEWED evidencecost/rationale; KEY/STREAM/TEXT include nonASCII/longstreams, not ordinaryASCIIselfagreement. |
+| K-L083-15 | MAPPED historicalWALKrealexchange; currentfreshwalk/reviewsM08 pending; RELEASE independentsecurityreviewremainsmandatory. |
+
+### P — every formerly UNMET clause
+
+| Stable IDs | Current disposition and exact evidence |
+|---|---|
+| P-L030-01, P-L030-04 | MAPPED KEY independentroot/childbytes and PROTECTED-PROOF-02realSodiumcalltuple; REVIEWED `protected-keys.js:23–35` rawAPI fixesv19/p1/emptysecretAD, neverhashstring/defaulttuple. |
+| P-L030-02..03 | REVIEWED P D2/F§3: profile0x01exacttuple, protectedheaderoffset24/AAD; FRAMEfixedfieldrefusal, no publicselector. |
+| P-L032-01..04, P-L034-01..03 | REVIEWED P D2rationale: provisionallymeasureda64t3notphones,64vs128MiB/3vs2passescomparisonsnotalgorithmstrength-equivalence; PBKDF2/scrypttradeoffsnotfallbackapproval. No phone/attackerbenchmark fabricated. |
+| P-L034-04 | REVIEWED REVIEW-KEY oneSodiumroute; MAPPED RUNTIMEmissingWASMfails, noPBKDF2/scryptfallback. |
+| P-L038-01 | REVIEWED KEY lockedbothSodiumpackages0.8.4 in manifest/lock; RELEASE artifact/licenseauditstillopen. |
+| P-L038-02..03 | MAPPED KEY/STREAM/PROTECTED-PROOF-02 rawacceptedUTF8 and32/3/67108864/algorithm2, nativeHKDF/AES; sourceexactAPIarguments. |
+| P-L040-01, P-L040-04 | REVIEWED P D2.1/KEY: onefixedadapter; profiledescribesalgorithmparametersnotnpmversion. |
+| P-L040-02..03 | RELEASE/DOWNSTREAM UNMET notices/artifact/upgrade/dependencyreview/CSP/offlineassetcosts; packagepin/sourceprovenancealoneisnotcompletion. |
+| P-L040-05 | MAPPED RUNTIMEtypedfailures/noalgorithmfallback, REVIEWED noalternatecostpath; actualdeployedCSP/devicegateremainsG11. |
+| P-L042-01..02 | MAPPED KEY exactUnicodeandinvalidpasswordboundaries; clausehereassertsrejection, unlikeK-L049-02'sunobservedbefore-KDFnegativecount. |
+| P-L042-03 | MAPPED E05freshCSPRNG16/12eachcompleteattempt; RUNTIME rejectsrequestoverrides. |
+| P-L042-04..05 | MAPPED KEYindependentHKDFanchors/STREAMfixedGCM16tag and FRAME/-04; nativeadaptersusezero32salt/exactlabels/tag128. |
+| P-L042-06 | REVIEWED REVIEW-KEY privateworkerroot/childrennotimagefields; MAPPED KEY/R09/E07ownedbufferscleared. |
+| P-L046-01, P-L048-01..03 | REVIEWED **narrowed** F§5/Sbounds1024/1,048,576, notpermissionfor4096/12,192,768; policyexperimentnotdemonstrateddevicesafety. MAPPED CAP/PIXELadmissionboundaries. |
+| P-L049-01 | MAPPED K13/PROOF02finalk≤11648and≤E; stricterthan262144. |
+| P-L049-02 | REVIEWED P D5.1/F§4/CAP: positionbudgetnotmessagebytes; tag/header/RS/paddingcharged. |
+| P-L050-01..03 | MAPPED K10/K12exactprefix/cumulativeexhaustion; REVIEWED F§5absolute24320overrides525312, no restart/biasedfallback. |
+| P-L051-01..04 | MAPPED PROOF02sparsepeak≤k/oneMap/reused4096zero+4096output/clear and STREAM K09continuousleftovers; REVIEWED sparseimplementationnotfullpermutation. |
+| P-L052-01 | MAPPED PIXEL/PROOF02oneRGBAmaxrecovery; transportleasechecksmaxtwoownedrasters, stricterF§5aggregate8388608not97542144. This is appownership, not allruntimebuffers. |
+| P-L052-02 | REVIEWED P D5.1/F§5nonclaim; RELEASE process/GPU/WASM/runtime/decoderphysicalmeasurementsnotcoveredbyappbuffercounts. |
+| P-L053-01 | MAPPED LIFE/PIXELlease/BUSY/terminationordering. |
+| P-L053-02 | REVIEWED **explicitF§1override**: checkfixedsupportedimplementation/runtimebeforeKDF; imagehiddenprofileafterKDF (FRAME). Noimage-suppliedcosttuple/routing. |
+| P-L053-03..04 | MAPPED CAP/PIXEL/K10/K12/K13/PROOF02; sourcegeometrybeforeallocation, parsedboundedlengthbeforebodyarrays, cumulativedraw/statechecksprocessing. |
+| P-L055-01..04 | REVIEWED P D5.1/F§5policy/narrowing/revisionrationale; MAPPED CAPoversize/budgetfails, noautomaticgrowth. Futuretighteningrequiresdecision. |
+| P-L055-05 | REVIEWED P D5.1: Mapentrycapnotportablebytepeakmeasurement; RELEASE byte/processmemoryremainsopen despitePROOF02entryhighwater. |
+| P-L057-01 | MAPPED STREAM128-bitfullkey/continuity/wrap. |
+| P-L057-02 | MAPPED SAMPLE LE/rejection/swaptrace/CARRIERcanonicaldomain. |
+| P-L057-03 | REVIEWED F§5narrowedoperationalceilings, MAPPED K13over11648rejected. |
+| P-L059-01..03 | REVIEWED F§§1–5/PIXEL/CARRIER/FRAME/ZIP completeboundsandbootstrapdefined; KDFworkspacealonecannotdefinecarrier/decompression. Arithmetic/designownership, notnewtesttitles. |
+| P-L063-01..03 | RELEASE UNMET namedphysicalmatrix/recordedversions/coldwarm3s/keyready/processmemory/responsiveness; historicalWALKexchangeispartialconstituentonly. |
+| P-L063-04 | REVIEWED no unnameddeviceclaim here; RELEASE supportapprovalnotprovided. |
+| P-L065-01 | MAPPED KEY/STREAM/SAMPLE independentanchoredchain. |
+| P-L065-02..03 | MAPPED KEY Unicodeedges/changedsalt. |
+| P-L065-04 | MAPPED STREAM K03/K09. |
+| P-L065-05..06 | MAPPED SAMPLE K06/K07. |
+| P-L065-07..08 | MAPPED FRAME R03nonce/fields/wrongpassword. |
+| P-L065-09 | MAPPED PROTECTED-ACCEPT-04 PASS at 7f3b2d4; not primitive-only evidence. |
+| P-L065-10 | REVIEWED P D7.1evidenceboundary: primitiveexperimentnotparser/appworkflowproof; CARRIER/FRAME/WALKsupplyseparateevidence. |
+| P-L065-11 | RELEASE UNMET completedindependentfinalformat/implementationanddependency/noticeaudit. |
+| P-L067-01..06 | REVIEWED P D7.1/F§7/REVIEW-KEY exactpublicvskeyedroute, extractedciphertextsameexpensiveroot, earliestpostrootrejectallowed/notfulldecodecost, rawsaltno fastpasswordmap. R08/PROOF02giveboundedoperationobservations, notuniversalattackproof. |
+| P-L069-01 | REVIEWED REVIEW-HISTORYcutoverremovesMT/SECRET_KEY/obsoletecallers. |
+| P-L069-02 | REVIEWED namedbootstrap/repairsourceargument REVIEW-KEY/FRAME; RELEASE independentno-cheaper-verifieracceptanceremainsUNMET. |
+| P-L069-03..05 | REVIEWED P D7.1fullwidth≠passwordentropy; weak/reused/oldcheaperimageattackremain; P3ownsstrongsuggestions. |
+| P-L071-01..04 | REVIEWED release-policyconstraint, RELEASE gateUNMET: missingaccessdoesnotwaiveit; failedtargetrequireshumanrevision, neverautomaticweakerparameters. |
+
+### C — every formerly UNMET clause
+
+| Stable IDs | Current disposition and exact evidence |
+|---|---|
+| C-L035-01 | REVIEWED C Carrierintro/REVIEW-HISTORY: originalObscrscore/matrixnotStenoxide/HILL/validatedsteganalysis. |
+| C-L037-01, C-L038-01, C-L039-01, C-L040-01, C-L041-01, C-L042-01 | REVIEWED sixlistordinalsentences; retaintheirfollowingrequirements, no runtimeassertionattachedto anordinal. |
+| C-L037-02..04 | MAPPED PIXEL/CARRIER E02/E09 rawRGB/RGBA/opaquealpha andeveryupperbitpreserved, U=RGB&254; no canvasconversion/resampling. |
+| C-L038-02..04, C-L038-06..07 | MAPPED CARRIER independentcorners/edges/interior/ties/outputsampleequality; REVIEWED `protected-image.js:55–76` validneighborintegerdegree/mathrange0..3048/noedgepadding. |
+| C-L038-05 | REVIEWED C Carrier2: crossLaplacianheuristic, notstandardHILL. |
+| C-L039-02..04, C-L039-06 | MAPPED CARRIER independentpositivequarter/rowmajorties and CAPflatno-frame; REVIEWED histogramnotproductionfullsort (`protected-image.js:78–117`). Referencefullsortisdeliberatelyindependent. |
+| C-L039-05 | REVIEWED C Carrier3:25%engineeringpolicy, notvalidatedsafehidingthreshold. |
+| C-L040-02, C-L040-04..05 | MAPPED CARRIER/SAMPLE/STREAMcontinuousfull-domaincanonicalorder/saltexclusion; sourceoneplacementkeynotweakseed/detail-sortedmessageorder. |
+| C-L040-03 | REVIEWED C Carrier4/REVIEW-KEY publiceligiblemapnotextrasecret. |
+| C-L041-02..07 | MAPPED CARRIER independentallSsampleequality/E02maxchangebound; source`protected-encoding.js:17–33`, recovery`:19–36` sevenMSBsymbol/XORcolumns1..7/≤oneLSB/extractionfromencodedgroups. |
+| C-L042-02..07 | MAPPED CARRIER/FRAME everyS/paddingfail; REVIEWED source separate48-byteheaderandbodygroups, onlyfinalsymbolszeropadded, rawsaltoutsideRS/matrix/no fullimagefiller. |
+| C-L048-01..05 | MAPPED CARRIERindependentsamples/recoverywithoutoriginal; REVIEWED scoringinteger/oneimagescan/positivequarterrestriction/noSTCclassifier. |
+| C-L048-06 | REVIEWED C D1heuristicnotphotograph-suitability/concealmentproof. |
+| C-L052-01..02 | MAPPED CAP/PIXEL/TEXT/ZIP/FRAMEstored512,original1MiB,16MiB,1024side/1,048,576, crypto/parser/workersretained. |
+| C-L052-03..04 | REVIEWED C D2/Sscope: noStenoxidebuild/WASMrule (SodiumWASMstillrequired); productboundsnotmeasuredconcealment/performanceguarantee. |
+| C-L054-01..02 | MAPPED CAP/O04/K08fullE/Bbudget; REVIEWED exactintegerfloor(B/50)formula in`protected-image.js:119–130`. |
+| C-L054-03 | REVIEWED C D2retained0.02ratenotvalidatedconcealmentclaim. |
+| C-L056-01..06 | MAPPED CARRIER/FRAME/CAPallSshortblocks/padding andsaltexclusions; REVIEWED F§4exactH/T/G/tag/nonce/parity/minbudgetaccounting. |
+| C-L056-07..08 | MAPPED E01independentallsampleequalityincludesuntouchedunusedsamples; SAMPLEdemandceilings/continuousprefix, notfullpermutation/filler. |
+| C-L058-01 | MAPPED CAP/E06andUI/T02exactnetcapacity/refusebeforeoutput; fullfreshwalkM08pending. |
+| C-L058-02 | MAPPED CAP/E06/K13refusal; REVIEWED fixedprofile/noresize/truncate/repairratefallbackpaths. |
+| C-L058-03..05 | REVIEWED C D2/F§4arithmetic: no655codecAPIlimit, actualrate/samplesgovern; CAPflat/no-frame/empty-onlyproveadmittedimage≠512guarantee. |
+| C-L062-01..03 | MAPPED FRAME/CARRIERallSRS/interleave/matrixinverse; REVIEWED F§4narrowsatmostfourtoonetothree, licensedprovenanceat`protected-repair.js:1–27`/LICENSE/NOTICE. Artifactauditseparate. |
+| C-L062-04 | MAPPED PROTECTED-PROOF-01/-05 exactauthbeforepayloadinflate/output; FRAMEindependentfailurecases. |
+| C-L062-05 | REVIEWED REVIEW-KEYsingledecode/no retries/modes; MAPPED FRAME/RUNTIMEnofallbacksuccess. |
+| C-L064-01..03 | REVIEWED C D3map/saltchangesdesynchronizeandoldSTCdamagebenefitnotcurrentproof; R03saltfailure/R06geometryfailureareexamples, notsurvivalguarantee. |
+| C-L064-04..05 | MAPPED R06 `protected-recovery.test.js:111–119` supportedRGB→RGBArewriteexacttext/changedgeometryfailure; FRAMEdamagedfixturesandtagfailureproduceonlycompleteauthenticatedtext/commonfailure. |
+| C-L066-01..02 | REVIEWED C D3limitedrepair-overheadtradeoffnotchanged-mapguarantee; directtransportalternativeisrationale, notapprovedmode. |
+| C-L070-01..02 | MAPPED PIXEL/E08 andFRAMEpublicheaderabsence; REVIEWED F§6allowlistrejectsICC/unknown, metadatanoticeexplicitnon-undetectability. |
+| C-L070-03..04 | REVIEWED C Hardening/F§6: nocompressorfingerprintimitation/JPEGhistorydetectorproject; F/appownprecisemetadatapolicy. |
+| C-L072-01 | MAPPED E05/KEY/FRAME/TEXT/ZIPfreshkeys/randomness/commonfailure/input-expansionbounds. |
+| C-L072-02 | REVIEWED C Hardening/encoding`:70–75`: randomnonce, notimage-derivedStenoxidepolicy. |
+| C-L072-03..05 | DOWNSTREAM UNMET broadercover/unpublishedoriginal/repeatedcover/backupguidance (P3/S FurtherNotes); notprovedbyLSBinvariantsormetadatanotices. |
+| C-L072-06 | MAPPED CARRIER/FRAMEactualnewcarrier; RELEASE UNMETexistingattack/detection/deviceevidence, notsupersededbyprimitivechecks. |
+| C-L072-07 | REVIEWED C Hardening/F§8/Sscope: no newdetectorprogrammeauthorized. |
+
+### F — every formerly UNMET clause
+
+| Stable IDs | Current disposition and exact evidence |
+|---|---|
+| F-L033-01..03 | MAPPED CARRIER/E02/O04/FRAME; REVIEWED `saltFrom`/`writeSalt` scalar3*(y*w+x)+c→RGBAoffset, noalpha, minimumframecapacitystricterthan3P≥128. |
+| F-L035-01..04 | MAPPED CARRIERindependentsaltpositions/upperbits/allS and PROOF02exact128maxRGBAreadindices; REVIEWED monotonefloorlayoutgivesdistinct128andonlythoseexcluded. |
+| F-L035-05 | REVIEWED F§1/source`saltFrom:9–17`/`canonicalPositions:90–106`: no checksum/repair/magic/search/largerpool. |
+| F-L035-06 | MAPPED PROOF02exact128saltsampleaccesses/one16-bytesaltpassedonceintorealKDF; independentlayoutalreadyCARRIER. |
+| F-L037-01..03 | REVIEWED F§1/KEY/RUNTIME singlefixedsupportedSodiumconfiguration, nocostsfromimage; missingWASM/nativecapabilityfailsbeforekeyedwork. |
+| F-L037-04..06 | MAPPED FRAMEfixedprofilefield24/failureafterkeyedheader; REVIEWED `recover:130–137` postrootfieldcheckneverroutes/retriesKDF. |
+| F-L039-01..02 | REVIEWED exactF§1explicitnarrowingofPpre-KDFhiddenprofileinstruction/no publicfield. |
+| F-L039-03 | MAPPED R08detailedplain/HKDFschedule; historicalW22legacyfixedfixturecommonfailure; REVIEWED futureunknownformatmaycostonecurrentroot, no futurecompatibilityclaim. |
+| F-L039-04..05 | REVIEWED F§1/REVIEW-KEY noformatnegotiation; futuregenerationrequiresnewexplicitroutingdecision. |
+| F-L043-01..04 | MAPPED CARRIER independentranking/ties/eligible/saltexclusion; sourcehistogrampositivequarter/canonicaldomain. |
+| F-L043-05..07 | MAPPED K08full786432domain/oneposition786431 andE01roomyE>Bsampleequality; REVIEWED Bonlycapacitybudget. |
+| F-L045-01..05 | MAPPED CARRIER/FRAME/STREAMindependentprefix/body/MSBfullimageassertions; sourceonepositionsobject,896header/48bytes,separategroups. |
+| F-L045-06..09 | MAPPED R03noncanonicalpaddingfailure/allS E01/R02paddingtransitions; REVIEWED384headerbitsdivisibleby3, nonzeropaddingrejectbeforeRSdespitepotentialrepair. |
+| F-L047-01..04 | REVIEWED F§2/recovery`:133–141`/encoding`:76–94`: clear32-bytekeyedheaderrepairedthenexactAAD, lengthfieldsboundreadsnotauthenticate/decompress/output. MAPPED FRAMEalterednonceafterauthfails. |
+| F-L051-01..03, F-L053-01, F-L057-01 | MAPPED CARRIERindependentcompleteimageheader/AAD/lengthsamples andFRAMEoverflow; REVIEWED `DataView`defaultBEatheaderoffsets12/16/AAD48/52,32dataheader, zero-basedlayout/tableheadingretained. No tautologicaltestforatableheading. |
+| F-L067-01..03, F-L067-05 | MAPPED FRAME R03rawunequal/overflow/fields/reservedrefusals; R01rawempty/gzip; REVIEWED `frameShape:38–55` exactlyL=S or0<S<L,unsupportedvaluesrejectnoalternateinterpretation. |
+| F-L067-04 | MAPPED UIemptycreationneverprepares/T04emptyeditorrefused; independentR01emptywireaccepted. WirevaliditydoesnotrequireemptycreationUI. |
+| F-L069-01 | MAPPED KEYexactpassword/root/HKDFanchorstiedtoFRAME; nostandaloneencryption-onlyvectorclaim. |
+| F-L069-02..04 | MAPPED CARRIERindependentAEADbody/sampleequality, PROOF02singleGCM528 and -04shorttagrejection; REVIEWED encryption`:76–92` nonceonlyheader, S+16bodyonce. |
+| F-L069-05 | MAPPED E05fresh16salt/12noncepairsoneachcompleteattempt. |
+| F-L069-06 | REVIEWED F§3/8controlledpublicfixtureexceptiononly; RUNTIMErequestoverridesrejected. |
+| F-L071-01 | MAPPED K04fixedAADvector/CARRIERindependentcompleteimages; REVIEWED `additionalData:112–118` andencoding`:82–86` exact56bytes salt16+header32+BEwidth4+height4. |
+| F-L075-01 | MAPPED FRAMEalteredpostauthnonce/tag/geometryfails,CARRIERexactAADindependentsamples; REVIEWED56bytecompositionbindsalllistedfields, notextraindependentfieldselectors. |
+| F-L075-02..04 | REVIEWED F§3/REVIEW-KEYfixedpartition/layout/score/sampler/matrix/RS, nokeysinstorage/nosecondencryptiondomain; sourceoneencrypt/decryptandoneheadernonce. |
+| F-L077-01..02 | REVIEWED F§3/REVIEW-KEYAADexcludescover/PNGmetadata; authenticationnotentirecoverappearance. |
+| F-L077-03..04 | MAPPED R06supportedRGB→opaqueRGBArewriteexacttext andintegration-01samplepreservingreencode/recovery; notautomaticcolorconversion/resizingguarantee. |
+| F-L081-01 | REVIEWED `protected-repair.js:1–27` exactZXing0.23.0commit/provenanceandadjacentLICENSE/NOTICE; RELEASEcompleteartifact/licenseauditstillUNMET. |
+| F-L081-02..06 | MAPPED CARRIERindependentpolynomialdivisionparity/fullSsamples andFRAMEcompleteindependentrecovery; REVIEWED RSfield0x11d/alpha2/roots0..15/highest-first/systematic/omittedzero-shortening inrepair`:29–56,220–267`. |
+| F-L083-01..05 | MAPPED E01/R02allS includesC239/478exactmultiplesandnextbytes; PROOF02repair48/255/255/66; REVIEWEDbody239split+16parity/noemptyextra/maxthree inencoding`:36–50`/recovery`:57–79`. |
+| F-L085-01..04 | MAPPED CARRIERallS/R02andR03wrongbodyorder/reverseblocks; PROOF02oneattemptper48/255/255/66. REVIEWED `repairBody:57–79` columns0..254skipexhausted/separateheader/nozeropad. |
+| F-L085-05..06 | MAPPED R04one/seven/eighterrorsrecoveredandR03sixteendistincterrorsfailure; REVIEWED `repair:220–240`, errorlocator`:172–185` count≤8/residualzero/noretry/erasuresearch. This doesnotclaimnineerrorsalwaysfail (miscorrectionpossible). |
+| F-L085-07 | REVIEWED F§4/FRAME: beyondradiusmiscorrectionpossible; onlyGCMacceptanceestablishesplaintextauthenticity. |
+| F-L087-01..02, F-L089-01, F-L090-01 | MAPPED CAPallS/transitions/flat/empty-only andCARRIER; REVIEWED exactformula/twoinequalities in`capacity:119–130`; notobservedeverypossibleB. |
+| F-L092-01..04 | MAPPED CARRIER/O04excluded128rawsalt, E01allSparity/tag/paddingcharged; REVIEWED F§4arithmeticheader48/tag16/everyparity/symbolpaddingcountedonce. |
+| F-L092-05..07 | MAPPED CAP/E06exactmax/no-framevs empty-only/refusebeforeRNG/output; sourceiterates0..512largestadmittedS. |
+| F-L094-01, F-L096-01, F-L097-01, F-L098-01, F-L099-01, F-L100-01, F-L101-01 | REVIEWED exactF§4design-tablearithmetic/CAPformula: S=0/223/224/462/463/512→codewords32/255/(255,17)/(255,255)/(255,255,17)/(255,255,66); chargedbits642/2424/2562/4464/4602/4992; positions1498/5656/5978/10416/10738/11648; minimumB=50×chargedbits32100/121200/128100/223200/230100/249600. MAPPED allS E01/R02andCAPtransitioncases, **not** an inventedexactminimumB-imagefixtureforeverytablerow. |
+| F-L103-01..02 | MAPPED PROOF02repairsum624/GCM528plus16rawsalt; REVIEWED minimumB249600from4992×50/11648positions.CAPnonroomycasesdistinguishactualcapacity. |
+| F-L103-03 | REVIEWED F§4policy/noconcealment/nouniversal512guarantee; CAPflat/no-frame/empty-onlycounterexamples. |
+| F-L107-01..03 | MAPPED TEXT/CAPindependentUnicode/BOM/CRLF/spacepreservation/surrogates/invalidUTF8/1MiBlimit; sourcefataldecoderpreservesBOM. |
+| F-L109-01..08 | MAPPED ZIPcanonicalgzip/optin/smaller/rawfallback/outputbound/partialstreamerror/explicitunavailableerror; CAP/E06refusesnonfittingencodingwhilepreparationreturnssummaryas#70commentrequires. REVIEWED `compressedBytes:35–53` outputboundwhileproducing. |
+| F-L111-01..02, F-L111-05..08 | MAPPED ZIPheader/trailer/CRC/ISIZE/member/trailing/overrun/L±1/exacttext; PROOF01authbeforeinit/work. REVIEWED boundedGzipallocatesonlyauthenticatedL+1andchecksfullconsumption, notunboundedthenlengthcheck. |
+| F-L111-03..04 | REVIEWED F§5encoderDEFLATEchoiceallowedtodiffer; E09comparesagainstindependentzlibinputsforitsselectedfixtures, notuniversalcompressedbyteidentity. |
+| F-L113-01 | REVIEWED F§5policyceilingsnotmeasureddevicesupport; RELEASEactualdevicematrixUNMET. |
+| F-L115-01..03 | MAPPED PIXEL/P03andCAPsource/export16MiB,1..1024/1,048,576; RUNTIMErealgateover16MiBrefusal, operationnonopaque/1025failure. |
+| F-L116-01 | MAPPED PROOF02maxrecoveroneRGBAplusfiltered; PIXEL/leaseatmosttwoappownedRGBAaggregate≤8388608. NottwoRGBAplusunboundedDiff/retainedpreparation. |
+| F-L116-02..03 | REVIEWED PIXEL/REVIEW-APP: codecinputrawPNGsamplesnotcanvas; previewdecode/diffobjectURLsseparatefromcodecinput, resourceleasesboundrasterownership. |
+| F-L117-01..04 | MAPPED PIXEL/P02boundedexpansion/exactstreamandPROOF02one4195328filteredallocation; sourceinflateRastercheckswhileinflating/onefinishedmember/trailing/earlyendfailure. |
+| F-L118-01, F-L118-04 | MAPPED PROOF02observed2MiBscore/3049uint32hist/3MiBeligible/sparsepeak≤k/paired8192/reusedinput/clearedoutputs; STREAMcontinuous4096chunks. |
+| F-L118-02..03 | REVIEWED F§5allowslowerallocation/domainrepresentationnotfullpermutation; `eligiblePositions:109–117`/sparseMapstate. |
+| F-L119-01..05 | MAPPED K10/K12/K13prefix896/prefixdraw2816/cumulative2k+1024/noreset/final11648/24320; CARRIERfixed48header andPROOF02streamcountercontinuity. |
+| F-L119-06 | REVIEWED F§5stricterfinalframeoverridesolderabsoluteceilings; MAPPED K13reject11649, K12draw24321rejected. |
+| F-L120-01..04 | MAPPED PROOF02exact128saltaccesses/oneSodiumcall/continuousstream/repairs48,255,255,66/oneGCM528/repaired576/sum624. Countsonmaxvalidframe; notwholeprocessCPUtime. |
+| F-L120-05..06 | MAPPED FRAMEallSrepairwordbounds/PROOF02maxwords; REVIEWED `protected-repair.js:52–56,220–223,253–256` and`frameShape:38–55`/PIXELcheckbeforeallocation≤255,shapecomputedbeforebodyarrays. InternalboundedallocationguardreviewisnotmistakenforRSSobservation. |
+| F-L121-01..03 | MAPPED LIFE/CANCELrealtermination/leases/noresult/freshoperation; directinKDF/compressioncasecoverageM07remainsseparate. |
+| F-L121-04..05 | REVIEWED explicitnon-guarantee F§5; RELEASEtimingwholeprocess/WASM/browser/GPU/runtimephysicalmatrixUNMET. |
+| F-L137-01, F-L139-01, F-L140-01, F-L141-01, F-L142-01, F-L143-01, F-L144-01 | REVIEWED decode-routeheading/stepordinals; exactfollowingstepclausesretainedandmappedbelow. |
+| F-L139-02..04 | MAPPED KEYinvalidinputs/PIXEL/CAPminimumframe/plainimagepublicchecks; REVIEWED `decodeRequest:154–176` validates/admit/raweligiblecapacitybefore`saltFrom`/root. M01 retainsmissingdirectzeroKDFobservationforinvalidcredentials. |
+| F-L140-02..03 | MAPPED PROOF02saltreads/onefixedrawSodiumtuple/KEYtwochildren; nosecondKDFretry. |
+| F-L141-02 | MAPPED CARRIER/FRAME/R03headerfieldsandPROOF02one48repair; SOURCEextract/frameShapeboundsbeforebodyallocation. |
+| F-L141-03..04 | REVIEWED F§7untrustedheader/unsupportedfieldrejectionnotroute, FRAMEbadfixedfieldscommonfailure. |
+| F-L142-02..03 | MAPPED CAP/FRAMEallS/K10/K12prefix-to-cumulativecontinuity; REVIEWED maxStoredcomputedfrombothinequalitiesbeforebodyallocation. |
+| F-L143-02..04 | MAPPED CARRIER/R03padding/order/-04shorttags/R02allS/PROOF02repaircount/GCMbody; exactS+16/fulltag/AAD, notnative-onlyproof. |
+| F-L144-02 | MAPPED PROOF01/-05authbeforeactualgzipinit/work, TEXT/ZIPexactlength/fatalUTF8/no partialtext. |
+| F-L144-03..04 | REVIEWED nativeNode`:93–123` updatebytesprivateuntilfinal andfailureclears; browser`:74–97` completedAEADonly; operationreturnsmessageonlyafterTEXTvalidation. MAPPED FRAME/-04/-05failureexactobjecthasnotext; appcodehasnounauthenticatedpreview/savehook. |
+| F-L146-01..09 | REVIEWED exactF§7/REVIEW-KEY: publicgeometry/capacity/rawsaltpasswordindependent; saltno redundancy; everyRS/field/padding/GCMrecognizerrequiresroot-derivedpositions; earliestpostrootrejectallowed; fullwidthsearchnotentropy/amplifiedpasswordstrength; extractedframedoesnotremoveencryption; weak/reusewarningsarelimits, notbenchmarks. RELEASEindependentno-shortcutreviewstillUNMET. |
+| F-L148-01..02 | REVIEWED F§7nonclaim: nomarkerdoesnotmeanundetectable, salt/adaptation/repair/metadata/encodingdetectabilityremain; sourceargumentnotindependentaudit. |
+| F-L150-01 | MAPPED RUNTIME/KEY/CAP/PIXELpublictypedfailuresdistinct; CANCELnotRECOVERY_FAILED. |
+| F-L150-02, F-L152-01..02 | MAPPED FRAME/-04/-05exactcommonobject/no messageforsalt/header/repair/padding/tag; notrecognizer-stageuserdiagnostics. |
+| F-L154-01..02 | MAPPED FRAMEplain/badprofile/tag/authenticatedbadUTF8/ZIPbadgzipcommonfailure/notext; historicalW22legacy. |
+| F-L154-03..04 | REVIEWED recovercatch`:145–156`/REVIEW-APPsafeprogress/no secretslogged/noalternatemode,retry,secondpasswordorlegacybranch; MAPPED FRAME/RUNTIMEhiddenfailuresno internalerrorleak. ChangedgeometryfailureR06notall-damagepromise. |
+| F-L158-01..03 | REVIEWED exactF§8framing-onlyvector/directkey/publicfixedinputsnotproduction; K04matchesitbutisnotArgon/fullPNGproof; E05productionfreshness. |
+| F-L171-01..05 | REVIEWED F§8arithmetic: Hi S2→C18,D34,272bodybits→91groups+onezero bit;128headergroups→219groups,657chargedbits,1533positions,saltseparate. MAPPED FRAME/E01S2independentPNG/samplehandling, notinventedfullPNGfromtheframingvector. |
+| F-L171-06 | REVIEWED F§8explicitframing-onlyevidenceclass, no completePNGclaimedbyHi. |
+| F-L173-01 | MAPPED KEY/STREAM/SAMPLE/CARRIER/FRAMEallS/ties/exclusions/padding/exactsamples; independentreferenceimportsnoapplicationcodec. |
+| F-L173-02 | PARTIAL / UNMET RELEASE and M07/M08: independentformattedgecases/-04/-05/ZIP/CANCEL/historicalWALKmapped; nameddevices, attack/detection/license/independentauditandfreshacceptancegatesnotcompleted. Do notturnthiscombinedrequirementintoPASS. |
+| F-L173-03..05 | REVIEWED F§8design/evidence/non-new-detectorconstraints; noframingexerciseapprovesrelease/corpusprogramme. |
+| F-L179-01..02 | MAPPED CARRIER/PROOF02fixedraw128salt/keyedprofile; REVIEWED no publicmarker/saltsearch. |
+| F-L179-03..05 | REVIEWED F D1cost/routingtradeoff and explicitpre-KDFnarrowing; R08plainpostrootfailure/historicalW22legacy, saltfailureR03examplesnotdamageguarantee. |
+| F-L183-01 | MAPPED CARRIER/FRAMEindependent32header/56AAD/singleGCM; PROOF02oneverification. |
+| F-L183-02..05 | REVIEWED F D2tradeoff: nosecondcrypto, boundeduntrustedheaderuntilGCM, separateheaderauthwouldcostbytes; notextramode. |
+| F-L187-01..02 | MAPPED CARRIER/FRAMEallS/PROOF02maxframe; REVIEWED F§4exact11648/249600arithmetic. |
+| F-L187-03..04 | REVIEWED F D3limitedcapacity/nodamageguarantee/nohigher-rateweaker-repairfallback; CAPrefusalsenforce. |
+| F-L191-01 | MAPPED ZIP/TEXT/PROOF01/-05singleboundedgzip/rawexacttext/authordering/trailing/member/overrunfailures. |
+| F-L191-02..03 | REVIEWED F D4sharedboundedparsevspermissivedefault/raw-onlytradeoff; bothappsusecommonmodule. |
+| F-L199-01..02 | MAPPED FRAME/CANCEL/RUNTIME andREVIEW-KEYsingleboundedroute/commonfailure/no retry/legacy; earliestpostrootrecognizerallowed. |
+| F-L199-03..04 | RELEASE UNMETdevice/securityacceptance; REVIEWED F D6limiteddiagnosis/no concealment/damageguarantee. |
+
+### A — every formerly UNMET clause
+
+| Stable IDs | Current disposition and exact evidence |
+|---|---|
+| A-L034-01, A-L034-03 | REVIEWED REVIEW-APP/Sownership: commonprotected-imageorchestratorwithnativeNode/browserandworker/fileadapters. MAPPED realgatesLIFE/FRAME. |
+| A-L034-02 | REVIEWED **Sownership/moduleflow/cutovernarrowing**: carrierlivesprivatelyin`protected-image.js`, obsolete`steg-core.js`removed; notsecondapplicationpolicy/compatibilitylayer. |
+| A-L034-04..05 | REVIEWED A D1module-depth/driftrationale, REVIEW-APP/HISTORYjointcallermigration; notanexecutableperformanceclaim. |
+| A-L036-01, A-L038-01 | REVIEWED A D1interface/tableheading; MAPPED LIFE/FRAME/O12asynchronousworker-backedoperations, notstubs. |
+| A-L040-01 | MAPPED LIFE/O01/CAP/TEXT/ZIPallsevenpreparationfields/opaquehandle/exactbytes/noRNG; sourcepreparepathneverderiveKeys. Final full-suite PASS supports these assertions; this is not a direct real-Argon zero counter. |
+| A-L041-01 | MAPPED O12/extendedPROTECTED-ACCEPT-01 exactsevenconsumedsummaryfields+completePNG/singleuse; sourceencoding`:103` nowspreadssummary. MAPPED passwordvalidationE-case`:42–58`; operationitselfnofile/download(onlyadaptersdeliver). Final integration/full-suite PASS at 7f3b2d4. |
+| A-L042-01 | MAPPED FRAME/TEXT/ZIP/RUNTIME/CANCEL exactauthenticatedtext/safetypedfailure; complete-contractaggregate retainsM01/M07andfreshgatesM08, notblanketacceptancePASS. |
+| A-L043-01 | MAPPED LIFE/O02/replacement/idempotentdiscard andUIedits/clear/unmount; sourceworkerclose/terminationdropsretainedstate. |
+| A-L045-01..05 | MAPPED LIFE/E04/O12 opaquegeneration/revision/current/singleuse/replacement/inputtransfer/no recompression; REVIEWEDcontrolonlysignal/onProgress/noprofileoverride. |
+| A-L045-06 | MAPPED RUNTIME16MiBgate/PIXEL/sourcebounds; REVIEWED `lib/steg.js:19–64`, browserboundedreadchecksfilesizebeforearrayBuffer, moduleboundsagain. |
+| A-L045-07 | MAPPED LIFEbusy/operation`:19–25`,oneactive/retainedlease; nooverlapprepareencode. |
+| A-L047-01..03 | REVIEWED REVIEW-APP/KEY/PIXEL: platformIO/workers/nativecrypto,CSPRNGonly; sharedSodium/PNG/frame/UTF8/gzip/capacity/repair/failurepolicy, notduplicatedforms/commandhandlers. |
+| A-L047-04..05 | REVIEWED A D1/F§5permittedlowlevelcompressionchoices/notidenticalcompressedbytes; ZIP/E09assertconformingstreams/exacttext, notuniversalDEFLATEidentity. |
+| A-L049-01..04 | REVIEWED REVIEW-HISTORYjointcutover/currentCLI+browser/sharedcapacity; legacycrypto/frame/MT/SECRET_KEY/dummyestimation/fillers/aliasesremoved. MAPPED LIFE/FRAMErealgates/currentroutes, historicalW22legacyrefusal. |
+| A-L049-05..06 | MAPPED PIXEL/P01/U06boundedPNG/Diffseparatelease, UIvisualcomparisonlabel; source`EncryptionResult.jsx`/`ImageDiffForm.jsx` nosecurity/recoverytestclaim. FreshB15M08stillpending. |
+| A-L049-07 | REVIEWED RSprovenance/LICENSE/NOTICEandSodiumpins/nostenoxideSTC; RELEASE completeindependentauditnotdone. |
+| A-L049-08..09 | REVIEWED REVIEW-HISTORYcurrentREADME/examples/nextCHANGELOG/newtestsdescribecurrentcontract; oldchangelogremainshistory. Noerasureofoldclaims/results. |
+| A-L079-01 | MAPPED UIexactoriginal/stored/max/compressiondisplay,T02CLIbytes/actualcompression; O12resultsummarynotjustprepare. HistoricalWALKseparaterealpresentation; freshM08pending. |
+| A-L079-02..03 | MAPPED CAP/FRAME/CARRIER/PIXELformula/allS/completeoverhead, notdummyencryption/RGBbitestimate. |
+| A-L079-04..05 | MAPPED CAP/UI/T02no-framevs empty-onlydistinctnonemptyrefusalsbeforepassword/keywork. |
+| A-L081-01..04 | MAPPED ZIP/UI/T02optin(defaultoff),strictlysmaller/rawfallback/explicitcompressorerror; retainedbytesE04norecompression. |
+| A-L081-05..06 | MAPPED CAP/PIXEL/TEXT/ZIPboundsanddetailednonfit; REVIEWED nofixed50–90%savingclaimincurrentpreparationflow. |
+| A-L081-07 | MAPPED T02nonfitguidance/UI`:437–465`shorter/largerimage; REVIEWED noauto-resize/rate/repairfallback inCAP/sharedoperation. Thisisguidancealternatives, notpromisethatdetailedinputalwaysfits. |
+| A-L083-01..04 | UNMET M03before-encodeprofile/metadata/rendering/rejected-validPNGdisclosure; post-encodeCLI/resultnoticeisnotbefore-encodeevidence. |
+| A-L083-05..06 | MAPPED UIedits/discard/failureclearcurrentcapacityandpassword; no retainedoldfit/spinneronerror, currentopaqueinputownershipLIFE. Realshort/longspinnerM05separate. |
+| A-L085-01..02 | MAPPED KEY/PIXEL/CAP/RUNTIME/CANCEL/T03typedpublic/resource/IOguidance, hiddenfailuresseparate; REVIEWED REcoverycatch/transporttypedpolicy. |
+| A-L085-03, A-L087-01..02 | MAPPED FRAME/ZIP/-04/-05exactcommonfailureandnotext, notstage-revealingunsupportedhiddenprofile. |
+| A-L089-01 | MAPPED FRAMEfixedprofile/plain/wrongpass/legacyhistoricalW22commonfailure; REVIEWED REVIEW-APPnofieldstageinusererror. |
+| A-L089-02..03 | UNMET M04both-appplain/oldcommonfailurehelpandprominentbrowserformatbreakwarningnotestablished. T01/READMEcoverCLI/docsnotbrowsernotice. |
+| A-L089-04 | REVIEWED A D4/F§7diagnostictradeoff/cleanbreaknotweakfallback; substantiveguidancegapsremainM04. |
+| A-L093-01..02 | MAPPED recoveryexactstages`protected-recovery.test.js:14–20`, O01/ZIPpreparestages,T02/T04safeCLIstage; REVIEWED recoveronlybroadrecoveringnotheader/tag/repairphases. |
+| A-L093-03..04 | MAPPED U07controlledspinner/phase/T01nonTTYnoANSI, historicalWALKphases; REVIEWED `OperationStatus.jsx:4–17` and`bin/index.js:104–135` spinner/phasewithoutpercentages/timepromise; realtimingM05unmet, no currentwalkclaim. |
+| A-L095-01 | MAPPED LIFE/FRAME/PIXEL/PROOF02maxallocations/leases/realworkers; RELEASEphysicalprocessmemoryunmet. |
+| A-L095-02..04 | MAPPED CANCEL/T04realworkertermination/nooutput/lategenerationdiscard/freshoperation; historicalW18/W19stagerestarts. No claimofdirectinArgon/compressorentry(M07). |
+| A-L095-05..06 | MAPPED UIreplacement/preparationcancel/password-onlyeditkeepsvalidpreparation/locksactiveencode; LIFE/FRAMEpairedrealgateinputpolicy. |
+| A-L097-01..02 | MAPPED RUNTIMEcontrolledmissingcapabilities/explicitruntimeerrors/noprofilefallback/mainthreadcodec; actualdeploymentCSP/deviceG11notestablished. |
+| A-L097-03..05 | REVIEWED A D5/F§5/Sruntimepolicy: noarbitraryoperationtimeout, three-secondreleasegoalnotweakeningtimer;1000msspinnerand300msdebouncearepresentationnotsecuritytimeouts. |
+| A-L097-06 | RELEASE UNMET nameddevices/completeprocessmemory; sourceappcapsnotmeasurement. |
+| A-L113-01, A-L115-01 | REVIEWED A futureacceptancescenario/tableheading; donotreadplanningasobservedresults; constituentrowsfollow. |
+| A-L117-01 | MAPPED historicalWALKactualraw/gzipbothdirections/exactcomparisons plusR06/integration-01supportedrewrites; currentfreshM08pending, selfroundtripnotindependentvectorproof. |
+| A-L118-01 | PARTIAL / DOWNSTREAM UNMET exactfuturefile/stdoutP4; KEY/TEXT/UI/T04coverUnicode/BOM/CRLF/space/confirmationmismatch/invalid/empty. Do notclaimtextarea/editorprovesexactfile/stdout. |
+| A-L119-01 | DOWNSTREAM UNMET P3sixwordgenerator/repeats/regenerate/acknowledgement/editedclaim/RNGfallback; none inferredfromkeyrandomness. |
+| A-L120-01 | MAPPED CAP/FRAME/CARRIER/PIXEL/ZIP/UI/T02allS/limits/rendering/stripping/unsupportedprofile; historicalP1/WALKpreservedjourneys, currentM08pending. |
+| A-L121-01 | MAPPED FRAME/ZIP/RUNTIME/-04/-05/WALKhostile/plain/old/wrongpassword/damage/shorttag/notext/commonmeaning; final integration/full-suite PASS at 7f3b2d4. |
+| A-L122-01 | PARTIAL / UNMET M07/M08; RELEASEdevicecost. RUNTIME/CANCEL/UIprovemissingruntimecontrolledcases,stages/actualrepair/late-replyownership, notallactualKDF/compressorentry/deployedCSP/phones. |
+| A-L123-01 | DOWNSTREAM UNMET P4alias/no-clobber/exactstdoutpolicyandreleasepersistent/networkinspection; T03/T04preserve specifiedfailed/cancelledfiles andterminalcontrols, UItextnotHTML, REVIEW-APPnosecretstorageAPI. Current`lib/steg.js:100–104`renamepublicationisnotP4no-clobberproof. |
+| A-L124-01 | DOWNSTREAM / RELEASE UNMET P5fullinstallation/offlinebothdirections/missingassets/versionisolation/networkandcacheaudit. No SWregistration/buildassumption. |
+| A-L126-01 | REVIEWED A future-acceptanceplanningstatementnotthatsession'sresults; currentresultsseparatelyidentified. |
+| A-L126-02 | RELEASE UNMET existingindependentsecurity/dependency/license/physicaldevice/boundedattack-recoverygates. |
+| A-L126-03..04 | REVIEWED A scope: nonewdetector/legacy/productionauthorizationbyplanning; noglossary/ADRduplicatedhere. |
+
+### S — every formerly UNMET clause
+
+| Stable IDs | Current disposition and exact evidence |
+|---|---|
+| S-L022-01, S-L023-01, S-L024-01, S-L025-01 | REVIEWED storystepordinals; substantivefollowingstorysentencesretained. |
+| S-L022-02 | MAPPED CARRIER/FRAME/E09independenceandhistoricalWALKactualexchange, currentM08freshproofpending. |
+| S-L023-02 | MAPPED CAP/LIFE/UI/T02exactstoredcapacitybeforekeywork/nonfitrefusal. |
+| S-L024-02 | PARTIAL / UNMET M07/M08: CANCEL/RUNTIME/FRAMEprove specifiedfailure/nooutput/stalehandling; noall-workflow/freshacceptancecompletionclaimed. |
+| S-L025-02 | REVIEWED REVIEW-HISTORYjointcutover/noobsoletefallback; MAPPED currentrealgate/appcases, freshformalreviewM08pending. |
+| S-L030-01..03 | REVIEWED S Ownership/REVIEW-APP/PIXEL/KEYclearenginevsPNGvsplatformdeliveryownership. |
+| S-L031-01..02 | MAPPED LIFE/FRAME/O12fourasynchronousoperations/opaquehandle/completeoutcomes; REVIEWEDcontrolsignal/progressnotprofileoverride. |
+| S-L032-01 | MAPPED O12/LIFEallsevenpreparefieldsandopaquehandle. |
+| S-L032-02 | MAPPED O01successfulpreparewithplatformRNG/deriveAPIsforbidden; REVIEWED sharedprepare`:233–255`hasnoSodium/deriveKeysroute (notdirectArgoncount). |
+| S-L032-03..04 | MAPPED E04exactretainedcompressedbytes/onecompression/callerzeroedsource/encodeoneuse,O12singleconsume. |
+| S-L032-05 | MAPPED E06zeroobservedcryptoWorkplusCAPsourcefitsguardbeforederive/RNG, not aninventedArgonspy. |
+| S-L033-01..04 | MAPPED LIFE/PIXELgenerationrevision/oneactiveoneprepared/replace/discard/termination/inputtransferdetached/BUSY. |
+| S-L033-05 | MAPPED UIpasswordonlyeditsdon'tdiscardbutremoveresults,O12newexactpasswordnotoldpassword; E-worker`:80–90`actualgatevalidpreparationretained. |
+| S-L036-01..04 | REVIEWED REVIEW-APP/KEYdeepmodule/privatekeypositionsnoprofileoverride/keytrace/fallback; MAPPED realgateoverridefailuresRUNTIMEandKEYindependentprivatevectors. |
+| S-L037-01..03 | REVIEWED REVIEW-APP/PIXELP1PNG/Diffretentionandplatform/presentationownership; MAPPED U06realgatepolicy/P1exportcases. |
+| S-L038-01..03 | MAPPED LIFE/FRAME/RUNTIMEactualNode/browserrequestgatesvalid/malformed/policyoutcomes; REVIEWED flowboundedIO→worker→module→PNG/native→completeoutcome→delivery, stand-innotdefiningcontract. |
+| S-L039-01..03, S-L039-05 | REVIEWED namedsourcearchitecture REVIEW-APP/KEY/CARRIER/FRAME: localinprocesssharedformat/twonativeadapters/localworkers/files/noremoteservice/newnetworkdependency. Notnetwork/cacheexfiltrationaudit. |
+| S-L039-04 | MAPPED RUNTIMEcontrolledfailure+bothrealgatechecks,CANCELactualrepairpairedwithcontrolledtransport, UI/WALKformchecks. M07stillretainsmissingactualKDF/compression-entrycase. |
+| S-L040-01..04 | REVIEWED S Prefactors/REVIEW-HISTORYsequence8540b1e→recovery→encode→jointcutover; retainedworkerownershipimplementedinsidefirstslice, no separatelegacycompatibilityprefactor. |
+| S-L041-01..06 | REVIEWED REVIEW-HISTORYsequenceandcurrentrealoperationexportsnotstubs/oldfallback; MAPPED firstoperationgatesLIFE/FRAME/E09. Intermediatebranchstatesarenotclaimedreleases. |
+| S-L044-01..03 | MAPPED KEYexactnonempty1024/surrogates/Unicodecase-space-BOM/CRLF; no trimming/newlineremoval. BeforeArgonnegativeobservationseparatelyM01. |
+| S-L044-04 | REVIEWED REVIEW-KEYonepassword→twochildren/oneKDF; MAPPED KEY/FRAMErealoperationusesonepasswordfield, overridesrejected. |
+| S-L045-01..04 | MAPPED KEY/PROOF02exactrawArgon2tuple/onecall; REVIEWED lockedSodium0.8.4/profile1/sourceAPI, artifactauditnotimplied. |
+| S-L046-01 | MAPPED E05fresh16/12CSPRNGpercompleteattempt; requestoverridefailuresRUNTIME. |
+| S-L046-02..04 | MAPPED KEY independentlyanchoredroot/HKDFlabels/children32; REVIEWED nativezero32salt/SHA256outputs32. |
+| S-L046-05..06 | REVIEWED REVIEW-KEYpublicsaltvsprivateephemeralroot/children/noderivedkeycache; MAPPED KEY/R09/E07ownedclearing. |
+| S-L047-01..02 | MAPPED STREAMfull32-byteplacementkey/zero128counter/fullcarry/continuousleftovers/norestart/wrap. |
+| S-L048-01..04 | MAPPED SAMPLEexactLErejection/sparsewithoutreplacement/fullE/notbudgettrace/ceilingfailure; REVIEWED numeric2^32/notfullpermutation/retry. |
+| S-L048-05 | MAPPED PROOF02paired8192/reused4096zeroandcurrent4096output/oldcleared, STREAMK09continuouschunks. |
+| S-L048-06 | REVIEWED F§5stricterfinalprefix2816/total24320/k11648; MAPPED K10/K12/K13. |
+| S-L050-01..02 | MAPPED CARRIERindependentsamples/saltandPROOF02exact128maxRGBAoffsets; sourcewriteSalt/sampleOffset/saltFromcanonicalMSBlayout. |
+| S-L050-03 | MAPPED CAP/E06minimumframecheckbeforecrypto/output; REVIEWED minframecapacityimplies3P≥128. |
+| S-L050-04 | REVIEWED F§1/REVIEW-KEYrawsaltno repair/checksum/magic/search/alternateposition. |
+| S-L050-05 | MAPPED PROOF02exact128readsonce/oneSodiumsaltbytes0..15; rootafterreads. |
+| S-L051-01..04 | MAPPED CARRIERindependentupperbit4-neighborinteger0..3048/topquarterpositive/rowmajorties; sourcepixelScoreandcanonicalPositions. |
+| S-L051-05 | REVIEWED `eligiblePositions:109–117` histogram3049/notfullsort; MAPPED PROOF02one12196-bytehistallocation. |
+| S-L051-06 | MAPPED CAPflat1024squarehasFrameCapacityfalse/max0. |
+| S-L052-01..03 | MAPPED CARRIER/O04excludedrawsalt/fullE; SAMPLE K08emitsbeyond262144; REVIEWED Bminonlycapacitybudget. |
+| S-L053-01..05 | MAPPED CARRIERindependentmatrix/header-body/MSB/paddingallS; FRAMErejectnonzeropadding; codeXORcolumn1..7oneindicatedLSB. |
+| S-L053-06 | MAPPED E02everyalphabyteunchangedandupperRGBbits. |
+| S-L053-07 | REVIEWED REVIEW-HISTORY/noproductionfiller/STC/Stenoxide; E01independentallsampleequalityalsoobservesunusedsamplesuntouched. |
+| S-L055-01..02 | MAPPED CARRIER/FRAMEfirst89648-byteheader/onecontinuingstream/separategroups; STREAMK09prefixcontinuityandPROOF02onecountersequence. |
+| S-L055-03..04 | REVIEWED REVIEW-KEY/F§1profileimplicit/allkeyedrecognitionafterroot; R08plainHKDFschedule andPROOF02onefixedroot. |
+| S-L056-01..11 | MAPPED CARRIERindependentcompleteheaderAADS0..512/FRAMEoffset20..31refusals; REVIEWED encoding`:76–85`/frameShape`:38–55` exactnonce0..11,BE12/16,16/1/compression/1/1/1/1/zeros. |
+| S-L056-12..15 | MAPPED FRAMEoverflow/unequalraw/invalidsettings/rawgzipemptyindependentfixtures; sourceexactS0..512/L0..1MiB/rawL=S/gzip0<S<L. |
+| S-L056-16 | MAPPED UI`:134–151`emptycreationnoprepare,`:295–315`spaceinputvalid; T04emptyrefusal/T02nonemptywhitespaceaccepted. |
+| S-L057-01..03 | MAPPED CARRIERindependentciphertexttag/AADsampleequality/PROOF02one528body/-04physicallyshorttags; KEYprimitivevectorisadditionalnotfullimageevidence. |
+| S-L057-04 | REVIEWED F§3AADauthenticatesmessage/settingsnotallcover/metadata; R06supportedRGB/RGBArewriteobserved. |
+| S-L058-01..05 | MAPPED CARRIER/FRAMEallSparity/block/interleave/saltpadding; PROOF02repairwords48/255/255/66; REVIEWED RSfield/provenance/omittedshortening/exactmultiples/noheaderinterleave. |
+| S-L059-01..02 | MAPPED FRAME1/7/8damageand16beyondradiusfailure/PROOF02oneattemptpercodeword; REVIEWED repair`:172–185,220–240` eight-error/residualchecks/noretries/erasures. |
+| S-L059-03 | REVIEWED F§4GCMacceptanceafterrepairnotmiscorrectionguarantee; FRAMEtagfailures/-04neverpartialtext. |
+| S-L060-01..04 | MAPPED CAP/CARRIER/FRAMEallS223/224/462/463/no-frame/empty-only; REVIEWED exactC/r/D/G/twoinequalities/largestSformula. |
+| S-L060-05 | MAPPED K12/K13/PROOF02maxk/drawbound; REVIEWED F§4S512→4992bits×50=249600minimumB/11648positions. |
+| S-L060-06 | REVIEWED F§4S0→642bits×50=32100minimumB; MAPPED CAPno-framevs empty-only/O04saltexclusionnearminimum, notinventedexactB-imagefixture. |
+| S-L062-01..04 | MAPPED TEXTsurrogates/exactUTF8/BOM/CRLF/whitespace/fatalUTF8/1MiB; sourcevalidationbeforeencoding. |
+| S-L062-05..06 | REVIEWED SexplicitownershipP3guidance/P4exactfile-stdin; DOWNSTREAM behaviorsunmetnotdeleted. |
+| S-L063-01..06 | MAPPED ZIPoptin/smaller/rawfallback/boundedproduction/header/CRC/ISIZE/onecompletedmember/trailing/memberrefusal/explicitcompressorerror, E04retainedbytes. |
+| S-L064-01..03 | MAPPED PROOF01/-05authbeforeinflateinit/work, ZIPauthenticatedL/fullinput/boundedoverrun andTEXTfatalUTF8/no partialmessage. |
+| S-L065-01 | MAPPED PIXEL/P1admission/exportpolicyretainedcurrentoperations; notWaivingP1journeys. |
+| S-L065-02 | MAPPED PROOF02score/hist/eligible/sparse/stream/RSwords/528/576/624; REVIEWED repairallocate≤255andPIXELshapechecks. RELEASEprocessmemorynotestablished. |
+| S-L066-01 | MAPPED PROOF02one128sampleread/oneSodium/continuousCTR/48+threebodyrepairs/oneGCM. |
+| S-L066-02..03 | MAPPED K10/K12/K13prefix2816andcumulative2k+1024/final24320withoutreset, sourceheaderparsebeforebudgetextension. |
+| S-L066-04 | REVIEWED REVIEW-KEYsinglefixedprofile/keyroute/nolegacyretry; MAPPED RUNTIME/FRAMEfailedcasesnotfallbacksuccess. |
+| S-L068-01..03 | MAPPED KEY/PIXEL/CAP/RUNTIME/CANCELpublicspecifictypedfailuresvs FRAME/ZIP/-04/-05exacttwo-sentencecommonhiddenfailure/no text. |
+| S-L069-01..02 | MAPPED LIFE/CANCELprivateworker/currentrevision/termination/suppresslatepartialoutput; actualKDF/compressorterminationcoverageM07separate. |
+| S-L069-03..04 | MAPPED RUNTIMEworker/WASM/native/RNG/allocationcontrolledfailures/realgates; REVIEWED no mainthreadheavyfallback/weakeralgorithm. ActualdeployedCSP/deviceUNMETRELEASE. |
+| S-L069-05 | REVIEWED sourceREVIEW-APP/transportnoarbitraryoperationtimeout; spinner/debouncepresentationtimersnotweakenedsecurity. |
+| S-L070-01..02 | MAPPED exactrecoveryprogress`protected-recovery.test.js:14–20`,ZIPpreparestages/T04derivation; REVIEWED recoveryonebroadstage/notinternalrecognizers. |
+| S-L070-03 | MAPPED KEY/R09/E07secretarrayclear,UI/T04passwordclearafteroutcomes/cancel; REVIEWED privatefinally/reference-release/best-effortnotguaranteederasure. |
+| S-L071-01..05 | REVIEWED REVIEW-HISTORYwholefeaturesequence/currentbothapps/oldAPIsandfillersremoved/currentdocs-examples-nextchangelogupdated/historicalchangelogretained; notfreshformalreviewcompletion. |
+| S-L076-01 | REVIEWED S Screenssourcesmatchedtoexistingcards/tabs/forms/buttons/password/message/resultcomponentsinREVIEW-APP. Human7judgmentnotperformed. |
+| S-L076-02 | REVIEWED `app/src/styles.css:1–45` terminaltheme/900pxmaxwidthandexistingcomponents, notnewvisualsystem; contrast/tone/focusjudgmentTHEIRS. |
+| S-L077-01..06 | UNMET M06remainingrealstates/matrix/announcednames/livefocus/colornoncolorproof. W20named24viewssubsetretained; sourceaccessibleattributes/labelsarenotcompletewalkthroughobservation. |
+| S-L078-01 | UNMET M06every-actionkeyboardclaimnotestablishedbyselectedW21/U04actions. |
+| S-L078-02 | MAPPED U03Stay/Escaperestoreexacttriggerfocus, historicalB12/W21discard/focus; Switchclearpathsource`App.jsx:51–57`. |
+| S-L078-03 | REVIEWED accessibleheadingmarkup `DecryptForm.jsx:65–69` labelledsection/h3 and`EncryptionResult.jsx` resultheading; MAPPED UIemptytextsuccess/notHTML. RealallstateaccessibilityM06/Human7remainseparate, nofullscreenpass. |
+| S-L078-04 | MAPPED historicalW21keyboardreveal andUIrevealbuttons`:346–383`; notpointeronly. |
+| S-L078-05 | MAPPED UIvalidation/capacityreason`:437–465,295–333` andT02refusalnextaction; sourcebuttonaria-describedby/reasontext, notcolornoticealone. |
+| S-L079-01..03 | MAPPED U03/U04activearia-selected/Stay/Switchandclear/confirmclear/newemptyform; historicalB12/W21pairedrealbehavior. |
+| S-L079-04 | REVIEWED REVIEW-APPnobrowserpersistenceaddedinworkflowpaths; RELEASEnetwork/cacheauditnotimplied. |
+| S-L080-01..03 | MAPPED UIlocksnavigation/password/message/keepCancel, inputeditscancelobsoletecapacity, cancellationkeepseditableinputs/clearspassword/rejectslatesuccess; CANCELrealgateownership. FreshB10M08pending. |
+| S-L080-04 | MAPPED historicalB12clearedform/nextaction; REVIEWED `EncryptForm.jsx:82`/`DecryptForm.jsx:37–38` explicitCleared/ChoosesupportedPNGguidance; noHuman7tonejudgment. |
+| S-L081-01 | MAPPED progress/UI/T04safephases; REVIEWED nostagepercentages/hiddenrecognizerprogress inREVIEW-APP. |
+| S-L081-02..03 | UNMET M05realshortoperationno-flash/longwaitspinnerandCancel; U07controlledfakeclocknotreplacement. |
+| S-L081-04..05 | MAPPED UIrecoveryfailurekeepsimage/clearssecret/restart andcompleteoutputkeptuntilpasswordedit/clear/leave, historicalB3/B12/W21; sourceinput-adjacentrolealert. |
+| S-L082-01..03 | MAPPED UI`:295–315,134–151`initialnocapacity/compressionoff/exactbytes/actualuse, T02CLIbyteandcompressiondisplay; currentrealscreenM08pending. |
+| S-L082-04..06 | MAPPED CAP/UI/T02no-frame/empty-only/oversizepublicreasons/fitbuttonenabled/completePNGonly; O12completeoutputnotsuccessfulpartialsummary. |
+| S-L083-01..02 | MAPPED UIreplacement/failureclearsoldcapacity/no-fit-retention; latecancelledsuccessnotdownloadable andCANCELnooutput. |
+| S-L083-03 | REVIEWED metadatanotice`protected-image.js:7`explicitnotundetectability; result/READMEalsoavoidconcealmentinference. |
+| S-L085-01..02 | MAPPED U02/UIemptyone-passwordform/safestages/Cancel/lock; realgatesCANCEL, historicalW18recovery. |
+| S-L085-03..04 | MAPPED FRAME/ZIP/commonfailurevsPIXELpublictypederrors andUIauthenticatedemptyexplicitheading/success/nottruthiness. |
+| S-L086-01..03 | MAPPED UIinputchange/cancel/clear/restartremovesstaletext,`authenticated text remains visible and is rendered safely: %s`empty/scriptcases; sourceReacttext`MessageDisplay.jsx`, notHTML. |
+| S-L088-01..02 | MAPPED T02/T04guidedmenu/currenthelp/TaskEncrypt-Decrypt; REVIEWED S ScreensnamesexistingCLIassource. |
+| S-L088-03..04 | MAPPED T01/T02/T03help80×24/120×40,longpath/controltext/plainpipe/NO_COLOR/textstatuses; historicalT7additionalactualscreens, nofullcurrentwalkclaim. |
+| S-L089-01..03 | MAPPED T01openstdinrefusal/nohang/no prompt, helpflags/keys andT02actualTTYprompts. P4futuresecretroutesstillDOWNSTREAM. |
+| S-L089-04..05 | MAPPED T04actualCtrlCduringderivingphase/no success/noexistingoutputchange/noremnanttemp; T03PNG/wrongpasswordfailedoutputpreservation; noall-futurepathaliasguarantee. |
+| S-L090-01..05 | MAPPED T01argumentcontrols/T03recoveredcontrols/fileexactbytes/longpaths/stdoutvsstderr/wrongpassword/publicPNGfailures/nohiddenstage/noresultsuccess; source`terminalText:21–26`safeescaping. P4exactfuturestdoutnotclaimed. |
+| S-L091-01..03 | MAPPED T04actualguidedencrypt/decryptwithpubliceditorfixture, historicalWALKpubliceditorroute; REVIEWED Sexplicitretainedexternaleditornotfutureinprocessinput. |
+| S-L091-04 | DOWNSTREAM UNMET P4mustmigratethisscenariowhenremovingeditor; notsilentlydroppingfutureacceptance. |
+| S-L097-01..02 | MAPPED LIFE/FRAME/extendedintegrationrealtransport/gates/bothplatforms; REVIEWED asynccompleteoperationseamnotforwardingonly. |
+| S-L098-01..04 | MAPPED KEY/STREAM/SAMPLEprivateindependentroot/child/CTR/rejection/positionsvectors; REVIEWED test-onlyfixedinputs/adaptersnotproductiontrace/profileoverride/fallback. |
+| S-L099-01..03 | MAPPED UI/T01–T04andhistoricalWALKAPP-INTERACTION; RUNTIME/LIFE/FRAME/U06realgatespaircontrolledform/transportcases. FreshwalkM08pending, notallfake-opbranchesbecomingrealbrowsertests. |
+| S-L100-01..04 | REVIEWED Sthree-seamallocationandREVIEW-HISTORYslice/testownership: prepareoperation,encode/recoveroperation+privatekeys,jointoperation+app; coveragegroupsnotextraseams. MAPPED referencednamedinterfacecases, notclaimingformalreviewroundcompleted. |
+| S-L104-01..06 | REVIEWED S Coveragegroups/normativeownership, thisaddendumretainsalloldclausesanddistinguisheskeypositions/operation/appfromcoveragegroupnames; no title- orsurface-groupingwaiver. ActualunmetcasesstaylistedM01–M08. |
+| S-L106-01..02 | MAPPED KEY/STREAM/SAMPLE/E05/R08independentprimitivechain/publicexpectedbytesnotproductiongenerated; REVIEW-KEYnocheappasswordrecognizerargument. Final automated proof/full suite passed; the missing invalid-input-before-KDF observation M01 is not lost. |
+| S-L107-01 | MAPPED CARRIER/FRAME/CAP/PIXELallS0..512/headerAAD/ties/padding/block/saltexclusion/no-frame/empty-only,bothnativeadapters. |
+| S-L107-02..03 | MAPPED FRAMEchangedpayload/nonce/fields/profile/reserved/geometry/bodypermutations/wrongpassandPROTECTED-ACCEPT-04physicallyshorttag/publicfixtures; final integration/full-suite PASS at 7f3b2d4. |
+| S-L108-01 | MAPPED TEXT/ZIPrawgzipUnicode/BOM/CRLF/whitespace/empty/invalidsurrogatesUTF8/headerCRCISIZEmembertrailing/incompressible/overrun/unavailableerror. |
+| S-L108-02 | MAPPED PROOF01/-05failedGCMzeropayloadgzipinit/workpluspositiveauth-beforework; notR05titlealone. |
+| S-L109-01 | UNMET M07actualinKDF/compressiontermination; otherconstituentsLIFE/CANCEL/RUNTIME/PROOF02/K12mapped. Phaseeventsarenotexactin-callobservations. |
+| S-L109-02 | MAPPED CANCEL O10realrepairentered/workerstopped/noresult/freshrecovery; notmockforwardingcall. RemainingrequiredcasesM07notwaived. |
+| S-L110-01 | MAPPED FRAME/integrationcompleteworker-backedPNGoperationseam. |
+| S-L110-02 | MAPPED historicalWALKrealCLI/PWArawgzipbothdirections; currentfreshM08pending. |
+| S-L110-03 | REVIEWED Sexplicitnon-substitution: browsercompatiblecrypto/gateunderNodeisnotactualbrowser. |
+| S-L111-01..02 | REVIEWED S priorart/migrationconstraints/REVIEW-HISTORY: legacyassertionsreplacednotweakpathsretained; realchecksFRAME/KEY/UI/T01–T04/PIXEL. |
+| S-L111-03..04 | REVIEWED F§8Hiisframingonly; MAPPED CARRIER/FRAMEindependentcompleteimagesnorelianceonthatvectorasinteroperabilityproof. |
+| S-L112-01..04 | MAPPED retainedP1PNG-ACCEPT01/02/13,E08,P01/P05/U06/current640covers; REVIEWED 64²quarter×3=3072<32100emptyminimum, suitablesupportedfixturesreplacecoversnotpolicyjourneys. FreshconcurrentB15M08pending, oldfailurepreserved. |
+| S-L113-01 | REVIEWED namedtestbodiesCARRIER/FRAME/LIFE/UI/T01–T04behaviorassertionsnotforwarding/source-text/incidentalwording; designnonclaimssourcereviewnottautologicaltests. |
+| S-L113-02..03 | REVIEWED deterministicpublicreference/cover/exportfixtures; T01–T04`:16–24`uniquemkdtempandown-directorycleanup, integrationprotectedfileusesnomutablefileoutputs; noother-testcleanup. |
+| S-L113-04..05 | REVIEWED REVIEW-HISTORYobsoleteformatassertionsreplaced/acceptancefileaddedat544f774andextendedherebyowner; thisdocumenttaskdoesnotedittests. |
+| S-L113-06..07 | MAPPED / PASS automated command gates: owner-run final integration6/45.686 s and full suite563/23/291.378 s at 7f3b2d4, plus proof units2/6.16 s. Historical538/22 and prior558/22 remain separately scoped, not reused as current proof. |
+| S-L113-08 | REVIEWED S harnessscope/e2enone, no newe2eharnessadded. |
+| S-L113-09..10 | MAPPED historicalWALKnumberedactualbrowser/terminal; REVIEWED noNode-as-browserinference; freshM08pending. |
+| S-L116-01..08 | REVIEWED exactS Normativecoverage: K/P→KEY; C/F1–4→FRAME; F5text→TEXT/bounds→LIFE/P1; F7–8/D1–4/D6mappedbybehavior; fullimagereference→FRAME; A D1/4/5→LIFE+realexchange; releaseA1–5/A7/A8consumethese(notpassedbythem). |
+| S-L116-09..10 | REVIEWED this872-rowreconciliationpreservesexacthistoricalclauses/IDs/sourceidentity/fixtures/checkassertions/currentexecutionqualification; M01–M08/RELEASE/DOWNSTREAM/THEIRSremainexplicit. It is anindex, notblanketproof. |
+| S-L116-11..12 | REVIEWED allevidenceinitiallynotrun/missingmandatorycasesunmet; currentrunstateexplicitatheadandnewcatalogue, no source/title/selfroundtrippromotedtofreshPASS. |
+| S-L120-01 | PARTIAL / UNMET M08: FRAME/PROTECTED-ACCEPTcompleteoperationandhistoricalWALKAPP-INTERACTIONmapped; freshwholefeatureacceptancenotcompleted. |
+| S-L121-01 | PARTIAL / UNMET M08 real browser/TUI check still pending; final named integration6/45.686 s passed at 7f3b2d4. Historical four-case run remains historical. |
+| S-L122-01 | REVIEWED S Affected e2enone; no unapprovedharnessneededtoavoidrealwalkthrough. |
+| S-L123-01..02 | PARTIAL / UNMET M01–M08: fourstoriescoveredbynamedassertionsandhistoricalstepsonlytoprovedextent; fresh/fullmandatoryobservationsnotcomplete. |
+| S-L123-03, S-L124-01 | REVIEWED commandexecutionalonecannotproveUI; numberedHumancheckretained/currentM08pending, Human7THEIRS. |
+| S-L132-01..03 | THEIRS (UNMET): Human7compareeverychangedscreen/commandwithnamedsource; judgecontrast/focusoutlines/tone. No automated/source/capturepasssubstituted. |
+
+## Historical evidence — immutable original record
+
+Everything from the next heading onward is the pre-released-pass record, verbatim. Its production candidate, acceptance identity, observed passes/failures and UNMET statuses are scoped to that history; the addendum above supplies current reconciliation without rewriting them.
+
 ## Identity and result
 
 The targeted acceptance check passed (4 tests, 1 suite, 14.379 s). The full configured fast suite passed (538 tests, 22 suites, 265.986 s). The PWA build passed (1.56 s; outDir, Browserslist and large-chunk warnings). These results do not approve the feature or release: the unmet proof obligations below remain open.

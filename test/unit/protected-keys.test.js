@@ -318,3 +318,19 @@ it("requires WebAssembly even after a previous successful Sodium initialization"
     else delete globalThis.WebAssembly;
   }
 });
+
+it("enforces the final cumulative 24320-draw boundary without restarting the stream", async () => {
+  // Fixed accepted format maximum k=11648. These public words consume the full
+  // prefix, then put the next accepted word exactly at, or beyond, final budget.
+  for (const finalAccepted of [24319, 24320]) {
+    const adapter = wordAdapter(index => index < 1920 || (index >= 2816 && index < finalAccepted) ? 0xffffffff : 0);
+    const source = await createPositionSource(domain(30001), bytes(placementHex), adapter);
+    try {
+      await take(source, 896); // 1920 rejected + 896 accepted = 2816 draws.
+      source.setLimit(11648);
+      if (finalAccepted === 24319) expect(await source.next()).toBe(29105);
+      else await expect(source.next()).rejects.toThrow();
+      expect(adapter.ctr).toHaveBeenCalledTimes(24);
+    } finally { source.clear(); }
+  }
+});

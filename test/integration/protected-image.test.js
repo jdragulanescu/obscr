@@ -66,6 +66,9 @@ for (const origin of ["Node", "browser gate"]) {
         if (!compress) expect(prepared.storedBytes).toBe(Buffer.byteLength(message));
         const encoded = await sender.encode({ preparation: prepared.preparation, password: PASSWORD });
         expect(encoded.ok).toBe(true);
+        for (const field of ["originalBytes", "storedBytes", "compressionUsed", "maxStoredBytes", "hasFrameCapacity", "fits", "metadataNotice"]) {
+          expect(encoded[field]).toEqual(prepared[field]);
+        }
         expect(await sender.encode({ preparation: prepared.preparation, password: PASSWORD }))
           .toMatchObject({ ok: false, code: "PREPARATION_INVALID" });
         expect(await receiver.decode({ pngBytes: new Uint8Array(encoded.pngBytes), password: PASSWORD }))
@@ -121,5 +124,39 @@ it("PROTECTED-ACCEPT-03: cancelled real recovery cannot consume a replacement pr
       .toEqual({ ok: true, message });
   } finally {
     await nodeOperations.discard(prepared.preparation);
+  }
+}, 30000);
+
+it("PROTECTED-ACCEPT-04: independent physically shortened tags never release text through either real gate", async () => {
+  const browser = browserGateOperations();
+  for (const message of ["", "Short public tag fixture", "x".repeat(224), "x".repeat(512)]) {
+    const complete = await referencePNG({ width: 640, height: 640, text: message });
+    for (const operations of [nodeOperations, browser]) {
+      expect(await operations.decode({ pngBytes: new Uint8Array(complete), password: PASSWORD }))
+        .toEqual({ ok: true, message });
+    }
+    for (let tagLength = 0; tagLength < 16; tagLength++) {
+      // Header still declares the fixed full-tag format. Reference writer drops
+      // tag bytes BEFORE its separate RS encoder/interleaver/carrier, not XOR damage.
+      const shortened = await referencePNG({ width: 640, height: 640, text: message, damage: { tagLength } });
+      for (const operations of [nodeOperations, browser]) {
+        expect(await operations.decode({ pngBytes: new Uint8Array(shortened), password: PASSWORD }))
+          .toEqual({ ok: false, code: "RECOVERY_FAILED", error: "Could not recover an authenticated message. The password may be wrong, or the image may be damaged or changed." });
+      }
+    }
+  }
+}, 60000);
+
+it("PROTECTED-ACCEPT-05: real gates authenticate independent gzip and refuse its bad tag without text", async () => {
+  const browser = browserGateOperations();
+  const message = "Public authenticated gzip 日本 ".repeat(100);
+  for (const damage of [{}, { tagBytes: [{ offset: 0 }] }]) {
+    const pngBytes = await referencePNG({ text: message, compression: 1, damage });
+    for (const operations of [nodeOperations, browser]) {
+      const result = await operations.decode({ pngBytes: new Uint8Array(pngBytes), password: PASSWORD });
+      expect(result).toEqual(damage.tagBytes
+        ? { ok: false, code: "RECOVERY_FAILED", error: "Could not recover an authenticated message. The password may be wrong, or the image may be damaged or changed." }
+        : { ok: true, message });
+    }
   }
 }, 30000);

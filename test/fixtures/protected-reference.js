@@ -198,29 +198,38 @@ async function derive(password, salt) {
   return work;
 }
 
+function referenceDrawSource(cipher, total) {
+  let stream = new Uint8Array();
+  let cursor = 0;
+  let draws = 0;
+  return (index) => {
+    const budget = index < 896 ? 2816 : 2 * total + 1024;
+    if (++draws > budget) {
+      throw new Error("Reference fixture: sampler draw ceiling");
+    }
+    if (cursor === stream.length) {
+      stream = cipher.update(new Uint8Array(4096));
+      cursor = 0;
+    }
+    const draw = new DataView(stream.buffer, stream.byteOffset + cursor, 4).getUint32(0, true);
+    cursor += 4;
+    return draw;
+  };
+}
+
 function positions(cover, key) {
   const keyID = Buffer.from(key).toString("hex");
   if (cachedPositions?.cover === cover && cachedPositions.keyID === keyID) return cachedPositions.result;
   const cipher = createCipheriv("aes-256-ctr", key, new Uint8Array(16));
   const swaps = new Map();
   const result = new Uint32Array(Math.min(MAX_POSITIONS, cover.eligible.length));
-  let stream = new Uint8Array();
-  let cursor = 0;
-  let draws = 0;
+  const nextDraw = referenceDrawSource(cipher, result.length);
   for (let i = 0; i < result.length; i++) {
     const remaining = cover.eligible.length - i;
     const ceiling = Math.floor(0x100000000 / remaining) * remaining;
     let draw;
     do {
-      if (++draws > (i < 896 ? 2816 : 2 * result.length + 1024)) {
-        throw new Error("Reference fixture: sampler draw ceiling");
-      }
-      if (cursor === stream.length) {
-        stream = cipher.update(new Uint8Array(4096));
-        cursor = 0;
-      }
-      draw = new DataView(stream.buffer, stream.byteOffset + cursor, 4).getUint32(0, true);
-      cursor += 4;
+      draw = nextDraw(i);
     } while (draw >= ceiling);
     const selected = draw % remaining;
     const index = swaps.get(selected) ?? selected;
@@ -285,22 +294,32 @@ function xorBytes(data, mutations = []) {
   }
 }
 
+function referenceTargetSymbol(data, group) {
+  let target = 0;
+  for (let bit = 0; bit < 3; bit++) {
+    const index = group * 3 + bit;
+    target = (target << 1) | (index < data.length * 8 ? (data[index >>> 3] >>> (7 - (index & 7))) & 1 : 0);
+  }
+  return target;
+}
+
+function referenceCoverSymbol(rgb, selected, start) {
+  let current = 0;
+  for (let column = 1; column <= 7; column++) {
+    if (rgb[selected[start + column - 1]] & 1) current ^= column;
+  }
+  return current;
+}
+
 function matrixWrite(rgb, selected, start, data, badPadding = false) {
   const groups = Math.ceil(data.length * 8 / 3);
   if (badPadding && data.length * 8 % 3 === 0) {
     throw new RangeError("Reference fixture: this body has no padding to damage");
   }
   for (let group = 0; group < groups; group++) {
-    let target = 0;
-    for (let bit = 0; bit < 3; bit++) {
-      const index = group * 3 + bit;
-      target = (target << 1) | (index < data.length * 8 ? (data[index >>> 3] >>> (7 - (index & 7))) & 1 : 0);
-    }
+    let target = referenceTargetSymbol(data, group);
     if (badPadding && group === groups - 1) target |= 1;
-    let current = 0;
-    for (let column = 1; column <= 7; column++) {
-      if (rgb[selected[start + group * 7 + column - 1]] & 1) current ^= column;
-    }
+    const current = referenceCoverSymbol(rgb, selected, start + group * 7);
     const difference = current ^ target;
     if (difference) rgb[selected[start + group * 7 + difference - 1]] ^= 1;
   }
@@ -344,7 +363,8 @@ function referenceBody(stored, key, header, aad, damage) {
   const ciphertext = concat([cipher.update(stored), cipher.final()]);
   const tag = Uint8Array.from(cipher.getAuthTag());
   xorBytes(tag, damage.tagBytes);
-  const body = concat([ciphertext, tag]);
+  const tagLength = integer(damage.tagLength ?? 16, 0, 16, "tag length");
+  const body = concat([ciphertext, tag.subarray(0, tagLength)]);
   const codewords = [];
   for (let offset = 0; offset < body.length; offset += 239) codewords.push(encodeRS(body.subarray(offset, offset + 239)));
   for (const mutation of damage.bodyBytes ?? []) {
@@ -399,6 +419,9 @@ function writeCarrier(cover, selected, salt, repairedHeader, wire, groups, damag
  * damage is optional and all offsets are zero-based:
  * - headerAfterAuth: offset:value header overrides AFTER authentication, before RS.
  * - tagBytes: [{offset, xor=1}], offsets 0..15, changed before body RS encoding.
+ * - tagLength: 0..16 physically retains this many tag bytes BEFORE body RS and
+ *   interleaving; the header still declares the canonical full-tag format. This
+ *   constructs a malformed complete image, not merely altered authentication.
  * - headerBytes: [{offset, xor=1}], changed AFTER header RS (offsets 0..47).
  * - bodyBytes: [{block, offset, xor=1}], changed AFTER body RS; block is 0..2.
  * - wireBytes: [{offset, xor=1}], changed after interleaving.
@@ -428,7 +451,8 @@ export async function referencePNG(options = {}) {
   const header = referenceHeader(nonce, text, options.headerOverrides);
   const damage = options.damage ?? {};
   const cover = referenceCover(width, height);
-  const bodyLength = text.stored.length + 16 + 16 * Math.ceil((text.stored.length + 16) / 239);
+  const ciphertextLength = text.stored.length + integer(damage.tagLength ?? 16, 0, 16, "tag length");
+  const bodyLength = ciphertextLength + 16 * Math.ceil(ciphertextLength / 239);
   const groups = 128 + Math.ceil(bodyLength * 8 / 3);
   const budget = Math.min(cover.eligible.length, 262144);
   if (width * height * 3 < 128 || 3 * groups > Math.floor(budget / 50) || 7 * groups > budget) {
