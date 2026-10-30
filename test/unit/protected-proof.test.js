@@ -111,3 +111,32 @@ it("PROTECTED-PROOF-02: maximum complete recovery respects allocations, salt/KDF
     expect(zerosBuffer.every(byte => byte === 0)).toBe(true);
   } finally { observation.restore(); kdf.mockRestore(); }
 }, 30000);
+
+it("PROTECTED-PROOF-03: invalid exact passwords cause zero Argon invocations before either operation refuses them", async () => {
+  const pngBytes = await referencePNG({ width: 640, height: 640 });
+  const { default: sodium } = await import("libsodium-wrappers-sumo");
+  await sodium.ready;
+  const pwhash = sodium.crypto_pwhash;
+  const calls = jest.spyOn(sodium, "crypto_pwhash").mockImplementation((...args) => pwhash(...args));
+  const execute = createProtectedImage({ nativeCrypto });
+  let id = 0;
+  const run = fields => execute({ id: ++id, generation: 1, ...fields });
+  try {
+    for (const password of [null, "", "\ud800", "\udc00", "a".repeat(1025), "é".repeat(513)]) {
+      const decoded = await run({ action: "decode", pngBytes, password });
+      expect(decoded.ok).toBe(false);
+      expect(["INPUT_INVALID", "INPUT_LIMIT"]).toContain(decoded.code);
+      expect(decoded).not.toHaveProperty("message");
+      const prepared = await run({ action: "prepareEncode", pngBytes, message: "Public", compress: false });
+      expect(prepared.ok).toBe(true);
+      const encoded = await run({ action: "encode", preparation: prepared.preparation, password });
+      expect(encoded.ok).toBe(false);
+      expect(["INPUT_INVALID", "INPUT_LIMIT"]).toContain(encoded.code);
+      expect(encoded).not.toHaveProperty("pngBytes");
+      expect(calls).not.toHaveBeenCalled();
+    }
+    // Non-vacuous observer: a valid complete decode invokes the same real KDF.
+    expect(await run({ action: "decode", pngBytes, password: PASSWORD })).toEqual({ ok: true, message: "\ufeffProtected image — Καλημέρα 世界\r\n  exact whitespace \t\n" });
+    expect(calls).toHaveBeenCalledTimes(1);
+  } finally { calls.mockRestore(); }
+}, 30000);
