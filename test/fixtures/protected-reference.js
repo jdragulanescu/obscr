@@ -344,7 +344,8 @@ function referenceBody(stored, key, header, aad, damage) {
   const ciphertext = concat([cipher.update(stored), cipher.final()]);
   const tag = Uint8Array.from(cipher.getAuthTag());
   xorBytes(tag, damage.tagBytes);
-  const body = concat([ciphertext, tag]);
+  const tagLength = integer(damage.tagLength ?? 16, 0, 16, "tag length");
+  const body = concat([ciphertext, tag.subarray(0, tagLength)]);
   const codewords = [];
   for (let offset = 0; offset < body.length; offset += 239) codewords.push(encodeRS(body.subarray(offset, offset + 239)));
   for (const mutation of damage.bodyBytes ?? []) {
@@ -399,6 +400,9 @@ function writeCarrier(cover, selected, salt, repairedHeader, wire, groups, damag
  * damage is optional and all offsets are zero-based:
  * - headerAfterAuth: offset:value header overrides AFTER authentication, before RS.
  * - tagBytes: [{offset, xor=1}], offsets 0..15, changed before body RS encoding.
+ * - tagLength: 0..16 physically retains this many tag bytes BEFORE body RS and
+ *   interleaving; the header still declares the canonical full-tag format. This
+ *   constructs a malformed complete image, not merely altered authentication.
  * - headerBytes: [{offset, xor=1}], changed AFTER header RS (offsets 0..47).
  * - bodyBytes: [{block, offset, xor=1}], changed AFTER body RS; block is 0..2.
  * - wireBytes: [{offset, xor=1}], changed after interleaving.
@@ -428,7 +432,8 @@ export async function referencePNG(options = {}) {
   const header = referenceHeader(nonce, text, options.headerOverrides);
   const damage = options.damage ?? {};
   const cover = referenceCover(width, height);
-  const bodyLength = text.stored.length + 16 + 16 * Math.ceil((text.stored.length + 16) / 239);
+  const ciphertextLength = text.stored.length + integer(damage.tagLength ?? 16, 0, 16, "tag length");
+  const bodyLength = ciphertextLength + 16 * Math.ceil(ciphertextLength / 239);
   const groups = 128 + Math.ceil(bodyLength * 8 / 3);
   const budget = Math.min(cover.eligible.length, 262144);
   if (width * height * 3 < 128 || 3 * groups > Math.floor(budget / 50) || 7 * groups > budget) {
