@@ -23,7 +23,7 @@
 - **Password processing**: fixed Argon2id v19 (64 MiB, three passes, one lane), then separate HKDF-SHA256 encryption and placement keys.
 - **Protected carrier**: detail-ranked RGB samples, keyed matrix placement and bounded Reed–Solomon repair; no random filler.
 - **Compression**: gzip is off by default and used only when smaller.
-- **Format break**: both apps create and recover only the new protected-image format. Old images are not supported; there is no compatibility decoder.
+- **Format break**: both apps create and recover only the new protected-image format. Old images are not supported; there is no compatibility decoder. Old images and plain images can produce the same recovery failure; that failure does not identify either kind of input.
 
 ### User Experience
 
@@ -76,7 +76,10 @@ Exports keep the dimensions, RGB/RGBA color type, opaque alpha and native sample
 except for the intended carrier changes. They retain supported cHRM, gAMA and
 sRGB rendering declarations byte-for-byte, in that order. Absent declarations
 stay absent. Personal and other non-rendering metadata is removed without
-expanding embedded text. Both apps show this policy after a successful export.
+expanding embedded text. Before encoding, both apps disclose this supported
+profile, metadata policy and that some otherwise valid PNGs are rejected. The
+prepared image's metadata notice remains visible before creation; export results
+also repeat the policy.
 This is not an anonymity guarantee: removed metadata and PNG encoding can be
 detected. Inputs with unsupported color profiles are rejected, not converted.
 

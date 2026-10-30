@@ -99,6 +99,7 @@ export const EncryptForm = ({ onStateChange, requestClear }) => {
     } else { setError(encoded.error); setRetry(value => value + 1); }
   };
   return <form className="panel" onSubmit={submit}>
+    <p className="field-help">Only opaque, noninterlaced RGB/RGBA8 PNGs are supported. Personal metadata is removed; only approved rendering metadata is preserved. Some otherwise valid PNGs are rejected. Metadata removal does not prove concealment.</p>
     <ImageUpload label="Source image (PNG)" filePath={selection?.file} onPick={pick} disabled={locked} error={imageError} />
     <div className="field">
       <label className="field-label" htmlFor={`${id}-message`}>Secret message</label>

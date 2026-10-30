@@ -82,6 +82,21 @@ for (const platform of ["node", "browser"]) describe(`${platform} actual recover
     }
   }, 30000);
 
+  it("accepts the form's plain-image request but keeps its hidden failure distinct from malformed PNG data", async () => {
+    gate = await openGate(platform);
+    const pngBytes = Uint8Array.from(cover());
+    expect(await gate.request({ pngBytes, password: "public-password" })).toEqual({
+      ok: false, code: "RECOVERY_FAILED",
+      error: "Could not recover an authenticated message. The password may be wrong, or the image may be damaged or changed.",
+    });
+    const malformed = await gate.request({ pngBytes: pngBytes.slice(0, 40), password: "public-password" });
+    expect(malformed).toMatchObject({ ok: false, code: "PNG_INVALID" });
+    expect(malformed).not.toHaveProperty("message");
+    expect(malformed.error).not.toContain("Could not recover an authenticated message");
+    expect(await gate.request({ pngBytes: await referencePNG(), password: PASSWORD }))
+      .toEqual({ ok: true, message: TEXT });
+  }, 30000);
+
   it("rejects malformed decode requests, profile overrides and invalid exact passwords", async () => {
     gate = await openGate(platform);
     const pngBytes = cover();

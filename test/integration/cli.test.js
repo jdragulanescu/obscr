@@ -86,7 +86,9 @@ function launch(command, args, extra = {}) {
         listeners.add(check);
         check();
       });
+      const observed = stripAnsi(output);
       child.stdin.write(input);
+      return observed;
     },
   };
 }
@@ -134,14 +136,15 @@ describe("CLI scripted entry points", () => {
     expect(fs.readFileSync(output, "utf8")).toBe("keep this result");
   });
 
-  it.each([[[]], [["encrypt"]], [["decrypt"]]])("shows available help flags without prompting for %j", async (args) => {
+  it.each([[[]], [["encrypt"]], [["decrypt"]], [["interactive"]]])("shows available help flags without prompting for %j", async (args) => {
     const result = await launch(process.execPath, [cli, ...args, "--help"]).done;
     expect(result.code).toBe(0);
     expect(result.stdout).toContain("--help");
     expect(result.stdout).toContain("Ctrl+C");
     expect(result.stdout).toContain("--quiet");
-    if (args.length) expect(result.stdout).toContain("--filename");
+    if (["encrypt", "decrypt"].includes(args[0])) expect(result.stdout).toContain("--filename");
     expect(result.stdout).toMatch(/Earlier\s+protected\s+images\s+are\s+not\s+supported/);
+    expect(result.stdout).toMatch(/Old\s+images\s+and\s+plain\s+images\s+can\s+produce\s+the\s+same\s+recovery\s+failure/);
     expect(result.raw).not.toContain("\u001b");
   });
 
@@ -176,6 +179,29 @@ describe("CLI actual terminal workflows", () => {
     expect(result.output).toContain("Ctrl+C");
     expect(result.raw).not.toMatch(/\u001b\[[\d;]*m/);
   });
+
+  it.each(["direct", "guided"])("discloses PNG policy before encoding through the %s entry route", async route => {
+    const output = path.join(directory, "not-published.png");
+    const args = route === "direct" ? ["encrypt", "-f", fixture, "-o", output] : ["interactive"];
+    const session = terminal(args, { env: editorFor("Public disclosure text") });
+    if (route === "guided") {
+      await session.respond("Choose an action:", "\r");
+      await session.respond("Path to the PNG image:", `${fixture}\r`);
+      await session.respond("Output PNG path:", `${output}\r`);
+      await session.respond("Compress the message?", "n\r");
+    }
+    await session.respond("Enter the message in your editor:", "\r");
+    const beforeEncoding = await session.respond("Enter password:", "\u0003");
+    expect(beforeEncoding).toMatch(/only opaque, noninterlaced RGB\/RGBA8 PNGs/i);
+    expect(beforeEncoding).toMatch(/Personal metadata is removed/);
+    expect(beforeEncoding).toMatch(/only approved rendering metadata is preserved/);
+    expect(beforeEncoding).toMatch(/Some otherwise valid PNGs are rejected/);
+    expect(beforeEncoding).toMatch(/does not prove concealment/);
+    expect(beforeEncoding).toContain("This does not make the image undetectable.");
+    expect(beforeEncoding).not.toContain("Saved PNG:");
+    expect((await session.done).code).toBe(130);
+    expect(fs.existsSync(output)).toBe(false);
+  }, 15000);
 
   it("encrypts with editor/password prompts and decrypts the resulting file", async () => {
     const output = path.join(directory, "encoded.png");
