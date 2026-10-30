@@ -16,7 +16,7 @@ let commandExecuted = false;
 if (Object.hasOwn(process.env, "NO_COLOR") || !process.stderr.isTTY) chalk.level = 0;
 const primary = chalk.hex("#B4FA72");
 const cancellation = () => Object.assign(new Error("Operation cancelled. No result was saved."), { code: "CANCELLED" });
-const helpText = "Prompts require terminal stdin and stderr. Keys: Up/Down selects; Enter confirms; Ctrl+C cancels. No scripted secret-input flags. NO_COLOR disables color. Progress goes to stderr; results go to stdout. This version creates and recovers only the current protected-image format. Earlier protected images are not supported.";
+const helpText = "Prompts require terminal stdin and stderr. Keys: Up/Down selects; Enter confirms; Ctrl+C cancels. No scripted secret-input flags. NO_COLOR disables color. Progress goes to stderr; results go to stdout. This version creates and recovers only the current protected-image format. Earlier protected images are not supported. Old images and plain images can produce the same recovery failure; a failed recovery does not identify which kind of image you selected.";
 
 function terminalText(value, multiline = false) {
   return String(value).replace(/[\u0000-\u001f\u007f-\u009f\u2028-\u202e\u2066-\u2069]/g, (character) => {
@@ -140,6 +140,7 @@ function requireSuccess(result) {
 async function encryptCommand(filename, output, compress) {
   let preparation;
   let credentials;
+  process.stderr.write("Only opaque, noninterlaced RGB/RGBA8 PNGs are supported.\nPersonal metadata is removed; only approved rendering metadata is preserved.\nSome otherwise valid PNGs are rejected.\nMetadata removal does not prove concealment.\n");
   process.stderr.write("Message editor: save and close the editor to continue. Passwords stay masked.\n");
   const { message } = await ask({ type: "editor", name: "message", message: "Enter the message in your editor:" });
   if (message.length === 0) throw new Error("Message cannot be empty. Enter a message and try again.");
@@ -155,6 +156,7 @@ async function encryptCommand(filename, output, compress) {
     preparation = prepared.preparation;
     checkCancelled();
     process.stderr.write(`Original: ${prepared.originalBytes} bytes; stored: ${prepared.storedBytes} bytes; maximum: ${prepared.maxStoredBytes} bytes.\nCompression used: ${prepared.compressionUsed ? "yes" : "no"}.\n`);
+    process.stderr.write(`${terminalText(prepared.metadataNotice, true)}\n`);
     if (!prepared.hasFrameCapacity) throw new Error("This image has no protected-message frame capacity. Choose a detailed PNG.");
     if (prepared.maxStoredBytes === 0) throw new Error("This image can hold only an empty message. Choose a larger detailed PNG.");
     if (!prepared.fits) throw new Error("The message does not fit this image. Shorten the text, turn on compression, or choose a larger detailed PNG.");

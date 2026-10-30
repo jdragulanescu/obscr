@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Before encoding, both apps explain the opaque, noninterlaced RGB/RGBA8 PNG
+  profile, personal-metadata removal, approved rendering-metadata retention and
+  rejection of some otherwise valid PNGs, without claiming concealment.
+- Browser recovery prominently warns that the new format cannot read old images.
+  Browser guidance and CLI help explain that old and plain images can produce
+  the same recovery failure, without diagnosing an individual input.
 - Complete worker-backed protected-image operations in Node and browsers:
   exact retained preparation, fixed Argon2id/HKDF keys, fresh salt/nonce,
   authenticated framing, bounded repair and keyed matrix placement.

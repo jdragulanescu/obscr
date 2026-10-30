@@ -4,6 +4,7 @@ import React, { act } from "react";
 import { downloadBlob as browserDownload, admitImage as realAdmitImage, generateImageDiff as realGenerateImageDiff } from "../../app/src/lib/steg.js";
 import { Worker as NodeWorker } from "node:worker_threads";
 import { PNG } from "pngjs";
+import { cover } from "../fixtures/protected.js";
 
 const adapter = {
   admitImage: jest.fn(),
@@ -292,6 +293,55 @@ describe("real browser components", () => {
     await type(".password-input-field", "second");
     expect(button("Decrypt & Extract").disabled).toBe(false);
   });
+  test("PNG policy is disclosed before preparation and remains beside the prepared metadata notice", async () => {
+    adapter.readImageBytes.mockResolvedValue(Uint8Array.from(cover()));
+    await render(EncryptForm);
+    const expectPolicy = () => {
+      expect(container.textContent).toMatch(/only opaque, noninterlaced RGB\/RGBA8 PNGs/i);
+      expect(container.textContent).toContain("Personal metadata is removed");
+      expect(container.textContent).toContain("only approved rendering metadata is preserved");
+      expect(container.textContent).toContain("Some otherwise valid PNGs are rejected");
+      expect(container.textContent).toContain("does not prove concealment");
+    };
+    expectPolicy();
+    expect(container.querySelector(".capacity-box")).toBeNull();
+    await admit();
+    await type("textarea", "Public guidance text");
+    await capacity({ ok: true, preparation: {}, originalBytes: 20, storedBytes: 20, maxStoredBytes: 395, compressionUsed: false, hasFrameCapacity: true, fits: true, metadataNotice: "Prepared image metadata notice." });
+    expectPolicy();
+    expect(container.textContent).toContain("Prepared image metadata notice.");
+    expect(protectedAdapter.encode).not.toHaveBeenCalled();
+    await type("textarea", "Changed public text");
+    await capacity({ ok: false, code: "RESOURCE_FAILED", error: "Protected processing is unavailable." });
+    expectPolicy();
+    expect(container.textContent).toContain("Protected processing is unavailable.");
+  });
+
+  test.each([
+    ["RECOVERY_FAILED", "Could not recover an authenticated message. The password may be wrong, or the image may be damaged or changed."],
+    ["PNG_INVALID", "The PNG data is truncated or malformed."],
+    ["RESOURCE_FAILED", "Protected processing is unavailable."],
+  ])("recovery guidance precedes submission and does not diagnose a %s input", async (code, error) => {
+    adapter.readImageBytes.mockResolvedValue(Uint8Array.from(cover()));
+    await render(DecryptForm);
+    const expectGuidance = () => {
+      const warning = container.querySelector('[aria-labelledby$="-format"]');
+      expect(warning).not.toBeNull();
+      expect(warning.textContent).toContain("The new format cannot read old images.");
+      expect(container.textContent).toContain("Old images and plain images can produce the same recovery failure.");
+    };
+    expectGuidance();
+    expect(protectedAdapter.decode).not.toHaveBeenCalled();
+    await admit();
+    await type(".password-input-field", "public-password");
+    expectGuidance();
+    await reply(await submit(), { ok: false, code, error });
+    expectGuidance();
+    expect(container.querySelector('[role="alert"]').textContent).toBe(error);
+    expect(container.textContent).not.toContain("Download message");
+    if (code !== "RECOVERY_FAILED") expect(container.querySelector('[role="alert"]').textContent).not.toContain("Could not recover an authenticated message");
+  });
+
   test("preparation reports exact bytes and survives password-only edits", async () => {
     await render(EncryptForm);
     expect(container.querySelector(".capacity-box")).toBeNull();

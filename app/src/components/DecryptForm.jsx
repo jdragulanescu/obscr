@@ -57,6 +57,11 @@ export const DecryptForm = ({ onStateChange, requestClear }) => {
     catch { setError("Could not start the download. Your message is kept. Try Download message again."); }
   };
   return <form className="panel" onSubmit={submit}>
+    <section className="capacity-box" aria-labelledby={`${id}-format`}>
+      <h3 id={`${id}-format`}>Current format only</h3>
+      <p>The new format cannot read old images.</p>
+    </section>
+    <p className="field-help">Old images and plain images can produce the same recovery failure. A failed recovery does not identify which kind of image you selected.</p>
     <ImageUpload label="Encoded image (PNG)" filePath={file} onPick={pick} disabled={locked} error={imageError} />
     <PasswordInput label="Password" value={password} disabled={locked || !admitted} showStrength={false} onChange={(value) => { setPassword(value); setMessage(null); setError(""); setNotice(""); }} />
     {error && <p className="input-error" role="alert">{error}</p>}
