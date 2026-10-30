@@ -294,6 +294,7 @@ describe("real browser components", () => {
     expect(button("Decrypt & Extract").disabled).toBe(false);
   });
   test("PNG policy is disclosed before preparation and remains beside the prepared metadata notice", async () => {
+    adapter.readImageBytes.mockResolvedValue(Uint8Array.from(cover()));
     await render(EncryptForm);
     const expectPolicy = () => {
       expect(container.textContent).toMatch(/only opaque, noninterlaced RGB\/RGBA8 PNGs/i);
@@ -306,7 +307,7 @@ describe("real browser components", () => {
     expect(container.querySelector(".capacity-box")).toBeNull();
     await admit();
     await type("textarea", "Public guidance text");
-    await capacity({ ok: true, preparation: {}, originalBytes: 20, storedBytes: 20, maxStoredBytes: 512, compressionUsed: false, hasFrameCapacity: true, fits: true, metadataNotice: "Prepared image metadata notice." });
+    await capacity({ ok: true, preparation: {}, originalBytes: 20, storedBytes: 20, maxStoredBytes: 395, compressionUsed: false, hasFrameCapacity: true, fits: true, metadataNotice: "Prepared image metadata notice." });
     expectPolicy();
     expect(container.textContent).toContain("Prepared image metadata notice.");
     expect(protectedAdapter.encode).not.toHaveBeenCalled();
