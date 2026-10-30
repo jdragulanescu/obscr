@@ -135,7 +135,7 @@ it("PROTECTED-ACCEPT-04: independent physically shortened tags never release tex
       expect(await operations.decode({ pngBytes: new Uint8Array(complete), password: PASSWORD }))
         .toEqual({ ok: true, message });
     }
-    for (const tagLength of [0, 4, 8, 12, 15]) {
+    for (let tagLength = 0; tagLength < 16; tagLength++) {
       // Header still declares the fixed full-tag format. Reference writer drops
       // tag bytes BEFORE its separate RS encoder/interleaver/carrier, not XOR damage.
       const shortened = await referencePNG({ width: 640, height: 640, text: message, damage: { tagLength } });
