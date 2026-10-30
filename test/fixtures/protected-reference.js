@@ -294,22 +294,32 @@ function xorBytes(data, mutations = []) {
   }
 }
 
+function referenceTargetSymbol(data, group) {
+  let target = 0;
+  for (let bit = 0; bit < 3; bit++) {
+    const index = group * 3 + bit;
+    target = (target << 1) | (index < data.length * 8 ? (data[index >>> 3] >>> (7 - (index & 7))) & 1 : 0);
+  }
+  return target;
+}
+
+function referenceCoverSymbol(rgb, selected, start) {
+  let current = 0;
+  for (let column = 1; column <= 7; column++) {
+    if (rgb[selected[start + column - 1]] & 1) current ^= column;
+  }
+  return current;
+}
+
 function matrixWrite(rgb, selected, start, data, badPadding = false) {
   const groups = Math.ceil(data.length * 8 / 3);
   if (badPadding && data.length * 8 % 3 === 0) {
     throw new RangeError("Reference fixture: this body has no padding to damage");
   }
   for (let group = 0; group < groups; group++) {
-    let target = 0;
-    for (let bit = 0; bit < 3; bit++) {
-      const index = group * 3 + bit;
-      target = (target << 1) | (index < data.length * 8 ? (data[index >>> 3] >>> (7 - (index & 7))) & 1 : 0);
-    }
+    let target = referenceTargetSymbol(data, group);
     if (badPadding && group === groups - 1) target |= 1;
-    let current = 0;
-    for (let column = 1; column <= 7; column++) {
-      if (rgb[selected[start + group * 7 + column - 1]] & 1) current ^= column;
-    }
+    const current = referenceCoverSymbol(rgb, selected, start + group * 7);
     const difference = current ^ target;
     if (difference) rgb[selected[start + group * 7 + difference - 1]] ^= 1;
   }
