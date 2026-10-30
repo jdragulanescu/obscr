@@ -1,3 +1,6 @@
+import { acquireImageOperation, releaseImageOperation } from "../../../lib/image-operation.js";
+export { readImageBytes } from "./readImageBytes.js";
+
 // The worker owns input bytes, admitted samples and all expensive image work.
 // Only small results and completed output blobs cross back to this tab.
 let active = null;
@@ -8,6 +11,8 @@ function run(operation, args, { signal, onProgress } = {}) {
   if (signal?.aborted) return Promise.resolve(cancelled());
   if (active) return Promise.resolve({ ok: false, code: "BUSY", error: "Another image operation is active. Cancel it or wait for it to finish." });
   const id = ++revision;
+  const lease = {};
+  if (!acquireImageOperation(lease)) return Promise.resolve({ ok: false, code: "BUSY", error: "Image resources are in use. Wait for active work to finish, cancel it, or discard the retained preparation." });
   return new Promise((resolve) => {
     let worker;
     let settled = false;
@@ -17,6 +22,7 @@ function run(operation, args, { signal, onProgress } = {}) {
       signal?.removeEventListener("abort", abort);
       worker?.terminate();
       if (active?.id === id) active = null;
+      releaseImageOperation(lease);
       resolve(result);
     };
     const abort = () => finish(cancelled());
@@ -46,18 +52,6 @@ export function admitImage(file, options = {}) {
   return run("admit", { file }, options);
 }
 
-export function embedMessage(file, message, password, options = {}) {
-  const { compress = false, obfuscate = true } = options;
-  return run("embed", { file, message, password, compress, obfuscate }, options);
-}
-
-export function extractMessage(file, password, options = {}) {
-  return run("extract", { file, password }, options);
-}
-
-export function estimateCapacity(file, message, compress = false, options = {}) {
-  return run("capacity", { file, message, compress }, options);
-}
 
 export async function generateImageDiff(originalFile, encodedFile, options = {}) {
   const result = await run("diff", { file: originalFile, secondFile: encodedFile }, options);

@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Before encoding, both apps explain the opaque, noninterlaced RGB/RGBA8 PNG
+  profile, personal-metadata removal, approved rendering-metadata retention and
+  rejection of some otherwise valid PNGs, without claiming concealment.
+- Browser recovery prominently warns that the new format cannot read old images.
+  Browser guidance and CLI help explain that old and plain images can produce
+  the same recovery failure, without diagnosing an individual input.
+- Complete worker-backed protected-image operations in Node and browsers:
+  exact retained preparation, fixed Argon2id/HKDF keys, fresh salt/nonce,
+  authenticated framing, bounded repair and keyed matrix placement.
+- Both apps show original/stored/maximum bytes and actual compression use,
+  with distinct no-frame, empty-only and oversized-message refusals.
 - Shared bounded PNG admission for CLI, browser message operations and comparison
   inputs; raw RGB and opaque RGBA samples are checked without canvas conversion.
 - Cancellable image workers, stale-result suppression, explicit discard confirmation,
@@ -31,13 +42,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reader users are not dropped back to the top of the tab order
 
 ### Fixed
+- Diff admits overlapping image selections one at a time. Replacing or rejecting
+  one selection preserves the other current image; cancellation, Reset and leaving
+  the form stop pending admissions without restoring stale results.
+- Successful Node/browser encoding returns the consumed preparation's exact
+  capacity and metadata summary with the complete PNG, without preparing again.
 - PNG serialization checks rendering values and consistency before output.
 - Refused browser downloads release their temporary URLs and links, report the
   failure and keep the complete result available for another download attempt.
 - Diff allows either input to be replaced during comparison. Reset and task
   navigation confirm discard, stop obsolete work and remove stale preview URLs.
-- Large browser capacity checks no longer exceed engine argument limits during
-  base64 conversion.
+- Failed or obsolete preparations clear prior capacity. Password-only edits
+  retain valid preparation; cancellation releases it without partial output.
+- The ASCII header stays within its own scroll area at enlarged text sizes,
+  without pushing the forms outside the page.
+- Capacity summaries grow with enlarged text instead of overlapping controls.
+- Cancelling PNG admission tells users to choose the image again; later
+  cancellation points offer the available capacity retry.
 - Hash routes are resolved with an own-property check, so inherited keys such as
   `#constructor` or `#__proto__` can no longer be rendered as a component and blank
   the page
@@ -45,10 +66,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   that file emit no preflight under Tailwind v4, leaving it to the UA stylesheet
 
 ### Changed
+- **Breaking format change:** the CLI and PWA now create and recover only the
+  new protected-image format. Legacy envelopes, password-seeded placement,
+  filler controls and compatibility paths have been removed.
+- Guided CLI and browser workflows consume complete authenticated operations
+  while retaining explicit delivery, PNG export/Diff, cancellation and discard controls.
 - CLI prompts require a terminal; scripted calls fail rather than wait for credentials.
   Cancellation and failed operations preserve existing files.
 - PNG input is limited to 16 MiB and 1024×1024, with strict framing, metadata,
-  color-profile and bounded-inflation checks. The hidden-message format is unchanged.
+  color-profile and bounded-inflation checks.
 - Service worker no longer caches `/_vercel/` requests or non-GET requests, so analytics
   beacons always reach the network
 - Service worker cache bumped to `obscr-v1.1.2` so existing installs pick up the new assets

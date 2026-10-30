@@ -1,0 +1,41 @@
+Obscr protected-image Reed-Solomon repair and encoding
+
+Copyright 2007 ZXing authors
+Licensed under Apache License 2.0; see protected-repair.LICENSE.
+Authors: Sean Owen, David Olivier, William Rucklidge, sanfordsquires.
+Polynomial and decoder portions are based on William Rucklidge's C++ implementation.
+
+Upstream: zxing-js/library 0.23.0
+Pinned commit: 1722d0744fb5e8b47aebfbeb2b648e17c95e8595
+https://github.com/zxing-js/library/tree/1722d0744fb5e8b47aebfbeb2b648e17c95e8595/src/core/common/reedsolomon
+
+Recovered from Obscr commit 8fcb9d98753bb023230b263ae6c40340ea32c57d:
+spikes/adaptive-codec/reference/rs.mjs
+spikes/adaptive-codec/reference/vendor/GenericGF.mjs
+spikes/adaptive-codec/reference/vendor/AbstractGenericGF.mjs
+spikes/adaptive-codec/reference/vendor/GenericGFPoly.mjs
+spikes/adaptive-codec/reference/vendor/ReedSolomonDecoder.mjs
+spikes/adaptive-codec/reference/vendor/provenance.json
+spikes/adaptive-codec/reference/vendor/LICENSE
+
+Upstream source SHA-256 values recorded by that pinned provenance file:
+GenericGF.ts: 3caf70025f3f3e2e47b0b67e064efdd1ed56855b9929bff4cc27eb7c65161a55
+AbstractGenericGF.ts: 6d175430caac77da1049e4a52a40000d44ee830a53bd6537a47cd351447801d5
+GenericGFPoly.ts: db399fec2fcf42801abfbbd2115532a1e245b29eba147a8ff99f9563ace88a51
+ReedSolomonDecoder.ts: c5838e86b04bddb3ffb5a1e7c6197f17cd4ce5bd576fb6e60f44d87ec85da3f0
+LICENSE: 849b3ff4527ff587eecc78736b5685bbba7a44b071f3b944da914e832292f6c0
+
+Changes in protected-repair.js:
+- Merge the repair dependency closure into one private ES module.
+- Fix GF(256) to 0x11d, primitive element 2, generator base 0 and 16 parity bytes.
+- Remove generic field selection and unused polynomial methods.
+- Use Uint8Array arithmetic buffers and views for leading-zero removal.
+- Store logarithms at value minus one; field tables each contain 255 entries.
+- Bound array lengths, Euclidean/division iterations and correction count.
+- Reject locations outside the shortened codeword and nonzero residual syndromes.
+- Preserve the input; return a data-only copy with 16 parity bytes removed.
+- Add fixed systematic shortened encoding using the same field and polynomial arithmetic.
+
+The accompanying LICENSE is the full unmodified historical upstream license,
+including its third-party jai-imageio notice. No jai-imageio code is included
+in this port.

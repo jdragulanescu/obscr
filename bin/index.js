@@ -5,7 +5,7 @@ import chalk from "chalk";
 import fs from "node:fs";
 import inquirer from "inquirer";
 import ora from "ora";
-import { encryptMessageToImage, decryptMessageFromImage } from "../lib/steg.js";
+import { prepareImage, encodeImage, decodeImage, discardPreparation } from "../lib/steg.js";
 
 const controller = new AbortController();
 const prompt = inquirer.createPromptModule({ input: process.stdin, output: process.stderr, skipTTYChecks: false });
@@ -16,7 +16,7 @@ let commandExecuted = false;
 if (Object.hasOwn(process.env, "NO_COLOR") || !process.stderr.isTTY) chalk.level = 0;
 const primary = chalk.hex("#B4FA72");
 const cancellation = () => Object.assign(new Error("Operation cancelled. No result was saved."), { code: "CANCELLED" });
-const helpText = "Prompts require terminal stdin and stderr. Keys: Up/Down selects; Enter confirms; Ctrl+C cancels. No scripted secret-input flags. NO_COLOR disables color. Progress goes to stderr; results go to stdout.";
+const helpText = "Prompts require terminal stdin and stderr. Keys: Up/Down selects; Enter confirms; Ctrl+C cancels. No scripted secret-input flags. NO_COLOR disables color. Progress goes to stderr; results go to stdout. This version creates and recovers only the current protected-image format. Earlier protected images are not supported. Old images and plain images can produce the same recovery failure; a failed recovery does not identify which kind of image you selected.";
 
 function terminalText(value, multiline = false) {
   return String(value).replace(/[\u0000-\u001f\u007f-\u009f\u2028-\u202e\u2066-\u2069]/g, (character) => {
@@ -51,6 +51,11 @@ async function ask(questions) {
   const pending = prompt(questions);
   return new Promise((resolve, reject) => {
     const abort = () => {
+      if (pending.ui.answers) {
+        pending.ui.answers.password = null;
+        pending.ui.answers.confirmPassword = null;
+      }
+      pending.ui.rl.line = "";
       pending.ui.close();
       reject(cancellation());
     };
@@ -63,9 +68,21 @@ async function ask(questions) {
   });
 }
 
+function validatePassword(value) {
+  if (!value.length) return "Enter a password.";
+  for (let i = 0; i < value.length; i++) {
+    const code = value.charCodeAt(i);
+    if (code >= 0xd800 && code <= 0xdbff) {
+      const next = value.charCodeAt(++i);
+      if (!(next >= 0xdc00 && next <= 0xdfff)) return "Enter a valid Unicode password.";
+    } else if (code >= 0xdc00 && code <= 0xdfff) return "Enter a valid Unicode password.";
+  }
+  return Buffer.byteLength(value, "utf8") <= 1024 || "Password must be at most 1,024 UTF-8 bytes.";
+}
+
 const passwordQuestion = {
   type: "password", name: "password", message: "Enter password:", mask: "*",
-  validate: (value) => value.length > 0 || "Enter a password.",
+  validate: validatePassword,
 };
 const imageQuestion = {
   type: "input", name: "filename", message: "Path to the PNG image:",
@@ -90,8 +107,12 @@ async function confirmOutput(output) {
 function progressDisplay() {
   const stages = {
     reading: "Reading the image",
-    admitting: "Checking the PNG",
-    processing: "Processing the message",
+    "checking inputs": "Checking inputs",
+    "preparing text/capacity": "Preparing text and capacity",
+    "deriving keys": "Deriving keys",
+    encoding: "Encoding",
+    recovering: "Recovering",
+    "preparing result": "Preparing result",
     saving: "Saving the completed result",
   };
   let stage = stages.reading;
@@ -113,55 +134,82 @@ function progressDisplay() {
 }
 
 function requireSuccess(result) {
-  if (!result.success) throw Object.assign(new Error(result.error), { code: result.code });
+  if (!result.ok) throw Object.assign(new Error(result.error), { code: result.code });
 }
 
-async function encryptCommand(filename, output, compress, message, password) {
-  if (!message || !message.trim()) throw new Error("Message cannot be empty. Enter a message and try again.");
-  await confirmOutput(output);
-  checkCancelled();
-  const progress = progressDisplay();
-  let result;
+async function encryptCommand(filename, output, compress) {
+  let preparation;
+  let credentials;
+  process.stderr.write("Only opaque, noninterlaced RGB/RGBA8 PNGs are supported.\nPersonal metadata is removed; only approved rendering metadata is preserved.\nSome otherwise valid PNGs are rejected.\nMetadata removal does not prove concealment.\n");
+  process.stderr.write("Message editor: save and close the editor to continue. Passwords stay masked.\n");
+  const { message } = await ask({ type: "editor", name: "message", message: "Enter the message in your editor:" });
+  if (message.length === 0) throw new Error("Message cannot be empty. Enter a message and try again.");
   try {
-    result = await encryptMessageToImage(filename, message, password, output, {
-      compress, signal: controller.signal, onProgress: progress.update,
-    });
-  } finally { progress.stop(); }
-  requireSuccess(result);
-  process.stdout.write(`Saved PNG: ${terminalText(result.outputPath)}\n`);
-  process.stdout.write("Supported rendering information was retained.\nPersonal and non-rendering metadata was removed.\nThis does not make the image anonymous.\nRemoved metadata and PNG encoding can still be detected.\nInputs with unsupported color profiles are rejected.\n");
-  if (verbose && !quiet) process.stderr.write(`Capacity used: ${result.capacity.utilization}.\n`);
-}
-
-async function decryptCommand(filename, output, password) {
-  await confirmOutput(output);
-  checkCancelled();
-  const progress = progressDisplay();
-  let result;
-  try {
-    result = await decryptMessageFromImage(filename, password, {
-      outputPath: output || undefined, signal: controller.signal, onProgress: progress.update,
-    });
-  } finally { progress.stop(); }
-  requireSuccess(result);
-  if (result.outputPath) {
-    process.stdout.write(`Saved message: ${terminalText(result.outputPath)}\n`);
-  } else {
-    if (!quiet) process.stderr.write("Recovered message (terminal control characters are escaped):\n");
-    const text = terminalText(result.data, true);
-    process.stdout.write(text + (process.stdout.isTTY && !text.endsWith("\n") ? "\n" : ""));
+    let progress = progressDisplay();
+    let prepared;
+    try {
+      prepared = await prepareImage({ imagePath: filename, message, compress }, {
+        signal: controller.signal, onProgress: progress.update,
+      });
+    } finally { progress.stop(); }
+    requireSuccess(prepared);
+    preparation = prepared.preparation;
+    checkCancelled();
+    process.stderr.write(`Original: ${prepared.originalBytes} bytes; stored: ${prepared.storedBytes} bytes; maximum: ${prepared.maxStoredBytes} bytes.\nCompression used: ${prepared.compressionUsed ? "yes" : "no"}.\n`);
+    process.stderr.write(`${terminalText(prepared.metadataNotice, true)}\n`);
+    if (!prepared.hasFrameCapacity) throw new Error("This image has no protected-message frame capacity. Choose a detailed PNG.");
+    if (prepared.maxStoredBytes === 0) throw new Error("This image can hold only an empty message. Choose a larger detailed PNG.");
+    if (!prepared.fits) throw new Error("The message does not fit this image. Shorten the text, turn on compression, or choose a larger detailed PNG.");
+    credentials = await ask([
+      passwordQuestion,
+      { type: "password", name: "confirmPassword", message: "Confirm password:", mask: "*",
+        validate: (value, answers) => value === answers.password || "Passwords do not match. Enter the same password again." },
+    ]);
+    await confirmOutput(output);
+    checkCancelled();
+    progress = progressDisplay();
+    let result;
+    try {
+      result = await encodeImage({ preparation, password: credentials.password, outputPath: output }, {
+        signal: controller.signal, onProgress: progress.update,
+      });
+    } finally { progress.stop(); }
+    requireSuccess(result);
+    checkCancelled();
+    process.stdout.write(`Saved PNG: ${terminalText(result.outputPath)}\n`);
+    process.stdout.write("Supported rendering information was retained.\nPersonal and non-rendering metadata was removed.\nThis does not make the image anonymous.\nRemoved metadata and PNG encoding can still be detected.\nInputs with unsupported color profiles are rejected.\n");
+  } finally {
+    if (credentials) { credentials.password = null; credentials.confirmPassword = null; }
+    if (preparation) await discardPreparation(preparation);
   }
 }
 
-async function encryptionQuestions() {
-  process.stderr.write("Message editor: save and close the editor to continue. Passwords stay masked.\n");
-  const answers = await ask([
-    { type: "editor", name: "message", message: "Enter the message in your editor:" },
-    passwordQuestion,
-    { type: "password", name: "confirmPassword", message: "Confirm password:", mask: "*" },
-  ]);
-  if (answers.password !== answers.confirmPassword) throw new Error("Passwords do not match. Start again with the same password in both fields.");
-  return answers;
+async function decryptCommand(filename, output) {
+  let credentials;
+  try {
+    credentials = await ask(passwordQuestion);
+    await confirmOutput(output);
+    checkCancelled();
+    const progress = progressDisplay();
+    let result;
+    try {
+      result = await decodeImage({ imagePath: filename, password: credentials.password, outputPath: output || undefined }, {
+        signal: controller.signal, onProgress: progress.update,
+      });
+    } finally { progress.stop(); }
+    requireSuccess(result);
+    checkCancelled();
+    if (result.outputPath) {
+      process.stdout.write(`Saved message: ${terminalText(result.outputPath)}\n`);
+    } else {
+      if (result.message === "") process.stderr.write("Authenticated message recovered: empty text.\n");
+      else if (!quiet) process.stderr.write("Authenticated message recovered (terminal control characters are escaped):\n");
+      const text = terminalText(result.message, true);
+      process.stdout.write(text + (process.stdout.isTTY && !text.endsWith("\n") ? "\n" : ""));
+    }
+  } finally {
+    if (credentials) credentials.password = null;
+  }
 }
 
 function showExamples() {
@@ -187,11 +235,9 @@ async function interactiveMode() {
   const files = await ask([imageQuestion, outputQuestion(action === "encrypt")]);
   if (action === "encrypt") {
     const { compress } = await ask({ type: "confirm", name: "compress", message: "Compress the message?", default: false });
-    const { message, password } = await encryptionQuestions();
-    await encryptCommand(files.filename, files.output, compress, message, password);
+    await encryptCommand(files.filename, files.output, compress);
   } else {
-    const { password } = await ask(passwordQuestion);
-    await decryptCommand(files.filename, files.output, password);
+    await decryptCommand(files.filename, files.output);
   }
 }
 
@@ -211,8 +257,7 @@ try {
       configure(args);
       requireTerminal();
       task("Encrypt");
-      const { message, password } = await encryptionQuestions();
-      await encryptCommand(args.f, args.o, args.c, message, password);
+      await encryptCommand(args.f, args.o, args.c);
     })
     .command("decrypt", "Decrypt and extract a message from an image", (command) => command.options({
       f: { alias: "filename", describe: "Supported PNG input", demandOption: true, type: "string" },
@@ -221,8 +266,7 @@ try {
       configure(args);
       requireTerminal();
       task("Decrypt");
-      const { password } = await ask(passwordQuestion);
-      await decryptCommand(args.f, args.o, password);
+      await decryptCommand(args.f, args.o);
     })
     .command("interactive", "Start the guided workflow", (command) => command.epilog(helpText), async (args) => {
       configure(args);

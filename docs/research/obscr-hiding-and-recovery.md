@@ -2,6 +2,10 @@
 
 **Research date:** 2026-10-13. **Status:** investigation, not a product decision or recovery guarantee. Scope: [Find supported hiding and damage-repair methods](https://github.com/jdragulanescu/obscr/issues/15), within [Harden Obscr security and preserve repeatable attack checks](https://github.com/jdragulanescu/obscr/issues/11).
 
+Historical research: the legacy implementation below was removed by #70.
+Source links use the last pre-cutover tree. Current operations are documented
+in [README](../../README.md#protected-image-operations).
+
 ## TL;DR
 
 - **Treat concealment and recovery as separate objectives.** S-UNIWARD assigns content-sensitive modification costs; syndrome-trellis coding (STC) embeds a message while minimizing those costs. Neither supplies channel error correction or geometric synchronization. They are credible candidates for less detectable embedding in an unchanged pixel grid, not evidence of survival through resizing or JPEG sharing. [UNIWARD §§3–6][uniward] [STC §§III–V][stc-paper]
@@ -14,11 +18,11 @@
 
 This report reads papers, standards, upstream source and license files, and Obscr's existing transport. **No application changes, installs, builds, tests, prototypes, benchmarks, or sharing-path trials were performed.** Library code was inspected, not executed. Archive contents were read in memory; no reference implementation was installed. Version identifiers below are observed releases, manifests or source snapshots, not predictions or claims of latest support. **[INFERENCE]** marks deductions that are not measured Obscr results; trial configurations are proposals.
 
-The current shared [`lib/steg-core.js`](../../lib/steg-core.js) extracts/writes one least-significant bit of each RGB channel, skipping alpha. Nominal capacity is `3 × width × height` bits for its RGBA buffer. `prepare_write_data` permutes positions across the entire capacity; `write_lsb` defaults to filling every unused position with `Math.random()` bits. This is nominal storage capacity, not a statistically safe payload budget.
+The pre-cutover shared [`lib/steg-core.js`](https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/steg-core.js) extracts/writes one least-significant bit of each RGB channel, skipping alpha. Nominal capacity is `3 × width × height` bits for its RGBA buffer. `prepare_write_data` permutes positions across the entire capacity; `write_lsb` defaults to filling every unused position with `Math.random()` bits. This is nominal storage capacity, not a statistically safe payload budget.
 
-Both [`lib/steg.js`](../../lib/steg.js) and the browser's [`app/src/lib/steg.js`](../../app/src/lib/steg.js) decode and encode through `pngjs` and call `str_to_bits(..., 1)` / `bits_to_str(..., 1)`: the copy/majority-vote helpers in [`lib/utils.js`](../../lib/utils.js) provide **no active redundancy** on these paths. The writer appends 24 one-bits; the reader stops at the first byte `255`. This is a terminator, not a protected length or authenticated frame boundary.
+Both legacy adapters decode and encode through `pngjs` and call `str_to_bits(..., 1)` / `bits_to_str(..., 1)`: the copy/majority-vote helpers in [`lib/utils.js`](https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/utils.js) provide **no active redundancy** on these paths. The writer appends 24 one-bits; the reader stops at the first byte `255`. This is a terminator, not a protected length or authenticated frame boundary.
 
-[`lib/crypto.js`](../../lib/crypto.js) encodes an AES-256-GCM envelope as Base64 `salt:nonce:ciphertext:tag[:1]`, with a 32-byte salt, 12-byte nonce and 16-byte tag; optional gzip precedes encryption. A binary FEC path would have to preserve the whole cryptographic envelope and coordinate framing with both adapters. It must not try to repair a UTF-8 string after corrupted bytes have already been interpreted as text. [`package.json`](../../package.json) declares MIT licensing, ESM, `pngjs ^6.0.0`, and distribution of `bin/` and `lib/` only: new WASM/model assets would need an explicit packaging and offline-PWA strategy. These are integration constraints, not changes made here.
+Legacy [`lib/crypto.js`](https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/crypto.js) encodes an AES-256-GCM envelope as Base64 `salt:nonce:ciphertext:tag[:1]`, with a 32-byte salt, 12-byte nonce and 16-byte tag; optional gzip precedes encryption. A binary FEC path would have to preserve the whole cryptographic envelope and coordinate framing with both adapters. It must not try to repair a UTF-8 string after corrupted bytes have already been interpreted as text. At the research date, the package declared MIT licensing, ESM, `pngjs ^6.0.0`, and distribution of `bin/` and `lib/` only: new WASM/model assets would need an explicit packaging and offline-PWA strategy. These were integration constraints, not changes made by this research.
 
 ## 2. Hiding candidates and what their evidence actually supports
 

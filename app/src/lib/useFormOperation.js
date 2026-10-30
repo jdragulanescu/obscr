@@ -23,9 +23,15 @@ export function useFormOperation() {
     setStage(label);
     let result;
     try {
-      result = await action({ signal: controller.signal });
-    } catch {
-      result = { ok: false, error: "The operation failed. Try again or choose another image." };
+      result = await action({
+        signal: controller.signal,
+        onProgress: (next) => {
+          if (current.current === controller && !controller.signal.aborted) setStage(next);
+        },
+      });
+    } catch (error) {
+      const publicReadError = ["INPUT_INVALID", "PNG_LIMIT", "READ_FAILED"].includes(error.code);
+      result = { ok: false, code: publicReadError ? error.code : "WORKER_FAILED", error: publicReadError ? error.message : "The operation failed. Try again or choose another image." };
     }
     if (current.current !== controller || controller.signal.aborted) {
       disposeComparison(result);
