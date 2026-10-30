@@ -1,8 +1,136 @@
 # Protected-image acceptance evidence (#71)
 
-## Released acceptance pass — current reconciliation, not a final verdict
+## Current acceptance disposition
 
-This addendum is the **in-progress released #71 pass**, following the approval/release recorded in `/tmp/obscr-46-comments.md` (2026-10-28 closeout; [release disposition](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6477369774)). Proof-only failures 2, 3, 4 and 6 remain acceptance-owned; code fixes 1 and 5 belong to #73/#74. Release of the acceptance ticket is not a passing acceptance result, merge approval or release authorization.
+**Acceptance fails.** The released production candidate is
+`a3a21178e63a144700adc47c65d29f49c41bf93b`. No production change was made during
+this acceptance run. Independent whole-feature review uses fixed point
+`4c8f7c5d1e2ca9ac37810cc74a997f4819309736` and initial endpoint
+`9f6bd17bc903469b7c1f4f5e5b2a9f60cf0cbfd8`. The [numbered failure disposition
+on #71](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6523048211)
+returns missing requirements to `/to-tickets 46` rather than patching them here.
+
+- **Failure7 — pre-encode PNG/metadata disclosure.** Application D4 requires the
+  bounded opaque, noninterlaced RGB/RGBA8 profile, personal stripping, approved
+  rendering retention and otherwise-valid-PNG rejection notice before encoding.
+  The actual CLI publishes output before its fuller notice. The browser already
+  displays metadata/opaque-RGB(A)/numeric-limit guidance, but not the full
+  supported-profile/rejection explanation. This is not deferred P3 password UI.
+- **Failure8 — format-break/help guidance.** The browser lacks the prominent
+  current-format-only/cannot-read-old-images warning and plain/old common-failure
+  help. CLI help has the first warning, but lacks the shared-failure explanation.
+  Correct generic failure for an old image is not user guidance.
+- **Continuing failure6 — remaining observations.** A genuine long wait with a
+  delayed visible spinner and keyboard scrolling in the exact final
+  all-controls-doubled 320px dialog state remain unobserved. The new runtime
+  negative/resource proofs pass; no device or product failure is inferred from
+  an unobserved timing case. The fresh walk's failed/skipped harness attempts
+  remain explicitly recorded, not rewritten into passes.
+
+Human7 remains the user's contrast/focus-quality/tone judgment. Physical-device,
+security/audit, publication and downstream gates remain separate and unapproved.
+The earlier failures1–6 and historical observations below are preserved. The
+initial audit's open-clause counts are not the current count after the following
+fresh observations. Current grouped overrides apply to every cited stable ID;
+they do not imply blanket PASS for a partial combined clause.
+
+## Fresh browser/TUI walkthrough disposition
+
+[Full verbatim skill reports and representative uploaded
+captures](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6523024943)
+are on #71. The full local evidence bundle is
+`/tmp/obscr-71-released-evidence/`: `manifest.json`, `evidence-index.md`,
+`scenario-index.json`, `browser-report.txt`, `tui-report.txt`, public inputs,
+PNG/text downloads, 102 final width/text captures, short/long timing attempts
+and all original failed harness logs. No historical output was reused as fresh.
+The walk changed no tracked files or production hooks. Its final environment
+capture was taken at tests-only HEAD28d84fd; all production matches a3a2117.
+
+| Released scenario | Current direct observation | Disposition / limitation |
+| --- | --- | --- |
+| Empty/current capacity | No initial claim; compression off; raw35/35/512, gzip2560/74/512; message/image/compression changes; password-only preparation preservation and output invalidation | PASS recorded actions; historical reload failures unchanged |
+| Refusals | Distinct no-frame, empty-only and513-byte oversize messages; encode disabled | PASS |
+| Actual CLI ↔ PWA exchange | Guided CLI external editor and real browser downloads, raw/gzip both ways; four byte comparisons independently rechecked by acceptance owner | PASS supplementary observations; initial stale-prompt failures retained |
+| Independent decode | Raw/gzip/empty/eight-symbol damage exact downloads; wrong/plain/legacy/altered-tag/nine-symbol damage common failure; malformed PNG distinct; no partial output | PASS; BOM/CRLF recovery is not a future P4 file-input claim |
+| Cancellation/restart | Actual browser preparation/KDF/recovery Cancel; retained editable inputs, cleared password, no late download, successful fresh work; guided CLI real KDF Ctrl+C/no output and fresh decode | PASS named observations; failed decoder-cancellation pane capture not claimed complete |
+| Clear/navigation/keyboard/locks | Clear/Stay focus restoration, Switch and clear/tab discard, result headings, every listed control traversed/activated, actual-work locks | PASS recorded actions; detached later-cleanup Cancel attempts remain FAIL |
+| Width/text |17 states ×320/768/1440px ×1x/2x; final2x font ratios measured before/after including controls | Static102-combination matrix captured; initial typography failures preserved; exact final2x-dialog keyboard-scroll variant UNMET |
+| Diff/export/sentinels | Second actual selection during first pending admission; visual-only comparison; cHRM/gAMA/sRGB bytes retained, named personal/nonrendering chunks removed; failure/cancel sentinel retained | PASS; not a sequential substitute for #74 |
+| Spinner | Visible35.8ms real preparation recording shows no flash; page-throttle20 encode/decode still has displayed stages under1s | Short PASS; genuine long-wait visible-spinner requirement UNMET, not a product defect or device measurement |
+| Terminal dimensions/safety |80×24 and120×40 NO_COLOR long path/text; escaped ESC/TAB/CR/BEL/bidi; non-TTY refusal; help/keys | PASS supplementary observations; initial prompt/pane/scrollback failures retained |
+| Password bound | Actual input contains1025 ASCII bytes; exact bound error; password cleared, no download or truncation | PASS; closes M02's fresh browser observation |
+| Disclosure/help | G-PWA-PNG/G-CLI-PNG and G-PWA-OLD/G-CLI-OLD | FAIL; concrete requirements7/8, not aesthetic judgments |
+
+Browser Console/Errors/Failed requests lists are empty. The short visible video
+includes status/Cancel and a >1s completion tail; earlier clipped videos are not
+sufficient visual proof. `matrix-stable-text.json` is the definitive2x run;
+transition/reset failures in `matrix-exact-text.json` remain intact. All four
+exchange SHA-256 values were checked against actual downloaded files.
+
+### Current stable-ID overrides of the initial audit
+
+- M01/K-L049-02 and M07/S-L109-01's active KDF/compression intervals: the28d84fd
+  proof table below applies. Both exact observations PASS; source-only or phase-
+  only limitations are not incorrectly attributed to the new observers.
+- M02/K-L049-04: actual PASSWORD-1025 plus CLI T04 now establishes the missing
+  bound-error observation on both apps. PASS for that obligation, not broad P3.
+- M03/A-L083-01..04: source and actual guidance observations agree on failure7.
+  Browser metadata stripping/retention notice is present; it is not all absent.
+- M04/A-L089-02..03: source and actual guidance agree on failure8. CLI's existing
+  current-format warning passes its constituent, not the missing common-help one.
+- M05/S-L081-02..03: real short no-flash constituent PASS; real delayed visible
+  long-spinner constituent UNMET. Fake timers do not supply the missing case.
+- M06/S-L077-01..06 and S-L078-01:102 static combinations and listed keyboard
+  actions captured; exact final all-controls-doubled dialog keyboard scrolling
+  remains UNMET. No visual-quality or screen-reader-device approval is inferred.
+- M08 and historical failures4/5: fresh current-preparation/restart and exact
+  overlapping Diff/export flows now observed successfully. Initial failure logs
+  remain FAIL. The complete strict walkthrough still reports failed/incomplete;
+  formal review dispositions are below, not an awaited result.
+
+The caller-owned Vite process was stopped after the last HTTP200 check. Walker
+browser/tmux sessions were already closed. No unrelated process was stopped.
+
+## Review ledger
+
+| Origin / finding | Root cause / disposition | Repair or remaining action |
+| --- | --- | --- |
+| Standards1 | Fixture `positions()` complexity16 >15; `fix` | Test-only independent helper decomposition; final verification below |
+| Standards2 | Fixture `matrixWrite()` complexity18 >15; `fix` | Test-only target/current-symbol helpers; final verification below |
+| Spec1 | Required disclosure too late/incomplete; `ticket` | Failure7 → `/to-tickets 46`; no production patch |
+| Spec2 | Browser format-break/common-failure help absent; `ticket` | Failure8 → `/to-tickets 46`; actual CLI help adds its narrower common-help omission |
+| Spec3 | Mandatory real-screen/timing proof incomplete; `ticket` | Continuing failure6; no invented long-wait/final-dialog observation |
+| Security |0 concrete exploitable findings | Not an independent release audit or device/stealth approval |
+| Walk harness | Stale prompt, pane loss, detached Cancel, typography transitions/reset | Original failed steps retained; supplementary observations mapped above; no invented product cause |
+| (user) Duration | User challenged the approximately47-minute walk; owner did not bound repeated harness repair/checkpoint sooner | Walker told to stop expanding and return partial evidence; no exhaustive restart |
+
+Failure7/8 should have been caught by the CLI/browser implementation Verify and
+Spec review: the incorporated D4 disclosures were incorrectly treated as deferred
+P3 guidance or omitted from the actual pre-encode/help check. This is a documented
+requirement breach, not a new discretionary coding rule. Proposed global
+workflow guard: check the actual pre-action notice/help against each incorporated
+contract clause before a ticket's Spec review. No global file is edited here.
+Remaining failure6's assembled real-screen/runtime proof is acceptance-owned;
+acceptance was the right place to find an unobserved genuine long operation.
+
+### Global workflow suggestion
+
+Timebox/checkpoint walkthrough harness repair and ask before restarting a large
+matrix. This run supplies one specific duration example (about47minutes);
+Optional, not a claim of recurrence across two runs. It belongs in the global
+implement/browser-check/tui-check workflow, not a repo lesson rule. Existing
+complexity standards already cover both fixture findings, so no redundant rule
+is added for them. No global skill or agent instruction was edited.
+
+### Final verification / review closure
+
+Standards repairs and final targeted/full verification are pending here. The
+unchanged production candidate already built; these test refactors do not alter
+the PWA artifact. Acceptance remains failed regardless of style repair.
+
+## Released acceptance pass — initial reconciliation (historical audit trail)
+
+The following addendum records the **initial in-progress released #71 pass**, following the approval/release recorded in `/tmp/obscr-46-comments.md` (2026-10-28 closeout; [release disposition](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6477369774)). Proof-only failures 2, 3, 4 and 6 remain acceptance-owned; code fixes 1 and 5 belong to #73/#74. Release of the acceptance ticket is not a passing acceptance result, merge approval or release authorization.
 
 - Current production candidate: **`a3a21178e63a144700adc47c65d29f49c41bf93b`**. Whole-feature fixed point: **`4c8f7c5d1e2ca9ac37810cc74a997f4819309736`**, the earliest implementation base, not an acceptance-only diff. Current tests-only candidate: **`7f3b2d45c4e3355b1be317a97cd716480ef3c0bf`**, following the five-file proof/fixture addition `a2ad2124bfa640d958a7a53f6380b0bdc5aaf155`. Production paths match a3a2117; the later28d84fd proof revision is recorded below. This is an acceptance evidence document, not a release verdict.
 - **Current completed automated results, supplied by the acceptance owner:** the [posted automated proof](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6522357908) records the final exact test bytes at 7f3b2d4. Named integration: **6 tests passed, 45.686 s**. Full `npm test`: **563 tests / 23 suites passed, 291.378 s**. Separate new proof-unit run: **2 tests passed, 6.16 s**. PWA build: **passed, 1.72 s**, retaining bundle-size/Browserslist/outDir warnings. Typecheck, lint, format, mutation and e2e: configured **none**. These are owner-run results, not tests executed by this document task. They do not make unsupported clause mappings pass.
@@ -90,7 +218,7 @@ These keys expand precise evidence rather than conferring a blanket pass. Histor
 | REVIEW-APP | S Ownership/Moduleflow/Cutover; `lib/steg.js:19–64,72–114,161–230`, `lib/protected-transport.js:39–165`, Node/browser worker entry points, `app/src/components/EncryptForm.jsx:1–131`, `DecryptForm.jsx:1–71`, `App.jsx:21–127`. Forms/CLI consume complete operations; bounded source reads precede fullbuffer allocation; native adapters implement crypto, not framing. No derive fallback/mainthreadcodec/algorithmoverride/secretstorage API is added. `bin/index.js:19–40,139–245` safe text/TTY/stages/editor/result paths, not P4's future no-clobber/stdout route. Source review is limited to named code paths, not network/cache audit or formal review-round completion. |
 | REVIEW-HISTORY | `git log 4c8f7c5d1e2ca9ac37810cc74a997f4819309736..a3a21178e63a144700adc47c65d29f49c41bf93b`: preparation8540b1e, recoverya89f05a, encodingb037ddf, jointcutover0040cca then acceptance544f774; later summaryb458fb7 and overlappingDiffdcfa356. Current production has no legacycrypto/carrier fallback; README current preparation/encode/recovery/examples and next changelog describe new contract. Historical changelog text remains historical. This checks sequence/source ownership, not a fresh formal whole-feature review. |
 
-### Current unresolved mandatory feature observations
+### Initially unresolved mandatory feature observations
 
 The initial audit identified18 clauses in seven reasons. The latest proof revision above closes M01/M07, leaving **16 directly identified missing mandatory source clauses** in M02–M06, plus pending execution gates. The original diagnostic reasons below remain as the audit trail, with those two explicit resolutions. Repeated/enclosing coverage/scenario/story clauses in the mapping remain explicitly partial; they are not counted as additional distinct missing behaviors. Automated targeted/full-suite/build gates are now recorded above; fresh real-program observations and formal whole-feature review remain pending. Release/downstream rows and the three Human7 rows are not hidden inside the eighteen.
 
