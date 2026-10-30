@@ -1,7 +1,9 @@
 import { jest, beforeAll, beforeEach, afterEach, afterAll, describe, test, expect } from "@jest/globals";
 import { JSDOM } from "jsdom";
 import React, { act } from "react";
-import { downloadBlob as browserDownload } from "../../app/src/lib/steg.js";
+import { downloadBlob as browserDownload, admitImage as realAdmitImage, generateImageDiff as realGenerateImageDiff } from "../../app/src/lib/steg.js";
+import { Worker as NodeWorker } from "node:worker_threads";
+import { PNG } from "pngjs";
 
 const adapter = {
   admitImage: jest.fn(),
@@ -102,8 +104,7 @@ async function type(selector, value) {
     node.dispatchEvent(new Event("input", { bubbles: true }));
   });
 }
-async function pick(name, index = 0) {
-  const file = new dom.window.File(["test input"], name, { type: "image/png" });
+async function pick(name, index = 0, file = new dom.window.File(["test input"], name, { type: "image/png" })) {
   const input = container.querySelectorAll('input[type="file"]')[index];
   await act(async () => {
     Object.defineProperty(input, "files", { configurable: true, value: [file] });
@@ -480,6 +481,220 @@ describe("real browser components", () => {
     expect(container.textContent).toContain("Cancelled. Your image is kept.");
     expect(button("Decrypt & Extract").disabled).toBe(true);
   });
+
+  test.each([0, 1])("overlapping Diff selections starting in slot %i admit serially and compare the current pair", async (index) => {
+    await render(ImageDiffForm);
+    const names = ["original.png", "comparison.png"];
+    const first = await pick(names[index], index);
+    await pick(names[1 - index], 1 - index);
+    expect(first.signal.aborted).toBe(false);
+    expect(calls).toHaveLength(1);
+    expect(button("Generate Diff").disabled).toBe(true);
+    await reply(first, { ok: true, width: 8, height: 8 });
+    const second = calls.at(-1);
+    expect(second.args[0].name).toBe(names[1 - index]);
+    await reply(second, { ok: true, width: 8, height: 8 });
+    expect(button("Generate Diff").disabled).toBe(false);
+    const comparison = await submit();
+    expect(comparison.args.slice(0, 2).map(file => file.name)).toEqual(["original.png", "comparison.png"]);
+    await reply(comparison, preview());
+    expect(container.querySelectorAll("img")).toHaveLength(3);
+  });
+
+  test("replacing an admitted slot leaves the other pending admission usable", async () => {
+    await render(ImageDiffForm);
+    const first = await pick("original.png", 0);
+    await pick("comparison.png", 1);
+    await reply(first, { ok: true, width: 8, height: 8 });
+    const second = calls.at(-1);
+    await pick("replacement.png", 0);
+    expect(second.signal.aborted).toBe(false);
+    await reply(second, { ok: true, width: 8, height: 8 });
+    const replacement = calls.at(-1);
+    expect(replacement.args[0].name).toBe("replacement.png");
+    await reply(replacement, { ok: true, width: 8, height: 8 });
+    expect(button("Generate Diff").disabled).toBe(false);
+    expect((await submit()).args.slice(0, 2).map(file => file.name)).toEqual(["replacement.png", "comparison.png"]);
+  });
+
+  test.each([0, 1])("rapid replacements in slot %i preserve the other current admission", async (index) => {
+    await render(ImageDiffForm);
+    const first = await pick("original.png", 0);
+    await pick("comparison.png", 1);
+    const obsolete = [];
+    for (let n = 0; n < 12; n++) {
+      const previous = calls.at(-1);
+      await pick(`replacement-${n}.png`, index);
+      if (previous.signal.aborted) obsolete.push(previous);
+    }
+    expect(first.signal.aborted).toBe(index === 0);
+    expect(calls.filter(call => !call.signal.aborted)).toHaveLength(1);
+    const active = calls.at(-1);
+    for (const old of obsolete) await reply(old, { ok: true, width: 99, height: 99 });
+    expect(button("Generate Diff").disabled).toBe(true);
+    await reply(active, { ok: true, width: 8, height: 8 });
+    const remaining = calls.at(-1);
+    expect(remaining.args[0].name).toBe(index === 0 ? "comparison.png" : "replacement-11.png");
+    await reply(remaining, { ok: true, width: 8, height: 8 });
+    expect(button("Generate Diff").disabled).toBe(false);
+    const compared = await submit();
+    expect(compared.args.slice(0, 2).map(file => file.name)).toEqual(
+      index === 0 ? ["replacement-11.png", "comparison.png"] : ["original.png", "replacement-11.png"],
+    );
+    await reply(compared, preview());
+    expect(container.querySelectorAll("img")).toHaveLength(3);
+  });
+
+  test.each(["cancel", "reset", "leave", "unmount"])("%s stops both overlapping admissions and permits a fresh pair", async (ending) => {
+    await render(App);
+    await click(container.querySelector("#task-diff"));
+    const first = await pick("old-original.png", 0);
+    await pick("old-comparison.png", 1);
+    if (ending === "cancel") await click(button("Cancel"));
+    else if (ending === "unmount") {
+      await act(async () => root.unmount());
+      root = null;
+    } else {
+      const trigger = ending === "reset" ? button("Reset") : container.querySelector("#task-decrypt");
+      await click(trigger);
+      await click(button("Stay"));
+      expect(first.signal.aborted).toBe(false);
+      expect(document.activeElement).toBe(trigger);
+      await click(trigger);
+      await click(button("Switch and clear"));
+    }
+    expect(first.signal.aborted).toBe(true);
+    await reply(first, { ok: true, width: 99, height: 99 });
+    expect(calls).toHaveLength(1);
+    expect(container.querySelector("img")).toBeNull();
+    if (ending === "unmount") {
+      root = createRoot(container);
+      await render(ImageDiffForm);
+    } else if (ending === "leave") await click(container.querySelector("#task-diff"));
+    expect(button("Generate Diff").disabled).toBe(true);
+    const next = await pick("new-original.png", 0);
+    await pick("new-comparison.png", 1);
+    await reply(next, { ok: true, width: 8, height: 8 });
+    await reply(calls.at(-1), { ok: true, width: 8, height: 8 });
+    expect(button("Generate Diff").disabled).toBe(false);
+    expect((await submit()).args.slice(0, 2).map(file => file.name)).toEqual(["new-original.png", "new-comparison.png"]);
+  });
+
+  test.each([
+    [0, "PNG_INVALID", "Malformed PNG."],
+    [1, "PNG_UNSUPPORTED", "Transparent PNG is not supported."],
+    [1, "PNG_LIMIT", "PNG dimensions exceed the limit."],
+    [1, "WORKER_FAILED", "Image processing stopped. Select the image again and retry."],
+  ])("overlapping slot %i failure %s retains the other image for correction", async (index, code, error) => {
+    await render(ImageDiffForm);
+    const first = await pick("original.png", 0);
+    await pick("comparison.png", 1);
+    const good = { ok: true, width: 1024, height: 1024 };
+    const bad = { ok: false, code, error };
+    await reply(first, index === 0 ? bad : good);
+    await reply(calls.at(-1), index === 1 ? bad : good);
+    const fields = container.querySelectorAll(".field");
+    expect(fields[index].textContent).toContain(error);
+    expect(fields[1 - index].querySelector('[role="alert"]')).toBeNull();
+    expect(button("Generate Diff").disabled).toBe(true);
+    const corrected = await pick("corrected.png", index);
+    await reply(corrected, good);
+    expect(button("Generate Diff").disabled).toBe(false);
+    const comparison = await submit();
+    await reply(comparison, { ok: false, code: "PREVIEW_FAILED", error: "Could not show the visual comparison. Try again." });
+    expect(container.querySelector("img")).toBeNull();
+    expect(button("Generate Diff").disabled).toBe(false);
+    await reply(await submit(), preview());
+    expect(container.querySelectorAll("img")).toHaveLength(3);
+  });
+
+  test("overlapping form requests pass the real PNG gate at maximum dimensions and recover from rejected inputs", async () => {
+    jest.useRealTimers();
+    const savedWorker = globalThis.Worker;
+    const terminations = [];
+    globalThis.Worker = class {
+      constructor(url) {
+        this.worker = new NodeWorker(`
+          const { parentPort } = require("node:worker_threads");
+          globalThis.self = { postMessage: data => parentPort.postMessage(data) };
+          import(${JSON.stringify(url.href)}).then(() => {
+            parentPort.on("message", data => self.onmessage({ data }));
+            parentPort.postMessage({ ready: true });
+          });
+        `, { eval: true });
+        this.worker.on("message", data => {
+          if (data.ready) { this.ready = true; this.worker.postMessage(this.request); }
+          else this.onmessage({ data });
+        });
+        this.worker.on("error", () => this.onerror({ preventDefault() {} }));
+      }
+      postMessage(request) {
+        this.request = request;
+        if (this.ready) this.worker.postMessage(request);
+      }
+      terminate() { terminations.push(this.worker.terminate()); }
+    };
+    for (const [name, real] of [["admitImage", realAdmitImage], ["generateImageDiff", realGenerateImageDiff]]) {
+      adapter[name].mockImplementation((...args) => {
+        const promise = real(...args);
+        calls.push({ name, args, promise });
+        return promise;
+      });
+    }
+    const image = (name, width = 1024, alpha = 255) => {
+      const png = new PNG({ width, height: 1024 });
+      png.data.fill(255);
+      png.data[3] = alpha;
+      return new File([PNG.sync.write(png, { filterType: 0, deflateLevel: 1 })], name, { type: "image/png" });
+    };
+    const settle = async () => {
+      let result;
+      await act(async () => { result = await calls.at(-1).promise; });
+      return result;
+    };
+    try {
+      await render(ImageDiffForm);
+      await pick("maximum-a.png", 0, image("maximum-a.png"));
+      await pick("maximum-b.png", 1, image("maximum-b.png"));
+      expect(calls).toHaveLength(1);
+      expect(await settle()).toMatchObject({ ok: true, width: 1024, height: 1024 });
+      expect(await settle()).toMatchObject({ ok: true, width: 1024, height: 1024 });
+      expect(button("Generate Diff").disabled).toBe(false);
+      await submit();
+      expect(await settle()).toMatchObject({ ok: true, changedPixels: 0, totalPixels: 1048576 });
+      expect(container.querySelectorAll("img")).toHaveLength(3);
+      for (const [file, code] of [
+        [new File(["not PNG"], "malformed.png"), "PNG_INVALID"],
+        [image("transparent.png", 1024, 254), "PNG_UNSUPPORTED"],
+        [image("too-wide.png", 1025), "PNG_LIMIT"],
+      ]) {
+        await pick(file.name, 0, file);
+        await pick("retained.png", 1, image("retained.png"));
+        const failed = await settle();
+        expect(failed).toMatchObject({ ok: false, code });
+        expect(await settle()).toMatchObject({ ok: true });
+        expect(container.querySelectorAll(".field")[0].textContent).toContain(failed.error);
+        expect(container.querySelector("img")).toBeNull();
+        expect(button("Generate Diff").disabled).toBe(true);
+      }
+      await pick("unequal.png", 0, image("unequal.png", 1023));
+      expect(await settle()).toMatchObject({ ok: true });
+      expect(button("Generate Diff").disabled).toBe(true);
+      expect(container.textContent).toContain("different dimensions");
+      await pick("corrected.png", 0, image("corrected.png"));
+      expect(await settle()).toMatchObject({ ok: true });
+      expect(button("Generate Diff").disabled).toBe(false);
+      await submit();
+      expect(await settle()).toMatchObject({ ok: true, changedPixels: 0, totalPixels: 1048576 });
+      expect(container.querySelectorAll("img")).toHaveLength(3);
+    } finally {
+      await act(async () => root.unmount());
+      root = null;
+      await Promise.all(terminations);
+      globalThis.Worker = savedWorker;
+      for (const [url] of URL.revokeObjectURL.mock.calls) savedRevoke.value(url);
+    }
+  }, 30000);
 
   test.each(["cancel", "unmount"])("%s aborts pending comparison and disposes all late preview URLs", async (ending) => {
     await render(ImageDiffForm);
