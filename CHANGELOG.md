@@ -36,6 +36,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reader users are not dropped back to the top of the tab order
 
 ### Fixed
+- Diff admits overlapping image selections one at a time. Replacing or rejecting
+  one selection preserves the other current image; cancellation, Reset and leaving
+  the form stop pending admissions without restoring stale results.
 - Successful Node/browser encoding returns the consumed preparation's exact
   capacity and metadata summary with the complete PNG, without preparing again.
 - PNG serialization checks rendering values and consistency before output.
