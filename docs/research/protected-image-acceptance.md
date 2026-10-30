@@ -124,9 +124,27 @@ is added for them. No global skill or agent instruction was edited.
 
 ### Final verification / review closure
 
-Standards repairs and final targeted/full verification are pending here. The
-unchanged production candidate already built; these test refactors do not alter
-the PWA artifact. Acceptance remains failed regardless of style repair.
+Standards1 is fixed in `050952b49fa51e325278172af870ca7ca9d0a571`;
+Standards2 in `4d6a8d373ce86b697545a07c7808af5c0ecfaf32`. All74 independent
+fixture PNG SHA-256s match before/after each refactor, including all64 physical
+shortened-tag cases. The three manifests in `/tmp/obscr-71-standards.PEOEVh/`
+each hash to `b6946f12a1962d6f4e7846a7071ce4ba75774632e717a8497d86345cba774626`.
+Only test helpers moved: no production import, changed fixture output or format.
+Older fixture line ranges/digests below remain pinned to their stated revision.
+
+On final code4d6a8d3, named assembled integration passed **6 tests/42.635s**;
+full `npm test` passed **568 tests/24 suites/272.418s**. On document endpoint
+`d5b67390206632c2aba02e567ebfa81bba22b39d`, required PWA build passed **1.68s**
+with existing outDir/Browserslist/bundle warnings. Fresh independent round2
+reviewed only9f6bd17..d5b6739: **Standards0, Spec0 new, Security0**. Both
+standards findings are verified fixed; three original Spec findings retain their
+`ticket` dispositions. Loop clean means no remaining `fix` finding, not acceptance
+PASS. Nothing is declined or left at the round limit. Typecheck, lint, format,
+mutation and e2e remain configured none; no by-hand CI command exists.
+
+Acceptance remains failed; no Human7 hand-over/ready PR/release claim is made.
+The failure closeout merges this evidence/test work into the spec branch only;
+it does not merge PR#72 into main.
 
 ## Released acceptance pass — initial reconciliation (historical audit trail)
 
