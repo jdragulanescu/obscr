@@ -1,24 +1,72 @@
-# Protected-image acceptance evidence (#71)
+# Protected-image acceptance evidence — #71 / #46
 
-## Recheck after guidance slice #75 — in progress
+## Post-guidance acceptance recheck — 2026-10-31
 
-This is a new acceptance run, not a reinterpretation of the historical failures
-below. Candidate production and tests are `e4610c3bd84e0f1c28829df4b12dac10b8ab4626`
-(the merged #75 guidance); the claim-only endpoint is `d991646`. The whole-feature
-base remains `4c8f7c5d1e2ca9ac37810cc74a997f4819309736`, the earliest implementation
-base. `origin/main` is already included. All seven implementation blockers are
-closed. The newest [release disposition](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6525064257)
-retains genuine long-operation spinner and fully doubled 320px dialog keyboard
-scrolling proof on this ticket. Fresh automated gates, focused real-program
-observations and an independent whole-feature review are in progress.
+**Verdict: FAIL / continuing failure6 and fresh verification failures9–12.** This run does not authorize merge or release. The candidate's production/tests/dependencies/worker build configuration are byte-identical to `e4610c3bd84e0f1c28829df4b12dac10b8ab4626` (merged #75). The whole-feature fixed point is `4c8f7c5d1e2ca9ac37810cc74a997f4819309736`, the earliest implementation base. The default branch was already included. Claim endpoint `d991646` and review endpoint `009027a` add only tracker/evidence commits. All seven blockers are closed. Human 7 remains THEIRS; downstream, physical-device, security/artifact/license/attack/detection and publication gates remain unapproved.
 
-No passing acceptance verdict, Human 7 judgment, merge or release authorization
-is implied. The previous disposition and every failed/skipped observation below
-remain historical records for their named candidates. New artifacts are kept
-separately in `/tmp/obscr71-final-recheck/`, never reused as fresh old outputs.
+### Exact automated gates and preserved proof identity
 
+The prescribed commands each passed once, without retries or changed test deadlines:
 
-## Current acceptance disposition
+| Check | Exact result |
+| --- | --- |
+| `npm test` | 577 tests / 24 suites, 263.768 s Jest time (264.272 s wall) |
+| `npm test -- test/integration/protected-image.test.js` | 6 tests / 1 suite, 36.891 s Jest time (37.371 s wall) |
+| `npm run build` | passed, 1.48 s Vite time (1.736 s wall); existing outDir/Browserslist/large-chunk warnings |
+| Typecheck, lint, format, mutation, e2e, by-hand test CI | configured none; no draft PR checks reported |
+
+The command/exit/timing records and before/after tracked-file manifests are in `/tmp/obscr71-final-recheck/acceptance-d991646/`. HEAD advanced from d991646 to009027a while the commands ran; `identity-check.json` proves only this evidence document changed. The seven independent/negative/resource/cancellation/assembled proof source files are byte-identical to64b3fee (`preserved-proof-identities.json`). Their current execution is the 577-test run; their exact fixture/assertion identities remain those catalogued below. No new executable test was necessary: the remaining prescribed observation is actual screen/timing proof, not a missing unit seam. No fake timer, artificial delay, production hook or self-roundtrip replaces independent full-PNG evidence.
+
+All five incorporated contracts and #46's body still have the exact recorded SHA-256s (`normative-source-identities.json`). Every one of the865 historical UNMET clause rows is explicitly present in the stable-ID reconciliation; `normative-index-integrity.json` records865/865 and zero omissions. This checks index completeness, not success. The872-row original audit (865 clauses plus seven gap rows), historical body and every old failed/skipped attempt remain unchanged. Apply the following new observations only to their named constituents; combined requirements retain any UNMET/THEIRS/DOWNSTREAM/RELEASE constituent.
+
+### Current stable-ID overrides
+
+- M01/K-L049-02; M07/S-L109-01: exact real-Argon-zero and four active-call KDF/compression cancellation assertions rerun successfully in the full suite. Allocation/attempt/continuous-stream and every physical shortened tag0..15 proof also rerun. These remain application-owned bounds/observed call intervals, not portable Map-byte/RSS/device or release-security evidence.
+- M03/A-L083-01..04 and M04/A-L089-02..03: #75 source and component/real-CLI gate assertions pass; fresh browser initial/prepared disclosures, prominent old-format warning and full common-failure help observed. Four actual CLI help commands pass their required clauses; actual non-TTY recovery exits1 without prompt/stdout. Actual guided creation also shows all policy lines before editor launch and summary/metadata before password at80×24 and120×40. The owner opened both representative terminal images. CLI help at both sizes includes all current-format/common-failure clauses. These obligations of failures7/8 now PASS at the current candidate; prior failed observations remain historical.
+- M05/S-L081-02..03: fresh actual short preparation has no spinner flash. Two bounded real operations completed without any stage reaching1000ms or showing a spinner, despite page20x CPU throttling; worker effect is not assumed. The encode used maximum1024-square RGBA and512 stored bytes; the decode used the fresh640-square gzip output, not maximum geometry. Genuine-long-stage delayed-visible-spinner remains UNMET. This is an observation limitation, not a diagnosed product spinner defect, wall-clock/device claim, or permission for fake work/delay.
+- M06/S-L077-01..06 and S-L078-01: exact native keyboard geometry proves dialog scroll0→333 at320x900, 76 visible element font ratios2 before/after and both action buttons24px; Stay restores Clear and Switch and clear empties the form. Owner inspection found the initial video begins after the scroll and full-page screenshot calls distort later frames; that attempt remains inadequate. A separate viewport-only supplementary recording holds the unscrolled view800ms and the actual native-Tab scrolled view1250ms. The owner opened its extracted first/scrolled frames: actual before→after motion is now proved, both actions reachable. This exact remaining constituent now PASS; it is not Human7 quality approval. Earlier102-state and #75's30 changed-guidance combinations retain their named candidate/scope, not a newly rerun matrix or Human7 quality approval.
+- M08 execution gates: all three commands and one independent whole-feature review round passed; Standards0, Spec0 new, Security0. The review is not the independent release audit. Fresh PWA→guided-CLI raw/gzip downloads match35/2560-byte source files exactly; owner reran `cmp` for both and post-cancellation recovery. Fresh guided-CLI→PWA raw/gzip downloads also match those35/2560-byte sources exactly. Correct-credential actual-browser reference raw/gzip/empty/damage8 downloads match39/2500/0/15 bytes and altered/damage9 refuse with no download/cleared password. No self-roundtrip replaces this independent evidence. The three walkthroughs still have strict failed/skipped automation steps; they are not a collective passing walk.
+
+### First focused walkthrough and caller diagnostics
+
+The ten-minute first browser report is preserved verbatim at `/tmp/obscr71-final-recheck/browser/report.txt`, with `results.json`, exact source/worker identity, input/artifact hashes, screenshots and four videos. Real current preparation/refusal/guidance, raw/gzip creation, result comparison, exact rendering-chunk retention/personal stripping and hidden/public refusal separation passed. No console errors, page errors or HTTP4xx/5xx were captured; an analytics informational load warning has no recorded HTTP status.
+
+The caller supplied the wrong credential for the archived independent PNGs: their original manifest records `Public acceptance 71!`; the generic test constant/legacy fixture uses `public reference password / not a secret`. The four failed positive attempts and negative attempts with the wrong credential remain exactly recorded, not relabelled valid authenticated-field/damage proofs. A real Node-worker diagnostic with the manifest credential recovers raw/gzip/empty/damage8 exactly and rejects altered/damage9; this diagnoses the brief/input mistake, not a fresh browser result. The new PWA exports genuinely use `public reference password / not a secret`.
+
+The caller's Diff brief also permitted a1024-square maximum cover against a640-square reference. Correct dimension refusal is a failed harness precondition, not evidence of a #74 regression. Proper equal-dimension fixtures are known. Original failures, skipped fresh cancellation route and the incomplete video remain preserved. Any corrected supplementary check must be a separate report; it never overwrites the first attempt or silently changes its verdict.
+
+### Guided terminal observation
+
+[Full verbatim terminal report](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6543570437) and all captures are in `/tmp/obscr71-final-recheck/tui/`. Guided raw/gzip creation, both help dimensions, NO_COLOR, long paths, current pre-action disclosures, both PWA recoveries, wrong-password sentinel preservation and post-cancellation exact recovery are fresh. SHA-256s of recovered35/2560-byte texts are respectively `72e81a80da83ac1f101502de27ff3676bfbcd420c06296e8cbc58c00d49dbfbf` and `a60595e9caa888f8e0f6041b9f2a01096e30583e0d120129ac14bad3534b8d86`.
+
+The strict report remains FAIL: step7's real Ctrl+C prints cancellation and preserves the existing sentinel, but also kills the owning wrapper, so its final shell/exit checkpoint times out; step11 cannot record the optional menu movement because ffmpeg was absent from the browser's initial PATH. No video is claimed; the failure is not retried into a pass. Optional terminal-control-text step12 was skipped; its earlier exact evidence and configured behavior tests remain separately identified. Expected refusal/cancellation screen errors remain in the report. The cancellation primitive/gates are not weakened or called broken from these harness failures.
+
+### Final bounded supplementary browser observation
+
+The separate report, exact input/output hashes, current source provenance, font/scroll/focus JSON and viewport-only video are in `/tmp/obscr71-final-recheck/supplement/`. It completed both fresh CLI→PWA exchanges and all four independently generated positive/exact-byte and two correct-password negative recovery cases, then the exact doubled320px native dialog motion/actions. Its result hash is `85bc667bd36b7f51643b40d3db6d194f439cade8234554969545b12c0744d1ed`. It did not erase or retry the earlier failed attempts into PASS. Its strict verdict is still FAIL: source-result formatting throws `m.url is not a function` after saving actual correct module provenance; same-task Diff file input assignment throws a FileList type error before dispatch, so fresh overlap/Generate/Reset are unobserved. Optional fresh browser cancellation stages were skipped at the timebox. No new spinner attempt, production edit/hook or application console/page/network error. All walker sessions closed; caller server remains until cleanup.
+
+#### Failure reconciliation for this recheck
+
+| Failure | Expected / observed / disposition |
+| --- | --- |
+|6 continued|Real operation crosses the1000ms stage threshold and visibly shows delayed spinner; both bounded worker operations finish too quickly. UNMET, no product defect diagnosed, no artificial delay authorized.|
+|7/8|Actual guidance obligations now PASS through current browser/CLI/component/real-command evidence; their original failed observations remain historical, fixed by merged #75.|
+|9 new|Fresh actual-browser overlapping Diff selections, visual-only result and dirty Reset walkthrough expected; first attempt used mismatched dimensions; supplementary FileList assignment failed before dispatch. Fresh walk incomplete; retain #74's recorded exact-candidate evidence, do not claim regression or reopen code without diagnosis.|
+|10 new|Real terminal operation cancellation should reach the final exit checkpoint; actual cancel error and unchanged sentinel observed, but wrapper also dies fromSIGINT and checkpoint times out. Fresh post-cancel recovery passes. Verification failure, not established CLI defect.|
+|11 new|Moving menu step should have saved video; optional recorder failed because ffmpeg was absent on initial PATH. Static colored frames remain; no successful menu video claimed. No product defect inferred.|
+|12 new|Source-evidence result formatter should finish; saved correct current-worktree module provenance precedes `m.url is not a function`. Actual identity is recorded, formatter check still FAIL; no source/build mismatch inferred.|
+
+These are verification failures, not permission to invent production fixes at acceptance. The `needs-tickets` disposition asks `/to-tickets` to settle the remaining proof/capture work without weakening the contract, not to fabricate a spinner defect. All failed/skipped report steps remain listed in their verbatim tracker comments. No new spec requirement or unresolved spec finding was discovered; prior notes71.1–71.3 remain reconciled, with71.3's proof still assigned here. No Human7 hand-over on a failed proof set.
+
+### Review and doc impact
+
+One clean round at4c8f7c5..009027a: Standards0, Spec0 new, Security0. Reviewers independently inspected the entire feature, not just #75. Earlier sampler/matrix fixes remain settled, no new fix finding, declined finding or finding left at limit. Full verbatim reports and ledger are retained in `/tmp/obscr71-final-recheck/review.md` and `ledger.md`.
+
+No domain term, public interface, module ownership/source-root layout, test command or e2e layout changed; no glossary, ADR, public guide or architecture-map edit is needed. Only this research evidence record changes. Repo AGENTS has no Lessons section to curate. The existing recommended global exact-label/preflight suggestion recurs: the caller must read archived fixture password overrides/dimensions as well as observed labels before briefing a walker. No skill/global file is edited. `npm ci` reports28 dependency advisories (13low/4moderate/11high); no automatic dependency change or concrete exploit claim follows.
+
+---
+
+## Previous acceptance disposition — a3a2117 (historical)
 
 **Acceptance fails.** The released production candidate is
 `a3a21178e63a144700adc47c65d29f49c41bf93b`. No production change was made during
