@@ -1,5 +1,23 @@
 # Protected-image acceptance evidence (#71)
 
+## Recheck after guidance slice #75 — in progress
+
+This is a new acceptance run, not a reinterpretation of the historical failures
+below. Candidate production and tests are `e4610c3bd84e0f1c28829df4b12dac10b8ab4626`
+(the merged #75 guidance); the claim-only endpoint is `d991646`. The whole-feature
+base remains `4c8f7c5d1e2ca9ac37810cc74a997f4819309736`, the earliest implementation
+base. `origin/main` is already included. All seven implementation blockers are
+closed. The newest [release disposition](https://github.com/jdragulanescu/obscr/issues/71#issuecomment-6525064257)
+retains genuine long-operation spinner and fully doubled 320px dialog keyboard
+scrolling proof on this ticket. Fresh automated gates, focused real-program
+observations and an independent whole-feature review are in progress.
+
+No passing acceptance verdict, Human 7 judgment, merge or release authorization
+is implied. The previous disposition and every failed/skipped observation below
+remain historical records for their named candidates. New artifacts are kept
+separately in `/tmp/obscr71-final-recheck/`, never reused as fresh old outputs.
+
+
 ## Current acceptance disposition
 
 **Acceptance fails.** The released production candidate is
