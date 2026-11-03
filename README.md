@@ -19,12 +19,11 @@
 ## Features
 
 ### Security
-- **Strong Encryption**: Uses AES-256-GCM for message encryption
-- **Steganography**: Hides encrypted messages in PNG images using LSB (Least Significant Bit) technique
-- **Compression**: Optional gzip compression to fit larger messages in smaller images (50-90% reduction)
-- **Password-Based Key Derivation**: PBKDF2 with SHA-512 for secure key generation (65,535 iterations)
-- **Data Obfuscation**: Password-seeded scrambling of data bits within the image
-- **Existing message format**: Unchanged; older images must also meet the supported PNG input policy below
+- **Authenticated encryption**: AES-256-GCM with a full tag and authenticated format settings.
+- **Password processing**: fixed Argon2id v19 (64 MiB, three passes, one lane), then separate HKDF-SHA256 encryption and placement keys.
+- **Protected carrier**: detail-ranked RGB samples, keyed matrix placement and bounded Reed–Solomon repair; no random filler.
+- **Compression**: gzip is off by default and used only when smaller.
+- **Format break**: both apps create and recover only the new protected-image format. Old images are not supported; there is no compatibility decoder. Old images and plain images can produce the same recovery failure; that failure does not identify either kind of input.
 
 ### User Experience
 
@@ -77,7 +76,10 @@ Exports keep the dimensions, RGB/RGBA color type, opaque alpha and native sample
 except for the intended carrier changes. They retain supported cHRM, gAMA and
 sRGB rendering declarations byte-for-byte, in that order. Absent declarations
 stay absent. Personal and other non-rendering metadata is removed without
-expanding embedded text. Both apps show this policy after a successful export.
+expanding embedded text. Before encoding, both apps disclose this supported
+profile, metadata policy and that some otherwise valid PNGs are rejected. The
+prepared image's metadata notice remains visible before creation; export results
+also repeat the policy.
 This is not an anonymity guarantee: removed metadata and PNG encoding can be
 detected. Inputs with unsupported color profiles are rejected, not converted.
 
@@ -135,7 +137,7 @@ obscr encrypt -f <input-image.png> [-o <output-image.png>] [--compress] [--verbo
 **Options:**
 - `-f, --filename`: Path to the PNG image to use as a container (required)
 - `-o, --output`: Output filename for the encoded image (default: "encoded.png")
-- `-c, --compress`: Enable compression to fit larger messages (50-90% reduction)
+- `-c, --compress`: Try gzip before encryption; use it only when smaller
 - `-v, --verbose`: Show detailed progress and technical information
 - `-q, --quiet`: Minimal output (only essential messages)
 
@@ -196,49 +198,29 @@ obscr decrypt --help
 
 ## How It Works
 
-### Encryption Process
+### Creation
 
-1. **Password Entry**: You enter a password and the message to hide
-2. **AES-256-GCM Encryption**: The message is encrypted using your password with PBKDF2 key derivation
-3. **Optional Compression**: If enabled, the encrypted data is compressed with gzip
-4. **Bit Scrambling**: The encrypted data bits are scrambled using a password-derived seed
-5. **LSB Steganography**: The scrambled bits are hidden in the least significant bits of the image's RGB channels
-6. **Output**: A new PNG image is created that looks identical to the original but contains your encrypted message
+1. Admit the supported PNG and prepare the exact UTF-8 message, with optional gzip.
+2. Show original bytes, stored bytes, maximum stored bytes and actual compression use. Refuse a cover with no frame, an empty-only cover or an oversized message before key derivation.
+3. Consume that preparation once with the exact password. Derive the fixed keys using a fresh random salt, and encrypt with a fresh nonce.
+4. Write the authenticated, repaired frame through keyed matrix groups. Only selected RGB least-significant bits and the raw salt positions change; alpha stays unchanged.
+5. Deliver only the complete PNG. Download it explicitly in the browser.
 
-### Decryption Process
+### Recovery
 
-1. **Password Entry**: You enter the same password used for encryption
-2. **LSB Extraction**: All LSBs are extracted from the image's RGB channels
-3. **Bit Unscrambling**: The bits are unscrambled using the password-derived seed
-4. **Decompression**: If the message was compressed, it's automatically decompressed
-5. **AES-256-GCM Decryption**: The data is decrypted using the password
-6. **Output**: Your original message is recovered
+1. Admit the PNG, read its salt once and derive the fixed keys from the exact password.
+2. Read the bounded frame in keyed order, apply the permitted repair and authenticate it.
+3. Only after authentication, decompress if needed and decode exact UTF-8.
+4. Show the complete text, including explicit authenticated success for an empty wire message. Hidden failures return one common message, never partial text.
 
-## Security Properties
+### Security limits
 
-### Encryption Layer (AES-256-GCM)
-- **Algorithm**: AES-256 in Galois/Counter Mode
-- **Key Derivation**: PBKDF2 with SHA-512, 65,535 iterations
-- **Authentication**: Built-in authentication tag prevents tampering
-- **Random Salt & Nonce**: Each encryption uses unique random values
-
-### Obfuscation Layer (Steganography)
-- **LSB Technique**: Modifies only the least significant bits, making changes imperceptible
-- **Password-Based Scrambling**: Data bits are scattered in pseudo-random positions
-- **Random Fill**: Unused bits are filled with random values for additional obfuscation
-- **Format**: Standard PNG output, indistinguishable from regular images
-
-### Important Security Notes
-
-1. **Password strength is critical** - Use a strong, unique password
-2. **Security relies on**:
-   - The strength of your password
-   - AES-256-GCM encryption (cryptographically secure)
-   - PBKDF2 key derivation
-3. **Limitations**:
-   - Steganography provides obfuscation, not security by itself
-   - The encrypted image is not resistant to targeted steganalysis by experts
-   - If someone knows the image contains a hidden message, they can extract it (but still need your password to decrypt)
+Passwords are not trimmed or normalized. They must be nonempty valid Unicode
+and at most 1,024 UTF-8 bytes. Password strength remains important.
+Authentication protects the message and decoding settings, not every cover
+sample or PNG metadata item. Repair is bounded, not a promise to survive image
+editing, resizing or recompression. No concealment, anonymity or resistance to
+steganalysis is claimed. Visual Diff is not a security test.
 
 ## Privacy
 
@@ -258,18 +240,19 @@ policy and terms of use, also available in the app at
 
 ## Image Capacity
 
-The tool automatically checks if your message fits in the chosen image:
+Capacity depends on the admitted image's upper RGB detail, not just its size.
+Flat images have no capacity. The maximum is 512 stored bytes after all frame,
+authentication, repair and symbol overhead; original text is limited to 1 MiB.
+Both apps show original/stored/maximum bytes and whether gzip was actually used.
+No capacity is claimed before preparation finishes.
 
-- **Capacity**: 3 bits per pixel (RGB channels only)
-- **Maximum input example**: 1024×1024 provides 393,216 carrier bytes before message framing and encryption overhead
-- **Formula**: `(width × height × 3) / 8 = bytes capacity`
-
-If your message is too large:
-1. Use a larger image
-2. Enable compression with `--compress`
-3. Reduce message size
-
-The tool will show capacity utilization after successful encryption.
+No-frame, empty-only and oversize outcomes have distinct refusal messages.
+Creation requires a nonempty message; whitespace-only text is allowed.
+Choose a more detailed supported PNG, shorten the message or try compression
+when it does not fit. Image, message and compression edits discard preparation
+and old results. Password-only edits remove old results but retain valid
+preparation. Encoding consumes the preparation once; check capacity again to
+repeat it with unchanged inputs.
 
 ## Installation from Source
 
@@ -292,7 +275,7 @@ PATH="./node_modules/.bin:$PATH"
 ### Hiding a Secret Note
 ```bash
 obscr encrypt -f vacation.png -o vacation.png
-# Enter password and type your message
+# Enter your public or private message in the configured editor, then enter the password
 # Result: vacation.png now contains your hidden message
 ```
 
@@ -306,31 +289,112 @@ obscr decrypt -f vacation.png
 ### Large Message with Compression
 ```bash
 obscr encrypt -f large-photo.png -o secret.png --compress
-# Compression can reduce message size by 50-90% depending on content
+# The preparation summary shows whether gzip actually reduced the message
 ```
 
-## Backward Compatibility
+## Format compatibility
 
-The hidden-message format is unchanged:
-- Older images remain readable when they meet the supported PNG input policy.
-- Compressed and uncompressed messages use the existing format.
+Both apps use only the new format. Images produced by the old format cannot
+be recovered here, even with the correct password. Keep any old software and
+original data you still need separately; this version has no old-image recovery
+option. The feature's acceptance and release checks remain separate from this
+implementation.
 
 ## Technical Details
 
-### File Format
+### Protected-image operations
 
-Encrypted message format: `salt:nonce:ciphertext:tag[:compressed]`
-- **salt**: 32 bytes (base64) - Random salt for PBKDF2
-- **nonce**: 12 bytes (base64) - Random nonce for AES-GCM
-- **ciphertext**: Variable length (base64) - Encrypted message
-- **tag**: 16 bytes (base64) - GCM authentication tag
-- **compressed**: Optional flag "1" if data was compressed
+Node byte callers import `prepareEncode`, `encode`, `decode` and `discard`
+from `lib/protected-node.js`; browser callers use `app/src/lib/protected.js`.
+The CLI file adapter in `lib/steg.js` exposes `prepareImage({imagePath,message,
+compress}, control)`, `encodeImage({preparation,password,outputPath}, control)`,
+`decodeImage({imagePath,password,outputPath?}, control)` and
+`discardPreparation(preparation)`. It bounds reads and publishes complete
+outputs atomically. Unsaved recovery returns `{ok:true,message}`.
+
+`await prepareEncode({ pngBytes, message, compress }, { signal, onProgress })`
+returns `{ ok: true, preparation, originalBytes, storedBytes, compressionUsed,
+maxStoredBytes, hasFrameCapacity, fits, metadataNotice }`, or
+`{ ok: false, code, error }`. `pngBytes` must be a whole, owned `Uint8Array`
+backed by an `ArrayBuffer`; the worker takes that buffer by transfer.
+Bound file reads to 16 MiB before calling. Do not reuse transferred bytes.
+
+Preparation preserves exact UTF-8, including BOM, line endings and whitespace,
+rejects unpaired surrogates and more than 1 MiB of text, and permits empty wire
+text. Gzip is explicit, bounded, and used only when smaller. A larger or bounded
+stream reports raw byte requirements with `compressionUsed: false`; a
+non-fitting preparation cannot be encoded. A compressor failure is an error.
+Capacity includes framing, authentication, repair and symbol padding; it is
+limited to 512 stored bytes. `hasFrameCapacity: false` is distinct from
+`hasFrameCapacity: true, maxStoredBytes: 0` (empty-only).
+
+The opaque handle belongs to this worker and input revision. Replacing the
+image, text or compression requires a new preparation; password-only edits
+do not. `await discard(preparation)` releases the current handle and reports
+`{ ok: true, discarded: true }`; stale, foreign and repeated handles report
+`discarded: false`. One heavyweight image operation runs per tab/process.
+A retained preparation keeps its raster and reserves the shared image resources.
+Its owner can replace or discard it, but other image work, including Diff,
+returns `BUSY` until it is discarded. Discard the preparation before starting
+other image work. An overlapping request also returns `BUSY`, without
+cancelling the current request.
+
+An `AbortSignal` cancels active work by terminating its worker. Cancellation,
+worker exit and failed replacement invalidate the preparation. The shared
+resources stay reserved until worker termination finishes; a later call can
+then start again. Progress reports `checking inputs` and
+`preparing text/capacity`, without percentages. No key derivation or salt/nonce
+randomness runs during preparation. There is no main-thread fallback or timer
+that weakens the operation. Retained Node workers do not keep the process alive.
+
+`await encode({ preparation, password }, { signal, onProgress })` consumes the
+current preparation once and returns `{ ok: true, pngBytes, originalBytes,
+storedBytes, compressionUsed, maxStoredBytes, hasFrameCapacity, fits,
+metadataNotice }` only after complete PNG serialization. These summary fields
+come from the consumed preparation, not a new estimate. It uses the exact
+retained text bytes and raster without recompression or rereading the source.
+Password-only changes use the same handle
+with the new exact password. Non-fitting preparations return `CAPACITY` before
+key derivation or salt/nonce generation; stale, foreign, discarded, consumed and
+cancelled handles return `PREPARATION_INVALID`. After an encode attempt finishes
+or is cancelled, prepare again before another attempt.
+
+Each encoding uses a fresh CSPRNG salt and nonce, the fixed key/frame contract,
+and matrix writes over the full eligible domain. Alpha and upper RGB bits stay
+unchanged; no filler is written. PNG dimensions, color type and approved rendering
+metadata are preserved, and personal metadata is removed. Progress reports
+`checking inputs`, `deriving keys`, `encoding` and `preparing result`.
+Failures return neither a PNG nor a successful capacity summary. The worker transfers the complete output buffer
+and terminates on success, failure or cancellation.
+
+`await decode({ pngBytes, password }, { signal, onProgress })` returns
+`{ ok: true, message }` only after complete authentication and exact text decoding.
+An empty `message` is valid authenticated text. Passwords are exact nonempty
+UTF-8, at most 1,024 bytes, without trimming or normalization; unpaired surrogates
+are refused. Recovery replaces any preparation held by the same adapter and
+terminates its worker on success, failure or cancellation.
+
+Recovery uses fixed Argon2id v19 (64 MiB, three passes, one lane), separated HKDF
+keys, native AES-256-CTR placement, bounded shortened Reed–Solomon repair, and
+AES-256-GCM with a full tag. Gzip expansion occurs only after authentication and
+must match the authenticated length. Wrong passwords, hidden format errors,
+damage and invalid authenticated text return `RECOVERY_FAILED` with no message:
+“Could not recover an authenticated message. The password may be wrong, or the
+image may be damaged or changed.” Public PNG, input, capacity, runtime and
+cancellation errors remain separate. No legacy recovery or weaker fallback runs.
+
+Safe recovery stages are `checking inputs`, `deriving keys`, `recovering` and
+`preparing result`. Cancellation suppresses late replies and allows a new
+operation. Password and key buffers are cleared where possible; worker termination
+releases remaining state, without a secure-erasure guarantee. Required worker,
+WASM or native-crypto support must be available.
+
 
 ### Dependencies
 - `crypto` (Node.js built-in): For AES-256-GCM encryption
-- `zlib` (Node.js built-in): For optional compression
-- `pako`: Bounded raw PNG inflation shared by the CLI and browser
-- `crypto-js`: For SHA-512 hashing
+- `pako`: Bounded PNG inflation and gzip preparation shared by the CLI and browser
+- `libsodium-wrappers-sumo` and `libsodium-sumo` 0.8.4: Fixed Argon2id inside workers
+- Vendored ZXing-derived repair: pinned source and license in `lib/protected-repair.NOTICE` and `lib/protected-repair.LICENSE`
 - `yargs`: For CLI argument parsing
 - `inquirer`: For interactive prompts
 - `chalk`: For colored terminal output

@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
 import { JSDOM } from "jsdom";
-import { admitImage, estimateCapacity, generateImageDiff, downloadBlob } from "../../app/src/lib/steg.js";
+import { admitImage, readImageBytes, generateImageDiff, downloadBlob } from "../../app/src/lib/steg.js";
 
 // The transport fake controls timing and failures; parser requests are also
 // exercised against the real worker in browser-png-worker.test.js.
@@ -15,15 +15,27 @@ class ControlledWorker {
 beforeEach(() => { workers = []; globalThis.Worker = ControlledWorker; });
 afterEach(() => { globalThis.Worker = originalWorker; jest.restoreAllMocks(); });
 
-it("cancels obsolete capacity work and ignores its reply after a replacement starts", async () => {
+it("bounds browser reads before allocating and keeps read failures public", async () => {
+  await expect(readImageBytes({ size: 1 })).rejects.toMatchObject({ code: "INPUT_INVALID" });
+  const large = new Blob([new Uint8Array(16777217)]);
+  const read = jest.spyOn(large, "arrayBuffer");
+  await expect(readImageBytes(large)).rejects.toMatchObject({ code: "PNG_LIMIT" });
+  expect(read).not.toHaveBeenCalled();
+  const broken = new Blob(["public"]);
+  jest.spyOn(broken, "arrayBuffer").mockRejectedValue(new Error("private detail"));
+  await expect(readImageBytes(broken)).rejects.toMatchObject({ code: "READ_FAILED", message: "Could not read the image. Select it again." });
+  expect(await readImageBytes(new Blob([new Uint8Array([1, 2, 3])]))).toEqual(new Uint8Array([1, 2, 3]));
+});
+
+it("cancels obsolete admission work and ignores its reply after a replacement starts", async () => {
   const controller = new AbortController();
-  const first = estimateCapacity(new Blob(["first"]), "message", false, { signal: controller.signal });
+  const first = admitImage(new Blob(["first"]), { signal: controller.signal });
   const oldWorker = workers[0];
   controller.abort();
   expect(await first).toMatchObject({ ok: false, code: "CANCELLED" });
   expect(oldWorker.terminated).toBe(true);
   const next = admitImage(new Blob(["replacement"]));
-  oldWorker.reply({ ok: true, totalBits: 100 });
+  oldWorker.reply({ ok: true, width: 100, height: 100 });
   workers[1].reply({ ok: false, code: "PNG_INVALID", error: "Malformed PNG" });
   expect(await next).toMatchObject({ ok: false, code: "PNG_INVALID" });
 });

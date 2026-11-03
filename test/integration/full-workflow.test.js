@@ -1,341 +1,65 @@
-import { encrypt, decrypt } from "../../lib/crypto.js";
-import {
-  encodeMessageToImage,
-  extractMessageFromImage,
-} from "../../lib/steg.js";
-import fs from "fs";
-import path from "path";
-import os from "os";
-import { fileURLToPath } from "url";
+import fs from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import { prepareImage, encodeImage, decodeImage, discardPreparation } from "../../lib/steg.js";
+import { cover } from "../fixtures/protected.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+let directory, source, output;
+beforeEach(async () => {
+  directory = await fs.mkdtemp(path.join(os.tmpdir(), "obscr-workflow-"));
+  source = path.join(directory, "source.png");
+  output = path.join(directory, "encoded.png");
+  await fs.writeFile(source, cover(640, 640));
+});
+afterEach(async () => { await fs.rm(directory, { recursive: true, force: true }); });
 
-const FIXTURES_DIR = path.join(__dirname, "..", "fixtures");
-let OUTPUT_DIR;
-const TEST_IMAGE = path.join(FIXTURES_DIR, "test-large.png");
-const SECRET_KEY = "S3cReTK3Y"; // Same as in index.js
+it.each([
+  ["raw Unicode and terminal/HTML text", "\ufeff public é世界🙂\r\n\t <script>alert(1)</script>\u001b[31m ", false],
+  ["gzip", "\ufeff public é世界🙂\r\n\t ".repeat(500), true],
+  ["whitespace", " \t\r\n ", false],
+])("exchanges exact %s through retained file preparation and authenticated recovery", async (_name, message, compress) => {
+  const prepared = await prepareImage({ imagePath: source, message, compress });
+  expect(prepared).toMatchObject({ ok: true, fits: true, compressionUsed: compress, originalBytes: Buffer.byteLength(message) });
+  const password = "\ufeff e\u0301 exact public password\r\n ";
+  expect(await encodeImage({ preparation: prepared.preparation, password, outputPath: output })).toMatchObject({ ok: true, outputPath: output });
+  expect(await decodeImage({ imagePath: output, password })).toMatchObject({ ok: true, message });
+  const saved = path.join(directory, "message.txt");
+  expect(await decodeImage({ imagePath: output, password, outputPath: saved })).toMatchObject({ ok: true, outputPath: saved });
+  expect(await fs.readFile(saved, "utf8")).toBe(message);
+  expect(await fs.readFile(source)).toEqual(Buffer.from(cover(640, 640)));
+}, 30000);
 
-describe("Full Encryption/Decryption Workflow", () => {
-  beforeEach(() => {
-    OUTPUT_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "obscr-workflow-"));
-  });
+it("keeps the exact preparation when only the password changes and consumes it once", async () => {
+  const prepared = await prepareImage({ imagePath: source, message: "Public text", compress: false });
+  expect(prepared.ok).toBe(true);
+  expect(await encodeImage({ preparation: prepared.preparation, password: "final password", outputPath: output })).toMatchObject({ ok: true });
+  expect(await encodeImage({ preparation: prepared.preparation, password: "old password", outputPath: output })).toMatchObject({ ok: false, code: "PREPARATION_INVALID" });
+  expect(await decodeImage({ imagePath: output, password: "old password" })).toMatchObject({ ok: false, code: "RECOVERY_FAILED" });
+  expect(await decodeImage({ imagePath: output, password: "final password" })).toMatchObject({ ok: true, message: "Public text" });
+}, 30000);
 
-  afterEach(() => {
-    fs.rmSync(OUTPUT_DIR, { recursive: true, force: true });
-  });
+it("does not replace a saved message on authentication failure", async () => {
+  const prepared = await prepareImage({ imagePath: source, message: "Public secret", compress: false });
+  expect(await encodeImage({ preparation: prepared.preparation, password: "public password", outputPath: output })).toMatchObject({ ok: true });
+  const saved = path.join(directory, "message.txt");
+  await fs.writeFile(saved, "existing public text");
+  const result = await decodeImage({ imagePath: output, password: "wrong", outputPath: saved });
+  expect(result).toMatchObject({ ok: false, code: "RECOVERY_FAILED" });
+  expect(result).not.toHaveProperty("message");
+  expect(await fs.readFile(saved, "utf8")).toBe("existing public text");
+}, 30000);
 
-  describe("Basic workflow", () => {
-    it("should complete full encryption and decryption cycle", async () => {
-      const originalMessage = "This is a secret message!";
-      const password = "my-secure-password";
-      const outputPath = path.join(OUTPUT_DIR, "integration-test-output.png");
-
-      // Step 1: Encrypt the message
-      const encryptedMessage = await encrypt(originalMessage, password);
-      expect(encryptedMessage).toBeDefined();
-
-      // Step 2: Hide encrypted message in image
-      const encodeResult = await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        password + SECRET_KEY,
-        outputPath
-      );
-      expect(encodeResult.success).toBe(true);
-      expect(fs.existsSync(outputPath)).toBe(true);
-
-      // Step 3: Extract encrypted message from image
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        password + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      // Step 4: Decrypt the message
-      const decryptedMessage = await decrypt(extractResult.data, password);
-      expect(decryptedMessage).toBe(originalMessage);
-    });
-
-    it("should handle the full workflow with compression", async () => {
-      const originalMessage = "A".repeat(1000); // Compressible message
-      const password = "password123";
-      const outputPath = path.join(OUTPUT_DIR, "integration-compressed.png");
-
-      // Encrypt with compression
-      const encryptedMessage = await encrypt(originalMessage, password, true);
-      expect(encryptedMessage).toContain(":1"); // Compression flag
-
-      // Encode to image
-      const encodeResult = await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        password + SECRET_KEY,
-        outputPath
-      );
-      expect(encodeResult.success).toBe(true);
-
-      // Extract from image
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        password + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      // Decrypt (should auto-detect compression)
-      const decryptedMessage = await decrypt(extractResult.data, password);
-      expect(decryptedMessage).toBe(originalMessage);
-    });
-
-    it("should handle workflow without compression", async () => {
-      const originalMessage = "Simple message";
-      const password = "password123";
-      const outputPath = path.join(OUTPUT_DIR, "integration-uncompressed.png");
-
-      // Encrypt without compression
-      const encryptedMessage = await encrypt(originalMessage, password, false);
-      expect(encryptedMessage.split(":")).toHaveLength(4); // No compression flag
-
-      // Encode to image
-      const encodeResult = await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        password + SECRET_KEY,
-        outputPath
-      );
-      expect(encodeResult.success).toBe(true);
-
-      // Extract from image
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        password + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      // Decrypt
-      const decryptedMessage = await decrypt(extractResult.data, password);
-      expect(decryptedMessage).toBe(originalMessage);
-    });
-  });
-
-  describe("Error scenarios", () => {
-    it("should fail with wrong password at encryption step", async () => {
-      const originalMessage = "Secret";
-      const correctPassword = "correct";
-      const wrongPassword = "wrong";
-      const outputPath = path.join(OUTPUT_DIR, "integration-wrong-pass.png");
-
-      // Encrypt with correct password
-      const encryptedMessage = await encrypt(originalMessage, correctPassword);
-
-      // Encode to image
-      await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        correctPassword + SECRET_KEY,
-        outputPath
-      );
-
-      // Extract from image
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        correctPassword + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      // Try to decrypt with wrong password - should fail
-      await expect(
-        decrypt(extractResult.data, wrongPassword)
-      ).rejects.toThrow();
-
-      // Clean up
-      fs.unlinkSync(outputPath);
-    });
-
-    it("should fail with wrong key for steganography", async () => {
-      const originalMessage = "Secret";
-      const password = "password";
-      const correctKey = password + SECRET_KEY;
-      const wrongKey = password + "WRONG";
-      const outputPath = path.join(OUTPUT_DIR, "integration-wrong-steg-key.png");
-
-      // Encrypt
-      const encryptedMessage = await encrypt(originalMessage, password);
-
-      // Encode with correct key
-      await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        correctKey,
-        outputPath
-      );
-
-      // Try to extract with wrong key - should fail or return garbage
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        wrongKey
-      );
-
-      // Either extraction fails or decryption will fail
-      if (extractResult.success) {
-        await expect(decrypt(extractResult.data, password)).rejects.toThrow();
-      }
-
-      // Clean up
-      fs.unlinkSync(outputPath);
-    });
-  });
-
-  describe("Data integrity", () => {
-    it("should maintain exact message content through full cycle", async () => {
-      const testMessages = [
-        "Simple ASCII text",
-        "Text with\nnewlines\nand\ttabs",
-        "Special characters: !@#$%^&*()_+-=[]{}|;':\",./<>?",
-        "Unicode: Hello 世界 🌍 Мир עולם",
-        "Numbers and symbols: 123456789 ½ ¼ ¾ © ® ™",
-        "Mixed content:\nLine 1\n\tTabbed\nSpecial: © 世界",
-      ];
-
-      for (const originalMessage of testMessages) {
-        const password = "test-password";
-        const outputPath = path.join(
-          OUTPUT_DIR,
-          `integration-integrity-${testMessages.indexOf(originalMessage)}.png`
-        );
-
-        // Full workflow
-        const encryptedMessage = await encrypt(originalMessage, password);
-        const encodeResult = await encodeMessageToImage(
-          TEST_IMAGE,
-          encryptedMessage,
-          password + SECRET_KEY,
-          outputPath
-        );
-        expect(encodeResult.success).toBe(true);
-
-        const extractResult = await extractMessageFromImage(
-          outputPath,
-          password + SECRET_KEY
-        );
-        expect(extractResult.success).toBe(true);
-
-        const decryptedMessage = await decrypt(extractResult.data, password);
-
-        // Exact match required
-        expect(decryptedMessage).toBe(originalMessage);
-        expect(decryptedMessage.length).toBe(originalMessage.length);
-      }
-    });
-
-    it("should handle large messages with compression", async () => {
-      const originalMessage = "This is a test message. ".repeat(100); // ~2400 chars
-      const password = "password";
-      const outputPath = path.join(OUTPUT_DIR, "integration-large-message.png");
-
-      // Use compression for large message
-      const encryptedMessage = await encrypt(originalMessage, password, true);
-
-      const encodeResult = await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        password + SECRET_KEY,
-        outputPath
-      );
-      expect(encodeResult.success).toBe(true);
-
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        password + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      const decryptedMessage = await decrypt(extractResult.data, password);
-      expect(decryptedMessage).toBe(originalMessage);
-    });
-  });
-
-  describe("Backward compatibility simulation", () => {
-    it("should decrypt old format (4-part) messages", async () => {
-      const message = "Old format message";
-      const password = "password";
-      const outputPath = path.join(OUTPUT_DIR, "integration-old-format.png");
-
-      // Create old format (no compression)
-      const encryptedMessage = await encrypt(message, password, false);
-      expect(encryptedMessage.split(":")).toHaveLength(4);
-
-      // Full workflow
-      const encodeResult = await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        password + SECRET_KEY,
-        outputPath
-      );
-      expect(encodeResult.success).toBe(true);
-
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        password + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      const decryptedMessage = await decrypt(extractResult.data, password);
-      expect(decryptedMessage).toBe(message);
-
-      // Clean up
-      fs.unlinkSync(outputPath);
-    });
-
-    it("should decrypt new format (5-part compressed) messages", async () => {
-      const message = "New format compressed message";
-      const password = "password";
-      const outputPath = path.join(OUTPUT_DIR, "integration-new-format.png");
-
-      // Create new format (with compression)
-      const encryptedMessage = await encrypt(message, password, true);
-      expect(encryptedMessage.split(":")).toHaveLength(5);
-
-      // Full workflow
-      const encodeResult = await encodeMessageToImage(
-        TEST_IMAGE,
-        encryptedMessage,
-        password + SECRET_KEY,
-        outputPath
-      );
-      expect(encodeResult.success).toBe(true);
-
-      const extractResult = await extractMessageFromImage(
-        outputPath,
-        password + SECRET_KEY
-      );
-      expect(extractResult.success).toBe(true);
-
-      const decryptedMessage = await decrypt(extractResult.data, password);
-      expect(decryptedMessage).toBe(message);
-
-      // Clean up
-      fs.unlinkSync(outputPath);
-    });
-  });
-
-  describe("Compression benefits", () => {
-    it("should show compression reduces encrypted data size", async () => {
-      const message = "A".repeat(500); // Highly compressible
-      const password = "password";
-
-      const uncompressed = await encrypt(message, password, false);
-      const compressed = await encrypt(message, password, true);
-
-      // Compressed should be significantly smaller
-      expect(compressed.length).toBeLessThan(uncompressed.length);
-
-      // Both should decrypt correctly
-      const decrypted1 = await decrypt(uncompressed, password);
-      const decrypted2 = await decrypt(compressed, password);
-
-      expect(decrypted1).toBe(message);
-      expect(decrypted2).toBe(message);
-    });
-  });
+it("reports no frame, empty-only and oversized preparation without producing output", async () => {
+  for (const [dimensions, message, expected] of [
+    [[64, 64], "public", { hasFrameCapacity: false, fits: false }],
+    [[256, 168], "public", { hasFrameCapacity: true, maxStoredBytes: 0, fits: false }],
+    [[640, 640], "x".repeat(513), { hasFrameCapacity: true, maxStoredBytes: 512, fits: false }],
+  ]) {
+    await fs.writeFile(source, cover(...dimensions));
+    const prepared = await prepareImage({ imagePath: source, message, compress: false });
+    expect(prepared).toMatchObject({ ok: true, ...expected });
+    expect(await encodeImage({ preparation: prepared.preparation, password: "public", outputPath: output })).toMatchObject({ ok: false, code: "CAPACITY" });
+    await discardPreparation(prepared.preparation);
+    expect(await fs.readdir(directory)).toEqual(["source.png"]);
+  }
 });

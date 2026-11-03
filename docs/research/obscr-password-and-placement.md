@@ -2,6 +2,10 @@
 
 Research date: **2026-10-13**. Investigation for [Find supported password and map-generation building blocks](https://github.com/jdragulanescu/obscr/issues/14), under [Harden Obscr security and preserve repeatable attack checks](https://github.com/jdragulanescu/obscr/issues/11). **Findings, not an accepted product decision or image-format specification.**
 
+Historical research: #70 removed the legacy implementation described below.
+Its source links are pinned to the last pre-cutover tree; see the
+[current operations](../../README.md#protected-image-operations) for the implemented format.
+
 ## TL;DR
 
 - **A viable common implementation exists:** `libsodium-wrappers-sumo@0.8.4`, with `libsodium-sumo@0.8.4` explicitly locked, exposes Argon2id, separate-key derivation, and deterministic ChaCha20 generation in Node and browsers. Its password API fixes Argon2 parallelism to one lane; selecting it therefore does **not** select either four-lane RFC 9106 recommended profile unchanged. ISC licensing and the examined Argon2 code's CC0 notice are permissive, subject to preserving the applicable notices. [S-package][S-raw-package][S-readme][S-api][S-pwhash-source][S-license][S-core-license]
@@ -198,12 +202,12 @@ When someone hides a message in the PWA and later opens the image in the CLI, th
 
 ## Source provenance
 
-[R-node]: ../../lib/crypto.js
-[R-web]: ../../app/src/lib/webCrypto.js
-[R-utils]: ../../lib/utils.js
-[R-mt]: ../../lib/mersenne-twister.js
-[R-core]: ../../lib/steg-core.js
-[R-package]: ../../package.json
+[R-node]: https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/crypto.js
+[R-web]: https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/app/src/lib/webCrypto.js
+[R-utils]: https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/utils.js
+[R-mt]: https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/mersenne-twister.js
+[R-core]: https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/lib/steg-core.js
+[R-package]: https://github.com/jdragulanescu/obscr/blob/cd896ffc7915683ba3b3807eac4b5483617c1be2/package.json
 
 [RFC9106]: https://www.rfc-editor.org/rfc/rfc9106.html
 [RFC7914]: https://www.rfc-editor.org/rfc/rfc7914.html

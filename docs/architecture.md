@@ -6,14 +6,19 @@
 
 ## Shared engine
 
-- `lib/crypto.js`: Node encryption: AES-256-GCM, PBKDF2-SHA512 keys, and optional gzip compression.
-- `lib/steg-core.js`: platform-free steganography shared by CLI and PWA: LSB bits, password-scrambled order, and capacity.
 - `lib/png.js`: shared bounded PNG validation, raw-sample admission and serialization.
 - `lib/png-diff.js`: shared native-sample comparison; bounded admission, in-place overlay and visual-only statistics.
-- `lib/steg.js`: Node operation owner: bounded file reads, cancellable workers and atomic output publication.
-- `lib/steg-worker.js`: Node worker boundary for PNG admission, the existing carrier and encryption.
-- `lib/utils.js`: password-seeded pixel order and string/bit conversion.
-- `lib/mersenne-twister.js`: vendored seeded PRNG used by pixel ordering.
+- `lib/steg.js`: Node file adapter: bounded reads, retained preparation and atomic complete-output publication.
+- `lib/protected-image.js`: shared preparation, encode/recovery dispatch, detail ranking, exact capacity and worker-owned state.
+- `lib/protected-transport.js`: retained worker transport, opaque preparations, cancellation and stale-response suppression.
+- `lib/protected-node.js`: Node preparation/encode/recovery/discard adapter; owns the worker thread.
+- `lib/protected-worker.js`: Node request gate for the shared protected-image operation.
+- `lib/protected-encoding.js`: fixed authenticated framing, repair/interleave, in-place matrix writes and complete PNG serialization.
+- `lib/protected-recovery.js`: bounded matrix/frame extraction, repair, authentication and exact raw/gzip text recovery.
+- `lib/protected-keys.js`: private fixed Argon2id/HKDF schedule and continuous bounded sparse position source.
+- `lib/protected-native-node.js`, `lib/protected-native-browser.js`: native CSPRNG, HKDF, full-counter AES-CTR and authenticated AES-GCM adapters.
+- `lib/protected-repair.js`: pinned ZXing-derived shortened Reed–Solomon encoder/decoder; adjacent LICENSE and NOTICE preserve provenance.
+- `lib/image-operation.js`: per-tab/process heavyweight-operation lease shared by image worker adapters.
 
 ## CLI
 
@@ -25,7 +30,7 @@
 - `app/src/main.jsx`: React mount.
 - `app/src/App.jsx`: task navigation, active-operation locks and confirmed discard of entered data.
 - `app/src/components/`: admission forms, cancellable status, accessible controls and result previews.
-- `app/src/lib/`: browser worker adapter, operation revisions, Web Crypto and UI helpers; workers use the shared PNG policy.
+- `app/src/lib/`: browser protected-operation, PNG/Diff and bounded-file adapters, operation revisions and UI helpers.
 - `app/src/styles.css`: Tailwind styles and the app theme.
 
 ## Other folders and configuration

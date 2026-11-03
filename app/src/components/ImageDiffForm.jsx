@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useId, useState } from "react";
+import React, { useEffect, useLayoutEffect, useId, useRef, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { ImageComparison } from "./ImageComparison";
 import { OperationStatus } from "./OperationStatus";
@@ -21,21 +21,49 @@ export const ImageDiffForm = ({ onStateChange, requestClear }) => {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("Choose two supported PNGs for a visual comparison.");
   const operation = useFormOperation();
+  const pending = useRef([null, null]);
+  const admitting = useRef(null);
   const id = useId();
   const dirty = inputs.some(Boolean);
   useLayoutEffect(() => { onStateChange?.({ dirty, busy: operation.busy, locked: false }); }, [dirty, operation.busy, onStateChange]);
   useEffect(() => () => disposeComparison(result), [result]);
-  const pick = async (index, file) => {
-    operation.cancel(); setResult(null); setError(""); setNotice("");
+  useEffect(() => () => {
+    pending.current = [null, null];
+    admitting.current = null;
+  }, []);
+  const admitNext = async () => {
+    if (admitting.current) return;
+    const index = pending.current.findIndex(Boolean);
+    if (index === -1) return;
+    const admission = { index, file: pending.current[index] };
+    pending.current[index] = null;
+    admitting.current = admission;
+    const checked = await operation.run("Checking PNG…", (options) => admitImage(admission.file, options));
+    if (admitting.current !== admission) return;
+    admitting.current = null;
+    if (checked?.ok) setAccepted((values) => values.map((value, i) => i === index ? checked : value));
+    else if (checked) setErrors((values) => values.map((value, i) => i === index ? checked.error : value));
+    void admitNext();
+  };
+  const pick = (index, file) => {
+    // Keep the other slot's admission; only replaced work or an old comparison is obsolete.
+    if (!admitting.current || admitting.current.index === index) {
+      operation.cancel();
+      admitting.current = null;
+    }
+    pending.current[index] = file;
+    setResult(null); setError(""); setNotice("");
     setInputs((values) => values.map((value, i) => i === index ? file : value));
     setAccepted((values) => values.map((value, i) => i === index ? null : value));
     setErrors((values) => values.map((value, i) => i === index ? "" : value));
-    const checked = await operation.run("Checking PNG…", (options) => admitImage(file, options));
-    if (!checked) return;
-    if (checked.ok) setAccepted((values) => values.map((value, i) => i === index ? checked : value));
-    else setErrors((values) => values.map((value, i) => i === index ? checked.error : value));
+    void admitNext();
   };
-  const cancel = () => { operation.cancel(); setResult(null); setNotice("Cancelled. Your images are kept. Choose an image again if its admission was cancelled."); };
+  const cancel = () => {
+    pending.current = [null, null];
+    admitting.current = null;
+    operation.cancel(); setResult(null);
+    setNotice("Cancelled. Your images are kept. Choose an image again if its admission was cancelled.");
+  };
   const clear = () => { cancel(); setInputs([null, null]); setAccepted([null, null]); setErrors(["", ""]); setError(""); setNotice("Cleared. Choose two supported PNGs to start again."); };
   const mismatch = accepted.every(Boolean) && (accepted[0].width !== accepted[1].width || accepted[0].height !== accepted[1].height);
   const reason = submissionReason(operation.busy, accepted, mismatch);
