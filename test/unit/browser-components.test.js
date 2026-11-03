@@ -175,8 +175,14 @@ describe("real browser components", () => {
     expect(container.textContent).toContain("deriving keys");
     expect(container.querySelector(".password-input-field").disabled).toBe(true);
     expect(container.querySelector("#task-encrypt").disabled).toBe(true);
-    await act(async () => jest.advanceTimersByTime(1000));
+    await act(async () => jest.advanceTimersByTime(999));
+    expect(container.querySelector(".spinner")).toBeNull();
+    await act(async () => jest.advanceTimersByTime(1));
     expect(container.querySelector(".spinner")).not.toBeNull();
+    expect(container.querySelector(".spinner").getAttribute("aria-hidden")).toBe("true");
+    const status = container.querySelector('[role="status"]');
+    expect(status.getAttribute("aria-live")).toBe("polite");
+    expect(status.getAttribute("aria-atomic")).toBe("true");
     await click(button("Cancel"));
     await act(async () => pending.args[1].onProgress("preparing result"));
     expect(container.textContent).not.toContain("preparing result");
@@ -184,6 +190,72 @@ describe("real browser components", () => {
     await type(".password-input-field", "retry");
     expect(button("Decrypt & Extract").disabled).toBe(false);
   });
+  test("safe stage replacement restarts the delay and unmount ignores pending progress", async () => {
+    await render(DecryptForm);
+    await admit();
+    await type(".password-input-field", "public-password");
+    const pending = await submit();
+    const progress = (stage) => act(async () => pending.args[1].onProgress(stage));
+    await progress("deriving keys");
+    await act(async () => jest.advanceTimersByTime(999));
+    await progress("recovering");
+    await act(async () => jest.advanceTimersByTime(999));
+    expect(container.querySelector(".spinner")).toBeNull();
+    expect(container.querySelector('[role="status"]').textContent).toContain("recovering");
+    await act(async () => jest.advanceTimersByTime(1));
+    expect(container.querySelector(".spinner")).not.toBeNull();
+    await progress("preparing result");
+    expect(container.querySelector(".spinner")).toBeNull();
+    await act(async () => root.unmount());
+    root = null;
+    expect(pending.aborted).toBe(true);
+    await progress("recovering");
+    await reply(pending, { ok: true, message: "obsolete plaintext" });
+    await act(async () => jest.advanceTimersByTime(2000));
+    expect(container.textContent).toBe("");
+  });
+
+  test.each(["success", "failure"])("%s removes a visible indicator and restart does not inherit its delay", async (outcome) => {
+    await render(DecryptForm);
+    await admit();
+    await type(".password-input-field", "public-password");
+    const pending = await submit();
+    await act(async () => pending.args[1].onProgress("recovering"));
+    await act(async () => jest.advanceTimersByTime(1000));
+    expect(container.querySelector(".spinner")).not.toBeNull();
+    await reply(pending, outcome === "success"
+      ? { ok: true, message: "public authenticated text" }
+      : { ok: false, code: "RECOVERY_FAILED", error: "Could not recover an authenticated message." });
+    expect(container.querySelector(".spinner")).toBeNull();
+    expect(container.textContent).toContain(outcome === "success" ? "public authenticated text" : "Could not recover an authenticated message.");
+    await act(async () => pending.args[1].onProgress("preparing result"));
+    await act(async () => jest.advanceTimersByTime(2000));
+    expect(container.querySelector(".spinner")).toBeNull();
+    expect(container.querySelector('[role="status"]').textContent).not.toContain("preparing result");
+    await type(".password-input-field", "public-password");
+    const retry = await submit();
+    await act(async () => jest.advanceTimersByTime(999));
+    expect(container.querySelector(".spinner")).toBeNull();
+    await reply(retry, { ok: true, message: "short recovery" });
+    await act(async () => jest.advanceTimersByTime(1));
+    expect(container.querySelector(".spinner")).toBeNull();
+    expect(container.textContent).toContain("short recovery");
+  });
+
+  test("idle status and a stage cleared before the delay never show an indicator", async () => {
+    await render(DecryptForm);
+    await act(async () => jest.advanceTimersByTime(2000));
+    expect(container.querySelector(".spinner")).toBeNull();
+    await admit();
+    await type(".password-input-field", "public-password");
+    const pending = await submit();
+    await act(async () => pending.args[1].onProgress(""));
+    await act(async () => jest.advanceTimersByTime(2000));
+    expect(container.querySelector(".spinner")).toBeNull();
+    await reply(pending, { ok: true, message: "no active stage" });
+    expect(container.textContent).toContain("no active stage");
+  });
+
   test.each(["message", "compression", "image"])("%s edits release the retained preparation and remove current fit", async (change) => {
     await render(EncryptForm);
     await admit();
